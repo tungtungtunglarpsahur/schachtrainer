@@ -1,4 +1,4 @@
-// Schachbrett: Klicken oder Ziehen, Pfeile (Rechtsklick), Umwandlung, Animation.
+// Schachbrett: Klicken oder Ziehen, Pfeile (Rechtsklick / Malmodus), Umwandlung, Animationen und Effekte.
 import { html, useEffect, useMemo, useRef, useState } from '../../vendor/preact-htm.js';
 import { FILES, parseFen, safeChess, kingSquare } from '../lib/chess-util.js';
 import { useStore } from '../lib/store.js';
@@ -10,7 +10,10 @@ const xyOf = (sq, o) => {
 };
 const sqOf = (x, y, o) => (o === 'w' ? FILES[x] + (8 - y) : FILES[7 - x] + (y + 1));
 
-/** Ordnet Figuren stabile IDs zu, damit Züge animiert werden. */
+/**
+ * Ordnet Figuren stabile IDs zu, damit Züge animiert werden.
+ * Liefert die Figuren und die verschwundenen (geschlagenen) Figuren.
+ */
 function trackPieces(memo, pieces) {
   const prev = memo.map;
   const next = {};
@@ -40,7 +43,7 @@ function trackPieces(memo, pieces) {
     } else next[sq] = { id: memo.seq++, p };
   }
   memo.map = next;
-  return Object.entries(next).map(([sq, e]) => ({ sq, ...e }));
+  return { list: Object.entries(next).map(([sq, e]) => ({ sq, ...e })), gone: vanished.map(([sq, e]) => ({ sq, ...e })) };
 }
 
 const ARROW_COLORS = { g: '#5ee08f', r: '#f87171', b: '#8fb3ff', y: '#f2cf6b', o: '#ffa94d' };
@@ -49,8 +52,10 @@ const arrowColor = (e) => (e?.shiftKey ? 'g' : e?.ctrlKey || e?.metaKey ? 'r' : 
 
 /** Felder, die in einem Coach-Text vorkommen („… auf e6 …“), für das Aufleuchten. */
 export function squaresIn(text) {
-  return [...new Set((String(text || '').match(/\b[a-h][1-8]\b/g) || []))];
+  return [...new Set(String(text || '').match(/\b[a-h][1-8]\b/g) || [])];
 }
+
+let fxSeq = 0;
 
 export function Board({
   fen,
@@ -71,14 +76,15 @@ export function Board({
 }) {
   const s = useStore();
   const { boardTheme, coords, autoQueen, animation } = s.settings;
+  const effects = animation === false ? 'off' : s.settings.effects || 'full';
   const pieces = useMemo(() => parseFen(fen), [fen]);
   const chess = useMemo(() => (dests ? null : safeChess(fen)), [fen, dests]);
   const memo = useRef({ map: {}, seq: 1 });
-  const tracked = useMemo(() => trackPieces(memo.current, pieces), [pieces]);
+  const trackedRes = useMemo(() => trackPieces(memo.current, pieces), [pieces]);
+  const tracked = trackedRes.list;
   const [sel, setSel] = useState(null);
-  // Ziehen läuft ohne Neu-Rendern pro Bewegung: Position im Ref, Figur wird direkt per rAF verschoben.
+  // Ziehen ohne Neu-Rendern pro Bewegung: Position im Ref, die Figur wird direkt verschoben.
   const dragRef = useRef(null);
-  const raf = useRef(0);
   const [dragSq, setDragSq] = useState(null);
   const [hover, setHover] = useState(null);
   const [promo, setPromo] = useState(null);
@@ -86,7 +92,15 @@ export function Board({
   const [userMarks, setUserMarks] = useState({});
   const rightStart = useRef(null);
   const [preview, setPreview] = useState(null);
+  const [ghosts, setGhosts] = useState([]);
+  const [fx, setFx] = useState([]);
+  const [shake, setShake] = useState(0);
+  const prevFen = useRef(null);
+  const timers = useRef([]);
   const ref = useRef();
+
+  const later = (fn, ms) => timers.current.push(setTimeout(fn, ms));
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   useEffect(() => {
     setSel(null);
@@ -94,8 +108,35 @@ export function Board({
     setUserArrows([]);
     setUserMarks({});
     if (dragRef.current) endDrag();
+    // Effekte nach einem Zug (nicht beim ersten Anzeigen)
+    const first = prevFen.current === null;
+    prevFen.current = fen;
+    if (first) return;
+    const gone = trackedRes.gone;
+    if (gone.length && gone.length <= 2 && animation !== false) {
+      const add = gone.map((g) => ({ ...g, key: 'g' + ++fxSeq }));
+      setGhosts((x) => [...x, ...add]);
+      later(() => setGhosts((x) => x.filter((g) => !add.includes(g))), 380);
+    }
+    if (effects === 'off') return;
+    const items = [];
+    // Geschlagene Figur (bei Umwandlung verschwindet zusätzlich der Bauer vom Startfeld – der zählt nicht).
+    const promoPawn = lastMove ? gone.find((g) => g.sq === lastMove[0]) : null;
+    const victim = gone.length <= 2 ? gone.find((g) => g !== promoPawn) : null;
+    if (victim && (gone.length === 1 || promoPawn)) items.push({ kind: 'burst', sq: victim.sq, color: victim.p[0] });
+    else if (lastMove && gone.length <= 1 && effects === 'full') items.push({ kind: 'land', sq: lastMove[1] });
+    if (chess?.inCheck()) {
+      const k = kingSquare(chess, chess.turn());
+      if (k) items.push({ kind: chess.isCheckmate() ? 'mate' : 'check', sq: k });
+      if (chess.isCheckmate() && effects === 'full') {
+        setShake((x) => x + 1);
+      }
+    }
+    if (!items.length) return;
+    const add = items.map((it) => ({ ...it, key: 'f' + ++fxSeq }));
+    setFx((x) => [...x, ...add]);
+    later(() => setFx((x) => x.filter((f) => !add.includes(f))), 1100);
   }, [fen]);
-  useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
   const turn = fen.split(' ')[1] || 'w';
   const destsFor = (sq) => {
@@ -118,13 +159,11 @@ export function Board({
     if (x < 0 || x > 7 || y < 0 || y > 7) return null;
     return sqOf(x, y, orientation);
   };
-  const posAt = (e, rect) => {
-    const r = rect || ref.current.getBoundingClientRect();
-    return [((e.clientX - r.left) / r.width) * 8, ((e.clientY - r.top) / r.height) * 8];
-  };
-  const dragTransform = (d) => `translate(${(d.x - 0.5) * 100}%, ${(d.y - 0.5 - (d.touch ? 0.55 : 0)) * 100}%)`;
+  const posAt = (e, r) => [((e.clientX - r.left) / r.width) * 8, ((e.clientY - r.top) / r.height) * 8];
+  // Die Figur sitzt immer mittig genau unter Maus oder Finger.
+  // Wichtig: Vergrößern im selben transform (nach translate), sonst wandert die Figur vom Zeiger weg.
+  const dragTransform = (d) => `translate(${(d.x - 0.5) * 100}%, ${(d.y - 0.5) * 100}%) scale(1.1)`;
   const endDrag = () => {
-    cancelAnimationFrame(raf.current);
     dragRef.current = null;
     setDragSq(null);
     setHover(null);
@@ -194,19 +233,24 @@ export function Board({
       startArrow(e, sq);
       return;
     }
+    e.preventDefault();
     setUserArrows([]);
     setUserMarks({});
-    if (canPick(sq)) {
-      e.preventDefault();
-      setSel(sq);
-      const rect = ref.current.getBoundingClientRect();
-      const [x, y] = posAt(e, rect);
-      const id = tracked.find((t) => t.sq === sq)?.id;
-      dragRef.current = { sq, id, x, y, rect, sx: e.clientX, sy: e.clientY, moved: false, hover: null, touch: e.pointerType === 'touch' || e.pointerType === 'pen' };
-      try {
-        ref.current.setPointerCapture?.(e.pointerId);
-      } catch {}
-    } else setSel(null);
+    setSel(sq);
+    const rect = ref.current.getBoundingClientRect();
+    const [x, y] = posAt(e, rect);
+    const id = tracked.find((t) => t.sq === sq)?.id;
+    const el = ref.current.querySelector(`.pieces [data-id="${id}"]`);
+    // Sofort aufnehmen: die Figur springt mittig unter den Zeiger (wie bei chess.com).
+    dragRef.current = { sq, id, el, x, y, rect, sx: e.clientX, sy: e.clientY, moved: false, hover: sq };
+    if (el) {
+      el.style.transform = dragTransform(dragRef.current);
+      el.classList.add('dragging');
+    }
+    setDragSq(sq);
+    try {
+      ref.current.setPointerCapture?.(e.pointerId);
+    } catch {}
   };
 
   const onPointerMove = (e) => {
@@ -222,23 +266,14 @@ export function Board({
     const [x, y] = posAt(e, d.rect);
     d.x = x;
     d.y = y;
-    if (!d.moved) {
-      if (Math.hypot(e.clientX - d.sx, e.clientY - d.sy) <= 4) return;
-      d.moved = true;
-      setDragSq(d.sq);
-    }
+    if (!d.moved && Math.hypot(e.clientX - d.sx, e.clientY - d.sy) > 4) d.moved = true;
+    // Direkt schreiben – kein Warten auf das nächste Rendern, deshalb klebt die Figur am Zeiger.
+    if (d.el) d.el.style.transform = dragTransform(d);
     const h = x >= 0 && x < 8 && y >= 0 && y < 8 ? sqOf(Math.floor(x), Math.floor(y), orientation) : null;
     if (h !== d.hover) {
       d.hover = h;
       setHover(h);
     }
-    if (!raf.current)
-      raf.current = requestAnimationFrame(() => {
-        raf.current = 0;
-        const cur = dragRef.current;
-        const el = cur && ref.current?.querySelector(`.pieces [data-id="${cur.id}"]`);
-        if (el && cur.moved) el.style.transform = dragTransform(cur);
-      });
   };
 
   const onPointerUp = (e) => {
@@ -249,11 +284,20 @@ export function Board({
     const d = dragRef.current;
     if (!d) return;
     const to = squareAt(e, d.rect);
+    if (d.el) d.el.classList.remove('dragging');
     endDrag();
     if (d.moved) {
       if (to && to !== d.sq && destsFor(d.sq).includes(to)) doMove(d.sq, to);
       else if (to !== d.sq) setSel(null);
     }
+  };
+
+  const cancelAll = () => {
+    rightStart.current = null;
+    setPreview(null);
+    const d = dragRef.current;
+    if (d?.el) d.el.classList.remove('dragging');
+    endDrag();
   };
 
   const allMarks = { ...marks, ...userMarks };
@@ -284,31 +328,38 @@ export function Board({
     const [x, y] = xyOf(sq, orientation);
     return `translate(${x * 100}%, ${y * 100}%)`;
   };
+  const at = (sq) => {
+    const [x, y] = xyOf(sq, orientation);
+    return { left: `${x * 12.5}%`, top: `${y * 12.5}%` };
+  };
 
   return html`<div
     ref=${ref}
-    class=${`board theme-${boardTheme} ${animation ? '' : 'no-anim'} ${movable ? 'interactive' : ''} ${className}`}
+    class=${`board theme-${boardTheme} ${animation ? '' : 'no-anim'} ${movable ? 'interactive' : ''} ${dragSq ? 'grabbing' : ''} ${shake ? 'fx-mate' : ''} fx-${effects} ${className}`}
     onPointerDown=${onPointerDown}
     onPointerMove=${onPointerMove}
     onPointerUp=${onPointerUp}
-    onPointerCancel=${() => {
-      rightStart.current = null;
-      setPreview(null);
-      endDrag();
-    }}
-    onLostPointerCapture=${() => dragRef.current && !dragRef.current.moved && endDrag()}
+    onPointerCancel=${cancelAll}
     onContextMenu=${(e) => e.preventDefault()}
   >
     <div class="squares">${squares}</div>
     ${walls?.map((sq) => html`<div class="overlay wall" style=${{ transform: place(sq) }}></div>`)}
     ${stars?.map((sq) => html`<div class="overlay star" key=${'s' + sq} style=${{ transform: place(sq) }}><span>★</span></div>`)}
     <div class="pieces">
+      ${ghosts.map((g) => html`<div key=${g.key} class=${`piece ${g.p} leaving`} style=${{ transform: place(g.sq) }}></div>`)}
       ${tracked.map(({ id, sq, p }) => {
         const d = dragRef.current;
-        const dragging = dragSq === sq && d?.moved;
+        const dragging = dragSq === sq && d;
         const style = { transform: dragging ? dragTransform(d) : place(sq) };
-        return html`<div key=${id} data-id=${id} class=${`piece ${p} ${dragging ? 'dragging' : ''} ${dragging && d.touch ? 'touch' : ''} ${promo?.from === sq ? 'ghost' : ''}`} style=${style}></div>`;
+        return html`<div key=${id} data-id=${id} class=${`piece ${p} ${dragging ? 'dragging' : ''} ${promo?.from === sq ? 'ghost' : ''}`} style=${style}></div>`;
       })}
+    </div>
+    <div class="fx-layer" aria-hidden="true">
+      ${fx.map((f) =>
+        f.kind === 'burst'
+          ? html`<span key=${f.key} class=${`fx-burst c-${f.color}`} style=${at(f.sq)}>${Array.from({ length: effects === 'full' ? 10 : 6 }, (_, i) => html`<i style=${{ '--a': `${(360 / (effects === 'full' ? 10 : 6)) * i + 12}deg` }}></i>`)}</span>`
+          : html`<span key=${f.key} class=${`fx-${f.kind}`} style=${at(f.sq)}><i></i></span>`,
+      )}
     </div>
     <svg class="arrows" viewBox="0 0 8 8">
       <defs>

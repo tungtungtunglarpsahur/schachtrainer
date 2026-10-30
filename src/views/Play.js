@@ -10,6 +10,7 @@ import { Board, squaresIn } from '../ui/Board.js';
 import { Coach, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
 import { play, playMove } from '../lib/sound.js';
 import { recordMistake } from '../lib/mistakes.js';
+import { estimateRating } from '../lib/rating.js';
 
 export const BOTS = [
   { name: 'Benni', elo: 400, desc: 'Hat gestern erst die Regeln gelernt', icon: 'bP', art: 'b1', style: 'random', hello: 'Hi! Ich hab gestern erst gelernt, wie der Springer zieht. Sei nett zu mir!' },
@@ -23,9 +24,10 @@ export const BOTS = [
 ];
 
 /** Bot für die Einstufungspartie: passt seine Stärke nach jedem deiner Züge an. */
-const TESTBOT = { name: 'Testbot', elo: 1000, desc: 'Passt sich deinem Spiel an', icon: 'bN', art: 'b3', style: 'balanced', hello: 'Ich passe mich deinem Spiel an. Spiel ganz normal – nach 15 Zügen bekommst du deine Wertung.' };
-const TEST_MOVES = 15;
+const TESTBOT = { name: 'Testbot', elo: 1000, desc: 'Passt sich deinem Spiel an', icon: 'bN', art: 'b3', style: 'balanced', hello: 'Ich passe mich deinem Spiel an. Spiel ganz normal – nach 20 Zügen bekommst du deine Wertung.' };
+const TEST_MOVES = 20;
 const clampElo = (x) => Math.max(400, Math.min(2400, Math.round(x)));
+const clampBot = (x) => Math.max(300, Math.min(2600, Math.round(x)));
 
 const STYLE_LABEL = { random: 'Chaotisch', attack: 'Angriff', balanced: 'Ausgewogen', tactical: 'Taktisch', solid: 'Positionell' };
 
@@ -210,7 +212,9 @@ function Game({ setup, resume, onExit, onNew }) {
   const test = !!setup.test;
   const bot = test ? TESTBOT : BOTS.find((b) => b.name === botName) || botFor(elo);
   const eloRef = useRef(elo);
-  const accRef = useRef([]);
+  const accRef = useRef([]); // Testpartie: { loss, move } je eigenem Zug
+  const botElosRef = useRef([]);
+  const testScoreRef = useRef(null);
   const [botElo, setBotElo] = useState(elo);
   const [testResult, setTestResult] = useState(null);
   const [badge, setBadge] = useState(null);
@@ -333,32 +337,32 @@ function Game({ setup, resume, onExit, onNew }) {
     return true;
   };
 
-  /** Auswertung der Testpartie: Genauigkeit + angepasste Bot-Stärke + Ergebnis → Wertung. */
+  /**
+   * Auswertung der Testpartie (siehe lib/rating.js): Qualität jedes Zuges + Ergebnis gegen den
+   * Bot + Startschätzung aus der Umfrage → wahrscheinlichste Wertung und 80-%-Bereich.
+   */
   const finishTest = (result, reason) => {
     const c = chess();
-    const accs = accRef.current;
-    const avg = accs.length ? accs.reduce((a, b) => a + b, 0) / accs.length : 50;
-    const accElo = clampElo(400 + (avg - 35) * 30);
-    let est = (accElo + eloRef.current) / 2;
-    const end = reason === 'Testende';
-    if (result === 'win') est += end ? 60 : 150;
-    if (result === 'loss') est -= end ? 60 : 100;
-    // Wenige Züge = wenig Aussagekraft: dann bleibt die Wertung nah am Startwert.
-    const conf = Math.min(1, accs.length / 10);
-    est = elo * (1 - conf) + est * conf;
-    est = Math.round(clampElo(est) / 10) * 10;
+    const moves = accRef.current;
+    const bots = botElosRef.current;
+    const opponent = bots.length ? bots.reduce((a, b) => a + b, 0) / bots.length : eloRef.current;
+    const score = reason === 'Testende' ? (testScoreRef.current ?? 0.5) : result === 'win' ? 1 : result === 'draw' ? 0.5 : 0;
+    const res = estimateRating({ moves, prior: elo, priorSd: s.profile.elo ? 300 : 400, score, opponent });
+    const est = Math.max(100, Math.min(2900, res.rating));
+    const avg = moves.length ? moves.reduce((a, m) => a + accuracyOf(m.loss), 0) / moves.length : 0;
     const counts = (k) => classesRef.current.filter((x) => x === k).length;
     const gid = Date.now().toString(36);
     update((st) => {
       st.play.rating = est;
       st.play.history.push([Date.now(), est]);
       st.profile.placementDone = true;
+      st.profile.placement = { rating: est, low: res.low, high: res.high, date: Date.now() };
       st.currentGame = null;
       recordGame(st, { id: gid, date: Date.now(), pgn: c.pgn(), result, reason: reason === 'Testende' ? 'Testpartie' : reason, color: userColor, elo: eloRef.current, bot: 'Testbot', moves: c.history().length, rated: false, startFen, classes: classesRef.current });
     });
     saveNow();
     setStatus('over');
-    setTestResult({ id: gid, est, avg: Math.round(avg), botElo: eloRef.current, best: counts('best') + counts('excellent'), good: counts('good'), bad: counts('mistake') + counts('blunder'), moves: accs.length });
+    setTestResult({ id: gid, est, low: res.low, high: res.high, avg: Math.round(avg), botElo: Math.round(opponent / 10) * 10, best: counts('best') + counts('excellent'), good: counts('good'), bad: counts('mistake') + counts('blunder'), moves: moves.length });
     play('win');
     confetti(90);
   };
@@ -512,15 +516,17 @@ function Game({ setup, resume, onExit, onNew }) {
     const bad = cls && (cls.key === 'mistake' || cls.key === 'blunder');
     if (cls) setBadge({ [m.to]: { sym: cls.sym, tone: cls.tone } });
     if (test && cls) {
-      const adj = { best: 70, excellent: 50, good: 25, inaccuracy: -30, mistake: -80, blunder: -140 }[cls.key] || 0;
-      eloRef.current = clampElo(eloRef.current + adj);
+      // Jeder Zug fließt in die Schätzung ein; der Bot spielt danach ungefähr auf deinem geschätzten Niveau.
+      accRef.current.push({ loss: cls.loss, move: Math.floor(ply / 2) + 1 });
+      const est = estimateRating({ moves: accRef.current, prior: elo, priorSd: s.profile.elo ? 300 : 400 });
+      eloRef.current = clampBot(0.5 * eloRef.current + 0.5 * est.rating);
+      botElosRef.current.push(eloRef.current);
       setBotElo(eloRef.current);
-      accRef.current.push(accuracyOf(cls.loss));
       if (accRef.current.length >= TEST_MOVES) {
-        // Nach 15 Zügen: Stellung bewerten (Gewinnchance aus deiner Sicht) und auswerten.
+        // Nach 20 Zügen: die Stellung zählt als Ergebnis (deine Gewinnchance laut Engine).
         const sc = after?.lines?.[0]?.score;
-        const mine = sc ? 100 - winOf(sc) : 50;
-        finish(mine >= 75 ? 'win' : mine <= 25 ? 'loss' : 'draw', 'Testende');
+        testScoreRef.current = sc ? (100 - winOf(sc)) / 100 : 0.5;
+        finish('draw', 'Testende');
         return;
       }
     }
@@ -692,13 +698,14 @@ function Game({ setup, resume, onExit, onNew }) {
       <div class="game-over test-result">
         <small class="tag">Deine Einstufung</small>
         <div class="test-elo"><${CountUp} to=${testResult.est} /><small>Elo</small></div>
-        <p class="muted">So stark spielst du ungefähr. Diese Wertung steigt, wenn du Partien gewinnst und Rätsel löst.</p>
+        <p class="test-range">Wahrscheinlich zwischen <b>${testResult.low}</b> und <b>${testResult.high}</b></p>
+        <p class="muted">So stark spielst du ungefähr. Ab jetzt passt sich deine Wertung mit jeder Partie an.</p>
         <div class="summary-grid">
           <div><small>Genauigkeit</small><b>${testResult.avg} %</b></div>
           <div><small>Starke Züge</small><b>${testResult.best}</b></div>
           <div><small>Fehler</small><b>${testResult.bad}</b></div>
         </div>
-        <p class="muted small">Der Bot hat sich während der Partie auf ${testResult.botElo} eingestellt.</p>
+        <p class="muted small">${testResult.moves} Züge ausgewertet · der Bot spielte im Schnitt auf ${testResult.botElo}.</p>
         <div class="btn-row center">
           <a class="btn primary xl" href="#/"><${Icon} name="play" /> Los geht's</a>
           <a class="btn ghost" href=${`#/review/${testResult.id}`}><${Icon} name="scope" /> Partie ansehen</a>
