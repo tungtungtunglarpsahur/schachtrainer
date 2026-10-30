@@ -31,8 +31,9 @@ export function Openings() {
           ${g.items.map((o) => {
             const keys = o.lines.map((_, i) => lineKey(o.id, i));
             const learned = keys.filter((k) => s.openings.lines[k]?.box >= 1).length;
-            return html`<a href=${`#/opening/${o.id}`} class="opening-card">
-              <div class="oc-top"><span class="eco">${o.eco}</span><span class="lvl">${'●'.repeat(o.level)}${'○'.repeat(Math.max(0, 4 - o.level))}</span></div>
+            const forYou = (s.profile.survey?.openings || []).includes(o.id);
+            return html`<a href=${`#/opening/${o.id}`} class=${`opening-card ${forYou ? 'for-you' : ''}`}>
+              <div class="oc-top"><span class="eco">${o.eco}</span>${forYou ? html`<span class="for-you-tag">Für dich</span>` : null}<span class="lvl">${'●'.repeat(o.level)}${'○'.repeat(Math.max(0, 4 - o.level))}</span></div>
               <b>${o.name}</b>
               <small>${o.summary}</small>
               <div class="oc-foot"><${Bar} value=${learned / o.lines.length} /><span>${learned}/${o.lines.length} Linien</span></div>

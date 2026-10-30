@@ -204,6 +204,7 @@ function Game({ setup, resume, onExit, onNew }) {
   const [clock, setClock] = useState({ w: tc.base * 1000, b: tc.base * 1000 });
   const takebacks = useRef(0);
   const skipIntro = useRef(null);
+  const caught = useRef(0);
   const clockRef = useRef(clock);
   clockRef.current = clock;
 
@@ -408,8 +409,10 @@ function Game({ setup, resume, onExit, onNew }) {
     });
     const bad = cls && (cls.key === 'mistake' || cls.key === 'blunder');
     const bestUci = before?.lines?.[0]?.pv?.[0];
-    if (bad && bestUci && bestUci !== toUci(m))
+    if (bad && bestUci && bestUci !== toUci(m)) {
+      caught.current++;
       update((st) => recordMistake(st, { fen: fenBefore, best: bestUci, played: toUci(m), san: m.san, cls: cls.key, bot: botName, elo, date: Date.now() }));
+    }
     if (cls && (bad || (coach === 'full' && (cls.key === 'inaccuracy' || ((cls.key === 'best' || cls.key === 'excellent') && (m.captured || m.san.includes('+') || Math.random() < 0.15)))))) {
       const ex = explain({ fenBefore, move: m, before, after, cls, opp: botName });
       if (ex.text) {
@@ -545,6 +548,8 @@ function Game({ setup, resume, onExit, onNew }) {
           <div><small>Züge</small><b>${Math.ceil(hist.length / 2)}</b></div>
         </div>
         ${!over.rated && html`<p class="muted small">Nicht gewertet (Zurücknahmen, eigene Startstellung oder sehr kurze Partie).</p>`}
+        ${caught.current > 0 &&
+        html`<a class="banner resume" href="#/puzzles/mine"><${Icon} name="repeat" /> <span><b>${caught.current} ${caught.current === 1 ? 'Fehler' : 'Fehler'}</b> aus dieser Partie gesammelt – jetzt gezielt üben</span></a>`}
         <div class="btn-row center">
           <a class="btn primary" href=${`#/review/${over.id}`}><${Icon} name="scope" /> Partie analysieren</a>
           <button class="btn secondary" onClick=${() => onNew({ ...setup, userColor: userColor === 'w' ? 'b' : 'w' })}><${Icon} name="repeat" /> Revanche</button>

@@ -808,3 +808,6 @@ select.input { appearance: none; -webkit-appearance: none; }
 .auto-toggle { border-top: 0; padding: 4px 0; }
 .auto-toggle b { font-size: 0.9rem; }
 .auto-toggle small { font-size: 0.78rem; }
+.opening-card.for-you { border-color: rgba(255, 255, 255, 0.28); background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 60%), var(--panel); }
+.for-you-tag { margin-left: auto; margin-right: 8px; padding: 2px 8px; border-radius: 7px; background: #f5f5f6; color: var(--accent-ink); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.game-over .banner.resume { margin: 4px 0 16px; text-align: left; }
