@@ -84,7 +84,7 @@ export function Home() {
       <div class="hero-left">
         <p class="eyebrow">${hi}${s.profile.name ? `, ${s.profile.name}` : ''} 👋</p>
         <h1>${done === items.length && items.length ? 'Tagesziel geschafft!' : 'Dein Training für heute'}</h1>
-        <p class="muted">${items.length} Aufgaben · ca. ${s.profile.minutes} Minuten · ${done}/${items.length} erledigt</p>
+        <p class="muted">${items.length} Aufgabe${items.length === 1 ? '' : 'n'} · ca. ${s.profile.minutes} Minuten · ${done}/${items.length} erledigt</p>
         ${nextItem
           ? html`<a class="btn primary xl" href=${nextItem.info.href}><${Icon} name="play" /> ${done ? 'Weiter' : 'Jetzt starten'}: ${nextItem.info.title}</a>`
           : html`<a class="btn primary xl" href="#/puzzles/train"><${Icon} name="bolt" /> Bonus-Runde: Rätsel</a>`}
