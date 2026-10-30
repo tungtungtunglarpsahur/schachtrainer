@@ -5,9 +5,9 @@ import { useContent } from '../lib/content.js';
 import { engine, botMove, nullMoveFen, warmup } from '../lib/engine.js';
 import { classify, explain, threatText, hintFor, accuracyOf, winOf, CLASSES } from '../lib/coach.js';
 import { recordGame, checkAchievements } from '../lib/progress.js';
-import { Chess, START_FEN, parseUci, safeChess, sanDe, toUci, whiteScore, capturedPieces, colorName, scoreCp } from '../lib/chess-util.js';
+import { Chess, START_FEN, parseUci, safeChess, sanDe, toUci, whiteScore, colorName, scoreCp } from '../lib/chess-util.js';
 import { Board, squaresIn } from '../ui/Board.js';
-import { Coach, CountUp, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
+import { Captured, Coach, CountUp, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
 import { play, playMove } from '../lib/sound.js';
 import { recordMistake } from '../lib/mistakes.js';
 import { estimateRating, testCorrection } from '../lib/rating.js';
@@ -45,7 +45,7 @@ export const SPEEDS = [
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /** Menschliche Bedenkzeit in ms – hängt von Phase, Stellung, Stärke, Uhr und Tempo ab. */
-function thinkTime(chess, elo, speedId, clockMs, inc) {
+export function thinkTime(chess, elo, speedId, clockMs, inc) {
   const f = (SPEEDS.find((x) => x.id === speedId) || SPEEDS[1]).f;
   const legal = chess.moves({ verbose: true });
   const ply = chess.history().length;
@@ -632,7 +632,6 @@ function Game({ setup, resume, onExit, onNew }) {
   const hist = c ? c.history({ verbose: true }) : [];
   const sans = hist.map((m) => m.san);
   const opening = detectOpening(content, sans);
-  const lost = capturedPieces(fen);
   const fmt = (ms) => {
     const t = Math.ceil(ms / 1000);
     return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
@@ -646,10 +645,13 @@ function Game({ setup, resume, onExit, onNew }) {
   const playerLine = (side) => {
     const isBot = side !== userColor;
     const thinkingNow = isBot && status === 'bot';
+    // Wie bei chess.com: Name und Elo, darunter die geschlagenen Figuren
     return html`<div class=${`player ${c && c.turn() === side && !over && status !== 'intro' ? 'to-move' : ''} ${thinkingNow ? 'thinking' : ''}`}>
-      <span class="player-name">${isBot ? html`<${PieceIcon} p=${bot.icon} size=${26} /> <span>${botName}</span> <span class="elo-badge">${test ? botElo : elo}</span>` : html`<${PieceIcon} p=${userColor + 'K'} size=${26} /> <span>${s.profile.name || 'Du'}</span> <span class="elo-badge">${s.play.rating}</span>`}</span>
-      ${thinkingNow ? html`<span class="bot-status"><${ThinkingDots} /> <span class="hide-sm">denkt nach</span></span>` : null}
-      <span class="captured">${lost[side === 'w' ? 'b' : 'w'].map((t) => html`<span class=${`piece-icon piece ${side === 'w' ? 'b' : 'w'}${t.toUpperCase()}`}></span>`)}</span>
+      <span class="pl-ico"><${PieceIcon} p=${isBot ? bot.icon : userColor + 'K'} size=${32} /></span>
+      <span class="pl-info">
+        <span class="pl-top player-name"><span class="pl-name">${isBot ? botName : s.profile.name || 'Du'}</span><span class="elo-badge">${isBot ? (test ? botElo : elo) : s.play.rating}</span>${thinkingNow ? html`<span class="bot-status"><${ThinkingDots} /> <span class="hide-sm">denkt nach</span></span>` : null}</span>
+        <${Captured} fen=${fen} side=${side} />
+      </span>
       ${tc.base ? html`<span class=${`clock ${c && c.turn() === side && !over ? 'run' : ''} ${clock[side] < 20000 ? 'low' : ''}`}>${fmt(clock[side])}</span>` : null}
     </div>`;
   };

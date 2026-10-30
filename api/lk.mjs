@@ -140,6 +140,8 @@ function view(g, me) {
     rc: g.rc || null,
     created: g.created,
     ended: g.endedAt || null,
+    bot: g.bot || null,
+    botStyle: g.botStyle || null,
     now,
   };
 }
@@ -185,6 +187,87 @@ async function createGame(a, b, { tc, rated, colorFor = 'r', cid = null }) {
   return g;
 }
 
+// ---------- Bot-Gegner für die Matchsuche ----------
+// Ist nach BOT_AFTER Sekunden kein Mensch da, spielt man gegen einen Bot mit einem echt wirkenden
+// Namen. Jeder Name hat eine feste „Heim-Elo“ und einen Spielstil – so passt alles zusammen.
+const BOT_AFTER = Number(process.env.LK_BOT_AFTER) || 45;
+const BOT_NAMES = [
+  'bxn_abi', '_608_', 'six08', 'SinisterMax666', 'sinister_maxing', 'sigma_lukas', 'rizzler_ben', 'gigachad_tim',
+  'kevin2011', 'LeonKing07', 'mia_plays', 'emily_x3', 'noobmaster_09', 'xX_Turm_Xx', 'BauerBernd', 'Springer_Sven',
+  'ohne_plan_88', 'pferdefan_lea', 'NoScopeBishop', 'elo_hunter', 'zugzwang_jo', 'gambit_gabriel', 'finn_ff', 'jonas_h',
+  'ali_k13', 'mert_gg', 'deniz_07', 'yusuf_xd', 'luca_lol', 'paul_pwnz', 'anna_banana', 'tim_tam_tom',
+  'captain_check', 'mattmeister', 'rochade_ralf', 'en_passant_ed', 'damenopfer', 'blunder_king', 'tilted_tobi', 'schachmatt_sam',
+  'kingslayer_k', 'dragon_dan', 'sizilianer', 'caro_kann_carl', 'MrMoves', 'checkmate_chris', 'ghost_rook', 'lowkey_gm',
+  'no_cap_chess', 'sus_springer', 'bruh_moment77', 'toxic_tobi', 'lilly_xo', 'hannah_b', 'jannik_2010', 'maxi_mx',
+  'niklas_99', 'ben_10', 'moritz_ftw', 'lea_lol', 'sophie_ch', 'ayo_karim', 'omar_mvp', 'emir_x',
+  'elias_sz', 'noah_k', 'louis_v', 'vincent_08', 'timo_tt', 'lukas_gg', 'felix_fx', 'jan_ole',
+  'Sk8erBoi_09', 'pizza_pawn', 'kebab_king', 'doener_dame', 'bratwurst_b', 'goofy_gambit', 'amogus_rook', 'ohio_bishop',
+  'skibidi_knight', 'mewing_magnus', 'aura_farmer', 'npc_nils', 'main_char_mo', 'side_quest_sid', 'cooked_cris', 'fanum_tax_fin',
+  'brainrot_bo', 'sheesh_sven', 'yeet_yannik', 'delulu_dani', 'w_rizz_will', 'l_plus_ratio', 'grinding_greg', 'xd_xaver',
+];
+const hash32 = (str) => {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619);
+  return h >>> 0;
+};
+const STYLES = ['balanced', 'attack', 'tactical', 'solid'];
+const BOTS = BOT_NAMES.map((name) => {
+  const h = hash32(name);
+  return { name, id: idOf(name), home: 350 + (h % 1750), style: STYLES[(h >>> 12) % STYLES.length] };
+});
+const BOT_IDS = new Set(BOTS.map((b) => b.id));
+const rand = (a, b) => a + Math.random() * (b - a);
+
+/** Passende Bot-Person zur Elo: erst ganz in der Nähe suchen, dann weiter; nie einen echten Namen. */
+async function pickBot(r) {
+  for (const range of [120, 250, 500, 5000]) {
+    const near = BOTS.filter((b) => Math.abs(b.home - r) <= range).sort(() => Math.random() - 0.5).slice(0, 6);
+    if (!near.length) continue;
+    const real = await multi(near.map((b) => ['GET', `n:${b.id}`]));
+    const free = near.filter((_, i) => !real[i]);
+    if (free.length) return free[0];
+  }
+  return BOTS[Math.floor(Math.random() * BOTS.length)];
+}
+
+async function createBotGame(me, { tc, persona = null, rating = null, humanColor = null }) {
+  const r = Math.round(num(me.user.r, 800));
+  const bot = persona || (await pickBot(r));
+  let botR = rating ?? (Math.abs(bot.home - r) <= 150 ? bot.home : r + rand(-60, 60)) + rand(-20, 20);
+  botR = Math.max(100, Math.round(botR));
+  const humanWhite = humanColor ? humanColor === 'w' : Math.random() < 0.5;
+  const bid = `~${bot.id}`;
+  const ms = Math.round(tc.m * 60000);
+  const now = Date.now();
+  const g = {
+    v: 1,
+    id: token(6),
+    w: humanWhite ? me.id : bid,
+    b: humanWhite ? bid : me.id,
+    wn: humanWhite ? me.user.name : bot.name,
+    bn: humanWhite ? bot.name : me.user.name,
+    wr: humanWhite ? r : botR,
+    br: humanWhite ? botR : r,
+    rated: true,
+    tc,
+    moves: [],
+    fen: START_FEN,
+    clock: { w: ms, b: ms },
+    turnAt: now,
+    created: now,
+    status: 'active',
+    result: null,
+    reason: null,
+    drawOffer: null,
+    rc: null,
+    cid: null,
+    bot: humanWhite ? 'b' : 'w',
+    botStyle: bot.style,
+  };
+  await multi([['SET', `g:${g.id}`, JSON.stringify(g), 'EX', GAME_TTL], ['SET', `ug:${me.id}`, g.id, 'EX', 12 * 3600]]);
+  return g;
+}
+
 /** Ergebnis eintragen (nur einmal dank Compare-and-Set) und Wertungen anpassen. */
 async function endGame(g, result, reason) {
   const before = g.v;
@@ -194,32 +277,37 @@ async function endGame(g, result, reason) {
   const sw = result === '1-0' ? 1 : result === '0-1' ? 0 : 0.5;
   const cmds = [];
   // Wertung VOR dem Speichern ausrechnen – so sieht jeder, der das Ende liest, sofort die Elo-Änderung.
+  const humans = ['w', 'b'].filter((s) => s !== g.bot); // bei Bot-Partien nur der Mensch
   if (over.rated && !aborted) {
-    const [uw, ub] = await Promise.all([hgetall(`u:${g.w}`), hgetall(`u:${g.b}`)]);
     const now = Date.now();
-    const W = { r: num(uw.r, 800), rd: inflate(num(uw.rd, START_RD), num(uw.vol, START_VOL), num(uw.last), now), vol: num(uw.vol, START_VOL) };
-    const B = { r: num(ub.r, 800), rd: inflate(num(ub.rd, START_RD), num(ub.vol, START_VOL), num(ub.last), now), vol: num(ub.vol, START_VOL) };
-    const nw = glicko(W, B, sw);
-    const nb = glicko(B, W, 1 - sw);
-    over.rc = { w: Math.round(nw.r) - Math.round(W.r), b: Math.round(nb.r) - Math.round(B.r), wNew: Math.round(nw.r), bNew: Math.round(nb.r) };
-    const key = (s) => (s === 1 ? 'w' : s === 0 ? 'l' : 'd');
-    cmds.push(
-      ['HSET', `u:${g.w}`, 'r', nw.r.toFixed(2), 'rd', nw.rd.toFixed(2), 'vol', nw.vol.toFixed(5), 'last', now, 'peak', Math.max(num(uw.peak), nw.r).toFixed(0)],
-      ['HSET', `u:${g.b}`, 'r', nb.r.toFixed(2), 'rd', nb.rd.toFixed(2), 'vol', nb.vol.toFixed(5), 'last', now, 'peak', Math.max(num(ub.peak), nb.r).toFixed(0)],
-      ['HINCRBY', `u:${g.w}`, 'games', 1],
-      ['HINCRBY', `u:${g.b}`, 'games', 1],
-      ['HINCRBY', `u:${g.w}`, key(sw), 1],
-      ['HINCRBY', `u:${g.b}`, key(1 - sw), 1],
-      ['ZADD', 'lb', nw.r.toFixed(2), g.w],
-      ['ZADD', 'lb', nb.r.toFixed(2), g.b],
-    );
+    // Bot-Gegner zählen wie ein eingespielter Spieler mit ihrer angezeigten Elo
+    const load = async (s) => {
+      if (s === g.bot) return { u: null, P: { r: num(s === 'w' ? g.wr : g.br, 800), rd: 70, vol: START_VOL } };
+      const u = (await hgetall(`u:${g[s]}`)) || {};
+      return { u, P: { r: num(u.r, 800), rd: inflate(num(u.rd, START_RD), num(u.vol, START_VOL), num(u.last), now), vol: num(u.vol, START_VOL) } };
+    };
+    const [W, B] = await Promise.all([load('w'), load('b')]);
+    const nw = glicko(W.P, B.P, sw);
+    const nb = glicko(B.P, W.P, 1 - sw);
+    over.rc = { w: Math.round(nw.r) - Math.round(W.P.r), b: Math.round(nb.r) - Math.round(B.P.r), wNew: Math.round(nw.r), bNew: Math.round(nb.r) };
+    const key = (x) => (x === 1 ? 'w' : x === 0 ? 'l' : 'd');
+    for (const [s, cur, nxt, score] of [['w', W, nw, sw], ['b', B, nb, 1 - sw]]) {
+      if (s === g.bot) continue;
+      const id = g[s];
+      cmds.push(
+        ['HSET', `u:${id}`, 'r', nxt.r.toFixed(2), 'rd', nxt.rd.toFixed(2), 'vol', nxt.vol.toFixed(5), 'last', now, 'peak', Math.max(num(cur.u.peak), nxt.r).toFixed(0)],
+        ['HINCRBY', `u:${id}`, 'games', 1],
+        ['HINCRBY', `u:${id}`, key(score), 1],
+        ['ZADD', 'lb', nxt.r.toFixed(2), id],
+      );
+    }
   }
   if (!(await casJSON(`g:${g.id}`, before, over, GAME_TTL))) return null; // jemand anderes war schneller
   if (!aborted) {
     const sum = (me) => JSON.stringify({ id: g.id, at: Date.now(), you: sideOf(g, me), w: g.wn, b: g.bn, wr: g.wr, br: g.br, result, reason, rated: over.rated, rc: over.rc ? (me === g.w ? over.rc.w : over.rc.b) : null, moves: g.moves.length });
-    cmds.push(['LPUSH', `h:${g.w}`, sum(g.w)], ['LTRIM', `h:${g.w}`, 0, 29], ['LPUSH', `h:${g.b}`, sum(g.b)], ['LTRIM', `h:${g.b}`, 0, 29]);
+    for (const s of humans) cmds.push(['LPUSH', `h:${g[s]}`, sum(g[s])], ['LTRIM', `h:${g[s]}`, 0, 29]);
   }
-  cmds.push(['DEL', `ug:${g.w}`, `ug:${g.b}`]);
+  cmds.push(['DEL', ...humans.map((s) => `ug:${g[s]}`)]);
   await multi(cmds);
   return over;
 }
@@ -234,6 +322,7 @@ async function checkClock(g) {
   }
   if (!g.tc) return g;
   const side = turnOf(g);
+  if (side === g.bot) return g; // Bot zieht über das Gerät des Menschen – ist der weg, soll er nicht „auf Zeit“ gewinnen
   if (g.clock[side] - (now - g.turnAt) > 0) return g;
   const other = side === 'w' ? 'b' : 'w';
   const draw = !canMate(replay(g), other);
@@ -300,6 +389,7 @@ A.register = async ({ body, ip }) => {
   const start = Math.max(100, Math.min(2400, Math.round(num(body.start, 800))));
   const { salt, hash } = await hashPass(pass);
   const now = Date.now();
+  if (BOT_IDS.has(id)) fail('Diesen Benutzernamen gibt es schon – nimm einen anderen.', 409);
   const taken = await cmd('SET', `n:${id}`, '1', 'NX');
   if (!taken) fail('Diesen Benutzernamen gibt es schon – nimm einen anderen.', 409);
   const rd = body.fromTest ? 220 : START_RD;
@@ -497,7 +587,8 @@ async function activeGame(id) {
   return g && g.status === 'active' ? g : null;
 }
 
-async function tryMatch(id, q) {
+async function tryMatch(me, q) {
+  const id = me.id;
   if (!(await cmd('SET', `lock:${q.pool}`, id, 'NX', 'PX', 3000))) return null;
   try {
     const waited = (Date.now() - q.since) / 1000;
@@ -516,6 +607,13 @@ async function tryMatch(id, q) {
       const [m, inc] = POOLS[q.pool];
       return await createGame(id, c.id, { tc: { m, inc }, rated: true, colorFor: 'r' });
     }
+    // Lange gewartet und kein Mensch da? Dann ein Gegner aus dem Bot-Pool (unter derselben Sperre,
+    // damit nicht gleichzeitig noch ein Mensch zugeteilt wird).
+    if (waited >= BOT_AFTER && (await getJSON(`m:${id}`))) {
+      await multi([['ZREM', `q:${q.pool}`, id], ['DEL', `m:${id}`]]);
+      const [m, inc] = POOLS[q.pool];
+      return await createBotGame(me, { tc: { m, inc } });
+    }
     return null;
   } finally {
     await cmd('DEL', `lock:${q.pool}`);
@@ -529,7 +627,7 @@ A['queue.join'] = async ({ me, body }) => {
   if (g) return { matched: g.id };
   const q = { pool, r: Math.round(num(me.user.r, 800)), since: Date.now() };
   await multi([['SET', `m:${me.id}`, JSON.stringify(q), 'EX', 8], ['ZADD', `q:${pool}`, q.r, me.id], ['SET', `on:${me.id}`, '1', 'EX', 75]]);
-  const m = await tryMatch(me.id, q);
+  const m = await tryMatch(me, q);
   return m ? { matched: m.id } : { waiting: true, since: q.since };
 };
 A['queue.poll'] = async ({ me }) => {
@@ -538,7 +636,7 @@ A['queue.poll'] = async ({ me }) => {
   const q = await getJSON(`m:${me.id}`);
   if (!q) return { idle: true };
   await multi([['SET', `m:${me.id}`, JSON.stringify(q), 'EX', 8], ['ZADD', `q:${q.pool}`, q.r, me.id]]);
-  const m = await tryMatch(me.id, q);
+  const m = await tryMatch(me, q);
   const waited = (Date.now() - q.since) / 1000;
   return m ? { matched: m.id } : { waiting: true, since: q.since, range: waited > 45 ? null : Math.round(150 + waited * 25) };
 };
@@ -564,7 +662,7 @@ A['game.get'] = async ({ me, body }) => {
     const mine = me ? sideOf(g, me.id) : null;
     const res = await multi([...(mine ? [['SET', `on:${me.id}`, '1', 'EX', 75]] : []), ['GET', `on:${g.w}`], ['GET', `on:${g.b}`]]);
     const [ow, ob] = res.slice(-2);
-    presence = { w: !!ow || mine === 'w', b: !!ob || mine === 'b' };
+    presence = { w: !!ow || mine === 'w' || g.bot === 'w', b: !!ob || mine === 'b' || g.bot === 'b' };
   }
   if (body.v && Number(body.v) === g.v) return { same: true, clock: liveClock(g), now: Date.now(), presence };
   return { game: view(g, me?.id), presence };
@@ -578,6 +676,7 @@ A['game.claim'] = async ({ me, body }) => {
   g = await checkClock(g);
   if (g.status !== 'active') return { game: view(g, me.id) };
   const opp = side === 'w' ? 'b' : 'w';
+  if (opp === g.bot) fail('Dein Gegner ist noch da.', 409);
   if (g.moves.length < 2 || turnOf(g) !== opp) fail('Das geht nur, wenn dein Gegner am Zug ist.', 409);
   if (Date.now() - g.turnAt < ABANDON_MS) fail('Warte noch kurz – vielleicht kommt dein Gegner gleich zurück.', 409);
   if (await cmd('GET', `on:${g[opp]}`)) fail('Dein Gegner ist wieder da.', 409);
@@ -585,10 +684,18 @@ A['game.claim'] = async ({ me, body }) => {
   return { game: view(out, me.id) };
 };
 
-A['game.move'] = async ({ me, body }) => {
-  let g = await loadGame(body.id);
+/** In Bot-Partien schickt das Gerät des Menschen auch die Züge des Bots (as: 'bot'). */
+function actingSide(g, me, body) {
   const side = sideOf(g, me.id);
   if (!side) fail('Das ist nicht deine Partie.', 403);
+  if (body.as !== 'bot') return side;
+  if (!g.bot || side === g.bot) fail('Nicht erlaubt.', 403);
+  return g.bot;
+}
+
+A['game.move'] = async ({ me, body }) => {
+  let g = await loadGame(body.id);
+  const side = actingSide(g, me, body);
   g = await checkClock(g);
   if (g.status !== 'active') return { game: view(g, me.id) };
   if (turnOf(g) !== side) fail('Du bist gerade nicht am Zug.', 409, 'stale');
@@ -602,8 +709,11 @@ A['game.move'] = async ({ me, body }) => {
     fail('Ungültiger Zug.', 422);
   }
   const now = Date.now();
+  let spent = now - g.turnAt;
+  // Bot: nur die echte Bedenkzeit abziehen, nie mehr als ein vernünftiger Anteil (falls der Mensch kurz weg war)
+  if (side === g.bot) spent = Math.min(spent, Math.max(1500, (g.clock?.[side] || 0) / 12));
   const next = { ...g, v: g.v + 1, moves: [...g.moves, m.from + m.to + (m.promotion || '')], fen: c.fen(), turnAt: now };
-  if (g.tc && g.moves.length >= 2) next.clock = { ...g.clock, [side]: g.clock[side] - (now - g.turnAt) + g.tc.inc * 1000 };
+  if (g.tc && g.moves.length >= 2) next.clock = { ...g.clock, [side]: Math.max(side === g.bot ? 300 : 0, g.clock[side] - spent) + g.tc.inc * 1000 };
   if (g.drawOffer && g.drawOffer !== side) next.drawOffer = null; // Gegner zieht statt anzunehmen = abgelehnt
   if (!(await casJSON(`g:${g.id}`, g.v, next, GAME_TTL))) fail('Die Partie hat sich geändert.', 409, 'stale');
   let end = null;
@@ -618,8 +728,7 @@ A['game.move'] = async ({ me, body }) => {
 
 A['game.resign'] = async ({ me, body }) => {
   const g = await loadGame(body.id);
-  const side = sideOf(g, me.id);
-  if (!side) fail('Das ist nicht deine Partie.', 403);
+  const side = actingSide(g, me, body);
   if (g.status !== 'active') return { game: view(g, me.id) };
   const early = g.moves.length < 2;
   const out = (await endGame(g, early ? '1/2-1/2' : side === 'w' ? '0-1' : '1-0', early ? 'Abgebrochen' : 'Aufgabe')) || (await getJSON(`g:${g.id}`));
@@ -628,8 +737,7 @@ A['game.resign'] = async ({ me, body }) => {
 
 A['game.draw'] = async ({ me, body }) => {
   const g = await loadGame(body.id);
-  const side = sideOf(g, me.id);
-  if (!side) fail('Das ist nicht deine Partie.', 403);
+  const side = actingSide(g, me, body);
   if (g.status !== 'active') return { game: view(g, me.id) };
   const act = body.act;
   if (act === 'accept' && g.drawOffer && g.drawOffer !== side) {
@@ -639,6 +747,19 @@ A['game.draw'] = async ({ me, body }) => {
   const next = { ...g, v: g.v + 1, drawOffer: act === 'offer' ? (g.moves.length < 2 ? g.drawOffer : side) : act === 'decline' && g.drawOffer !== side ? null : g.drawOffer };
   if (!(await casJSON(`g:${g.id}`, g.v, next, GAME_TTL))) fail('Die Partie hat sich geändert.', 409, 'stale');
   return { game: view(next, me.id) };
+};
+
+/** Revanche in einer Bot-Partie: gleiche Person, Farben getauscht, Elo wie nach der Partie. */
+A['game.rematch'] = async ({ me, body }) => {
+  const g = await loadGame(body.id);
+  const side = sideOf(g, me.id);
+  if (!side || !g.bot || g.status !== 'over') fail('Eine Revanche geht hier gerade nicht.', 409);
+  if (await activeGame(me.id)) fail('Du spielst gerade schon eine Partie – beende sie zuerst.', 409, 'busy');
+  const name = g.bot === 'w' ? g.wn : g.bn;
+  const persona = BOTS.find((b) => b.name === name) || { name, id: idOf(name), home: 800, style: g.botStyle || 'balanced' };
+  const rating = g.rc ? (g.bot === 'w' ? g.rc.wNew : g.rc.bNew) : g.bot === 'w' ? g.wr : g.br;
+  const ng = await createBotGame(me, { tc: g.tc, persona, rating, humanColor: side === 'w' ? 'b' : 'w' });
+  return { game: ng.id };
 };
 
 A.history = async ({ me, body }) => {

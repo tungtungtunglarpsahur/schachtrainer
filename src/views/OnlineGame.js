@@ -2,14 +2,27 @@
 import { html, useEffect, useMemo, useRef, useState } from '../../vendor/preact-htm.js';
 import { Chess } from '../../vendor/chess.js';
 import { Board } from '../ui/Board.js';
-import { Icon, Modal, Spinner, toast, confetti, CountUp } from '../ui/kit.js';
+import { Icon, Modal, Spinner, toast, confetti, CountUp, Captured } from '../ui/kit.js';
 import { play, playMove } from '../lib/sound.js';
 import { speakMove } from '../lib/speech.js';
 import { sanDe, START_FEN } from '../lib/chess-util.js';
 import { rankFor } from '../lib/store.js';
 import { api, refreshMe, tcLabel, useNet } from '../lib/online.js';
+import { botMove, warmup } from '../lib/engine.js';
+import { thinkTime } from './Play.js';
 
 const turnOf = (g) => (g.moves.length % 2 === 0 ? 'w' : 'b');
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+/** Material von side minus Material des Gegners (in Bauerneinheiten). */
+const balance = (fen, side) => {
+  let d = 0;
+  for (const ch of fen.split(' ')[0]) {
+    const t = ch.toLowerCase();
+    if (VAL[t]) d += (ch !== t) === (side === 'w') ? VAL[t] : -VAL[t];
+  }
+  return d;
+};
 const fmt = (ms) => {
   if (ms === null || ms === undefined) return '∞';
   const t = Math.ceil(ms / 1000);
@@ -56,6 +69,12 @@ export function OnlineGame({ id }) {
       } catch {}
     }
     if (view.moves.length !== prev?.moves.length) oppSince.current = Date.now();
+    // Eigenes Remis-Angebot weg, Partie läuft weiter = abgelehnt (ausdrücklich oder durch einen Zug)
+    const mine = sideRef.current;
+    if (mine && prev?.drawOffer === mine && !view.drawOffer && view.status === 'active') {
+      const opp = view[mine === 'w' ? 'b' : 'w'];
+      toast(`${opp?.name || 'Dein Gegner'} hat dein Remis abgelehnt.`);
+    }
     if (view.status === 'over' && prev?.status === 'active') finished(view);
   };
 
@@ -104,9 +123,14 @@ export function OnlineGame({ id }) {
       }
       if (!alive) return;
       const v = gRef.current;
-      if (!v || v.status !== 'active') return;
+      if (!v) {
+        timer = setTimeout(loop, 1500); // erster Abruf ging schief (z. B. Funkloch) – gleich nochmal
+        return;
+      }
+      if (v.status !== 'active') return;
       const myTurn = sideRef.current && turnOf(v) === sideRef.current;
-      const delay = document.visibilityState !== 'visible' ? 5000 : myTurn ? 4000 : Date.now() - oppSince.current < 15000 ? 1000 : 2000;
+      const delay =
+        document.visibilityState !== 'visible' ? 5000 : v.bot ? (myTurn ? 4000 : 6000) : myTurn ? 4000 : Date.now() - oppSince.current < 15000 ? 1000 : 2000;
       timer = setTimeout(loop, delay);
     };
     loop();
@@ -161,6 +185,77 @@ export function OnlineGame({ id }) {
     if (el) el.scrollTop = el.scrollHeight;
   }, [sans.length]);
 
+  // ---------- Gegner aus dem Bot-Pool (Matchsuche ohne Menschen): seine Züge kommen von hier ----------
+  const isBotGame = !!(g?.bot && side && side !== g.bot);
+  const botPly = useRef(-1);
+  const [botKick, setBotKick] = useState(0);
+  useEffect(() => {
+    if (isBotGame) warmup();
+  }, [isBotGame]);
+  useEffect(() => {
+    const v = gRef.current;
+    if (!isBotGame || !v || v.status !== 'active' || turnOf(v) !== v.bot) return;
+    const ply = v.moves.length;
+    if (botPly.current === ply) return;
+    botPly.current = ply;
+    let cancelled = false;
+    (async () => {
+      const chess = new Chess();
+      try {
+        for (const u of v.moves) chess.move({ from: u.slice(0, 2), to: u.slice(2, 4), promotion: u[4] });
+      } catch {}
+      const elo = v[v.bot].r;
+      const wait = thinkTime(chess, elo, 'normal', v.clock ? v.clock[v.bot] : 0, v.tc?.inc || 0);
+      const t0 = Date.now();
+      // Hoffnungslos verloren? Dann gibt der „Spieler“ manchmal auf – wie ein Mensch.
+      const giveUp = ply >= 30 && balance(v.fen, v.bot) <= -8 && Math.random() < 0.3;
+      let uci = null;
+      if (!giveUp) {
+        try {
+          uci = await botMove(v.fen, elo, v.botStyle || 'balanced');
+        } catch {}
+        if (!uci) {
+          const legal = chess.moves({ verbose: true });
+          const m = legal[Math.floor(Math.random() * legal.length)];
+          uci = m ? m.from + m.to + (m.promotion || '') : null;
+        }
+      }
+      const rest = wait - (Date.now() - t0);
+      if (rest > 0) await sleep(rest);
+      const cur = gRef.current;
+      if (cancelled || !cur || cur.status !== 'active' || cur.moves.length !== ply) return;
+      try {
+        const r = giveUp || !uci ? await api('game.resign', { id, as: 'bot' }) : await api('game.move', { id, uci, ply, as: 'bot' });
+        if (r.game.v >= (gRef.current?.v || 0)) apply({ ...r.game, you: null });
+      } catch {
+        // z. B. war der eigene Zug noch unterwegs – gleich nochmal
+        setTimeout(() => {
+          botPly.current = -1;
+          setBotKick((x) => x + 1);
+        }, 1200);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [isBotGame, g?.moves.length, g?.status, botKick]);
+  // Remis-Angebot an den Bot: nimmt an, wenn er schlechter steht oder es lange ausgeglichen ist
+  useEffect(() => {
+    const v = gRef.current;
+    if (!isBotGame || !v || v.status !== 'active' || !v.drawOffer || v.drawOffer === v.bot) return;
+    const t = setTimeout(async () => {
+      const cur = gRef.current;
+      if (!cur || cur.status !== 'active' || !cur.drawOffer || cur.drawOffer === cur.bot) return;
+      const bal = balance(cur.fen, cur.bot);
+      const accept = bal <= -2 || (Math.abs(bal) <= 1 && cur.moves.length >= 60);
+      try {
+        const r = await api('game.draw', { id, act: accept ? 'accept' : 'decline', as: 'bot' });
+        apply(r.game, { sound: false });
+      } catch {}
+    }, 1500 + Math.random() * 2500);
+    return () => clearTimeout(t);
+  }, [isBotGame, g?.drawOffer]);
+
   // Revanche: eigene Einladung abwarten oder die des Gegners annehmen
   const oppName = g && side ? g[side === 'w' ? 'b' : 'w'].name : null;
   const incomingRematch = g && g.status !== 'active' && oppName ? net.invites.find((c) => c.from.name === oppName) : null;
@@ -174,7 +269,7 @@ export function OnlineGame({ id }) {
     }
   };
   useEffect(() => {
-    if (!rematch) return;
+    if (!rematch || rematch.cid === 'bot') return;
     const t = setInterval(async () => {
       if (document.visibilityState !== 'visible') return;
       try {
@@ -283,10 +378,11 @@ export function OnlineGame({ id }) {
     const rank = rankFor(p.r);
     const running = active && turnOf(g) === s;
     const ms = clockOf(s);
-    return html`<div class=${`player ${running ? 'to-move' : ''}`}>
-      <span class="player-name">
-        <span class="on-avatar sm" style=${{ '--rank': rank.color }}><span class=${`piece-icon piece ${rank.icon}`}></span></span>
-        <span>${p.name}</span><span class="elo-badge">${p.r}</span>${s === me ? html`<small class="on-you">du</small>` : active && presence && presence[s] === false ? html`<small class="on-off">offline</small>` : null}
+    return html`<div class=${`player on-pl ${running ? 'to-move' : ''}`}>
+      <span class="on-avatar" style=${{ '--rank': rank.color }}><span class=${`piece-icon piece ${rank.icon}`}></span></span>
+      <span class="pl-info">
+        <span class="pl-top"><span class="pl-name">${p.name}</span><span class="elo-badge">${p.r}</span>${s === me ? html`<small class="on-you">du</small>` : active && presence && presence[s] === false ? html`<small class="on-off">offline</small>` : null}</span>
+        <${Captured} fen=${g.fen} side=${s} />
       </span>
       ${g.tc ? html`<span class=${`clock ${running && g.moves.length >= 2 ? 'run' : ''} ${ms !== null && ms < 20000 ? 'low' : ''}`}>${fmt(ms)}</span>` : html`<span class="clock">∞</span>`}
     </div>`;
@@ -305,6 +401,25 @@ export function OnlineGame({ id }) {
   const rankChange = rc ? [rankFor(rc.now - rc.diff), rankFor(rc.now)] : null;
 
   const startRematch = async () => {
+    if (g.bot) {
+      // Gegner aus dem Bot-Pool: „überlegt“ kurz, meistens ja
+      setRematch({ cid: 'bot' });
+      await sleep(1500 + Math.random() * 3500);
+      if (location.hash !== `#/online/game/${id}`) return;
+      if (Math.random() < 0.8) {
+        try {
+          const r = await api('game.rematch', { id });
+          location.hash = `#/online/game/${r.game}`;
+        } catch (e) {
+          toast(e.message);
+          setRematch(null);
+        }
+      } else {
+        toast(`${g[opp].name} will gerade keine Revanche.`);
+        setRematch(null);
+      }
+      return;
+    }
     try {
       const r = await api('challenge.create', { to: g[opp].name, tc: g.tc, color: opp, rated: g.rated });
       if (r.game) location.hash = `#/online/game/${r.game}`; // der Gegner wollte auch schon

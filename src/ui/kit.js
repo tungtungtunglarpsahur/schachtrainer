@@ -1,6 +1,6 @@
 // Kleine UI-Bausteine: Logo (Krone), Icons, Fortschrittsring, Eval-Balken, Toasts, Konfetti.
 import { html, useEffect, useMemo, useState } from '../../vendor/preact-htm.js';
-import { formatScore, scoreCp, winPct } from '../lib/chess-util.js';
+import { formatScore, scoreCp, winPct, capturedPieces } from '../lib/chess-util.js';
 
 let crownN = 0;
 /** Logo-Zeichen von Learning King: Krone mit Königskreuz, darunter eine Reihe Schachfelder. */
@@ -70,6 +70,26 @@ export function Icon({ name, size = 20 }) {
   const d = ICONS[name];
   const filled = ['play', 'flame', 'bolt', 'star'].includes(name);
   return html`<svg class="icon" width=${size} height=${size} viewBox="0 0 24 24" fill=${filled ? 'currentColor' : 'none'} stroke=${filled ? 'none' : 'currentColor'} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=${d} /></svg>`;
+}
+
+const PIECE_VAL = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+/** Geschlagene Figuren unter dem Namen (wie bei chess.com) und der Materialvorsprung („+2“). */
+export function Captured({ fen, side }) {
+  const opp = side === 'w' ? 'b' : 'w';
+  const took = capturedPieces(fen)[opp]; // Figuren des Gegners, die diese Seite geschlagen hat
+  let diff = 0;
+  for (const ch of fen.split(' ')[0]) {
+    const t = ch.toLowerCase();
+    if (!PIECE_VAL[t]) continue;
+    diff += (ch !== t) === (side === 'w') ? PIECE_VAL[t] : -PIECE_VAL[t];
+  }
+  return html`<span class="cap-row">
+    ${['p', 'n', 'b', 'r', 'q'].map((t) => {
+      const n = took.filter((x) => x === t).length;
+      return n ? html`<span class="cap-grp">${Array.from({ length: n }, () => html`<span class=${`piece-icon piece ${opp}${t.toUpperCase()}`}></span>`)}</span>` : null;
+    })}
+    ${diff > 0 ? html`<b class="cap-plus">+${diff}</b>` : null}
+  </span>`;
 }
 
 export function PieceIcon({ p, size = 28 }) {

@@ -57,7 +57,10 @@ function useRoute() {
       const changed = (next.parts[0] || '') !== page;
       page = next.parts[0] || '';
       const calm = state.settings.animation === false || matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (changed && !calm && document.startViewTransition) {
+      // In eine Online-Partie ohne Überblendung: währenddessen nimmt die Seite keine Tipps an,
+      // und der erste Zug soll sofort gehen.
+      const toGame = next.parts[0] === 'online' && next.parts[1] === 'game';
+      if (changed && !calm && !toGame && document.startViewTransition) {
         try {
           document.startViewTransition(() => new Promise((done) => {
             go();

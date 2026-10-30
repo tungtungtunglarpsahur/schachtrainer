@@ -47,13 +47,18 @@ export class ApiError extends Error {
 
 export async function api(a, data = {}) {
   let res;
+  // Hängt eine Anfrage (schlechtes Netz), nach 15 s abbrechen – sonst bleibt z. B. die Partie stehen
+  const ctl = typeof AbortController === 'function' ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), 15000) : null;
   try {
     res = await fetch('api/lk', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(sess?.token ? { Authorization: `Bearer ${sess.token}` } : {}) },
       body: JSON.stringify({ a, ...data }),
+      signal: ctl?.signal,
     });
   } catch {
+    clearTimeout(timer);
     if (!net.offline) {
       net.offline = true;
       emit();
@@ -64,6 +69,7 @@ export async function api(a, data = {}) {
   try {
     body = await res.json();
   } catch {}
+  clearTimeout(timer);
   if (net.offline) {
     net.offline = false;
     emit();

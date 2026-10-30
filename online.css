@@ -228,8 +228,6 @@
 .on-join-card > .on-player { padding: 4px 0; }
 
 /* ---------- Online-Partie ---------- */
-.on-game .player .clock { margin-left: auto; }
-.on-game .player-name > span:nth-child(2) { max-width: 13ch; }
 .on-you { padding: 1px 7px; border-radius: 6px; background: rgba(255, 255, 255, 0.1); color: var(--text-2); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; }
 .on-status { gap: 10px; }
 .on-turn { margin: 0; font-size: 1rem; }
@@ -330,7 +328,6 @@
   .on-link .input { flex-basis: 100%; }
   .on-link .btn { flex: 1; }
   .on-elo-now { font-size: 2.7rem; }
-  .on-game .player-name > span:nth-child(2) { max-width: 9ch; }
 }
 @media (max-width: 400px) {
   .on-pools { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -85,7 +85,11 @@ export function Board({
   const memo = useRef({ map: {}, seq: 1 });
   const trackedRes = useMemo(() => trackPieces(memo.current, pieces), [pieces]);
   const tracked = trackedRes.list;
-  const [sel, setSel] = useState(null);
+  // Auswahl gilt nur für die Stellung, in der sie getroffen wurde – so löscht ein neuer Zug des Gegners
+  // eine alte Auswahl sofort, aber nie eine frische (kein nachlaufender Effekt, der Tipps verschluckt).
+  const [selRaw, setSelRaw] = useState(null);
+  const sel = selRaw && selRaw.fen === fen ? selRaw.sq : null;
+  const setSel = (sq) => setSelRaw(sq ? { sq, fen } : null);
   // Ziehen ohne Neu-Rendern pro Bewegung: Position im Ref, die Figur wird direkt verschoben.
   const dragRef = useRef(null);
   const [dragSq, setDragSq] = useState(null);
@@ -112,15 +116,16 @@ export function Board({
   }, []);
 
   useEffect(() => {
-    setSel(null);
-    setPromo(null);
-    setUserArrows([]);
-    setUserMarks({});
-    if (dragRef.current) endDrag();
-    // Effekte nach einem Zug (nicht beim ersten Anzeigen)
+    // Beim ersten Anzeigen nichts zurücksetzen – sonst geht ein sehr schneller erster Tipp verloren,
+    // weil dieser Effekt erst nach dem Zeichnen läuft.
     const first = prevFen.current === null;
     prevFen.current = fen;
     if (first) return;
+    setPromo((x) => (x && x.fen !== fen ? null : x));
+    setUserArrows([]);
+    setUserMarks({});
+    // Nur ein Ziehen abbrechen, das noch in der alten Stellung begonnen hat
+    if (dragRef.current && dragRef.current.fen !== fen) endDrag(true);
     const gone = trackedRes.gone;
     if (gone.length && gone.length <= 2 && animation !== false) {
       const add = gone.map((g) => ({ ...g, key: 'g' + ++fxSeq }));
@@ -173,7 +178,14 @@ export function Board({
   // Die Figur sitzt immer mittig genau unter Maus oder Finger.
   // Wichtig: Vergrößern im selben transform (nach translate), sonst wandert die Figur vom Zeiger weg.
   const dragTransform = (d) => `translate(${(d.x - 0.5) * 100}%, ${(d.y - 0.5) * 100}%) scale(1.1)`;
-  const endDrag = () => {
+  // back = Figur zurück aufs Feld stellen. Nötig, weil sie beim Ziehen direkt (ohne Preact) verschoben
+  // wird – endet das Ziehen ohne Zug, weiß Preact sonst nicht, dass es sie zurückstellen muss.
+  const endDrag = (back = false) => {
+    const d = dragRef.current;
+    if (d?.el) {
+      d.el.classList.remove('dragging');
+      if (back) d.el.style.transform = place(d.sq);
+    }
     dragRef.current = null;
     setDragSq(null);
     setHover(null);
@@ -185,7 +197,7 @@ export function Board({
     const last = to[1] === '8' || to[1] === '1';
     if (!noPromotion && p && p[1] === 'P' && last && chess) {
       if (autoQueen) onMove({ from, to, promotion: 'q' });
-      else setPromo({ from, to, color: p[0] });
+      else setPromo({ from, to, color: p[0], fen });
       return;
     }
     try {
@@ -272,7 +284,7 @@ export function Board({
     const id = tracked.find((t) => t.sq === sq)?.id;
     const el = ref.current.querySelector(`.pieces [data-id="${id}"]`);
     // Sofort aufnehmen: die Figur springt mittig unter den Zeiger (wie bei chess.com).
-    dragRef.current = { sq, id, el, x, y, rect, sx: e.clientX, sy: e.clientY, moved: false, hover: sq, pid: e.pointerId };
+    dragRef.current = { sq, id, el, x, y, rect, sx: e.clientX, sy: e.clientY, moved: false, hover: sq, pid: e.pointerId, fen };
     if (el) {
       el.style.transform = dragTransform(dragRef.current);
       el.classList.add('dragging');
@@ -335,12 +347,10 @@ export function Board({
     const d = dragRef.current;
     if (!d || d.pid !== e.pointerId) return;
     const to = squareAt(e, d.rect);
-    if (d.el) d.el.classList.remove('dragging');
-    endDrag();
-    if (d.moved) {
-      if (to && to !== d.sq && destsFor(d.sq).includes(to)) doMove(d.sq, to);
-      else if (to !== d.sq) setSel(null);
-    }
+    const moves = d.moved && to && to !== d.sq && destsFor(d.sq).includes(to);
+    endDrag(!moves);
+    if (moves) doMove(d.sq, to);
+    else if (d.moved && to !== d.sq) setSel(null);
   };
 
   const cancelAll = () => {
@@ -348,9 +358,7 @@ export function Board({
     hold.current = null;
     rightStart.current = null;
     setPreview(null);
-    const d = dragRef.current;
-    if (d?.el) d.el.classList.remove('dragging');
-    endDrag();
+    endDrag(true);
   };
 
   const allMarks = { ...marks, ...userMarks };
