@@ -38,6 +38,18 @@ export function Learn() {
     <div class="units">
       ${visible.map((p) => html`<${UnitCard} p=${p} s=${s} next=${next} />`)}
     </div>
+    ${visible.length === 0 &&
+    html`<section class="card">
+      <h3>Die Grundlagen hast du drauf</h3>
+      <p class="muted">Für dein Niveau geht es mit gezieltem Training weiter – Rätsel nach Thema, Eröffnungen und Partien mit Coach.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="#/puzzles/theme-fork"><${Icon} name="puzzle" /> Taktik</a>
+        <a class="btn ghost" href="#/puzzles/theme-patterns">Mattbilder</a>
+        <a class="btn ghost" href="#/puzzles/theme-end">Endspiele</a>
+        <a class="btn ghost" href="#/openings">Eröffnungen</a>
+        <a class="btn ghost" href="#/play">Partie mit Coach</a>
+      </div>
+    </section>`}
     ${extra.length > 0 &&
     html`<details class="extra-units"><summary>Weitere Einheiten außerhalb deiner Ziele (${extra.length})</summary>
       <div class="units">${extra.map((u) => html`<${UnitCard} p=${{ unit: u, known: false, lessons: content.lessonsByUnit[u.id] || [] }} s=${s} next=${next} />`)}</div>

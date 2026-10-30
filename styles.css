@@ -824,3 +824,6 @@ select.input { appearance: none; -webkit-appearance: none; }
   .game-actions { grid-template-columns: repeat(2, 1fr); }
   .game-side > .game-actions { order: 0; }
 }
+/* Dialoge und Intro liegen über der Tab-Leiste */
+.modal-backdrop { z-index: 96; }
+.vs-intro { z-index: 97; }
