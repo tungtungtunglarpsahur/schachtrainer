@@ -735,7 +735,8 @@ function Game({ setup, resume, onExit, onNew }) {
           <div><small>Starke Züge</small><b>${testResult.best}</b></div>
           <div><small>Fehler</small><b>${testResult.bad}</b></div>
         </div>
-        <p class="muted small">${testResult.moves} Züge ausgewertet · der Bot spielte im Schnitt auf ${testResult.botElo}.</p>
+        <p class="muted small">${testResult.moves} ${testResult.moves === 1 ? 'Zug' : 'Züge'} ausgewertet · der Bot spielte im Schnitt auf ${testResult.botElo}.</p>
+        ${testResult.moves < 10 && html`<p class="test-short"><${Icon} name="bulb" size=${16} /> <span>Die Partie war kurz. Für eine genauere Wertung kannst du das Testspiel jederzeit unter <b>Einstellungen → Dein Plan</b> wiederholen.</span></p>`}
         <div class="btn-row center">
           <a class="btn primary xl" href="#/"><${Icon} name="play" /> Los geht's</a>
           <a class="btn ghost" href=${`#/review/${testResult.id}`}><${Icon} name="scope" /> Partie ansehen</a>

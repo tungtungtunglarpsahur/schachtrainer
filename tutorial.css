@@ -198,6 +198,19 @@
   .tu-feature { padding: 12px; gap: 12px; }
   .tu-demo { width: min(100%, 220px, calc(100dvh - 560px)); min-width: min(100%, 180px); margin-bottom: 12px; }
 }
+/* ---------- Tablet hochkant: mehr Platz nutzen ---------- */
+
+@media (min-width: 700px) and (min-height: 900px) {
+  .tu { --tu-w: 720px; }
+  .tu-main { padding-top: clamp(6px, 4vh, 48px); }
+  .tu-title { font-size: 2.7rem; }
+  .tu-sub { font-size: 1.12rem; }
+  .tu-board { width: min(100%, 540px, calc(100dvh - 430px)); }
+  .tu-feedback { max-width: 540px; }
+  .tu-demo { width: min(100%, 320px, calc(100dvh - 600px)); }
+  .tu-row { padding: 18px; }
+}
+
 @media (max-width: 360px) {
   .tu-count { display: none; }
   .tu-buttons li { flex-direction: column; align-items: flex-start; gap: 6px; }
