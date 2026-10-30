@@ -81,6 +81,70 @@ setInterval(() => {
   });
 }, 15e3);
 
+// Wie eine App: Festhalten soll nichts markieren, kein Kopieren-Menü öffnen
+// und keine Figur, kein Bild und keinen Link als „Kopie“ herausziehen.
+const editable = (t) => {
+  const el = t && t.nodeType === 3 ? t.parentElement : t;
+  return !!el?.closest?.('input, textarea, select, [contenteditable="true"], .selectable');
+};
+const touchDevice = matchMedia('(hover: none), (pointer: coarse)');
+addEventListener('dragstart', (e) => {
+  if (!editable(e.target)) e.preventDefault();
+});
+addEventListener('selectstart', (e) => {
+  if (!editable(e.target)) e.preventDefault();
+});
+addEventListener('contextmenu', (e) => {
+  if (touchDevice.matches && !editable(e.target)) e.preventDefault();
+});
+
+// Leiste unten (Handy & iPad hochkant): beim Runterscrollen ausblenden, beim Hochscrollen
+// und ganz oben wieder zeigen. Abschaltbar in den Einstellungen.
+const smallScreen = matchMedia('(max-width: 900px)');
+function useBarHidden(enabled, routeKey, pinned) {
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => setHidden(false), [routeKey]);
+  useEffect(() => {
+    if (!enabled) {
+      setHidden(false);
+      return;
+    }
+    let lastY = Math.max(0, scrollY);
+    let run = 0;
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const y = Math.max(0, scrollY);
+      const dy = y - lastY;
+      lastY = y;
+      if (!smallScreen.matches || y < 48) {
+        run = 0;
+        setHidden(false);
+        return;
+      }
+      if (!dy) return;
+      if (Math.sign(dy) !== Math.sign(run)) run = 0;
+      run += dy;
+      if (run > 28) setHidden(true);
+      else if (run < -18) setHidden(false);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [enabled]);
+  const on = enabled && hidden && !pinned;
+  useEffect(() => {
+    document.documentElement.classList.toggle('bar-hidden', on);
+  }, [on]);
+  useEffect(() => () => document.documentElement.classList.remove('bar-hidden'), []);
+  return on;
+}
+
 function TopBar({ s }) {
   const d = todayView();
   const goal = s.profile.minutes * 60;
@@ -109,6 +173,7 @@ function Shell({ route, children }) {
   const active = (href) => (href === '#/' ? first === '#/' : first.startsWith(href.replace(/s$/, '')));
   const moreActive = MORE.some((n) => active(n.href));
   useEffect(() => setMore(false), [route.raw]);
+  useBarHidden(s.settings.hideBar !== false, route.raw, more);
   return html`<div class="shell">
     <aside class="sidebar">
       <div class="sidebar-logo"><${Logo} /></div>

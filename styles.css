@@ -1068,3 +1068,18 @@ body::after {
 .topbar { view-transition-name: topbar; }
 .sidebar { view-transition-name: sidebar; }
 .tabbar { view-transition-name: tabbar; }
+
+/* Wie eine App: Festhalten markiert, kopiert oder zieht nichts heraus (Eingabefelder ausgenommen) */
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, select, [contenteditable='true'], .selectable { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+a, svg, .piece, .piece-icon { -webkit-user-drag: none; }
+
+/* Leiste unten (Handy & iPad hochkant): verschwindet beim Runterscrollen, kommt beim Hochscrollen zurück */
+@media (max-width: 900px) {
+  .tabbar { transition: transform 0.5s var(--ease), opacity 0.4s var(--ease); }
+  html.bar-hidden .tabbar { transform: translate3d(0, calc(100% + 24px + var(--safe-b)), 0); opacity: 0; pointer-events: none; }
+  html.bar-hidden .toasts { bottom: calc(16px + var(--safe-b)); }
+}
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .tabbar { transition: opacity 0.2s linear; }
+}

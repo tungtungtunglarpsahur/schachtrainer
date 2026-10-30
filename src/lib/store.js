@@ -40,6 +40,7 @@ export function defaults() {
       ttsMoves: false,
       ttsVoice: '',
       ttsRate: 1,
+      hideBar: true,
     },
     xp: 0,
     days: {},
