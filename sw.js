@@ -1,4 +1,5 @@
-// Offline-Unterstützung: liefert aus dem Cache und aktualisiert im Hintergrund.
+// Offline-Unterstützung: eigene Dateien zuerst aus dem Netz (damit Updates sofort ankommen),
+// ohne Netz aus dem Cache. Schriften kommen direkt aus dem Cache.
 const CACHE = 'gambit-v2';
 
 self.addEventListener('install', () => self.skipWaiting());
@@ -20,14 +21,22 @@ self.addEventListener('fetch', (e) => {
   if (!sameOrigin && !fonts) return;
   e.respondWith(
     caches.open(CACHE).then(async (cache) => {
-      const hit = await cache.match(req);
-      const net = fetch(req)
-        .then((res) => {
-          if (res.ok || res.type === 'opaque') cache.put(req, res.clone());
-          return res;
-        })
-        .catch(() => hit);
-      return hit || net;
+      if (fonts) {
+        const hit = await cache.match(req);
+        if (hit) return hit;
+        const res = await fetch(req);
+        if (res.ok || res.type === 'opaque') cache.put(req, res.clone());
+        return res;
+      }
+      try {
+        const res = await fetch(req);
+        if (res.ok) cache.put(req, res.clone());
+        return res;
+      } catch (err) {
+        const hit = await cache.match(req);
+        if (hit) return hit;
+        throw err;
+      }
     }),
   );
 });

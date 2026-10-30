@@ -12,7 +12,10 @@
 - **Pflicht-Umfrage beim Start** – 9 kurze Fragen (Erfahrung, Niveau, Elo, Ziele, Schwächen, Spielstil, Zeit, Coach). Daraus entstehen Plan, Startwertungen, Coach-Stufe und der Bereich **„Dein Fokus“** auf der Startseite. In den Einstellungen jederzeit wiederholbar.
 - **Bots spielen wie Menschen** – echte Bedenkzeit (schnell in der Eröffnung, länger in schweren Stellungen, flott beim Zurückschlagen, angepasst an die Uhr), wählbares **Bot-Tempo** (Gemütlich/Normal/Flott/Sofort), **VS-Intro** vor jeder Partie, „denkt nach …“-Anzeige und eigene **Spielstile** (Angriff, Taktisch, Positionell, Chaotisch).
 - **Deine Partie-Fehler** – jeder Fehler und Patzer aus deinen Partien wird automatisch zur persönlichen Aufgabe. Die Engine akzeptiert alles, was fast so gut ist wie der beste Zug; mit Spaced Repetition (1 → 3 → 7 → 21 Tage), bis die Stellung sitzt.
-- Aufgeben mit Bestätigungsdialog statt Browser-Popup, „Für dich“-Empfehlung bei den Bots.
+- **Flüssiger trainieren** – Rätsel gehen nach einer richtigen Lösung automatisch weiter (abschaltbar), die Engine in Lektionen „überlegt“ kurz wie ein Mensch.
+- **Persönliche Empfehlungen** – „Für dich“-Markierung bei Bots und den drei Eröffnungen, die zu deinem Spielstil passen; nach jeder Partie ein direkter Link zu den gesammelten Fehlern.
+- **Handy quer** – Brett links, Coach und Züge rechts.
+- Aufgeben und Zurücksetzen mit eigenem Bestätigungsschritt statt Browser-Popup.
 
 ## Was gambit kann
 
