@@ -811,3 +811,16 @@ select.input { appearance: none; -webkit-appearance: none; }
 .opening-card.for-you { border-color: rgba(255, 255, 255, 0.28); background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 60%), var(--panel); }
 .for-you-tag { margin-left: auto; margin-right: 8px; padding: 2px 8px; border-radius: 7px; background: #f5f5f6; color: var(--accent-ink); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .game-over .banner.resume { margin: 4px 0 16px; text-align: left; }
+/* Handy quer: Brett links, Infos rechts, ohne Leisten beim Spielen */
+@media (max-width: 950px) and (max-height: 520px) and (orientation: landscape) {
+  .topbar { display: none; }
+  .shell:has(.game-grid, .trainer-grid) .tabbar { display: none; }
+  .shell:has(.game-grid, .trainer-grid) .content { padding: 8px max(12px, env(safe-area-inset-right, 0px)) 8px max(12px, env(safe-area-inset-left, 0px)); }
+  .trainer-grid, .game-grid { grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; }
+  .game-board-col { width: calc(100dvh - 112px); min-width: 0; max-width: none; margin: 0; gap: 6px; }
+  .trainer-board { width: calc(100dvh - 76px); min-width: 0; max-width: none; margin: 0; }
+  .game-side, .trainer-side { max-height: calc(100dvh - 16px); overflow: auto; max-width: none; margin: 0; }
+  .player { min-height: 40px; padding: 4px 8px; }
+  .game-actions { grid-template-columns: repeat(2, 1fr); }
+  .game-side > .game-actions { order: 0; }
+}
