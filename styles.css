@@ -827,3 +827,7 @@ select.input { appearance: none; -webkit-appearance: none; }
 /* Dialoge und Intro liegen über der Tab-Leiste */
 .modal-backdrop { z-index: 96; }
 .vs-intro { z-index: 97; }
+/* Vier Kacheln auf dem Tablet als 2×2 statt 3+1 */
+@media (min-width: 561px) and (max-width: 1180px) {
+  .tiles:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
