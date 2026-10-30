@@ -1,5 +1,5 @@
 // Einstieg: Router, App-Rahmen, Zeitmessung.
-import { html, render, useEffect, useState } from '../vendor/preact-htm.js';
+import { html, render, useEffect, useRef, useState } from '../vendor/preact-htm.js';
 import { useStore, update, today, todayView, streakNow, rankFor, storageOk, state, SURVEY_VERSION } from './lib/store.js';
 import { loadContent } from './lib/content.js';
 import { Icon, Logo, Toasts, Ring } from './ui/kit.js';
@@ -147,6 +147,89 @@ function useBarHidden(enabled, routeKey, pinned) {
   return on;
 }
 
+// „Schredder“: Beim Ausblenden zerfällt die Leiste in Streifen, die verwischt nach unten gezogen werden.
+// Beim Einblenden läuft alles rückwärts. Dreht man mittendrin um, kehrt die Bewegung nahtlos um.
+const SHRED_K = [0, 0.66, 0.24, 0.9, 0.41, 0.1, 0.76, 0.31, 1, 0.17, 0.55, 0.48];
+function BarShred({ hidden, count, onGhost, children }) {
+  const box = useRef(null);
+  const anims = useRef([]);
+  const token = useRef(0);
+  const started = useRef(false);
+  const [live, setLive] = useState(false);
+
+  useEffect(() => () => anims.current.forEach((a) => a.cancel()), []);
+  useEffect(() => {
+    anims.current.forEach((a) => a.cancel());
+    anims.current = [];
+  }, [count]);
+
+  useEffect(() => {
+    if (!started.current) {
+      started.current = true;
+      if (!hidden) return;
+    }
+    const el = box.current;
+    const real = document.querySelector('.tabbar:not(.ghost)');
+    if (!el || !real || !el.animate) {
+      onGhost(hidden);
+      return;
+    }
+    // Streifen genau über die echte Leiste legen.
+    const r = real.getBoundingClientRect();
+    if (r.width) {
+      Object.assign(el.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+      el.style.setProperty('--bw', r.width + 'px');
+    }
+    if (!anims.current.length) {
+      const MAXD = 110;
+      anims.current = [...el.children].map((strip, i) => {
+        const k = SHRED_K[i % SHRED_K.length];
+        const delay = Math.round(k * MAXD);
+        const dy = 54 + Math.round(k * 34);
+        const dir = i % 2 ? 1 : -1;
+        const rot = dir * (0.5 + k * 1.3);
+        const dx = dir * (0.5 + k * 1.5);
+        const a = strip.animate(
+          [
+            { transform: 'translate3d(0, 0, 0) rotate(0deg) scaleY(1)', filter: 'blur(0px)', opacity: 1 },
+            { transform: `translate3d(${dx * 0.3}px, ${dy * 0.3}px, 0) rotate(${rot * 0.45}deg) scaleY(1.05)`, filter: 'blur(2px)', opacity: 1, offset: 0.3 },
+            { transform: `translate3d(${dx}px, ${dy}px, 0) rotate(${rot}deg) scaleY(1.16)`, filter: 'blur(10px)', opacity: 0 },
+          ],
+          { duration: 480, delay, endDelay: MAXD - delay, easing: 'cubic-bezier(0.35, 0.05, 0.65, 0.35)', fill: 'both' },
+        );
+        a.pause();
+        a.currentTime = 0;
+        return a;
+      });
+    }
+    const run = ++token.current;
+    const list = anims.current;
+    setLive(true);
+    if (hidden) onGhost(true);
+    list.forEach((a) => {
+      a.playbackRate = hidden ? 1 : -1;
+      a.play();
+    });
+    Promise.all(list.map((a) => a.finished)).then(
+      () => {
+        if (run !== token.current) return;
+        if (hidden) setLive(false);
+        else {
+          onGhost(false); // echte Leiste blendet weich ein …
+          setTimeout(() => run === token.current && setLive(false), 220); // … dann verschwinden die Streifen
+        }
+      },
+      () => {},
+    );
+  }, [hidden]);
+
+  return html`<div ref=${box} class=${`shred ${live ? 'live' : ''}`} inert aria-hidden="true">
+    ${Array.from({ length: count }, (_, i) => html`<div class="shred-strip" style=${{ left: `calc(var(--bw) * ${i / count} - 0.5px)`, width: `calc(var(--bw) / ${count} + 1px)` }}>
+      <nav class="tabbar ghost" style=${{ left: `calc(var(--bw) * ${-i / count} + 0.5px)`, width: 'var(--bw)' }}>${children}</nav>
+    </div>`)}
+  </div>`;
+}
+
 function TopBar({ s }) {
   const d = todayView();
   const goal = s.profile.minutes * 60;
@@ -175,7 +258,17 @@ function Shell({ route, children }) {
   const active = (href) => (href === '#/' ? first === '#/' : first.startsWith(href.replace(/s$/, '')));
   const moreActive = MORE.some((n) => active(n.href));
   useEffect(() => setMore(false), [route.raw]);
-  useBarHidden(s.settings.hideBar !== false, route.raw, more);
+  const barHidden = useBarHidden(s.settings.hideBar !== false, route.raw, more);
+  const fx = s.settings.effects || 'full';
+  const shred = s.settings.hideBar !== false && s.settings.animation !== false && fx !== 'off' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [ghost, setGhost] = useState(false);
+  useEffect(() => {
+    document.documentElement.classList.toggle('bar-shred', shred);
+    if (!shred) setGhost(false);
+  }, [shred]);
+  const tabItems = (copy) => html`
+    ${TABS.map((n) => html`<a href=${copy ? undefined : n.href} class=${active(n.href) && !more ? 'active' : ''}><${Icon} name=${n.icon} size=${22} /><span>${n.label}</span></a>`)}
+    <button type="button" class=${moreActive || more ? 'active' : ''} onClick=${copy ? undefined : () => setMore(!more)} aria-expanded=${copy ? undefined : more}><${Icon} name="grid" size=${22} /><span>Mehr</span></button>`;
   return html`<div class="shell">
     <aside class="sidebar">
       <div class="sidebar-logo"><${Logo} /></div>
@@ -197,10 +290,8 @@ function Shell({ route, children }) {
       <nav class="more-sheet" aria-label="Weitere Bereiche">
         ${MORE.map((n) => html`<a href=${n.href} class=${active(n.href) ? 'active' : ''} onClick=${() => setMore(false)}><${Icon} name=${n.icon} /><span>${n.label}</span></a>`)}
       </nav>`}
-    <nav class="tabbar">
-      ${TABS.map((n) => html`<a href=${n.href} class=${active(n.href) && !more ? 'active' : ''}><${Icon} name=${n.icon} size=${22} /><span>${n.label}</span></a>`)}
-      <button class=${moreActive || more ? 'active' : ''} onClick=${() => setMore(!more)} aria-expanded=${more}><${Icon} name="grid" size=${22} /><span>Mehr</span></button>
-    </nav>
+    <nav class=${`tabbar ${shred && ghost ? 'ghosting' : ''}`}>${tabItems(false)}</nav>
+    ${shred ? html`<${BarShred} hidden=${barHidden} count=${fx === 'subtle' ? 7 : 12} onGhost=${setGhost}>${tabItems(true)}<//>` : null}
   </div>`;
 }
 
