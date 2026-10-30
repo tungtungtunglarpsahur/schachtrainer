@@ -89,11 +89,11 @@ function Setup({ s, query, onStart }) {
   const [color, setColor] = useState('w');
   const [time, setTime] = useState('none');
   const [coach, setCoach] = useState(s.settings.coach);
-  const [speed, setSpeed] = useState(s.settings.botSpeed || 'normal');
+  const [speed, setSpeed] = useState(SPEEDS.some((x) => x.id === s.settings.botSpeed) ? s.settings.botSpeed : 'normal');
   const recommended = botFor(s.play.rating);
   const [fen, setFen] = useState(query.get('fen') || '');
   const bot = botFor(elo);
-  const fenOk = !fen || !!safeChess(fen);
+  const fenOk = !fen || ((c) => !!c && !c.isGameOver())(safeChess(fen));
 
   const start = () => {
     const userColor = color === 'r' ? (Math.random() < 0.5 ? 'w' : 'b') : color;
@@ -140,7 +140,7 @@ function Setup({ s, query, onStart }) {
       <div class="card">
         <h3>Bot-Tempo</h3>
         <div class="seg wrap">${SPEEDS.map((x) => html`<button class=${speed === x.id ? 'on' : ''} onClick=${() => setSpeed(x.id)}>${x.label}</button>`)}</div>
-        <p class="muted small">${SPEEDS.find((x) => x.id === speed).desc}</p>
+        <p class="muted small">${(SPEEDS.find((x) => x.id === speed) || SPEEDS[1]).desc}</p>
       </div>
       <div class="card">
         <h3>Coach</h3>
@@ -208,13 +208,23 @@ function Game({ setup, resume, onExit, onNew }) {
   const caught = useRef(0);
   const clockRef = useRef(clock);
   clockRef.current = clock;
+  const classesRef = useRef([]);
+  const setCls = (fn) => {
+    classesRef.current = fn(classesRef.current);
+    setClasses(classesRef.current);
+  };
+  const addInc = (color) => {
+    if (!tc.inc) return;
+    clockRef.current = { ...clockRef.current, [color]: clockRef.current[color] + tc.inc * 1000 };
+    setClock(clockRef.current);
+  };
 
   const say = (m) => setMsgs((x) => [...x.slice(-30), m]);
   const chess = () => chessRef.current;
 
   const persist = () => {
     update((st) => {
-      st.currentGame = { setup, moves: chess().history({ verbose: true }).map(toUci), clock: clockRef.current, classes, takebacks: takebacks.current };
+      st.currentGame = { setup, moves: chess().history({ verbose: true }).map(toUci), clock: clockRef.current, classes: classesRef.current, takebacks: takebacks.current };
     });
   };
 
@@ -224,8 +234,11 @@ function Game({ setup, resume, onExit, onNew }) {
     if (resume) {
       for (const u of resume.moves) c.move(parseUci(u));
       takebacks.current = resume.takebacks || 0;
-      if (resume.clock) setClock(resume.clock);
-      setClasses(resume.classes || []);
+      if (resume.clock) {
+        clockRef.current = resume.clock;
+        setClock(resume.clock);
+      }
+      setCls(() => resume.classes || []);
     }
     chessRef.current = c;
     setFen(c.fen());
@@ -256,7 +269,7 @@ function Game({ setup, resume, onExit, onNew }) {
 
   // ---------- Uhr ----------
   useEffect(() => {
-    if (!tc.base || over || status === 'init' || status === 'intro') return;
+    if (!tc.base || over || status === 'init' || status === 'intro' || status === 'thinking') return;
     const t = setInterval(() => {
       const side = chess().turn();
       if (paused) return;
@@ -300,7 +313,7 @@ function Game({ setup, resume, onExit, onNew }) {
     let fresh = [];
     let xp = 0;
     update((st) => {
-      xp = recordGame(st, { id, date: Date.now(), pgn: c.pgn(), result, reason, color: userColor, elo, bot: botName, moves: c.history().length, rated, startFen, classes }).xp;
+      xp = recordGame(st, { id, date: Date.now(), pgn: c.pgn(), result, reason, color: userColor, elo, bot: botName, moves: c.history().length, rated, startFen, classes: classesRef.current }).xp;
       st.currentGame = null;
       fresh = checkAchievements(st);
     });
@@ -351,14 +364,26 @@ function Game({ setup, resume, onExit, onNew }) {
     const t0 = Date.now();
     const c0 = chess();
     const want = thinkTime(c0, elo, speed, tc.base ? clockRef.current[c0.turn()] : 0, tc.inc);
-    const uci = await botMove(c0.fen(), elo, bot.style);
-    if (token !== tokenRef.current || !uci) return;
+    let uci = null;
+    try {
+      uci = await botMove(c0.fen(), elo, bot.style);
+    } catch {
+      // Engine nicht verfügbar: lieber ein zufälliger legaler Zug als eine hängende Partie.
+      const legal = c0.moves({ verbose: true });
+      const m = legal[Math.floor(Math.random() * legal.length)];
+      uci = m ? m.from + m.to + (m.promotion || '') : null;
+    }
+    if (token !== tokenRef.current) return;
+    if (!uci) {
+      checkOver();
+      return;
+    }
     await sleep(Math.max(0, want - (Date.now() - t0)));
     if (token !== tokenRef.current) return;
     const c = chess();
     const m = c.move(parseUci(uci));
     playMove(m, c);
-    if (tc.inc) setClock((cl) => ({ ...cl, [m.color]: cl[m.color] + tc.inc * 1000 }));
+    addInc(m.color);
     setFen(c.fen());
     setLast([m.from, m.to]);
     persist();
@@ -381,7 +406,7 @@ function Game({ setup, resume, onExit, onNew }) {
     }
     const token = ++tokenRef.current;
     playMove(m, c);
-    if (tc.inc) setClock((cl) => ({ ...cl, [m.color]: cl[m.color] + tc.inc * 1000 }));
+    addInc(m.color);
     setFen(c.fen());
     setLast([m.from, m.to]);
     setHint(null);
@@ -403,11 +428,12 @@ function Game({ setup, resume, onExit, onNew }) {
     if (token !== tokenRef.current) return;
     if (after?.lines[0]) setEvalScore(whiteScore(after.lines[0].score, after.turn));
     const cls = classify(before, after, toUci(m));
-    if (cls) setClasses((x) => {
-      const n = [...x];
-      n[ply] = cls.key;
-      return n;
-    });
+    if (cls)
+      setCls((x) => {
+        const n = [...x];
+        n[ply] = cls.key;
+        return n;
+      });
     const bad = cls && (cls.key === 'mistake' || cls.key === 'blunder');
     const bestUci = before?.lines?.[0]?.pv?.[0];
     if (bad && bestUci && bestUci !== toUci(m)) {
@@ -445,7 +471,7 @@ function Game({ setup, resume, onExit, onNew }) {
     const h = c.history({ verbose: true });
     const lm = h[h.length - 1];
     setLast(lm ? [lm.from, lm.to] : null);
-    setClasses((x) => x.slice(0, h.length));
+    setCls((x) => x.slice(0, h.length));
     say({ text: 'Zurückgenommen. Neuer Versuch!', tone: 'info' });
     persist();
     if (c.turn() === userColor) userTurn();
@@ -459,9 +485,11 @@ function Game({ setup, resume, onExit, onNew }) {
   };
 
   const askHint = async () => {
+    const token = tokenRef.current;
     const lvl = hintLevel + 1;
     setHintLevel(lvl);
     const r = await beforeRef.current;
+    if (token !== tokenRef.current) return;
     const h = hintFor(chess().fen(), r, lvl);
     if (h) {
       setHint(h);

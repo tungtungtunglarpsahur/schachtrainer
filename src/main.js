@@ -1,6 +1,6 @@
 // Einstieg: Router, App-Rahmen, Zeitmessung.
 import { html, render, useEffect, useState } from '../vendor/preact-htm.js';
-import { useStore, update, today, todayView, streakNow, rankFor, storageOk } from './lib/store.js';
+import { useStore, update, today, todayView, streakNow, rankFor, storageOk, SURVEY_VERSION } from './lib/store.js';
 import { loadContent } from './lib/content.js';
 import { Icon, Logo, Toasts, Ring } from './ui/kit.js';
 import { Onboarding } from './views/Onboarding.js';
@@ -29,8 +29,6 @@ const NAV = [
 const TABS = [NAV[0], NAV[1], NAV[2], NAV[3]];
 const MORE = [NAV[4], NAV[5], NAV[6], NAV[7]];
 
-/** Aktuelle Version der Einstiegs-Umfrage. Ältere Profile machen sie einmal neu. */
-export const SURVEY_VERSION = 2;
 
 const parseHash = () => {
   const [path, query = ''] = location.hash.replace(/^#/, '').split('?');
@@ -111,7 +109,7 @@ function Shell({ route, children }) {
     ${more &&
     html`<div class="more-backdrop" onClick=${() => setMore(false)}></div>
       <nav class="more-sheet" aria-label="Weitere Bereiche">
-        ${MORE.map((n) => html`<a href=${n.href} class=${active(n.href) ? 'active' : ''}><${Icon} name=${n.icon} /><span>${n.label}</span></a>`)}
+        ${MORE.map((n) => html`<a href=${n.href} class=${active(n.href) ? 'active' : ''} onClick=${() => setMore(false)}><${Icon} name=${n.icon} /><span>${n.label}</span></a>`)}
       </nav>`}
     <nav class="tabbar">
       ${TABS.map((n) => html`<a href=${n.href} class=${active(n.href) && !more ? 'active' : ''}><${Icon} name=${n.icon} size=${22} /><span>${n.label}</span></a>`)}

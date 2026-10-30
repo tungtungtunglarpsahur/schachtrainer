@@ -6,6 +6,9 @@ const listeners = new Set();
 let saveTimer = null;
 export let storageOk = true;
 
+/** Version der Einstiegs-Umfrage. Ältere Profile beantworten sie einmal neu. */
+export const SURVEY_VERSION = 2;
+
 export const LEVELS = [
   { id: 0, title: 'Noch nie gespielt', sub: 'Ich fange bei null an', puzzle: 500, play: 400 },
   { id: 1, title: 'Ich kenne die Regeln', sub: 'Aber mehr auch nicht', puzzle: 700, play: 600 },

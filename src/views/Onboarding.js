@@ -1,6 +1,6 @@
 // Pflicht-Umfrage beim ersten Start: eine Frage pro Screen. Aus den Antworten entsteht der persönliche Plan.
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
-import { LEVELS, update, useStore } from '../lib/store.js';
+import { LEVELS, SURVEY_VERSION, update, useStore } from '../lib/store.js';
 import { Logo, PieceIcon } from '../ui/kit.js';
 
 export const GOALS = [
@@ -152,7 +152,7 @@ function isValid(id, a) {
     case 'experience':
       return a.experience != null;
     case 'level':
-      return a.level != null && (!a.elo || validElo(a.elo) != null);
+      return a.level != null && (a.level < 2 || !a.elo || validElo(a.elo) != null);
     case 'frequency':
       return a.frequency != null;
     case 'goals':
@@ -380,7 +380,7 @@ export function Onboarding() {
   }, []);
 
   const L = LEVELS[a.level ?? 1];
-  const known = validElo(a.elo);
+  const known = (a.level ?? 0) >= 2 ? validElo(a.elo) : null;
   const goals = mergedGoals(a);
   const recs = recommendOpenings(a.style, a.level);
 
@@ -392,7 +392,7 @@ export function Onboarding() {
       st.profile = {
         ...st.profile,
         onboarded: true,
-        surveyV: 2,
+        surveyV: SURVEY_VERSION,
         name: a.name.trim(),
         level: lvl.id,
         goals: mergedGoals(a),

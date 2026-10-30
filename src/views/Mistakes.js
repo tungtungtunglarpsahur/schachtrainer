@@ -1,6 +1,6 @@
 // „Deine Fehler“: Stellungen aus eigenen Partien, in denen du daneben gegriffen hast.
 // Die Engine prüft deine Antwort – alles, was fast so gut ist wie der beste Zug, zählt.
-import { html, useEffect, useMemo, useState } from '../../vendor/preact-htm.js';
+import { html, useEffect, useMemo, useRef, useState } from '../../vendor/preact-htm.js';
 import { update, useStore } from '../lib/store.js';
 import { engine, warmup } from '../lib/engine.js';
 import { dueMistakes, gradeMistake, openMistakes } from '../lib/mistakes.js';
@@ -27,7 +27,7 @@ export function MyMistakes() {
   const id = queue[idx];
   const item = id && (s.mistakes || []).find((m) => m.id === id);
 
-  if (!open.length)
+  if (!open.length && !queue.length)
     return html`<div class="page center-page">
       <div class="center-card">
         <div class="done-burst">♟</div>
@@ -70,12 +70,16 @@ function MistakeTask({ item, pos, count, session, onGraded, onNext }) {
   const [flash, setFlash] = useState(null);
   const [arrows, setArrows] = useState([]);
   const [graded, setGraded] = useState(false);
+  const resetTimer = useRef(null);
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
 
   useEffect(() => {
     let alive = true;
-    engine.analyze(item.fen, { depth: 14, movetime: 1200, multipv: 3 }).then((r) => {
-      if (alive && r) setLines(r.lines.filter((l) => l.pv?.[0]));
-    });
+    // Erst wenn die Engine geantwortet hat, ist das Brett frei – sonst würde ein gleich guter Zug als falsch zählen.
+    engine
+      .analyze(item.fen, { depth: 14, movetime: 1200, multipv: 3 })
+      .then((r) => alive && setLines(r ? r.lines.filter((l) => l.pv?.[0]) : []))
+      .catch(() => alive && setLines([]));
     return () => {
       alive = false;
     };
@@ -133,16 +137,20 @@ function MistakeTask({ item, pos, count, session, onGraded, onNext }) {
       setFlash({ sq: m.to, kind: 'bad', key: Date.now() });
       play('bad');
       grade(false);
-      setTimeout(() => {
+      clearTimeout(resetTimer.current);
+      resetTimer.current = setTimeout(() => {
         setFen(item.fen);
         setLast(null);
-        setState('play');
+        setState((st) => (st === 'wrong' ? 'play' : st));
       }, 900);
     }
   };
 
   const reveal = () => {
+    clearTimeout(resetTimer.current);
     grade(false);
+    setFen(item.fen);
+    setLast(null);
     setState('shown');
     setArrows([[item.best.slice(0, 2), item.best.slice(2, 4), 'g']]);
   };
@@ -151,7 +159,7 @@ function MistakeTask({ item, pos, count, session, onGraded, onNext }) {
   return html`<div class="page trainer">
     <div class="trainer-grid">
       <div class="trainer-board">
-        <${Board} fen=${fen} orientation=${side} movable=${state === 'play' ? side : null} onMove=${onMove} lastMove=${last} arrows=${arrows} flash=${flash} />
+        <${Board} fen=${fen} orientation=${side} movable=${state === 'play' && lines ? side : null} onMove=${onMove} lastMove=${last} arrows=${arrows} flash=${flash} />
       </div>
       <aside class="trainer-side card">
         <small class="tag">Deine Fehler · ${pos}/${count}</small>
