@@ -82,7 +82,7 @@
 .tu-ok { display: flex; align-items: center; gap: 10px; margin: 0; padding: 12px 14px; border-radius: 14px; background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.32); font-weight: 600; animation: tu-pop 0.5s var(--spring) both; }
 .tu-ok-ico { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--good); color: #052e16; flex: none; }
 .tu-hint { margin: 0; padding: 12px 14px; border-radius: 14px; background: rgba(251, 191, 36, 0.07); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--text-2); line-height: 1.45; animation: tu-shake 0.4s; }
-.tu-tip { display: flex; gap: 10px; align-items: flex-start; margin: -8px 0 16px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2); color: var(--text-2); font-size: 0.96rem; line-height: 1.45; }
+.tu-tip { display: flex; gap: 10px; align-items: flex-start; margin: 0; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2); color: var(--text-2); font-size: 0.96rem; line-height: 1.45; }
 .tu-tip .icon { color: var(--warn); margin-top: 2px; }
 
 /* ---------- 4: Gegen Bots ---------- */
@@ -196,6 +196,7 @@
   .tu-board { width: min(100%, calc(100dvh - 380px)); }
   .tu-vs { gap: 16px; }
   .tu-feature { padding: 12px; gap: 12px; }
+  .tu-demo { width: min(100%, 220px, calc(100dvh - 560px)); min-width: min(100%, 180px); margin-bottom: 12px; }
 }
 @media (max-width: 360px) {
   .tu-count { display: none; }

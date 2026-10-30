@@ -1,1 +1,84 @@
-/* Fortschritt – Styles folgen */
+/* Fortschritt – Kurven, Woche, Kalender, Ringe, Bilanz. Nur Tokens aus styles.css. */
+.pg-hero { align-items: stretch; }
+.pg-hero-main { flex: 1.2 1 260px; min-width: 0; display: grid; gap: 8px; align-content: start; }
+.pg-hero-main h1 { margin: 0; }
+.pg-hero-main .rank-row { margin: 4px 0 6px; }
+.pg-hero-stats { flex: 1 1 260px; min-width: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-content: center; }
+.pg-stat { display: grid; justify-items: start; gap: 2px; padding: 14px; border-radius: 16px; background: rgba(0, 0, 0, 0.35); border: 1px solid var(--line); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.pg-stat .icon { color: var(--muted); margin-bottom: 4px; }
+.pg-stat b { font-size: clamp(1.15rem, 2.4vw, 1.5rem); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pg-stat small { color: var(--muted); font-size: 0.76rem; }
+
+.pg-week { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.pg-week-tile { display: grid; gap: 2px; padding: 16px; border-radius: 18px; background: var(--panel); background-image: var(--gloss-top, none); border: 1px solid var(--line); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07); }
+.pg-week-tile small { color: var(--muted); font-size: 0.78rem; font-weight: 600; }
+.pg-week-tile b { font-size: clamp(1.4rem, 3vw, 1.9rem); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+.pg-delta { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+.pg-delta.up { color: var(--good); }
+.pg-delta.down { color: var(--bad); }
+.pg-delta small { font-weight: 450; color: var(--muted); }
+
+.pg-rating { display: grid; gap: 12px; }
+.pg-rating-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.pg-rating-head h3 { margin: 0 0 2px; }
+.pg-big { display: grid; justify-items: end; text-align: right; }
+.pg-big b { font-size: 2rem; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
+.pg-curve { position: relative; height: 160px; }
+.pg-curve svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.pg-grid { stroke: rgba(255, 255, 255, 0.06); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.pg-line { fill: none; stroke: #f5f5f6; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: pg-draw 1.6s var(--ease) 0.2s forwards; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35)); }
+.pg-area { opacity: 0; animation: fadein 1s var(--ease) 0.8s forwards; }
+@keyframes pg-draw { to { stroke-dashoffset: 0; } }
+@keyframes fadein-full { to { opacity: 1; } }
+.pg-area { animation-name: fadein-full; }
+.pg-dot { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 16px rgba(255, 255, 255, 0.6); animation: pop 0.5s var(--spring) 1.5s both; }
+.pg-scale { position: absolute; inset: 0 auto 0 0; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; font-family: var(--mono); font-size: 0.7rem; color: var(--faint); }
+.pg-empty { display: flex; align-items: center; gap: 10px; padding: 18px; border-radius: 14px; border: 1px dashed var(--line-2); color: var(--muted); font-size: 0.9rem; }
+.pg-empty .icon { flex: none; }
+
+.pg-cal { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); grid-auto-columns: minmax(0, 1fr); gap: 4px; max-width: 440px; }
+.pg-cal span, .pg-legend i { aspect-ratio: 1; border-radius: 4px; background: rgba(255, 255, 255, 0.05); }
+.pg-cal span.l-1 { visibility: hidden; }
+.pg-cal .l1, .pg-legend .l1 { background: rgba(255, 255, 255, 0.22); }
+.pg-cal .l2, .pg-legend .l2 { background: rgba(255, 255, 255, 0.42); }
+.pg-cal .l3, .pg-legend .l3 { background: rgba(255, 255, 255, 0.68); }
+.pg-cal .l4, .pg-legend .l4 { background: #fff; box-shadow: 0 0 8px rgba(255, 255, 255, 0.4); }
+.pg-cal span { animation: pop 0.4s var(--ease) both; }
+.pg-legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; max-width: 440px; font-size: 0.74rem; color: var(--muted); }
+.pg-legend i { width: 12px; display: inline-block; }
+.pg-legend span { margin: 0 4px; }
+
+.pg-rings { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.pg-ring { display: flex; align-items: center; gap: 14px; transition: transform 0.4s var(--ease), border-color 0.25s; }
+.pg-ring:hover { transform: translateY(-2px); border-color: var(--line-2); }
+.pg-ring .ring-label b { font-size: 1.4rem; }
+.pg-ring > span { display: grid; gap: 2px; min-width: 0; }
+.pg-ring > span small { color: var(--muted); font-size: 0.8rem; }
+
+.pg-record { display: grid; gap: 8px; margin-bottom: 12px; }
+.pg-wdl { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: rgba(255, 255, 255, 0.05); gap: 2px; }
+.pg-wdl i { min-width: 0; transition: flex 1s var(--ease); }
+.pg-wdl .w, .pg-wdl-legend .w { background: linear-gradient(180deg, #fff, #d4d4d8); }
+.pg-wdl .d, .pg-wdl-legend .d { background: #6b6b73; }
+.pg-wdl .l, .pg-wdl-legend .l { background: rgba(248, 113, 113, 0.7); }
+.pg-wdl-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.82rem; color: var(--text-2); }
+.pg-wdl-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.pg-wdl-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+@media (max-width: 1100px) {
+  .pg-rings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .pg-hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .pg-stat { padding: 10px; }
+  .pg-stat small { font-size: 0.7rem; }
+  .pg-week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pg-rings { grid-template-columns: 1fr; }
+  .pg-ring { gap: 12px; }
+  .pg-cal { gap: 3px; }
+  .pg-big b { font-size: 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-line { stroke-dashoffset: 0; animation: none; }
+  .pg-area { opacity: 1; animation: none; }
+}

@@ -857,3 +857,144 @@ select.input { appearance: none; -webkit-appearance: none; }
 /* Spiel-Buttons: Symbol über Text, damit fünf nebeneinander passen */
 .game-actions { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; }
 .game-actions .btn { flex-direction: column; gap: 3px; font-size: 0.74rem; padding: 8px 4px; min-height: 58px; }
+
+/* =====================================================================
+   Glossy-Ebene: Glas, Lichtkanten, Glanz – liegt über dem Grunddesign.
+   ===================================================================== */
+:root {
+  --gloss-top: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.015) 38%, rgba(255, 255, 255, 0) 60%);
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+  --glass: rgba(22, 22, 25, 0.62);
+}
+/* Langsames, kaum sichtbares Licht im Hintergrund */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 35% at 20% 15%, rgba(255, 255, 255, 0.05), transparent 70%),
+    radial-gradient(35% 30% at 85% 80%, rgba(180, 190, 255, 0.035), transparent 70%);
+  animation: aurora 38s ease-in-out infinite alternate;
+}
+@keyframes aurora { to { transform: translate3d(6%, 4%, 0) rotate(8deg); } }
+
+/* Karten & Flächen: Glas mit Lichtkante oben */
+.card, .task, .unit, .opening-card, .tile, .bot-card, .player, .hs, .stat, .acc, .summary-grid > div, .mini-stats > div, .quiz-opt, .row-link:hover {
+  box-shadow: var(--edge);
+}
+.card, .task, .unit, .opening-card, .player {
+  background-image: var(--gloss-top);
+}
+.card { background-color: var(--panel); }
+.hero-card { box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.03); }
+.hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.07) 45%, transparent 60%);
+  transform: translateX(-100%);
+  animation: sheen 7s ease-in-out 1.2s infinite;
+}
+@keyframes sheen { 0% { transform: translateX(-100%); } 35%, 100% { transform: translateX(100%); } }
+
+/* Buttons: glänzend, mit Lichtschimmer beim Drüberfahren */
+.btn { overflow: hidden; isolation: isolate; }
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.45) 50%, transparent 75%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease);
+  pointer-events: none;
+}
+.btn.primary {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.92) 48%, rgba(228, 228, 232, 1) 52%, rgba(214, 214, 219, 1) 100%);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px -8px rgba(255, 255, 255, 0.4);
+}
+.btn.primary:hover:not(:disabled) { box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.5), 0 14px 40px -8px rgba(255, 255, 255, 0.55); }
+.btn.primary::after { background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.95) 50%, transparent 70%); }
+.btn.ghost, .btn.secondary, .icon-btn { background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+.btn.ghost::after, .btn.secondary::after { background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%); }
+@media (hover: hover) {
+  .btn:hover:not(:disabled)::after { transform: translateX(120%); }
+}
+.btn.on { background-image: linear-gradient(180deg, #fff, #dcdce0); box-shadow: inset 0 1px 0 #fff, 0 6px 20px -6px rgba(255, 255, 255, 0.45); }
+.seg { box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.05); }
+.seg button.on { background: linear-gradient(180deg, #ffffff, #dedee2); box-shadow: inset 0 1px 0 #fff, 0 4px 14px -4px rgba(255, 255, 255, 0.4); }
+.chip { background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+.input { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45); }
+.input:focus { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45), 0 0 0 4px rgba(255, 255, 255, 0.08); }
+.switch span { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5); }
+.switch input:checked + span { background: linear-gradient(180deg, #fff, #d4d4d8); }
+
+/* Glas-Leisten oben, unten und an der Seite */
+.topbar { background: linear-gradient(180deg, rgba(14, 14, 16, 0.82), rgba(10, 10, 11, 0.62)); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05); }
+.sidebar { box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04); }
+.nav-item.active { background: linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.05); }
+@media (max-width: 900px) {
+  .tabbar {
+    left: 10px;
+    right: 10px;
+    bottom: calc(8px + var(--safe-b));
+    border-radius: 24px;
+    padding: 6px;
+    min-height: var(--tabbar-h);
+    background: linear-gradient(180deg, rgba(34, 34, 38, 0.78), rgba(18, 18, 20, 0.82));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 18px 40px -12px rgba(0, 0, 0, 0.85);
+  }
+  .tabbar a, .tabbar button { border-radius: 18px; transition: color 0.25s, background 0.3s var(--ease); }
+  .tabbar a.active, .tabbar button.active { background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+  .tabbar a.active::after { display: none; }
+  .content { padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 40px); }
+  .more-sheet { bottom: calc(var(--tabbar-h) + var(--safe-b) + 22px); background: linear-gradient(180deg, rgba(36, 36, 40, 0.94), rgba(20, 20, 22, 0.96)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), var(--shadow-lg); }
+  .toasts { bottom: calc(var(--tabbar-h) + var(--safe-b) + 22px); }
+  .play-setup .sticky-cta { bottom: calc(var(--tabbar-h) + var(--safe-b) + 20px); }
+}
+
+/* Brett mit edlem, glänzendem Rahmen */
+.board {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 0 5px #17171a,
+    0 0 0 6px rgba(255, 255, 255, 0.07),
+    0 30px 70px -25px rgba(0, 0, 0, 0.95),
+    0 0 120px -40px rgba(255, 255, 255, 0.1);
+}
+.board::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.04));
+  border-radius: inherit;
+}
+.board-with-eval { padding: 6px; }
+.game-board-col .player { margin-inline: 6px; }
+
+/* Kacheln: Lichtreflex beim Drüberfahren */
+.tile::after { transition: opacity 0.4s; }
+.tile .tile-text::after { content: none; }
+.tile:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 50px -20px rgba(0, 0, 0, 0.9); }
+.bot-card.on { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 40px -16px rgba(0, 0, 0, 0.9), 0 0 40px -10px rgba(255, 255, 255, 0.25); }
+.modal { box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.03); }
+.clock.run { background: linear-gradient(180deg, #ffffff, #dcdce0); box-shadow: inset 0 1px 0 #fff, 0 6px 18px -6px rgba(255, 255, 255, 0.45); }
+.task.done .task-state, .res.win { background: linear-gradient(180deg, #ffffff, #d4d4d8); }
+
+@media (prefers-reduced-motion: reduce) {
+  body::after, .hero-card::before { animation: none; }
+}
+/* Startseite: einfacher lesbar */
+.home-help { margin: 6px 0 0; color: var(--muted); font-size: 0.88rem; }
+.task-num { width: 26px; height: 26px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 0.8rem; font-weight: 700; color: var(--text-2); background: rgba(255, 255, 255, 0.06); border: 1px solid var(--line-2); font-variant-numeric: tabular-nums; }
+.task.done .task-num { background: transparent; color: var(--faint); }
+.home-progress { transition: transform 0.4s var(--ease), border-color 0.25s; }
+.home-progress:hover { transform: translateY(-2px); border-color: var(--line-2); }
+@media (max-width: 560px) { .task-num { display: none; } }

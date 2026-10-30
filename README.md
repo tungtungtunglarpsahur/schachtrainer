@@ -5,6 +5,16 @@
 
 ---
 
+## Neu in Version 2.1
+
+- **Tutorial nach der Umfrage** – 8 kurze Schritte mit echtem Brett zum Ausprobieren (Figur ziehen, erstes Rätsel, Pfeile, Navigation), danach direkt ins Testspiel.
+- **Testspiel mit Einstufung** – der Bot passt seine Stärke nach jedem deiner Züge an; nach 15 Zügen bekommst du deine Wertung (Elo) mit Genauigkeit.
+- **Fortschritt-Seite** – Wertungs-Kurven, Woche im Vergleich, 12-Wochen-Kalender, Stärken/Schwächen, Lernstand, Partien-Bilanz und Erfolge; eigener Tab unten.
+- **Coach zeigt es auf dem Brett** – die betroffene Figur leuchtet auf („Patzer ?? – deine Dame auf h7 steht ungedeckt“), Zug-Symbole wie ?? oder ★ direkt auf dem Feld, auch in der Analyse.
+- **Pfeile wie bei chess.com** – Rechtsklick ziehen (Shift/Strg/Alt für Farben), vom leeren Feld aus ziehen oder auf dem Handy den Pfeil-Modus nutzen.
+- **Flüssiges Ziehen** – keine Ruckler und kein Aufblinken mehr beim Ziehen mit Maus oder Finger.
+- **Glossy-Design** – Glas-Flächen mit Lichtkanten, glänzende Buttons mit Lichtschimmer, schwebende Tab-Leiste, Brett mit Rahmen; einfachere Startseite.
+
 ## Neu in Version 2
 
 - **Neues Design „Graphit“** – Schwarz, Grautöne, Weiß als Akzent. Weiche Seitenübergänge, gestaffelte Einblendungen, Federn-Animationen bei Buttons, Karten und Brett. Respektiert „Bewegung reduzieren“.

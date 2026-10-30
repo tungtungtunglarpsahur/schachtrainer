@@ -41,13 +41,22 @@ function taskInfo(task, content) {
 }
 
 const TILES = [
-  { href: '#/puzzles/train', title: 'Rätsel-Training', sub: 'Endlos, auf deinem Niveau', art: 'tactic', badge: 'HOT', icon: 'wN' },
-  { href: '#/puzzles/rush', title: 'Rätsel-Rush', sub: '3 Minuten. 3 Fehler. Los.', art: 'rush', badge: 'LIVE', icon: 'wQ' },
-  { href: '#/play', title: 'Probepartie', sub: 'Elo 400 bis 3000 + Coach', art: 'play', badge: 'NEU', icon: 'bK' },
-  { href: '#/openings', title: 'Eröffnungen', sub: 'Repertoire mit Wiederholung', art: 'open', icon: 'wB' },
-  { href: '#/analysis', title: 'Analysebrett', sub: 'Stockfish 18 + Matt-Finder', art: 'scope', icon: 'wR' },
-  { href: '#/puzzles/theme-patterns', title: 'Mattbilder', sub: 'Erstickt, Anastasia & Co.', art: 'mate', icon: 'bQ' },
+  { href: '#/play', title: 'Partie spielen', sub: 'Gegen einen Bot – der Coach hilft dir', art: 'play', icon: 'bK' },
+  { href: '#/puzzles/train', title: 'Rätsel lösen', sub: 'Immer passend zu deinem Niveau', art: 'tactic', icon: 'wN' },
+  { href: '#/openings', title: 'Eröffnungen', sub: 'Gute erste Züge lernen', art: 'open', icon: 'wB' },
+  { href: '#/puzzles/rush', title: 'Rätsel-Rush', sub: '3 Minuten gegen die Uhr', art: 'rush', icon: 'wQ' },
 ];
+
+const DAY = 864e5;
+const weekMinutes = (s) => {
+  let sec = 0;
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(Date.now() - i * DAY);
+    const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    sec += s.days[k]?.seconds || 0;
+  }
+  return Math.round(sec / 60);
+};
 
 export function GameTile({ href, title, sub, art, badge, icon }) {
   return html`<a href=${href} class=${`tile art-${art}`}>
@@ -84,10 +93,11 @@ export function Home() {
       <div class="hero-left">
         <p class="eyebrow">${hi}${s.profile.name ? `, ${s.profile.name}` : ''} 👋</p>
         <h1>${done === items.length && items.length ? 'Tagesziel geschafft!' : 'Dein Training für heute'}</h1>
-        <p class="muted">${items.length} Aufgabe${items.length === 1 ? '' : 'n'} · ca. ${s.profile.minutes} Minuten · ${done}/${items.length} erledigt</p>
+        <p class="muted">${items.length} kurze Aufgabe${items.length === 1 ? '' : 'n'} · ca. ${s.profile.minutes} Minuten · ${done}/${items.length} erledigt</p>
         ${nextItem
           ? html`<a class="btn primary xl" href=${nextItem.info.href}><${Icon} name="play" /> ${done ? 'Weiter' : 'Jetzt starten'}: ${nextItem.info.title}</a>`
           : html`<a class="btn primary xl" href="#/puzzles/train"><${Icon} name="bolt" /> Bonus-Runde: Rätsel</a>`}
+        ${!done && nextItem ? html`<p class="home-help">Tippe auf den Knopf – wir führen dich Schritt für Schritt durch dein Training.</p>` : null}
       </div>
       <div class="hero-right">
         <${Ring} value=${goalPct} size=${132} stroke=${12}>
@@ -104,10 +114,11 @@ export function Home() {
     html`<a class="banner resume" href="#/puzzles/mine"><${Icon} name="repeat" /> <span><b>${mineDue} Stellung${mineDue === 1 ? '' : 'en'} aus deinen Partien</b> ${mineDue === 1 ? 'wartet' : 'warten'} auf Revanche – finde diesmal den besten Zug.</span></a>`}
 
     <section>
-      <div class="section-head"><h2>Tagesplan</h2><a href="#/settings" class="link">Plan anpassen</a></div>
+      <div class="section-head"><h2>Dein Plan für heute</h2><a href="#/settings" class="link">Plan ändern</a></div>
       <div class="task-list">
         ${items.map(
-          ({ info, p }) => html`<a href=${info.href} class=${`task ${p >= 1 ? 'done' : ''}`}>
+          ({ info, p }, i) => html`<a href=${info.href} class=${`task ${p >= 1 ? 'done' : ''}`}>
+            <span class="task-num">${i + 1}</span>
             <span class="task-ico"><${PieceIcon} p=${info.icon} size=${34} /></span>
             <span class="task-body"><small class="tag">${info.tag} · ${info.min} Min</small><b>${info.title}</b><small>${info.sub}</small>
               ${p > 0 && p < 1 ? html`<${Bar} value=${p} />` : null}</span>
@@ -124,7 +135,7 @@ export function Home() {
     </section>`}
 
     <section>
-      <div class="section-head"><h2>Spielhalle</h2></div>
+      <div class="section-head"><h2>Mehr trainieren</h2></div>
       <div class="tiles">${TILES.map((t) => html`<${GameTile} ...${t} />`)}</div>
     </section>
 
@@ -138,16 +149,16 @@ export function Home() {
             })
           : html`<p class="muted">Du hast alle Lektionen durch. Respekt! 🏆</p>`}
       </div>
-      <div class="card rank-card" style=${{ '--rank': rank.color }}>
-        <div class="section-head"><h3>Dein Rang</h3><span class="muted">${s.xp} XP</span></div>
+      <a class="card rank-card home-progress" href="#/progress" style=${{ '--rank': rank.color }}>
+        <div class="section-head"><h3>Dein Fortschritt</h3><span class="link">Alles ansehen <${Icon} name="next" size=${14} /></span></div>
         <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${54} /><div><b>${rank.name}</b><small>${rank.next ? `Noch ${rank.next.xp - s.xp} XP bis ${rank.next.name}` : 'Höchster Rang erreicht'}</small></div></div>
         <${Bar} value=${rank.progress} color=${rank.color} />
         <div class="mini-stats">
+          <div><small>Wertung</small><b>${s.play.rating}</b></div>
           <div><small>Rätsel</small><b>${s.puzzle.rating}</b></div>
-          <div><small>Spiel-Elo</small><b>${s.play.rating}</b></div>
-          <div><small>Fällig</small><b>${due}</b></div>
+          <div><small>Diese Woche</small><b>${weekMinutes(s)} min</b></div>
         </div>
-      </div>
+      </a>
     </section>
   </div>`;
 }

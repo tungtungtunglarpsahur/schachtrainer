@@ -22,7 +22,7 @@ const finish = (hash) => {
 };
 
 /** Mitmach-Brett: genau ein richtiger Zug, alles andere wird freundlich zurückgesetzt. */
-function Practice({ fen, target, marks, arrows, hintArrows, wrongText, onSolved, solved, solvedText, checkMate = false }) {
+function Practice({ fen, target, marks, arrows, hintArrows, wrongText, onSolved, solved, solvedText, tip = null, checkMate = false }) {
   const [pos, setPos] = useState(fen);
   const [last, setLast] = useState(null);
   const [flash, setFlash] = useState(null);
@@ -82,7 +82,9 @@ function Practice({ fen, target, marks, arrows, hintArrows, wrongText, onSolved,
         ? html`<p class="tu-ok"><span class="tu-ok-ico"><${Icon} name="check" size=${18} /></span>${solvedText}</p>`
         : msg
           ? html`<p class="tu-hint" key=${wrong}>${msg}${showHint && hintArrows ? ' Der Pfeil zeigt dir den Weg.' : ''}</p>`
-          : null}
+          : tip
+            ? html`<p class="tu-tip"><${Icon} name="bulb" size=${18} /> <span>${tip}</span></p>`
+            : null}
     </div>
   </div>`;
 }
@@ -212,9 +214,9 @@ export function Tutorial() {
       />`,
 
     puzzle: () => html`
-      ${head('Schritt 2 · Rätsel', 'Dein erstes Rätsel', 'Weiß ist am Zug und kann sofort gewinnen. Finde den Zug, der den schwarzen König mattsetzt.')}
-      <p class="tu-tip"><${Icon} name="bulb" size=${18} /> <span>Tipp: Der König kann nicht weg – seine eigenen Bauern stehen im Weg.</span></p>
+      ${head('Schritt 2 · Rätsel', 'Dein erstes Rätsel', 'Weiß ist am Zug und setzt sofort matt. Findest du den Zug?')}
       <${Practice}
+        tip="Tipp: Der schwarze König kann nicht weg – seine eigenen Bauern stehen im Weg." 
         fen=${PUZZLE_FEN}
         target="a1a8"
         checkMate
