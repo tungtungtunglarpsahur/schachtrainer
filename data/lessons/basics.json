@@ -1,0 +1,2896 @@
+{
+ "units": [
+  {
+   "id": "basics-board",
+   "track": "basics",
+   "level": 0,
+   "title": "Das Schachbrett",
+   "description": "Lerne das Spielfeld kennen: Felder, Linien, Reihen und die Startaufstellung.",
+   "icon": "wR"
+  },
+  {
+   "id": "basics-pieces",
+   "track": "basics",
+   "level": 0,
+   "title": "Die Figuren",
+   "description": "Wie jede Figur zieht – Schritt für Schritt, mit Sternen zum Einsammeln.",
+   "icon": "wN"
+  },
+  {
+   "id": "basics-capture",
+   "track": "basics",
+   "level": 0,
+   "title": "Schlagen & Figurenwert",
+   "description": "Wann sich Schlagen lohnt – und wann es eine Falle ist.",
+   "icon": "wB"
+  },
+  {
+   "id": "basics-check",
+   "track": "basics",
+   "level": 0,
+   "title": "Schach, Matt & Patt",
+   "description": "Greif den König an, rette deinen eigenen – und setz matt.",
+   "icon": "wK"
+  },
+  {
+   "id": "basics-special",
+   "track": "basics",
+   "level": 0,
+   "title": "Spezialzüge",
+   "description": "Rochade, Umwandlung und en passant – die drei Sonderregeln.",
+   "icon": "wQ"
+  },
+  {
+   "id": "basics-game",
+   "track": "basics",
+   "level": 0,
+   "title": "Deine erste Partie",
+   "description": "Alles, was du für deine erste richtige Partie brauchst.",
+   "icon": "wP"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "basics-squares",
+   "unit": "basics-board",
+   "title": "Felder & Koordinaten",
+   "subtitle": "Jedes Feld hat einen Namen – wie eine Adresse.",
+   "minutes": 3,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Willkommen bei Gambit! Schach spielst du auf einem Brett mit **64 Feldern**: 8 mal 8, abwechselnd hell und dunkel.\nErste Regel beim Aufbauen: **Rechts unten liegt ein helles Feld** (grün markiert). Merkspruch: *„Hell rechts!“*\nDie beiden Könige stehen hier nur zur Deko – sie lernst du später kennen.",
+     "fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+     "marks": {
+      "h1": "g"
+     }
+    },
+    {
+     "type": "info",
+     "text": "Die senkrechten Spalten heißen **Linien**. Sie tragen Buchstaben: **a bis h**, von links nach rechts (aus Sicht von Weiß).\nBlau markiert siehst du die **c-Linie**.",
+     "fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+     "marks": {
+      "c1": "b",
+      "c2": "b",
+      "c3": "b",
+      "c4": "b",
+      "c5": "b",
+      "c6": "b",
+      "c7": "b",
+      "c8": "b"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Linie ist hier blau markiert?",
+     "fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+     "options": [
+      "Die f-Linie",
+      "Die e-Linie",
+      "Die g-Linie",
+      "Die 6. Reihe"
+     ],
+     "answer": 0,
+     "explain": "Zähl von links: a, b, c, d, e, **f**. Senkrecht = Linie, deshalb ist es keine Reihe.",
+     "marks": {
+      "f1": "b",
+      "f2": "b",
+      "f3": "b",
+      "f4": "b",
+      "f5": "b",
+      "f6": "b",
+      "f7": "b",
+      "f8": "b"
+     }
+    },
+    {
+     "type": "info",
+     "text": "Die waagerechten Zeilen heißen **Reihen**. Sie sind von **1 bis 8** nummeriert. Reihe 1 liegt bei Weiß, Reihe 8 bei Schwarz.\nGelb markiert: die **3. Reihe**.",
+     "fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+     "marks": {
+      "a3": "y",
+      "b3": "y",
+      "c3": "y",
+      "d3": "y",
+      "e3": "y",
+      "f3": "y",
+      "g3": "y",
+      "h3": "y"
+     }
+    },
+    {
+     "type": "info",
+     "text": "Jetzt kombinierst du beides: Wo sich eine Linie und eine Reihe kreuzen, liegt ein Feld. Erst kommt der **Buchstabe**, dann die **Zahl**.\nc-Linie + 3. Reihe = **c3**. Wie bei *Schiffe versenken* – nur mit mehr Stil.",
+     "fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+     "arrows": [
+      [
+       "c1",
+       "c3",
+       "b"
+      ],
+      [
+       "a3",
+       "c3",
+       "y"
+      ]
+     ],
+     "marks": {
+      "c3": "g"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Wie heißt das grün markierte Feld?",
+     "fen": "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+     "options": [
+      "e5",
+      "5e",
+      "d5",
+      "e4"
+     ],
+     "answer": 0,
+     "explain": "e-Linie, 5. Reihe: **e5**. Immer zuerst der Buchstabe, dann die Zahl.",
+     "marks": {
+      "e5": "g"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Außer den Königen steht hier eine weiße **Dame** auf dem Brett. Auf welchem Feld steht sie?",
+     "fen": "4k3/8/8/6Q1/8/8/8/4K3 w - - 0 1",
+     "options": [
+      "g5",
+      "h5",
+      "g4",
+      "f6"
+     ],
+     "answer": 0,
+     "explain": "Die Dame steht auf der g-Linie in der 5. Reihe – also auf **g5**."
+    },
+    {
+     "type": "quiz",
+     "text": "Jetzt siehst du das Brett aus Sicht von **Schwarz** – es ist einmal umgedreht. Die Feldnamen bleiben aber gleich! Auf welchem Feld steht der schwarze Springer?",
+     "fen": "4k3/8/2n5/8/8/8/8/4K3 b - - 0 1",
+     "options": [
+      "c6",
+      "f3",
+      "c3",
+      "f6"
+     ],
+     "answer": 0,
+     "explain": "**c6**. Von Schwarz aus liegt die a-Linie rechts und die 1. Reihe oben. Die Namen kleben trotzdem fest an ihren Feldern.",
+     "orientation": "b"
+    },
+    {
+     "type": "quiz",
+     "text": "Ohne Spicken: Welche Farbe hat das Feld **a1** (links unten)?",
+     "options": [
+      "Hell",
+      "Dunkel"
+     ],
+     "answer": 1,
+     "explain": "Rechts unten (h1) ist hell – also ist links unten (a1) **dunkel**."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• 64 Felder, rechts unten hell.\n• Linien = senkrecht, Buchstaben a–h.\n• Reihen = waagerecht, Zahlen 1–8.\n• Feldname = Buchstabe + Zahl, z. B. e4.\nDamit kannst du jeden Zug lesen. Weiter geht’s!"
+    }
+   ]
+  },
+  {
+   "id": "basics-setup",
+   "unit": "basics-board",
+   "title": "Die Grundstellung",
+   "subtitle": "So stehen die Figuren vor dem ersten Zug.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "So beginnt jede Partie. **Weiß** steht unten auf den Reihen 1 und 2, **Schwarz** oben auf den Reihen 7 und 8.\nJede Seite hat 16 Figuren: 8 Bauern, 2 Türme, 2 Springer, 2 Läufer, 1 Dame und 1 König.\nGanz vorne (grün) stehen die **Bauern** – eine Mauer aus acht kleinen Kämpfern.",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "marks": {
+      "a2": "g",
+      "b2": "g",
+      "c2": "g",
+      "d2": "g",
+      "e2": "g",
+      "f2": "g",
+      "g2": "g",
+      "h2": "g",
+      "a7": "g",
+      "b7": "g",
+      "c7": "g",
+      "d7": "g",
+      "e7": "g",
+      "f7": "g",
+      "g7": "g",
+      "h7": "g"
+     }
+    },
+    {
+     "type": "info",
+     "text": "Dahinter, von außen nach innen:\n• In den Ecken die **Türme** (blau).\n• Daneben die **Springer** (grün) – die mit dem Pferdekopf.\n• Dann die **Läufer** (gelb).",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "marks": {
+      "a1": "b",
+      "h1": "b",
+      "a8": "b",
+      "h8": "b",
+      "b1": "g",
+      "g1": "g",
+      "b8": "g",
+      "g8": "g",
+      "c1": "y",
+      "f1": "y",
+      "c8": "y",
+      "f8": "y"
+     }
+    },
+    {
+     "type": "info",
+     "text": "In die Mitte kommen **Dame** und **König**.\nTrick: **Die Dame steht auf ihrer Farbe.** Die weiße Dame auf dem hellen Feld d1, die schwarze auf dem dunklen Feld d8 (grün). Der König steht direkt daneben auf e1 bzw. e8 (gelb).",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "marks": {
+      "d1": "g",
+      "d8": "g",
+      "e1": "y",
+      "e8": "y"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Auf welchem Feld steht die **weiße Dame** zu Beginn?",
+     "options": [
+      "d1",
+      "e1",
+      "d8",
+      "c1"
+     ],
+     "answer": 0,
+     "explain": "**d1** – die Dame steht auf ihrer Farbe, und d1 ist hell."
+    },
+    {
+     "type": "quiz",
+     "text": "Stimmt diese Aufstellung bei Weiß?",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1",
+     "options": [
+      "Ja, alles richtig",
+      "Nein – Dame und König sind vertauscht",
+      "Nein – die Türme stehen falsch"
+     ],
+     "answer": 1,
+     "explain": "Die weiße Dame gehört auf das helle Feld d1, der König auf e1. Hier sind die beiden vertauscht."
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Figur steht in der Grundstellung auf **g1**?",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "options": [
+      "Springer",
+      "Läufer",
+      "Turm",
+      "König"
+     ],
+     "answer": 0,
+     "explain": "Auf g1 (und b1) stehen die weißen **Springer** – direkt neben den Türmen.",
+     "marks": {
+      "g1": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Weiß beginnt immer! Mach deinen allerersten Zug: Zieh den Bauern von **e2 nach e4**.",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e2e4"
+     ],
+     "hint": "Zieh den Bauern vor dem König zwei Felder nach vorne.",
+     "success": "Herzlichen Glückwunsch zu deinem ersten Zug! e4 ist übrigens einer der beliebtesten Eröffnungszüge.",
+     "arrows": [
+      [
+       "e2",
+       "e4",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Auf welcher Reihe stehen die **schwarzen Bauern** zu Beginn?",
+     "options": [
+      "7. Reihe",
+      "8. Reihe",
+      "2. Reihe"
+     ],
+     "answer": 0,
+     "explain": "Die schwarzen Bauern stehen auf der **7. Reihe**, direkt vor den Figuren auf der 8. Reihe."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Hell rechts unten.\n• Türme in die Ecken, dann Springer, dann Läufer.\n• Die Dame auf ihre Farbe, der König daneben.\n• Die Bauern als Mauer davor.\n• **Weiß zieht immer zuerst.**",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    }
+   ]
+  },
+  {
+   "id": "basics-rook",
+   "unit": "basics-pieces",
+   "title": "Der Turm",
+   "subtitle": "Geradeaus – so weit er will.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Turm** zieht **geradeaus**: nach vorne, nach hinten, nach links oder nach rechts – so viele Felder er will, aber immer in **einer** Richtung pro Zug.",
+     "fen": "7k/8/8/8/3R4/8/8/K7 w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "d8",
+       "g"
+      ],
+      [
+       "d4",
+       "d1",
+       "g"
+      ],
+      [
+       "d4",
+       "a4",
+       "g"
+      ],
+      [
+       "d4",
+       "h4",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Sammle beide Sterne mit dem Turm. Ein Stern zählt nur, wenn du genau **auf** ihm landest.",
+     "piece": "wR",
+     "start": "a1",
+     "stars": [
+      "a6",
+      "f6"
+     ],
+     "par": 2
+    },
+    {
+     "type": "stars",
+     "text": "Drei Sterne, drei Züge? Plane deinen Weg, bevor du losziehst.",
+     "piece": "wR",
+     "start": "d1",
+     "stars": [
+      "d7",
+      "h7",
+      "h2"
+     ],
+     "par": 3
+    },
+    {
+     "type": "info",
+     "text": "Springen kann der Turm nicht. Steht eine **eigene** Figur im Weg, ist davor Schluss: Nach oben kommt er nur bis d5.\nSteht eine **gegnerische** Figur im Weg, darf er sie **schlagen** (roter Pfeil): Er landet auf ihrem Feld, die Figur fliegt vom Brett. Dahinter geht es nicht weiter.",
+     "fen": "7k/8/3P4/8/3R2n1/8/8/K7 w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "d5",
+       "g"
+      ],
+      [
+       "d4",
+       "a4",
+       "g"
+      ],
+      [
+       "d4",
+       "d1",
+       "g"
+      ],
+      [
+       "d4",
+       "g4",
+       "r"
+      ]
+     ],
+     "marks": {
+      "d6": "y"
+     }
+    },
+    {
+     "type": "stars",
+     "text": "Jetzt stehen **Mauern** im Weg. Der Turm kann nicht über sie hinweg – such dir einen Umweg!",
+     "piece": "wR",
+     "start": "a1",
+     "stars": [
+      "h8",
+      "d5"
+     ],
+     "par": 4,
+     "walls": [
+      "a6",
+      "e1",
+      "d7"
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Schwarze Figuren darfst du **schlagen**. Sie versperren dir aber den Weg dahinter. Manchmal ist Schlagen die Abkürzung!",
+     "piece": "wR",
+     "start": "a1",
+     "stars": [
+      "a8",
+      "h8"
+     ],
+     "par": 3,
+     "walls": [
+      "b1"
+     ],
+     "enemies": {
+      "a4": "bP"
+     }
+    },
+    {
+     "type": "stars",
+     "text": "Profi-Runde: Mauern **und** Gegner. Finde den kürzesten Weg zu allen drei Sternen.",
+     "piece": "wR",
+     "start": "a1",
+     "stars": [
+      "a8",
+      "h8",
+      "e5"
+     ],
+     "par": 6,
+     "walls": [
+      "b1",
+      "e8"
+     ],
+     "enemies": {
+      "a4": "bP",
+      "h5": "bN"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Auf wie viele Felder kann der Turm hier ziehen?",
+     "fen": "7k/8/8/8/3R4/8/8/K7 w - - 0 1",
+     "options": [
+      "8",
+      "14",
+      "16"
+     ],
+     "answer": 1,
+     "explain": "**14**: 7 Felder auf seiner Linie und 7 auf seiner Reihe. Auf einem leeren Brett sind es immer 14 – egal, wo er steht."
+    },
+    {
+     "type": "move",
+     "text": "Dein Turm kann eine schwarze Figur schlagen. Welche? Schlag sie!",
+     "fen": "7k/8/n7/8/P7/8/7K/R4b2 w - - 0 1",
+     "goal": "capture",
+     "hint": "Nach oben versperrt dein eigener Bauer den Weg. Schau mal nach rechts.",
+     "success": "Genau! Der Springer auf a6 war hinter deinem eigenen Bauern sicher – der Läufer nicht."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Der Turm zieht gerade: vor, zurück, links, rechts.\n• So weit er will – aber nie über Figuren.\n• Er schlägt, indem er auf das Feld der gegnerischen Figur zieht.\nProfi-Tipp: Türme lieben **offene Linien** ohne Bauern."
+    }
+   ]
+  },
+  {
+   "id": "basics-bishop",
+   "unit": "basics-pieces",
+   "title": "Der Läufer",
+   "subtitle": "Schräg übers Brett – und immer auf seiner Farbe.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Läufer** zieht **schräg** (diagonal) – in alle vier Richtungen, so weit er will. Auch er kann nicht über Figuren springen.",
+     "fen": "4k3/8/8/8/3B4/8/8/4K3 w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "h8",
+       "g"
+      ],
+      [
+       "d4",
+       "a1",
+       "g"
+      ],
+      [
+       "d4",
+       "a7",
+       "g"
+      ],
+      [
+       "d4",
+       "g1",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Sammle die Sterne mit dem Läufer. Immer schön schräg!",
+     "piece": "wB",
+     "start": "c1",
+     "stars": [
+      "f4",
+      "b8"
+     ],
+     "par": 2
+    },
+    {
+     "type": "info",
+     "text": "Ist dir was aufgefallen? Alle Sterne lagen auf **dunklen** Feldern. Ein Läufer bleibt nämlich **immer auf seiner Feldfarbe**: Der Läufer auf c1 (gelb) betritt nie ein helles Feld, der auf f1 (blau) nie ein dunkles.\nDarum hat jede Seite einen **schwarzfeldrigen** und einen **weißfeldrigen** Läufer.",
+     "fen": "4k3/8/8/8/8/8/8/2B1KB2 w - - 0 1",
+     "arrows": [
+      [
+       "c1",
+       "h6",
+       "y"
+      ],
+      [
+       "f1",
+       "a6",
+       "b"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Drei Sterne im Zickzack. Siehst du die Diagonalen?",
+     "piece": "wB",
+     "start": "f1",
+     "stars": [
+      "b5",
+      "e8",
+      "h5"
+     ],
+     "par": 3
+    },
+    {
+     "type": "stars",
+     "text": "Mauern versperren die direkten Wege. Finde die Umleitung!",
+     "piece": "wB",
+     "start": "c1",
+     "stars": [
+      "h8",
+      "e7"
+     ],
+     "par": 4,
+     "walls": [
+      "d2",
+      "e5"
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Zwei schwarze Figuren blockieren dich. Welche schlägst du zuerst?",
+     "piece": "wB",
+     "start": "f1",
+     "stars": [
+      "a6",
+      "h7"
+     ],
+     "par": 4,
+     "enemies": {
+      "e2": "bP",
+      "g2": "bN"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Ein Läufer steht auf **c1** (dunkles Feld). Kann er irgendwann das helle Feld **e4** erreichen?",
+     "fen": "4k3/8/8/8/8/8/8/2B1K3 w - - 0 1",
+     "options": [
+      "Ja, in zwei Zügen",
+      "Ja, aber nur mit Schlagen",
+      "Nein, niemals"
+     ],
+     "answer": 2,
+     "explain": "Ein Läufer wechselt nie die Feldfarbe. Ein dunkelfeldriger Läufer kommt nie auf ein helles Feld.",
+     "marks": {
+      "e4": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Dein Läufer kann eine schwarze Figur schlagen. Schnapp sie dir!",
+     "fen": "4k3/6r1/8/1n6/8/8/1B6/K7 w - - 0 1",
+     "goal": "capture",
+     "hint": "Folge der langen Diagonale von b2 nach oben rechts.",
+     "success": "Stark! Der Turm auf g7 lag genau auf deiner Diagonale."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Der Läufer zieht schräg, so weit er will.\n• Er bleibt immer auf seiner Feldfarbe.\n• Am stärksten ist er auf **langen, offenen Diagonalen**."
+    }
+   ]
+  },
+  {
+   "id": "basics-queen",
+   "unit": "basics-pieces",
+   "title": "Die Dame",
+   "subtitle": "Turm plus Läufer – die stärkste Figur.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die **Dame** kann alles, was Turm und Läufer können: **gerade und schräg**, in alle acht Richtungen, so weit sie will.\nDamit ist sie die stärkste Figur im Spiel.",
+     "fen": "6k1/8/8/8/3Q4/8/8/1K6 w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "d8",
+       "g"
+      ],
+      [
+       "d4",
+       "d1",
+       "g"
+      ],
+      [
+       "d4",
+       "a4",
+       "g"
+      ],
+      [
+       "d4",
+       "h4",
+       "g"
+      ],
+      [
+       "d4",
+       "h8",
+       "g"
+      ],
+      [
+       "d4",
+       "a1",
+       "g"
+      ],
+      [
+       "d4",
+       "a7",
+       "g"
+      ],
+      [
+       "d4",
+       "g1",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Warm-up: Zwei Sterne für die Dame.",
+     "piece": "wQ",
+     "start": "d1",
+     "stars": [
+      "d7",
+      "a4"
+     ],
+     "par": 2
+    },
+    {
+     "type": "stars",
+     "text": "Vier Sterne in den Ecken und der Mitte. Nutze gerade **und** schräge Wege!",
+     "piece": "wQ",
+     "start": "a1",
+     "stars": [
+      "h8",
+      "h1",
+      "b7",
+      "e4"
+     ],
+     "par": 4
+    },
+    {
+     "type": "stars",
+     "text": "Auch die Dame kann nicht über Mauern. Such dir freie Bahnen!",
+     "piece": "wQ",
+     "start": "a1",
+     "stars": [
+      "h8",
+      "a8",
+      "h1"
+     ],
+     "par": 5,
+     "walls": [
+      "d4",
+      "a5",
+      "e1"
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Großes Finale: fünf Sterne, Mauern und Gegner. Plane clever!",
+     "piece": "wQ",
+     "start": "d1",
+     "stars": [
+      "d8",
+      "a5",
+      "h4",
+      "f7",
+      "b3"
+     ],
+     "par": 6,
+     "walls": [
+      "d4",
+      "c3",
+      "f5"
+     ],
+     "enemies": {
+      "d6": "bR",
+      "e2": "bP"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Was kann die Dame **nicht**?",
+     "options": [
+      "Gerade ziehen wie ein Turm",
+      "Schräg ziehen wie ein Läufer",
+      "Über andere Figuren springen"
+     ],
+     "answer": 2,
+     "explain": "Die Dame kombiniert Turm und Läufer – springen kann aber nur der Springer."
+    },
+    {
+     "type": "quiz",
+     "text": "Auf welches Feld kann die Dame von d1 aus in **einem** Zug **nicht** ziehen?",
+     "fen": "k7/8/8/8/8/8/7K/3Q4 w - - 0 1",
+     "options": [
+      "h5",
+      "d8",
+      "a4",
+      "e3"
+     ],
+     "answer": 3,
+     "explain": "h5 und a4 liegen auf ihren Diagonalen, d8 auf ihrer Linie. **e3** liegt weder gerade noch schräg zu d1."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Die Dame zieht gerade und schräg – so weit sie will.\n• Sie ist die stärkste Figur. Pass gut auf sie auf!\n• Profi-Tipp: Hol sie nicht zu früh raus – sonst wird sie von kleinen Figuren gejagt."
+    }
+   ]
+  },
+  {
+   "id": "basics-king",
+   "unit": "basics-pieces",
+   "title": "Der König",
+   "subtitle": "Langsam, aber unverzichtbar.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **König** ist die wichtigste Figur: Wird er mattgesetzt, ist die Partie verloren.\nEr zieht **ein Feld** weit – in jede Richtung, auch schräg.",
+     "fen": "k7/8/8/8/4K3/8/8/8 w - - 0 1",
+     "arrows": [
+      [
+       "e4",
+       "e5",
+       "g"
+      ],
+      [
+       "e4",
+       "f5",
+       "g"
+      ],
+      [
+       "e4",
+       "f4",
+       "g"
+      ],
+      [
+       "e4",
+       "f3",
+       "g"
+      ],
+      [
+       "e4",
+       "e3",
+       "g"
+      ],
+      [
+       "e4",
+       "d3",
+       "g"
+      ],
+      [
+       "e4",
+       "d4",
+       "g"
+      ],
+      [
+       "e4",
+       "d5",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Der König sammelt Sterne – Schritt für Schritt. Tipp: Schräg ist genauso schnell wie gerade!",
+     "piece": "wK",
+     "start": "a1",
+     "stars": [
+      "c3"
+     ],
+     "par": 2
+    },
+    {
+     "type": "stars",
+     "text": "Zwei Sterne. Wie kommst du am schnellsten zu beiden?",
+     "piece": "wK",
+     "start": "e1",
+     "stars": [
+      "e3",
+      "g3"
+     ],
+     "par": 4
+    },
+    {
+     "type": "stars",
+     "text": "Ein Labyrinth! Führ deinen König um die Mauern herum.",
+     "piece": "wK",
+     "start": "a1",
+     "stars": [
+      "e1"
+     ],
+     "par": 6,
+     "walls": [
+      "b1",
+      "b2",
+      "c2",
+      "d2",
+      "d1"
+     ]
+    },
+    {
+     "type": "info",
+     "text": "Jetzt wird’s ernst: In einer echten Partie darf der König **nie** auf ein Feld ziehen, das der Gegner angreift. Er läuft nicht freiwillig ins Feuer.\nHier kontrolliert der schwarze Turm die ganze f-Linie – die roten Felder sind tabu.",
+     "fen": "k4r2/8/8/8/4K3/8/8/8 w - - 0 1",
+     "arrows": [
+      [
+       "e4",
+       "e5",
+       "g"
+      ],
+      [
+       "e4",
+       "d5",
+       "g"
+      ],
+      [
+       "e4",
+       "d4",
+       "g"
+      ],
+      [
+       "e4",
+       "d3",
+       "g"
+      ],
+      [
+       "e4",
+       "e3",
+       "g"
+      ],
+      [
+       "f8",
+       "f3",
+       "r"
+      ]
+     ],
+     "marks": {
+      "f3": "r",
+      "f4": "r",
+      "f5": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Darf der weiße König nach **e5** ziehen?",
+     "fen": "8/8/4k3/8/4K3/8/8/8 w - - 0 1",
+     "options": [
+      "Ja",
+      "Nein – dann stünden die Könige direkt nebeneinander"
+     ],
+     "answer": 1,
+     "explain": "Zwei Könige dürfen nie direkt nebeneinander stehen. Der weiße König würde sich ja in den Angriff des schwarzen Königs stellen.",
+     "marks": {
+      "e5": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Die schwarzen Türme beherrschen die d- und die f-Linie. Zieh deinen König **ein Feld nach vorne** – aber nur auf ein sicheres Feld!",
+     "fen": "k2r1r2/8/8/8/4K3/8/8/8 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e4e5"
+     ],
+     "hint": "d5 und f5 werden von den Türmen angegriffen.",
+     "success": "Richtig! Auf e5 greift dich kein Turm an."
+    },
+    {
+     "type": "quiz",
+     "text": "Wie viele Felder zieht der König normalerweise pro Zug?",
+     "options": [
+      "Eins",
+      "Zwei",
+      "So viele er will"
+     ],
+     "answer": 0,
+     "explain": "Ein Feld – mit einer einzigen Ausnahme: der **Rochade**. Die lernst du bei den Spezialzügen."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Der König zieht ein Feld in jede Richtung.\n• Nie auf ein angegriffenes Feld.\n• Nie direkt neben den anderen König.\n• Ohne König kein Spiel – beschütze ihn!"
+    }
+   ]
+  },
+  {
+   "id": "basics-knight",
+   "unit": "basics-pieces",
+   "title": "Der Springer",
+   "subtitle": "Der Hüpfer mit dem L-Sprung.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Springer** ist anders als alle anderen: Er zieht in Form eines **L** – zwei Felder geradeaus und dann eins zur Seite.\nVon d4 aus kann er auf alle acht grünen Ziele springen.",
+     "fen": "k7/8/8/8/3N4/8/8/7K w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "b3",
+       "g"
+      ],
+      [
+       "d4",
+       "b5",
+       "g"
+      ],
+      [
+       "d4",
+       "c2",
+       "g"
+      ],
+      [
+       "d4",
+       "c6",
+       "g"
+      ],
+      [
+       "d4",
+       "e2",
+       "g"
+      ],
+      [
+       "d4",
+       "e6",
+       "g"
+      ],
+      [
+       "d4",
+       "f3",
+       "g"
+      ],
+      [
+       "d4",
+       "f5",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "info",
+     "text": "So entsteht das L: **zwei** Felder nach oben (gelb), dann **eins** zur Seite (gelb) – und der Springer landet auf e6 (grün).\nEr fliegt direkt dorthin. Die Felder dazwischen sind ihm egal.",
+     "fen": "k7/8/8/8/3N4/8/8/7K w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "d6",
+       "y"
+      ],
+      [
+       "d6",
+       "e6",
+       "y"
+      ],
+      [
+       "d4",
+       "e6",
+       "g"
+      ]
+     ],
+     "marks": {
+      "e6": "g"
+     }
+    },
+    {
+     "type": "stars",
+     "text": "Dein erster Sprung! Hüpf zu beiden Sternen.",
+     "piece": "wN",
+     "start": "b1",
+     "stars": [
+      "c3",
+      "d5"
+     ],
+     "par": 2
+    },
+    {
+     "type": "stars",
+     "text": "Drei Sterne, drei Sprünge. Jeder Sprung ein L!",
+     "piece": "wN",
+     "start": "g1",
+     "stars": [
+      "f3",
+      "h4",
+      "g6"
+     ],
+     "par": 3
+    },
+    {
+     "type": "info",
+     "text": "Seine Superkraft: Der Springer **springt über alles hinweg** – über eigene und gegnerische Figuren. Selbst komplett eingemauert kommt er raus!\nDeshalb kann er auch in der Grundstellung schon im ersten Zug ziehen.",
+     "fen": "k7/8/8/2PPP3/2PNP3/2PPP3/8/7K w - - 0 1",
+     "arrows": [
+      [
+       "d4",
+       "b3",
+       "g"
+      ],
+      [
+       "d4",
+       "b5",
+       "g"
+      ],
+      [
+       "d4",
+       "c2",
+       "g"
+      ],
+      [
+       "d4",
+       "c6",
+       "g"
+      ],
+      [
+       "d4",
+       "e2",
+       "g"
+      ],
+      [
+       "d4",
+       "e6",
+       "g"
+      ],
+      [
+       "d4",
+       "f3",
+       "g"
+      ],
+      [
+       "d4",
+       "f5",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Mauern? Für den Springer kein Problem – er springt einfach drüber. Nur **landen** kann er nicht auf ihnen.",
+     "piece": "wN",
+     "start": "b1",
+     "stars": [
+      "c3",
+      "e4",
+      "g5"
+     ],
+     "par": 3,
+     "walls": [
+      "a2",
+      "b2",
+      "c2",
+      "a3",
+      "b3",
+      "d2",
+      "d3",
+      "e3"
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Fies: Der Stern liegt direkt **neben** dem Springer. Wie kommt er dahin?",
+     "piece": "wN",
+     "start": "d4",
+     "stars": [
+      "d5"
+     ],
+     "par": 3
+    },
+    {
+     "type": "stars",
+     "text": "Meisterprüfung: Aus der Ecke a1 zum Feld b2 – nur einen Schritt schräg entfernt. Für den Springer ist das eine echte Reise!",
+     "piece": "wN",
+     "start": "a1",
+     "stars": [
+      "b2"
+     ],
+     "par": 4
+    },
+    {
+     "type": "quiz",
+     "text": "Auf welches Feld kann der Springer von e5 aus **nicht** springen?",
+     "fen": "k7/8/8/4N3/8/8/8/7K w - - 0 1",
+     "options": [
+      "f7",
+      "d3",
+      "g4",
+      "e7"
+     ],
+     "answer": 3,
+     "explain": "f7, d3 und g4 sind L-Sprünge. **e7** liegt zwei Felder geradeaus – da fehlt der Schritt zur Seite."
+    },
+    {
+     "type": "quiz",
+     "text": "Der Springer steht auf einem **hellen** Feld. Wo landet er nach seinem Sprung?",
+     "options": [
+      "Immer auf einem dunklen Feld",
+      "Immer auf einem hellen Feld",
+      "Mal so, mal so"
+     ],
+     "answer": 0,
+     "explain": "Der Springer **wechselt bei jedem Sprung die Feldfarbe**. Super Trick, um Sprünge schnell zu prüfen!"
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Der Springer zieht im L: zwei geradeaus, eins zur Seite.\n• Er springt über alle Figuren hinweg.\n• Er wechselt bei jedem Zug die Feldfarbe.\n• Alte Schachweisheit: *„Springer am Rand bringt Kummer und Schand.“* In der Mitte erreicht er acht Felder, in der Ecke nur zwei."
+    }
+   ]
+  },
+  {
+   "id": "basics-pawn",
+   "unit": "basics-pieces",
+   "title": "Der Bauer",
+   "subtitle": "Klein, mutig und mit großer Zukunft.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Bauer** zieht **nur vorwärts** – ein Feld geradeaus. Rückwärts geht nie.\nSteht er noch auf seinem **Startfeld** (Weiß: 2. Reihe), darf er auch **zwei Felder** auf einmal ziehen. Der Bauer auf b4 hat schon gezogen – er darf nur noch ein Feld.",
+     "fen": "6k1/8/8/8/1P6/8/4P3/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "e2",
+       "e3",
+       "g"
+      ],
+      [
+       "e2",
+       "e4",
+       "g"
+      ],
+      [
+       "b4",
+       "b5",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "stars",
+     "text": "Nutze den **Doppelschritt** vom Startfeld und sammle beide Sterne.",
+     "piece": "wP",
+     "start": "e2",
+     "stars": [
+      "e4",
+      "e6"
+     ],
+     "par": 3
+    },
+    {
+     "type": "info",
+     "text": "Achtung, Eigenheit: Der Bauer **schlägt schräg** nach vorne – ein Feld diagonal (rote Pfeile).\nGeradeaus kann er **nicht** schlagen. Steht dort eine Figur (gelb), ist er blockiert.",
+     "fen": "6k1/8/8/3npb2/4P3/8/8/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "e4",
+       "d5",
+       "r"
+      ],
+      [
+       "e4",
+       "f5",
+       "r"
+      ]
+     ],
+     "marks": {
+      "e5": "y"
+     }
+    },
+    {
+     "type": "stars",
+     "text": "Der Bauer schlägt schräg – so kommt er auf eine andere Linie. Schlag dich zum Stern durch!",
+     "piece": "wP",
+     "start": "c2",
+     "stars": [
+      "e5"
+     ],
+     "par": 3,
+     "enemies": {
+      "d3": "bP",
+      "e4": "bN"
+     }
+    },
+    {
+     "type": "stars",
+     "text": "Direkt vor dir steht ein Gegner und blockiert. Welchen Schlagzug brauchst du, um zum Stern zu kommen?",
+     "piece": "wP",
+     "start": "d2",
+     "stars": [
+      "f6"
+     ],
+     "par": 4,
+     "enemies": {
+      "d3": "bP",
+      "c3": "bN",
+      "e3": "bB",
+      "f4": "bP"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Dein Bauer kann eine Figur schlagen. Zeig, wie es geht!",
+     "fen": "6k1/8/8/3pn3/3P4/8/8/6K1 w - - 0 1",
+     "goal": "capture",
+     "hint": "Geradeaus ist der Weg versperrt. Bauern schlagen schräg.",
+     "success": "Perfekt! Schräg nach vorne – so schlägt ein Bauer."
+    },
+    {
+     "type": "quiz",
+     "text": "Kann der weiße Bauer auf e4 den schwarzen Bauern auf e5 schlagen?",
+     "fen": "6k1/8/8/4p3/4P3/8/8/6K1 w - - 0 1",
+     "options": [
+      "Ja, geradeaus",
+      "Nein – Bauern schlagen nur schräg"
+     ],
+     "answer": 1,
+     "explain": "Die beiden Bauern blockieren sich gegenseitig. Keiner kann den anderen schlagen."
+    },
+    {
+     "type": "quiz",
+     "text": "Ein weißer Bauer steht auf **e3** – er hat also schon gezogen. Darf er jetzt noch zwei Felder auf einmal ziehen?",
+     "options": [
+      "Ja",
+      "Nein, der Doppelschritt geht nur vom Startfeld aus"
+     ],
+     "answer": 1,
+     "explain": "Der Doppelschritt ist nur beim allerersten Zug eines Bauern erlaubt."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Der Bauer zieht ein Feld vorwärts, vom Startfeld auch zwei.\n• Er schlägt schräg nach vorne.\n• Er zieht nie rückwärts.\nUnd ein Geheimnis: Schafft es ein Bauer bis zur **letzten Reihe**, verwandelt er sich – meistens in eine Dame! Mehr dazu bei den Spezialzügen.",
+     "fen": "7k/4P3/8/8/8/8/8/K7 w - - 0 1",
+     "arrows": [
+      [
+       "e7",
+       "e8",
+       "g"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "basics-capturing",
+   "unit": "basics-capture",
+   "title": "Schlagen",
+   "subtitle": "Erobere gegnerische Figuren.",
+   "minutes": 3,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Zieht deine Figur auf ein Feld mit einer **gegnerischen** Figur, wird diese **geschlagen**: Sie fliegt vom Brett, und deine Figur steht jetzt dort.\nJede Figur schlägt so, wie sie zieht – nur der Bauer schlägt schräg.",
+     "fen": "6k1/8/3n4/8/8/8/8/3R2K1 w - - 0 1",
+     "arrows": [
+      [
+       "d1",
+       "d6",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Schlag den schwarzen Springer mit deinem Turm!",
+     "fen": "6k1/1n6/8/8/8/8/1R6/6K1 w - - 0 1",
+     "goal": "capture",
+     "hint": "Der Turm zieht geradeaus – nach oben ist der Weg frei.",
+     "success": "Weg ist er!"
+    },
+    {
+     "type": "move",
+     "text": "Jetzt der Läufer: Er schlägt schräg. Was kannst du schlagen?",
+     "fen": "6k1/8/8/6r1/8/8/8/1KB5 w - - 0 1",
+     "goal": "capture",
+     "hint": "Folge der Diagonale von c1 nach oben rechts.",
+     "success": "Ein ganzer Turm – gut gemacht!"
+    },
+    {
+     "type": "move",
+     "text": "Der Springer schlägt mit seinem L-Sprung. Finde den Schlagzug!",
+     "fen": "1k6/8/5b2/4p3/4N3/8/8/6K1 w - - 0 1",
+     "goal": "capture",
+     "hint": "Den Bauern auf e5 erreicht der Springer nicht. Aber etwas anderes …",
+     "success": "Klasse! Der Läufer auf f6 war genau ein L entfernt."
+    },
+    {
+     "type": "move",
+     "text": "Dein Bauer ist blockiert – aber schräg vor ihm steht ein Turm …",
+     "fen": "1k6/8/8/6pr/6P1/8/8/6K1 w - - 0 1",
+     "goal": "capture",
+     "hint": "Bauern schlagen schräg nach vorne.",
+     "success": "Ein Bauer schlägt einen Turm. Stark!"
+    },
+    {
+     "type": "move",
+     "text": "Auch der **König** kann schlagen – wenn die Figur nicht gedeckt ist. Hier steht ein Springer ungeschützt neben ihm.",
+     "fen": "7k/8/8/8/8/8/3n4/4K3 w - - 0 1",
+     "goal": "capture",
+     "hint": "Der König zieht ein Feld – auch schräg.",
+     "success": "Der König räumt auf!"
+    },
+    {
+     "type": "quiz",
+     "text": "Kannst du deine **eigenen** Figuren schlagen?",
+     "options": [
+      "Ja",
+      "Nein, nur gegnerische"
+     ],
+     "answer": 1,
+     "explain": "Du schlägst nur gegnerische Figuren. Eigene Figuren blockieren dich einfach."
+    },
+    {
+     "type": "quiz",
+     "text": "Musst du schlagen, wenn du schlagen kannst?",
+     "options": [
+      "Ja, Schlagen ist Pflicht",
+      "Nein, Schlagen ist freiwillig"
+     ],
+     "answer": 1,
+     "explain": "Anders als beim Brettspiel *Dame* ist Schlagen im Schach **freiwillig**. Gut so – manchmal ist Schlagen nämlich eine Falle!"
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Schlagen = auf das Feld einer gegnerischen Figur ziehen.\n• Jede Figur schlägt, wie sie zieht – der Bauer schräg.\n• Schlagen ist freiwillig.\nGleich lernst du, welche Figuren besonders wertvoll sind."
+    }
+   ]
+  },
+  {
+   "id": "basics-values",
+   "unit": "basics-capture",
+   "title": "Figurenwerte",
+   "subtitle": "Wie viel ist welche Figur wert?",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Nicht jede Figur ist gleich stark. Damit du beim Tauschen rechnen kannst, gibt es Punkte (von links nach rechts):\n**Bauer 1 · Springer 3 · Läufer 3 · Turm 5 · Dame 9**\nDer **König** ist unbezahlbar – ohne ihn ist das Spiel vorbei.",
+     "fen": "8/7k/8/8/1PNBRQ2/8/8/7K w - - 0 1",
+     "marks": {
+      "b4": "g",
+      "c4": "g",
+      "d4": "g",
+      "e4": "g",
+      "f4": "g"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Wie viel ist ein **Turm** wert?",
+     "options": [
+      "3 Punkte",
+      "5 Punkte",
+      "9 Punkte"
+     ],
+     "answer": 1,
+     "explain": "Ein Turm ist etwa **5** Bauern wert."
+    },
+    {
+     "type": "quiz",
+     "text": "Was ist mehr wert: ein Springer oder ein Läufer?",
+     "options": [
+      "Der Springer",
+      "Der Läufer",
+      "Ungefähr gleich viel"
+     ],
+     "answer": 2,
+     "explain": "Beide sind etwa **3** Punkte wert. Man nennt sie zusammen **Leichtfiguren**. Turm und Dame heißen **Schwerfiguren**."
+    },
+    {
+     "type": "quiz",
+     "text": "Wie viele Bauern ist eine **Dame** ungefähr wert?",
+     "options": [
+      "3",
+      "5",
+      "9"
+     ],
+     "answer": 2,
+     "explain": "Die Dame ist mit **9** Punkten die wertvollste Figur – fast so viel wie zwei Türme."
+    },
+    {
+     "type": "move",
+     "text": "Deine Dame kann zwei Figuren schlagen. Beide sind ungedeckt. Hol dir die **wertvollere**!",
+     "fen": "6k1/3r4/8/8/1n1Q4/8/8/6K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d4d7"
+     ],
+     "hint": "Turm oder Springer – was bringt mehr Punkte?",
+     "success": "Genau: 5 Punkte statt 3. Und der Turm hatte deine Dame sogar angegriffen!"
+    },
+    {
+     "type": "move",
+     "text": "Dein Bauer hat die Wahl. Was nimmst du?",
+     "fen": "7k/8/8/3n1q2/4P3/8/8/K7 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e4f5"
+     ],
+     "hint": "Ein Bauer (1 Punkt) gegen die wertvollste Figur …",
+     "success": "Volltreffer! Ein Bauer schlägt eine Dame – das sind 9 Punkte für dich."
+    },
+    {
+     "type": "quiz",
+     "text": "Zähl nach: Weiß hat **Dame und Bauer**, Schwarz hat **zwei Türme**. Wer hat mehr Material?",
+     "fen": "r4rk1/8/8/8/8/8/P7/3Q2K1 w - - 0 1",
+     "options": [
+      "Weiß",
+      "Schwarz",
+      "Gleich viel"
+     ],
+     "answer": 2,
+     "explain": "Weiß: 9 + 1 = 10. Schwarz: 5 + 5 = 10. Also **gleich viel**."
+    },
+    {
+     "type": "quiz",
+     "text": "Dein Läufer (3) schlägt einen Turm (5). Danach wird dein Läufer zurückgeschlagen. Wie ist die Bilanz?",
+     "options": [
+      "+2 für dich",
+      "−2 für dich",
+      "Gleich"
+     ],
+     "answer": 0,
+     "explain": "Du bekommst 5 und gibst 3 her: **+2**. So etwas heißt *Qualitätsgewinn*."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Bauer 1, Springer 3, Läufer 3, Turm 5, Dame 9.\n• Der König ist unbezahlbar.\n• Die Werte sind Faustregeln: Eine aktive Figur ist oft mehr wert als eine eingesperrte. Fürs Tauschen sind sie aber Gold wert!"
+    }
+   ]
+  },
+  {
+   "id": "basics-trades",
+   "unit": "basics-capture",
+   "title": "Gute und schlechte Tausche",
+   "subtitle": "Erst zählen, dann schlagen.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine Figur ist **gedeckt**, wenn eine eigene Figur ihr Feld bewacht. Schlägst du eine gedeckte Figur, wird zurückgeschlagen.\nHier: Nimmt die Dame den Springer (3), schlägt der Bauer d6 zurück – und deine Dame (9) ist weg. Bilanz: **−6**. Autsch!\nFrag dich also immer: *Was bekomme ich – und was verliere ich?*",
+     "fen": "6k1/8/3p4/4n3/8/8/4Q3/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "e2",
+       "e5",
+       "y"
+      ],
+      [
+       "d6",
+       "e5",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Der schwarze Läufer auf d5 ist **ungedeckt** – niemand beschützt ihn. Greif zu!",
+     "fen": "6k1/8/8/3b4/8/8/8/3R2K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d1d5"
+     ],
+     "hint": "Der Turm zieht geradeaus nach oben.",
+     "success": "Ein Geschenk – und du hast es ausgepackt. +3!"
+    },
+    {
+     "type": "move",
+     "text": "Dein Turm kann zwei Figuren schlagen. Eine davon ist eine **Falle**. Nimm die richtige!",
+     "fen": "6k1/1p6/2n5/8/8/2R4b/8/6K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "c3h3"
+     ],
+     "hint": "Welche der beiden Figuren wird von einem Bauern gedeckt?",
+     "success": "Richtig! Der Springer war vom Bauern b7 gedeckt. Der Läufer stand völlig allein."
+    },
+    {
+     "type": "move",
+     "text": "Gedeckt heißt nicht automatisch Finger weg! Die schwarze Dame ist gedeckt – aber rechne mal nach …",
+     "fen": "6k1/5ppp/4q3/8/2B5/8/5PPP/6K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "c4e6"
+     ],
+     "hint": "Dein Läufer ist 3 wert, die Dame 9.",
+     "success": "Genau! Du gibst einen Läufer (3) und bekommst eine Dame (9). Das sind +6!"
+    },
+    {
+     "type": "move",
+     "text": "Dein Springer hat zwei Schlagzüge. Welcher gewinnt Material?",
+     "fen": "6k1/8/3p4/4p3/7b/5N2/8/1K6 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "f3h4"
+     ],
+     "hint": "Schau genau: Welche Figur hat einen Beschützer?",
+     "success": "Sauber! Der Bauer e5 war vom Bauern d6 gedeckt – der Läufer auf h4 nicht."
+    },
+    {
+     "type": "quiz",
+     "text": "Dein Turm (5) schlägt einen Springer (3), der von einem Bauern gedeckt ist. Wie ist die Bilanz nach dem Zurückschlagen?",
+     "options": [
+      "+3",
+      "−2",
+      "±0"
+     ],
+     "answer": 1,
+     "explain": "Du bekommst 3, verlierst aber 5: **−2**. Kein gutes Geschäft."
+    },
+    {
+     "type": "move",
+     "text": "Drei Schlagzüge für deine Dame – nur **einer** ist ein gutes Geschäft. Finde ihn!",
+     "fen": "4k3/3r4/8/1p5b/n7/8/8/3Q2K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d1h5"
+     ],
+     "hint": "Der Turm wird vom König gedeckt, der Springer vom Bauern. Und der Läufer?",
+     "success": "Top! Der Läufer war ungedeckt und hatte deine Dame angegriffen. Jetzt ist er weg – und nebenbei gibst du sogar Schach."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Ungedeckte Figur = Geschenk. Nimm sie!\n• Gedeckte Figur = erst rechnen.\n• Billige Figur schlägt teure Figur: meistens ein gutes Geschäft.\n• Teure Figur schlägt gedeckte billige Figur: meistens ein Fehler."
+    }
+   ]
+  },
+  {
+   "id": "basics-hanging",
+   "unit": "basics-capture",
+   "title": "Hängende Figuren erkennen",
+   "subtitle": "Was ungeschützt herumsteht, geht verloren.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine Figur **hängt**, wenn sie angegriffen wird und nicht gedeckt ist. Wie dieser schwarze Springer: Dein Läufer greift ihn an, und niemand beschützt ihn.\nHängende Figuren entscheiden die meisten Anfängerpartien. Wer sie zuerst sieht, gewinnt!",
+     "fen": "6k1/8/8/4n3/8/8/1B6/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "b2",
+       "e5",
+       "r"
+      ]
+     ],
+     "marks": {
+      "e5": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Schwarz greift deine Dame mit dem Läufer an. Aber Moment – ist der Angreifer überhaupt gedeckt?",
+     "fen": "6k1/2q2ppp/8/8/6b1/8/5PPP/3Q1RK1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d1g4"
+     ],
+     "hint": "Schau, ob irgendeine schwarze Figur das Feld g4 bewacht.",
+     "success": "Genau! Der Läufer hing. Statt wegzulaufen, hast du ihn einfach geschlagen."
+    },
+    {
+     "type": "quiz",
+     "text": "Drei schwarze Figuren werden angegriffen. Welche davon **hängt**?",
+     "fen": "6k1/2p2ppp/3b1n2/8/7r/5N2/1B6/3R2K1 w - - 0 1",
+     "options": [
+      "Der Läufer auf d6",
+      "Der Springer auf f6",
+      "Der Turm auf h4"
+     ],
+     "answer": 2,
+     "explain": "Der Läufer d6 ist vom Bauern c7 gedeckt, der Springer f6 vom Bauern g7. Der **Turm auf h4** wird vom Springer f3 angegriffen – und niemand deckt ihn."
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat gerade seine Dame nach g5 gezogen und greift g2 an. Bestraf den Fehler!",
+     "fen": "r1b1kbnr/pppp1ppp/2n5/4p1q1/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+     "goal": "exact",
+     "solutions": [
+      "f3g5"
+     ],
+     "hint": "Welche deiner Figuren erreicht das Feld g5?",
+     "success": "Autsch für Schwarz! Die Dame hing – dein Springer hat sie kassiert."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz. Weiß hat gerade mit dem Springer den Bauern e5 geschlagen. Ist der Springer dort sicher?",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4N3/4P3/8/PPPP1PPP/RNBQKB1R b KQkq - 0 3",
+     "goal": "exact",
+     "solutions": [
+      "c6e5"
+     ],
+     "hint": "Dein Springer auf c6 schaut auf e5.",
+     "success": "Richtig! Weiß hat einen Springer für einen Bauern verloren."
+    },
+    {
+     "type": "move",
+     "text": "Achtung, Gefahr: Der schwarze Bauer d5 greift **deinen** Springer an! Bring ihn auf ein Feld, wo ihn niemand schlagen kann.",
+     "fen": "6k1/4bppp/2p5/3p4/4N3/8/5PPP/6K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e4c3",
+      "e4d2",
+      "e4g3"
+     ],
+     "hint": "Der Läufer e7 bewacht c5, d6 und g5, der Bauer g7 bewacht f6.",
+     "success": "Gerettet! Dein Springer steht wieder sicher."
+    },
+    {
+     "type": "quiz",
+     "text": "Was solltest du dich **vor jedem Zug** fragen?",
+     "options": [
+      "Was hängt – bei mir und beim Gegner?",
+      "Welche Figur sieht am schönsten aus?",
+      "Wie schnell bekomme ich meine Dame ins Spiel?"
+     ],
+     "answer": 0,
+     "explain": "Dieser kurze Check vor jedem Zug verhindert die meisten Fehler – und zeigt dir Geschenke des Gegners."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Hängt = angegriffen und nicht gedeckt.\n• Vor jedem Zug: Was greift mein Gegner an? Was kann ich schlagen?\n• Wird deine Figur angegriffen: wegziehen, decken – oder den Angreifer schlagen."
+    }
+   ]
+  },
+  {
+   "id": "basics-give-check",
+   "unit": "basics-check",
+   "title": "Schach geben",
+   "subtitle": "Ein Angriff auf den König.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Greift eine Figur den gegnerischen König an, heißt das **Schach**. Hier greift der weiße Turm den schwarzen König an.\nWer im Schach steht, **muss** sofort etwas dagegen tun. Ignorieren ist verboten. Der König wird nie geschlagen – er muss einfach immer raus aus dem Angriff.",
+     "fen": "4k3/8/8/8/8/8/8/4R1K1 b - - 0 1",
+     "arrows": [
+      [
+       "e1",
+       "e8",
+       "r"
+      ]
+     ],
+     "orientation": "w"
+    },
+    {
+     "type": "move",
+     "text": "Gib Schach mit dem Turm!",
+     "fen": "4k3/8/8/8/8/8/8/R5K1 w - - 0 1",
+     "goal": "check",
+     "hint": "Der Turm muss auf die Linie oder Reihe des Königs.",
+     "success": "Schach! Der König muss jetzt reagieren."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt mit dem Läufer. Er greift schräg an …",
+     "fen": "4k3/8/8/8/8/8/8/5B1K w - - 0 1",
+     "goal": "check",
+     "hint": "Der König steht auf einem hellen Feld – dein Läufer auch. Such die Diagonale zu e8.",
+     "success": "Lb5+ – schräg ins Herz!"
+    },
+    {
+     "type": "move",
+     "text": "Der Springer gibt Schach mit seinem L-Sprung. Finde ein Feld, von dem aus er e8 angreift!",
+     "fen": "4k3/8/8/7N/8/8/8/K7 w - - 0 1",
+     "goal": "check",
+     "hint": "Von f6 oder g7 aus ist e8 genau ein L entfernt.",
+     "success": "Springerschach – das kann man nicht blockieren!"
+    },
+    {
+     "type": "move",
+     "text": "Die Dame hat jede Menge Möglichkeiten. Such dir ein Schach aus!",
+     "fen": "4k3/8/8/8/8/8/2Q5/K7 w - - 0 1",
+     "goal": "check",
+     "hint": "Gerade oder schräg – Hauptsache, sie sieht den König.",
+     "success": "Schach! Die Dame ist eine echte Allrounderin."
+    },
+    {
+     "type": "move",
+     "text": "Sogar ein Bauer kann Schach geben. Zeig, wie!",
+     "fen": "8/8/8/4k3/8/2KP4/8/8 w - - 0 1",
+     "goal": "check",
+     "hint": "Ein Bauer greift schräg nach vorne an. Dein König deckt d4.",
+     "success": "d4+! Und weil dein König den Bauern deckt, kann ihn der schwarze König nicht schlagen."
+    },
+    {
+     "type": "move",
+     "text": "Gib Schach – aber **ohne** deine Dame zu verlieren! Der König darf schlagen, was direkt neben ihm steht und nicht gedeckt ist.",
+     "fen": "4k3/8/8/8/3Q4/8/8/6K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d4a4",
+      "d4e3",
+      "d4e4",
+      "d4e5",
+      "d4h8"
+     ],
+     "hint": "Dd7+ und Dd8+ sind zwar Schach – aber dann schlägt der König einfach deine Dame.",
+     "success": "Sicheres Schach! Deine Dame steht außer Reichweite des Königs."
+    },
+    {
+     "type": "quiz",
+     "text": "Was musst du tun, wenn dein König im Schach steht?",
+     "options": [
+      "Das Schach sofort beenden",
+      "Weiterspielen, als wäre nichts",
+      "Aufgeben"
+     ],
+     "answer": 0,
+     "explain": "Du **musst** das Schach sofort beenden. Wie das geht, lernst du in der nächsten Lektion."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Schach = Angriff auf den König.\n• Jede Figur kann Schach geben – außer dem König selbst.\n• Wer im Schach steht, muss es sofort beenden.\n• Ein Schach ist nur gut, wenn du dabei keine Figur verschenkst!"
+    }
+   ]
+  },
+  {
+   "id": "basics-escape-check",
+   "unit": "basics-check",
+   "title": "Raus aus dem Schach",
+   "subtitle": "Drei Wege, deinen König zu retten.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Steht dein König im Schach, hast du genau **drei Möglichkeiten**:\n1. **Wegziehen** – der König geht auf ein sicheres Feld (grün).\n2. **Dazwischenziehen** – eine Figur blockiert den Angriff (blau).\n3. **Schlagen** – du schlägst die angreifende Figur (gelb).\nHier funktionieren sogar alle drei!",
+     "fen": "k7/8/8/4r3/2B5/5N2/8/4K3 w - - 0 1",
+     "arrows": [
+      [
+       "e5",
+       "e1",
+       "r"
+      ],
+      [
+       "e1",
+       "d1",
+       "g"
+      ],
+      [
+       "c4",
+       "e2",
+       "b"
+      ],
+      [
+       "f3",
+       "e5",
+       "y"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Schach vom Turm! Blockieren oder Schlagen geht hier nicht. Also: **Wegziehen** – aber wohin?",
+     "fen": "4r2k/8/8/8/8/8/3P1P2/4K3 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e1d1",
+      "e1f1"
+     ],
+     "hint": "Auf der e-Linie ist es gefährlich. Geh zur Seite.",
+     "success": "Gerettet! Neben der e-Linie ist dein König sicher."
+    },
+    {
+     "type": "move",
+     "text": "Dein König kann nicht weg, und den Turm erreichst du nicht. **Stell eine Figur dazwischen!** Aber Vorsicht – nur ein Feld ist wirklich sicher.",
+     "fen": "6k1/5ppp/8/8/8/3B4/5PPP/r5K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d3f1"
+     ],
+     "hint": "Stell den Läufer auf ein Feld, das dein König bewacht.",
+     "success": "Perfekt! Auf f1 deckt der König deinen Läufer. Auf b1 hätte der Turm ihn geschlagen – und das wäre Matt gewesen!"
+    },
+    {
+     "type": "move",
+     "text": "Ein Springer gibt Schach. Du könntest mit dem König weglaufen – aber es gibt etwas Besseres!",
+     "fen": "4k3/8/8/8/8/3n4/2P2PPP/4K3 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "c2d3"
+     ],
+     "hint": "Der Springer steht ungeschützt. Wer kann ihn schlagen?",
+     "success": "Zack! Schach beendet **und** einen Springer gewonnen."
+    },
+    {
+     "type": "move",
+     "text": "Die Dame gibt Schach und wird vom Bauern d3 gedeckt. Dein König kann sie also nicht schlagen – aber eine andere Figur schon!",
+     "fen": "4k3/8/8/8/8/3p4/4q3/2N1K3 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "c1e2"
+     ],
+     "hint": "Welche deiner Figuren erreicht e2?",
+     "success": "Sensationell! Dein Springer schnappt sich die Dame."
+    },
+    {
+     "type": "quiz",
+     "text": "Ein **Springer** gibt Schach. Welcher der drei Wege funktioniert dagegen **nie**?",
+     "options": [
+      "Wegziehen",
+      "Dazwischenziehen",
+      "Schlagen"
+     ],
+     "answer": 1,
+     "explain": "Der Springer springt über alles hinweg – man kann nichts dazwischenstellen. Gegen ein Springerschach hilft nur Wegziehen oder Schlagen."
+    },
+    {
+     "type": "move",
+     "text": "Alle drei Wege sind möglich: Wegziehen, Dazwischenziehen, Schlagen. Welcher bringt dir am meisten?",
+     "fen": "6k1/5ppp/8/2b5/8/8/6PP/2RN2K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "c1c5"
+     ],
+     "hint": "Ist der Läufer auf c5 gedeckt?",
+     "success": "Genau! Wenn du den Angreifer gratis schlagen kannst, ist das meist die beste Lösung."
+    },
+    {
+     "type": "quiz",
+     "text": "Darfst du einen Zug machen, nach dem dein König **immer noch** im Schach steht?",
+     "options": [
+      "Ja, wenn ich dafür eine Figur schlage",
+      "Nein, niemals"
+     ],
+     "answer": 1,
+     "explain": "Nach deinem Zug darf dein König nie im Schach stehen. Solche Züge sind **illegal**."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt: W-D-S**\n• **W**egziehen\n• **D**azwischenziehen\n• **S**chlagen\nPrüf immer alle drei – und nimm den, der dir am meisten bringt."
+    }
+   ]
+  },
+  {
+   "id": "basics-checkmate",
+   "unit": "basics-check",
+   "title": "Schachmatt",
+   "subtitle": "Das Ziel des ganzen Spiels.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Schachmatt** heißt: Der König steht im Schach – und es gibt **keinen Ausweg**. Kein Wegziehen, kein Dazwischenziehen, kein Schlagen.\nHier sperren die eigenen Bauern den schwarzen König ein, und der Turm kontrolliert die ganze Reihe. Wer mattsetzt, **gewinnt sofort**!",
+     "fen": "4R1k1/5ppp/8/8/8/8/8/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "e8",
+       "g8",
+       "r"
+      ]
+     ],
+     "marks": {
+      "f8": "r",
+      "h8": "r"
+     },
+     "orientation": "w"
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du: Setz den König matt!",
+     "fen": "6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1",
+     "goal": "mate",
+     "hint": "Die schwarzen Bauern versperren ihrem König die Flucht nach vorne.",
+     "success": "Grundreihenmatt! Eins der häufigsten Matts überhaupt."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Ist das Schachmatt?",
+     "fen": "4R1k1/5pp1/7p/8/8/8/8/6K1 b - - 0 1",
+     "options": [
+      "Ja",
+      "Nein – der König kann noch fliehen"
+     ],
+     "answer": 1,
+     "explain": "Der König entkommt nach **h7**. Darum ziehen erfahrene Spieler oft früh ein *Luftloch* wie h6 – damit der König nicht auf der Grundreihe gefangen ist.",
+     "orientation": "w"
+    },
+    {
+     "type": "move",
+     "text": "Dame und König arbeiten zusammen. Setz matt!",
+     "fen": "7k/Q7/6K1/8/8/8/8/8 w - - 0 1",
+     "goal": "mate",
+     "hint": "Die Dame darf direkt neben den König – wenn dein König sie deckt.",
+     "success": "Matt! Teamwork von Dame und König."
+    },
+    {
+     "type": "move",
+     "text": "Mit Turm und König geht das auch. Matt in einem Zug!",
+     "fen": "4k3/8/4K3/8/8/8/8/R7 w - - 0 1",
+     "goal": "mate",
+     "hint": "Dein König bewacht d7, e7 und f7. Der Turm erledigt den Rest.",
+     "success": "Matt! Der König bewacht die Fluchtfelder, der Turm gibt Schach."
+    },
+    {
+     "type": "move",
+     "text": "Zwei Türme sind ein Dream-Team: Einer sperrt eine Reihe ab, der andere setzt matt.",
+     "fen": "4k3/R7/8/8/8/6K1/8/7R w - - 0 1",
+     "goal": "mate",
+     "hint": "Der Turm auf a7 sperrt die 7. Reihe. Bring den anderen auf die 8. Reihe.",
+     "success": "Matt! Man nennt das auch *Treppenmatt*."
+    },
+    {
+     "type": "move",
+     "text": "Ein Klassiker: Der schwarze König ist von seinen eigenen Figuren eingesperrt. Setz matt mit dem Springer!",
+     "fen": "6rk/6pp/8/6N1/8/8/8/K7 w - - 0 1",
+     "goal": "mate",
+     "hint": "Welches Feld erreicht dein Springer, von dem aus er h8 angreift?",
+     "success": "**Ersticktes Matt**! Der König erstickt an seinen eigenen Figuren."
+    },
+    {
+     "type": "move",
+     "text": "Die Dame bekommt Unterstützung von einem Bauern. Setz matt!",
+     "fen": "6k1/5p1p/5PpQ/8/8/8/8/K7 w - - 0 1",
+     "goal": "mate",
+     "hint": "Der Bauer f6 deckt das Feld g7.",
+     "success": "Matt! Der Bauer deckt die Dame, und der König kann nicht zurückschlagen."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Matt = Schach ohne Ausweg.\n• Matt beendet die Partie sofort – wer mattsetzt, gewinnt.\n• Am Rand und in der Ecke ist ein König am leichtesten mattzusetzen.\n• Fast immer braucht es Teamwork mehrerer Figuren."
+    }
+   ]
+  },
+  {
+   "id": "basics-stalemate",
+   "unit": "basics-check",
+   "title": "Patt",
+   "subtitle": "Kein Schach, aber auch kein Zug.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Patt** ist der fiese kleine Bruder vom Matt: Der Spieler am Zug steht **nicht** im Schach, hat aber **keinen einzigen legalen Zug**.\nHier: Schwarz ist am Zug. Alle Felder um den König sind bewacht (rot), aber er steht nicht im Schach.\nDann endet die Partie sofort **unentschieden (Remis)** – auch wenn Weiß eine ganze Dame mehr hat!",
+     "fen": "k7/8/1Q6/8/8/8/8/2K5 b - - 0 1",
+     "marks": {
+      "a7": "r",
+      "b7": "r",
+      "b8": "r"
+     },
+     "orientation": "w"
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Patt oder Matt?",
+     "fen": "7k/5Q2/6K1/8/8/8/8/8 b - - 0 1",
+     "options": [
+      "Matt",
+      "Patt"
+     ],
+     "answer": 1,
+     "explain": "Der König auf h8 steht **nicht** im Schach, kann aber nirgendwohin: **Patt**, also Remis.",
+     "orientation": "w"
+    },
+    {
+     "type": "quiz",
+     "text": "Und hier? Schwarz ist am Zug.",
+     "fen": "7k/6Q1/6K1/8/8/8/8/8 b - - 0 1",
+     "options": [
+      "Matt",
+      "Patt"
+     ],
+     "answer": 0,
+     "explain": "Die Dame auf g7 gibt **Schach**, und der König kann sie nicht schlagen, weil der weiße König sie deckt: **Matt**.",
+     "orientation": "w"
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Was ist hier los?",
+     "fen": "4k3/4P3/4K3/8/8/8/8/8 b - - 0 1",
+     "options": [
+      "Schwarz ist matt",
+      "Patt – Remis",
+      "Schwarz kann noch ziehen"
+     ],
+     "answer": 1,
+     "explain": "Der Bauer bewacht d8 und f8, der weiße König d7 und f7. Kein Schach, kein Zug: **Patt**.",
+     "orientation": "w"
+    },
+    {
+     "type": "move",
+     "text": "Weiß gewinnt – eigentlich. Setz matt, aber tapp nicht in die **Pattfalle**!",
+     "fen": "k7/2K5/3Q4/8/8/8/8/8 w - - 0 1",
+     "goal": "mate",
+     "hint": "Ein Zug, der dem König alle Felder nimmt, ohne Schach zu geben, ist Patt. Du brauchst ein Schach!",
+     "success": "Matt statt Patt! Du hast den Sieg sicher nach Hause gebracht."
+    },
+    {
+     "type": "quiz",
+     "text": "In der Stellung eben: Welcher Zug hätte den Sieg verschenkt?",
+     "fen": "k7/2K5/3Q4/8/8/8/8/8 w - - 0 1",
+     "options": [
+      "Db6",
+      "Da6",
+      "Da3"
+     ],
+     "answer": 0,
+     "explain": "Nach **Db6** steht der König nicht im Schach, kann aber nicht ziehen: Patt. Da6 und Da3 dagegen sind Matt."
+    },
+    {
+     "type": "move",
+     "text": "Noch eine Falle: Hier setzen gleich **sieben** Züge patt – aber nur **einer** setzt matt. Finde ihn!",
+     "fen": "7k/8/7K/8/8/8/Q7/8 w - - 0 1",
+     "goal": "mate",
+     "hint": "Dein König bewacht g7 und h7. Die Dame muss Schach geben und dabei g8 kontrollieren.",
+     "success": "Stark! Da8# – genau der eine Zug, der kein Patt ist."
+    },
+    {
+     "type": "quiz",
+     "text": "Wer gewinnt, wenn ein Spieler patt gesetzt wird?",
+     "options": [
+      "Der, der patt setzt",
+      "Der, der patt gesetzt wird",
+      "Keiner – es ist Remis"
+     ],
+     "answer": 2,
+     "explain": "Patt ist immer **Remis**. Für den Spieler, der vorne liegt, ist das eine bittere Pille."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Patt = nicht im Schach, aber kein legaler Zug.\n• Patt ist Remis (unentschieden).\n• Liegst du klar vorne: Lass dem gegnerischen König ein Feld – oder gib Schach!\n• Liegst du hinten: Vielleicht rettet dich ja ein Patt …"
+    }
+   ]
+  },
+  {
+   "id": "basics-castling",
+   "unit": "basics-special",
+   "title": "Die Rochade",
+   "subtitle": "König in Sicherheit, Turm ins Spiel – in einem Zug.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die **Rochade** ist der einzige Zug, bei dem du **zwei Figuren** auf einmal bewegst: Der König zieht **zwei Felder** in Richtung Turm, und der Turm springt über ihn auf das Feld direkt daneben.\n**Kurze Rochade** (Richtung h-Turm): König nach g1, Turm nach f1. Man schreibt **0-0**.",
+     "fen": "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1",
+     "arrows": [
+      [
+       "e1",
+       "g1",
+       "g"
+      ],
+      [
+       "h1",
+       "f1",
+       "b"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Läufer und Springer sind schon draußen. Bring deinen König in Sicherheit: **Rochier kurz!**",
+     "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+     "goal": "castle",
+     "hint": "Zieh den König zwei Felder nach rechts – der Turm kommt automatisch mit.",
+     "success": "Rochade! Dein König sitzt jetzt sicher hinter seinen Bauern, und der Turm ist im Spiel."
+    },
+    {
+     "type": "info",
+     "text": "Es gibt auch die **lange Rochade** (Richtung a-Turm): König nach c1, Turm nach d1. Man schreibt **0-0-0**.\nDer König zieht auch hier genau zwei Felder.",
+     "fen": "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1",
+     "arrows": [
+      [
+       "e1",
+       "c1",
+       "g"
+      ],
+      [
+       "a1",
+       "d1",
+       "b"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Diesmal ist der Damenflügel frei geräumt. **Rochier lang!**",
+     "fen": "r3kbnr/pppqpppp/2n5/3p1b2/3P1B2/2N5/PPPQPPPP/R3KBNR w KQkq - 6 5",
+     "goal": "castle",
+     "hint": "Zieh den König zwei Felder nach links.",
+     "success": "Lange Rochade! Dein Turm steht jetzt sofort auf der offenen d-Linie."
+    },
+    {
+     "type": "info",
+     "text": "Rochieren darfst du nur, wenn:\n1. König und Turm **noch nie gezogen** haben.\n2. **Nichts** zwischen ihnen steht.\n3. Dein König **nicht im Schach** steht.\n4. Der König **nicht über ein angegriffenes Feld** zieht und **nicht ins Schach** zieht.\nFür die kurze Rochade müssen also f1 und g1 (grün) frei und sicher sein.",
+     "fen": "4k3/8/8/8/8/8/8/4K2R w K - 0 1",
+     "marks": {
+      "f1": "g",
+      "g1": "g"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Darf Weiß hier kurz rochieren?",
+     "fen": "4k3/8/8/8/1b6/8/8/4K2R w K - 0 1",
+     "options": [
+      "Ja",
+      "Nein – der König steht im Schach"
+     ],
+     "answer": 1,
+     "explain": "Der Läufer b4 gibt Schach. **Aus dem Schach heraus** darfst du nicht rochieren."
+    },
+    {
+     "type": "quiz",
+     "text": "Und jetzt? Darf Weiß kurz rochieren?",
+     "fen": "4k3/8/8/8/2b5/8/8/4K2R w K - 0 1",
+     "options": [
+      "Ja",
+      "Nein – der König müsste über das angegriffene Feld f1"
+     ],
+     "answer": 1,
+     "explain": "Der Läufer c4 greift **f1** an. Der König darf nicht über ein angegriffenes Feld ziehen.",
+     "arrows": [
+      [
+       "c4",
+       "f1",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Der König war schon einmal auf f1 und ist dann zurück nach e1 gegangen. Darf er noch rochieren?",
+     "options": [
+      "Ja, er steht ja wieder auf e1",
+      "Nein, der König hat schon gezogen"
+     ],
+     "answer": 1,
+     "explain": "Sobald der König einmal gezogen hat, ist die Rochade für immer weg – auf beiden Seiten."
+    },
+    {
+     "type": "quiz",
+     "text": "Kniffelig: Bei der langen Rochade wird das Feld **b1** angegriffen. Darf Weiß trotzdem lang rochieren?",
+     "fen": "4k3/8/8/8/4b3/8/8/R3K3 w Q - 0 1",
+     "options": [
+      "Ja",
+      "Nein"
+     ],
+     "answer": 0,
+     "explain": "**Ja!** Nur der **König** darf nicht über angegriffene Felder ziehen. Er zieht über d1 nach c1 – über b1 läuft nur der Turm, und das ist erlaubt.",
+     "arrows": [
+      [
+       "e4",
+       "b1",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Rochier! Aber Vorsicht – eine Seite ist verboten.",
+     "fen": "4k3/8/8/8/2b5/8/8/R3K2R w KQ - 0 1",
+     "goal": "castle",
+     "hint": "Der Läufer c4 greift f1 an. Welche Rochade bleibt dir?",
+     "success": "Clever! Kurz ging nicht wegen f1 – also lang."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Rochade: König zwei Felder Richtung Turm, Turm springt über ihn.\n• 0-0 = kurz, 0-0-0 = lang.\n• Nur wenn König und Turm unbewegt sind, nichts dazwischen steht und der König weder im Schach steht noch durch oder in ein Schach zieht.\n• Rochier früh – ein sicherer König gewinnt Partien!"
+    }
+   ]
+  },
+  {
+   "id": "basics-promotion",
+   "unit": "basics-special",
+   "title": "Die Umwandlung",
+   "subtitle": "Aus einem Bauern wird eine Dame.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Schafft es ein Bauer bis auf die **letzte Reihe** (für Weiß die 8., für Schwarz die 1.), wird er sofort **umgewandelt**: in eine Dame, einen Turm, einen Läufer oder einen Springer – du darfst frei wählen.\nNur zum König kann er nicht werden – und Bauer bleiben geht auch nicht.",
+     "fen": "7k/4P3/8/8/8/8/8/K7 w - - 0 1",
+     "arrows": [
+      [
+       "e7",
+       "e8",
+       "g"
+      ]
+     ],
+     "marks": {
+      "e8": "g"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Dein Bauer steht kurz vor dem Ziel. Wandle ihn um – am besten in eine Dame!",
+     "fen": "8/1P5k/8/8/8/8/8/K7 w - - 0 1",
+     "goal": "promote",
+     "hint": "Zieh den Bauern auf die 8. Reihe und wähle die Dame.",
+     "success": "Umgewandelt! Mit einer Dame werden aus 1 Punkt ganze 9."
+    },
+    {
+     "type": "move",
+     "text": "Geradeaus ist der Weg versperrt. Aber Bauern schlagen ja schräg … Wandle um!",
+     "fen": "6nr/1k4P1/8/8/8/8/8/K7 w - - 0 1",
+     "goal": "promote",
+     "hint": "Schlag den Turm auf h8 – das ist gleichzeitig eine Umwandlung.",
+     "success": "Doppelt stark: Turm geschlagen **und** eine neue Figur bekommen!"
+    },
+    {
+     "type": "info",
+     "text": "Fast immer wählst du eine **Dame** – sie ist die stärkste Figur.\nUnd ja: Du darfst **mehrere Damen** gleichzeitig haben. Die Umwandlung hängt nicht davon ab, ob deine erste Dame noch auf dem Brett steht."
+    },
+    {
+     "type": "quiz",
+     "text": "Wie viele Damen darf eine Seite höchstens gleichzeitig haben?",
+     "options": [
+      "Nur eine",
+      "Zwei",
+      "So viele, wie sie Bauern umwandelt"
+     ],
+     "answer": 2,
+     "explain": "Theoretisch bis zu **neun**: die ursprüngliche plus acht umgewandelte Bauern."
+    },
+    {
+     "type": "info",
+     "text": "Ganz selten ist eine andere Figur besser – das nennt man **Unterverwandlung**.\nZum Beispiel ein **Springer**, weil nur er sofort Matt oder Schach gibt. Oder ein **Turm**, weil eine Dame den Gegner patt setzen würde."
+    },
+    {
+     "type": "move",
+     "text": "Probier’s aus: Hier setzt **nur ein Springer** sofort matt. Eine Dame würde das nicht schaffen!",
+     "fen": "8/6Pp/5K1k/7p/8/8/8/8 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "g7g8n"
+     ],
+     "hint": "Ein Springer auf g8 greift h6 an. Die Fluchtfelder bewacht dein König, die schwarzen Bauern blockieren den Rest.",
+     "success": "Matt durch Unterverwandlung! Das schaffen nur echte Profis."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz. Dein Bauer läuft **nach unten** – zur 1. Reihe. Wandle um!",
+     "fen": "k7/8/8/8/8/8/3p4/7K b - - 0 1",
+     "goal": "promote",
+     "hint": "Zieh den Bauern von d2 nach d1.",
+     "success": "Umgewandelt! Eine Dame auf d1 gibt dem weißen König übrigens sofort Schach."
+    },
+    {
+     "type": "play",
+     "text": "Lauf, Bauer, lauf! Bring deinen Bauern zur Umwandlung, bevor der schwarze König ihn erwischt.",
+     "fen": "8/8/8/2P4k/8/8/8/7K w - - 0 1",
+     "goal": "promote",
+     "maxMoves": 4
+    },
+    {
+     "type": "quiz",
+     "text": "Auf welcher Reihe wandelt ein **schwarzer** Bauer um?",
+     "options": [
+      "Auf der 8. Reihe",
+      "Auf der 1. Reihe"
+     ],
+     "answer": 1,
+     "explain": "Schwarze Bauern laufen nach unten – sie wandeln auf der **1. Reihe** um."
+    }
+   ]
+  },
+  {
+   "id": "basics-en-passant",
+   "unit": "basics-special",
+   "title": "En passant",
+   "subtitle": "Der geheimnisvolle Bauernschlag im Vorbeigehen.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**En passant** (französisch: *im Vorbeigehen*) ist ein besonderer Bauernschlag.\nSchwarz hat gerade mit dem **Doppelschritt** d7–d5 gezogen (gelb) – direkt neben deinen Bauern auf e5. Jetzt darfst du ihn so schlagen, als wäre er nur ein Feld gezogen: Dein Bauer zieht schräg nach **d6** (grün), und der Bauer auf d5 verschwindet.",
+     "fen": "6k1/8/8/3pP3/8/8/8/6K1 w - d6 0 2",
+     "arrows": [
+      [
+       "d7",
+       "d5",
+       "y"
+      ],
+      [
+       "e5",
+       "d6",
+       "g"
+      ]
+     ],
+     "marks": {
+      "d5": "r"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Zieh deinen Bauern von e4 nach **e5**. Schwarz wird dann versuchen, mit dem Doppelschritt an dir vorbeizuschlüpfen. Schnapp ihn dir **en passant**!",
+     "fen": "6k1/3p4/8/8/4P3/8/8/6K1 w - - 0 1",
+     "moves": [
+      "e4e5",
+      "d7d5",
+      "e5d6"
+     ],
+     "hint": "Nach d7–d5 ziehst du schräg auf d6 – genau dorthin, wo der schwarze Bauer drübergehüpft ist.",
+     "success": "Sauber! Der schwarze Bauer ist weg, obwohl er auf d5 stand."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz. Weiß hat gerade **c2–c4** gezogen. Schlag en passant!",
+     "fen": "6k1/8/8/8/1pPp4/8/8/6K1 b - c3 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b4c3",
+      "d4c3"
+     ],
+     "hint": "Zieh einen deiner Bauern schräg auf c3 – das Feld, über das der weiße Bauer gesprungen ist.",
+     "success": "Bonjour, en passant! Übrigens hätten das beide Bauern gekonnt."
+    },
+    {
+     "type": "info",
+     "text": "Ganz wichtig: En passant geht **nur im direkt folgenden Zug**.\nMachst du erst einen anderen Zug, ist die Chance für immer vorbei. Und: Nur **Bauern** können en passant schlagen und geschlagen werden."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz hat **vor zwei Zügen** d7–d5 gespielt, seitdem wurden andere Züge gemacht. Darf Weiß jetzt noch en passant auf d6 schlagen?",
+     "fen": "6k1/8/8/3pP3/8/8/8/6K1 w - - 0 1",
+     "options": [
+      "Ja",
+      "Nein – die Chance ist vorbei"
+     ],
+     "answer": 1,
+     "explain": "En passant gibt es nur sofort nach dem Doppelschritt. Wer zögert, verliert das Recht."
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat gerade f7–f5 gezogen. Du hast zwei Schlagzüge – welcher gewinnt einen Bauern?",
+     "fen": "k7/2p5/3p4/4Pp2/8/8/8/6K1 w - f6 0 2",
+     "goal": "exact",
+     "solutions": [
+      "e5f6"
+     ],
+     "hint": "Nach exd6 schlägt der Bauer c7 zurück. Und auf f6?",
+     "success": "Genau! Nach exd6 cxd6 wäre alles gleich. En passant gewinnt einen Bauern – und dein Bauer ist frei!"
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Figuren können en passant schlagen?",
+     "options": [
+      "Nur Bauern",
+      "Alle Figuren",
+      "Bauern und Könige"
+     ],
+     "answer": 0,
+     "explain": "En passant ist ein reiner **Bauernzug**."
+    },
+    {
+     "type": "quiz",
+     "text": "Auf welcher Reihe muss ein **weißer** Bauer stehen, damit er en passant schlagen kann?",
+     "options": [
+      "Auf der 5. Reihe",
+      "Auf der 4. Reihe",
+      "Egal wo"
+     ],
+     "answer": 0,
+     "explain": "Nur auf der **5. Reihe** kann ein schwarzer Bauer mit Doppelschritt direkt neben ihm landen. Ein schwarzer Bauer braucht entsprechend die 4. Reihe."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Gegnerischer Bauer zieht mit Doppelschritt neben deinen Bauern.\n• Du schlägst schräg auf das übersprungene Feld.\n• Nur sofort im nächsten Zug!\nJetzt kennst du alle Regeln – fast schon ein Profi."
+    }
+   ]
+  },
+  {
+   "id": "basics-draws",
+   "unit": "basics-game",
+   "title": "Ziel des Spiels & Remis",
+   "subtitle": "Gewinnen, verlieren – oder unentschieden.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine Partie endet auf eine von drei Arten: **Weiß gewinnt**, **Schwarz gewinnt** oder **Remis** (unentschieden).\nGewinnen kannst du durch **Matt** – oder wenn dein Gegner **aufgibt** oder (mit Uhr) seine **Zeit abläuft**."
+    },
+    {
+     "type": "info",
+     "text": "Remis gibt es auf mehrere Arten:\n1. **Patt** – kein legaler Zug, aber kein Schach.\n2. **Dreimalige Wiederholung** – dieselbe Stellung kommt zum dritten Mal aufs Brett.\n3. **50-Züge-Regel** – 50 Züge lang (von beiden Seiten) kein Bauernzug und kein Schlagzug.\n4. **Ungenügendes Material** – keiner kann mehr mattsetzen, z. B. König gegen König.\n5. **Einigung** – beide Spieler sind sich einig: Remis."
+    },
+    {
+     "type": "quiz",
+     "text": "König und Läufer gegen König. Wie endet das?",
+     "fen": "4k3/8/8/8/8/8/8/2BK4 w - - 0 1",
+     "options": [
+      "Weiß gewinnt",
+      "Remis – ungenügendes Material",
+      "Es wird weitergespielt, bis einer matt ist"
+     ],
+     "answer": 1,
+     "explain": "Mit König und Läufer **kann** man gar nicht mattsetzen. Die Partie ist sofort Remis."
+    },
+    {
+     "type": "quiz",
+     "text": "Und König und Turm gegen König?",
+     "fen": "4k3/8/8/8/8/8/8/R2K4 w - - 0 1",
+     "options": [
+      "Remis – ungenügendes Material",
+      "Weiß kann mattsetzen"
+     ],
+     "answer": 1,
+     "explain": "Mit König und Turm kannst du mattsetzen – wie genau, lernst du später. Also: weiterspielen!"
+    },
+    {
+     "type": "quiz",
+     "text": "König und Springer gegen König?",
+     "fen": "4k3/8/8/8/8/8/8/1N1K4 w - - 0 1",
+     "options": [
+      "Remis – ungenügendes Material",
+      "Weiß kann mattsetzen"
+     ],
+     "answer": 0,
+     "explain": "Ein einzelner Springer reicht nicht für ein Matt. **Remis.**"
+    },
+    {
+     "type": "move",
+     "text": "Du hast nur noch deinen König, Schwarz hat König und Turm. Doch der Turm steht ungedeckt direkt neben dir. Schlag ihn – dann ist es Remis!",
+     "fen": "k7/8/8/8/8/3r4/4K3/8 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e2d3"
+     ],
+     "hint": "Der König darf ungedeckte Figuren neben sich schlagen.",
+     "success": "Gerettet! König gegen König – keiner kann mehr gewinnen."
+    },
+    {
+     "type": "quiz",
+     "text": "Was bedeutet **dreimalige Wiederholung** genau?",
+     "options": [
+      "Dieselbe Stellung entsteht zum dritten Mal (mit derselben Seite am Zug)",
+      "Derselbe Zug wird dreimal hintereinander gespielt",
+      "Ein Spieler gibt dreimal hintereinander Schach"
+     ],
+     "answer": 0,
+     "explain": "Es zählt die **Stellung**, nicht der Zug. Oft passiert das bei *Dauerschach*: Ein Spieler gibt immer wieder Schach, der andere kann nicht entkommen."
+    },
+    {
+     "type": "quiz",
+     "text": "Was setzt die Zählung der **50-Züge-Regel** wieder auf null?",
+     "options": [
+      "Ein Bauernzug oder ein Schlagzug",
+      "Ein Schachgebot",
+      "Eine Rochade"
+     ],
+     "answer": 0,
+     "explain": "Jeder **Bauernzug** und jeder **Schlagzug** startet die Zählung neu."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Wie endet die Partie?",
+     "fen": "8/8/8/8/8/8/5Q2/K6k b - - 0 1",
+     "options": [
+      "Weiß gewinnt – Matt",
+      "Remis – Patt",
+      "Es geht normal weiter"
+     ],
+     "answer": 1,
+     "explain": "Der schwarze König steht nicht im Schach, kann aber nicht ziehen: **Patt**.",
+     "orientation": "w"
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Gewinnen: Matt, Aufgabe oder Zeit.\n• Remis: Patt, dreimalige Wiederholung, 50-Züge-Regel, ungenügendes Material, Einigung.\n• Liegst du hinten, halte Ausschau nach einem Remis-Rettungsanker!"
+    }
+   ]
+  },
+  {
+   "id": "basics-opening-rules",
+   "unit": "basics-game",
+   "title": "Die 3 goldenen Eröffnungsregeln",
+   "subtitle": "Zentrum, Entwicklung, Rochade.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die ersten Züge legen den Grundstein für die ganze Partie. Drei goldene Regeln bringen dich sicher durch die Eröffnung:\n1. **Kämpf um das Zentrum** (die gelben Felder).\n2. **Entwickle deine Figuren** – Springer und Läufer raus!\n3. **Bring deinen König in Sicherheit** – rochier früh.",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "marks": {
+      "d4": "y",
+      "e4": "y",
+      "d5": "y",
+      "e5": "y"
+     }
+    },
+    {
+     "type": "info",
+     "text": "Warum das Zentrum? Von dort aus erreichen deine Figuren das ganze Brett.\nDer Bauer e4 kontrolliert d5 und f5 (grün) – und öffnet nebenbei Dame und Läufer den Weg (blau).",
+     "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+     "arrows": [
+      [
+       "e4",
+       "d5",
+       "g"
+      ],
+      [
+       "e4",
+       "f5",
+       "g"
+      ],
+      [
+       "d1",
+       "h5",
+       "b"
+      ],
+      [
+       "f1",
+       "a6",
+       "b"
+      ]
+     ],
+     "orientation": "w"
+    },
+    {
+     "type": "move",
+     "text": "Regel 1: Stell einen Bauern mit Doppelschritt **mitten ins Zentrum**!",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e2e4",
+      "d2d4"
+     ],
+     "hint": "Der Bauer vor dem König oder der vor der Dame.",
+     "success": "Starker Start! Genau so beginnen auch Weltmeister."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz. Weiß hat 1. d4 gespielt. Halte im Zentrum dagegen – mit einem Bauern, der nicht einfach geschlagen werden kann.",
+     "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d7d5"
+     ],
+     "hint": "e5 würde der Bauer d4 sofort schlagen. Welcher Bauer stellt sich ihm direkt entgegen?",
+     "success": "Genau! Dein Bauer d5 hält das Zentrum."
+    },
+    {
+     "type": "move",
+     "text": "Regel 2: Entwickle eine Figur! Bring einen **Springer** so ins Spiel, dass er den Bauern e5 angreift.",
+     "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+     "goal": "exact",
+     "solutions": [
+      "g1f3"
+     ],
+     "hint": "Der Springer vom Königsflügel …",
+     "success": "Sf3 – entwickelt **und** greift an. Zwei Fliegen mit einer Klappe."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt der Läufer: Zieh ihn auf ein aktives Feld, von dem aus er tief ins schwarze Lager zielt.",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+     "goal": "exact",
+     "solutions": [
+      "f1c4",
+      "f1b5"
+     ],
+     "hint": "Lc4 zielt auf f7, Lb5 auf den Springer c6. Beides ist top!",
+     "success": "Super! Das sind die Italienische (Lc4) und die Spanische Partie (Lb5) – zwei der berühmtesten Eröffnungen."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Welcher Zug folgt den goldenen Regeln am besten?",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+     "options": [
+      "3…Sf6",
+      "3…h6",
+      "3…Df6"
+     ],
+     "answer": 0,
+     "explain": "**Sf6** entwickelt eine Figur und greift e4 an. h6 entwickelt nichts, und Df6 holt die Dame zu früh raus – und nimmt dem Springer sein bestes Feld weg."
+    },
+    {
+     "type": "move",
+     "text": "Regel 3: Deine Figuren am Königsflügel sind draußen. Zeit, den König in Sicherheit zu bringen!",
+     "fen": "r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 2 5",
+     "goal": "castle",
+     "hint": "Rochier kurz: König von e1 nach g1.",
+     "success": "0-0! König sicher, Turm aktiv. Genau so spielt man die Spanische Partie."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum solltest du die Dame **nicht zu früh** ins Spiel bringen?",
+     "options": [
+      "Sie wird von kleineren Figuren gejagt, und du verlierst Zeit",
+      "Die Dame darf erst ab dem 10. Zug ziehen",
+      "Weil sie dadurch schwächer wird"
+     ],
+     "answer": 0,
+     "explain": "Jede kleine Figur, die deine Dame angreift, entwickelt sich mit **Tempo** – und du musst schon wieder mit der Dame ziehen."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• Zentrum besetzen: e4/d4 bzw. e5/d5.\n• Springer und Läufer entwickeln – möglichst jede Figur nur einmal ziehen.\n• Früh rochieren.\n• Dame nicht zu früh raus, Randbauern nicht ohne Grund ziehen."
+    }
+   ]
+  },
+  {
+   "id": "basics-scholars-mate",
+   "unit": "basics-game",
+   "title": "Das Schäfermatt",
+   "subtitle": "Die berühmteste Anfängerfalle – und wie du sie stoppst.",
+   "minutes": 4,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Das **Schäfermatt** ist ein Blitz-Matt in nur vier Zügen. Weiß zielt mit **Dame und Läufer** auf den schwachen Punkt **f7**.\nWarum f7? Am Anfang wird das Feld nur vom **König** gedeckt.",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+     "arrows": [
+      [
+       "h5",
+       "f7",
+       "r"
+      ],
+      [
+       "c4",
+       "f7",
+       "r"
+      ]
+     ],
+     "marks": {
+      "f7": "r"
+     },
+     "orientation": "w"
+    },
+    {
+     "type": "line",
+     "text": "Lern die Falle von innen kennen! Spiel als Weiß: **1. e4**, **2. Lc4**, **3. Dh5** und zum Schluss **4. Dxf7#**. Schwarz spielt brav mit.",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "moves": [
+      "e2e4",
+      "e7e5",
+      "f1c4",
+      "b8c6",
+      "d1h5",
+      "g8f6",
+      "h5f7"
+     ],
+     "hint": "Reihenfolge: e2–e4, dann Läufer f1–c4, dann Dame d1–h5, dann Dame schlägt f7.",
+     "success": "Schäfermatt! Vier Züge – und die Partie ist vorbei."
+    },
+    {
+     "type": "info",
+     "text": "Darum klappt das Matt: Die Dame schlägt auf f7 und gibt Schach. Der König kann sie nicht zurückschlagen, weil der **Läufer c4 sie deckt** (blau). Und fliehen kann er auch nicht.",
+     "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+     "arrows": [
+      [
+       "c4",
+       "f7",
+       "b"
+      ]
+     ],
+     "marks": {
+      "f7": "r",
+      "e8": "r"
+     },
+     "orientation": "w"
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz. Weiß hat früh die Dame nach h5 gebracht – sie greift **e5** an. Deck den Bauern und entwickle dabei einen **Springer**!",
+     "fen": "rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2",
+     "goal": "exact",
+     "solutions": [
+      "b8c6"
+     ],
+     "hint": "Sf6? wäre ein Fehler: Dann schlägt die Dame einfach e5. Welcher andere Springer schützt e5?",
+     "success": "Sc6 – gedeckt und entwickelt. Aber Vorsicht, Weiß hat noch eine Idee …"
+    },
+    {
+     "type": "line",
+     "text": "Weiter geht’s: Weiß hat 3. Lc4 gespielt und droht **Dxf7#**! Verteidige dich mit einem Bauernzug, der die Dame angreift **und** ihre Linie nach f7 versperrt. Achtung – die Dame kommt danach wieder!",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+     "moves": [
+      "g7g6",
+      "h5f3",
+      "g8f6"
+     ],
+     "hint": "Erst g7–g6. Wenn die Dame dann nach f3 geht, stellt sich dein Springer g8 auf f6 in den Weg.",
+     "success": "Stark verteidigt! Sf6 blockiert die f-Linie und entwickelt gleichzeitig eine Figur. Die weiße Dame hat nur Zeit verschwendet."
+    },
+    {
+     "type": "move",
+     "text": "Gleiche Stellung, anderer Plan: Diesmal deckst du f7 mit deiner **Dame**.",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+     "goal": "exact",
+     "solutions": [
+      "d8e7",
+      "d8f6"
+     ],
+     "hint": "Deine Dame auf d8 kann ein Feld neben f7 erreichen.",
+     "success": "Auch gut! Jetzt ist f7 doppelt gedeckt, und das Matt ist vom Tisch."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß droht Dxf7#. Welcher Zug verhindert das Matt **nicht**?",
+     "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+     "options": [
+      "3…g6",
+      "3…De7",
+      "3…Sf6"
+     ],
+     "answer": 2,
+     "explain": "**Sf6??** greift zwar die Dame an, aber nach **Dxf7#** ist die Partie sofort vorbei. g6 versperrt die Linie, De7 deckt f7."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• f7 (bzw. f2 für Weiß) ist am Anfang der schwächste Punkt.\n• Zielen Dame und Läufer auf f7: Linie versperren (g6) oder f7 decken (De7).\n• Eine früh herausgerannte Dame kannst du mit Tempo jagen – und dabei deine Figuren entwickeln."
+    }
+   ]
+  },
+  {
+   "id": "basics-notation",
+   "unit": "basics-game",
+   "title": "Notation lesen",
+   "subtitle": "Die Geheimsprache der Schachspieler.",
+   "minutes": 5,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Jeder Zug lässt sich aufschreiben – so kannst du Partien nachspielen und Bücher lesen.\nJede Figur hat einen Buchstaben:\n**K** König · **D** Dame · **T** Turm · **L** Läufer · **S** Springer\nBauern bekommen **keinen** Buchstaben."
+    },
+    {
+     "type": "info",
+     "text": "Ein Zug = **Buchstabe der Figur + Zielfeld**.\n**Sf3** heißt: Ein Springer zieht nach f3. **e4** heißt: Ein Bauer zieht nach e4.\nDazu kommen Sonderzeichen:\n**x** = schlägt · **+** = Schach · **#** = Matt · **0-0** = kurze Rochade · **0-0-0** = lange Rochade",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "arrows": [
+      [
+       "g1",
+       "f3",
+       "g"
+      ],
+      [
+       "e2",
+       "e4",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Was bedeutet **Sf3**?",
+     "options": [
+      "Ein Springer zieht nach f3",
+      "Ein Läufer zieht nach f3",
+      "Ein Bauer schlägt auf f3"
+     ],
+     "answer": 0,
+     "explain": "**S** steht für Springer, **f3** ist das Zielfeld."
+    },
+    {
+     "type": "move",
+     "text": "Spiel **Sc3**!",
+     "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b1c3"
+     ],
+     "hint": "S = Springer. Welcher Springer kann nach c3?",
+     "success": "Richtig gelesen!"
+    },
+    {
+     "type": "quiz",
+     "text": "Was bedeutet **Lxe5**?",
+     "options": [
+      "Ein Läufer schlägt auf e5",
+      "Ein Läufer zieht nach e5 und gibt Schach",
+      "Ein Bauer schlägt einen Läufer auf e5"
+     ],
+     "answer": 0,
+     "explain": "**L** = Läufer, **x** = schlägt, **e5** = Zielfeld."
+    },
+    {
+     "type": "move",
+     "text": "Bei Bauern-Schlagzügen steht vorne die **Linie**, von der der Bauer kommt. Spiel **exd5**!",
+     "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+     "goal": "exact",
+     "solutions": [
+      "e4d5"
+     ],
+     "hint": "Der Bauer von der e-Linie schlägt auf d5.",
+     "success": "exd5 – der e-Bauer hat auf d5 geschlagen."
+    },
+    {
+     "type": "quiz",
+     "text": "Welches Zeichen steht für **Schachmatt**?",
+     "options": [
+      "+",
+      "#",
+      "x"
+     ],
+     "answer": 1,
+     "explain": "**#** heißt Matt. **+** ist ein normales Schach, **x** steht für Schlagen."
+    },
+    {
+     "type": "move",
+     "text": "Spiel **Txe8#**!",
+     "fen": "4r1k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e1e8"
+     ],
+     "hint": "T = Turm, x = schlägt, e8 = Zielfeld, # = Matt.",
+     "success": "Matt! Und du hast es direkt aus der Notation gelesen."
+    },
+    {
+     "type": "quiz",
+     "text": "Wie schreibt man die **kurze Rochade**?",
+     "options": [
+      "0-0",
+      "0-0-0",
+      "Kg1"
+     ],
+     "answer": 0,
+     "explain": "**0-0** ist kurz, **0-0-0** ist lang (drei Nullen – der Turm hat ja auch einen längeren Weg)."
+    },
+    {
+     "type": "quiz",
+     "text": "Partien schreibt man mit Zugnummern: **1. e4 e5 2. Sf3**. Welche Farbe hat **Sf3** gespielt?",
+     "options": [
+      "Weiß",
+      "Schwarz"
+     ],
+     "answer": 0,
+     "explain": "Nach jeder Zugnummer kommt erst der Zug von **Weiß**, dann der von Schwarz. 2. Sf3 ist also der zweite Zug von Weiß."
+    },
+    {
+     "type": "info",
+     "text": "**Kurz gemerkt**\n• K D T L S – Bauern ohne Buchstaben.\n• Figur + Zielfeld: Sf3, Lc4, e4.\n• x schlägt, + Schach, # Matt, 0-0 / 0-0-0 Rochade.\nGlückwunsch – du kennst jetzt alle Grundlagen. Zeit für deine erste Partie!"
+    }
+   ]
+  }
+ ]
+}

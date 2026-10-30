@@ -1,0 +1,2963 @@
+{
+ "openings": [
+  {
+   "id": "italian",
+   "name": "Italienische Partie",
+   "eco": "C50–C55",
+   "side": "w",
+   "level": 1,
+   "summary": "Der Klassiker für Einsteiger: schnell entwickeln, den Läufer auf f7 richten und mit c3 und d4 das Zentrum erobern. Perfekt, wenn du offene Stellungen und klare Pläne magst.",
+   "ideas": [
+    "Erst Figuren raus, dann rochieren – dein König gehört früh nach g1.",
+    "Mit c3 und d4 baust du ein starkes Bauernzentrum.",
+    "Der Läufer c4 zielt auf f7, den wundesten Punkt von Schwarz.",
+    "Im ruhigen d3-Aufbau: Sbd2–f1–g3 manövrieren und langsam Druck am Königsflügel machen.",
+    "Lb3 rechtzeitig spielen, damit ...b5 oder ...d5 deinen Läufer nicht mit Tempo verjagen."
+   ],
+   "lines": [
+    {
+     "name": "Giuoco Piano: c3 und d4",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Der beste Start: Der Bauer nimmt das Zentrum und macht Dame und Läufer f1 den Weg frei."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält im Zentrum dagegen und will selbst Platz für seine Figuren."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt mit Tempo: Der Springer greift e5 an und kontrolliert d4."
+      },
+      {
+       "san": "Nc6",
+       "note": "Schwarz deckt e5 mit einer Figur – die natürlichste Antwort."
+      },
+      {
+       "san": "Bc4",
+       "note": "Die Italienische! Der Läufer zielt auf f7 – den Punkt, den nur der schwarze König deckt."
+      },
+      {
+       "san": "Bc5",
+       "note": "Schwarz spiegelt dich: Sein Läufer zielt jetzt seinerseits auf f2."
+      },
+      {
+       "san": "c3",
+       "note": "Bereitet d4 vor. Der Springer b1 muss dafür warten – er kommt später über d2."
+      },
+      {
+       "san": "Nf6",
+       "note": "Schwarz entwickelt und greift e4 an. Jetzt entscheidest du: scharf mit d4 oder ruhig mit d3."
+      },
+      {
+       "san": "d4",
+       "note": "Jetzt knallt's im Zentrum! Nach ...exd4 nimmst du mit dem c-Bauern zurück – dafür war c3 da."
+      },
+      {
+       "san": "exd4",
+       "note": "Schwarz tauscht – sonst drängt dxe5 seinen Springer f6 weg."
+      },
+      {
+       "san": "cxd4",
+       "note": "Traumzentrum mit e4 und d4! Nebenbei greifst du den Läufer c5 an."
+      },
+      {
+       "san": "Bb4+",
+       "note": "Schach! Der Läufer weicht mit Tempo aus und stört deine Entwicklung."
+      },
+      {
+       "san": "Bd2",
+       "note": "Ruhig und solide dazwischen. (7.Sc3 ist der wilde Möller-Angriff – heb dir den für später auf.)"
+      },
+      {
+       "san": "Bxd2+",
+       "note": "Schwarz tauscht und will gleich mit ...d5 dein Zentrum angreifen."
+      },
+      {
+       "san": "Nbxd2",
+       "note": "Mit dem Springer zurück – er deckt e4. Auf ...d5 antwortest du exd5, danach kommen Db3 und O-O."
+      }
+     ]
+    },
+    {
+     "name": "Giuoco Pianissimo: ruhig mit d3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Der beste Start: Der Bauer nimmt das Zentrum und macht Dame und Läufer f1 den Weg frei."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält im Zentrum dagegen und will selbst Platz für seine Figuren."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt mit Tempo: Der Springer greift e5 an und kontrolliert d4."
+      },
+      {
+       "san": "Nc6",
+       "note": "Schwarz deckt e5 mit einer Figur – die natürlichste Antwort."
+      },
+      {
+       "san": "Bc4",
+       "note": "Die Italienische! Der Läufer zielt auf f7 – den Punkt, den nur der schwarze König deckt."
+      },
+      {
+       "san": "Bc5",
+       "note": "Schwarz spiegelt dich: Sein Läufer zielt jetzt seinerseits auf f2."
+      },
+      {
+       "san": "c3",
+       "note": "Bereitet d4 vor. Der Springer b1 muss dafür warten – er kommt später über d2."
+      },
+      {
+       "san": "Nf6",
+       "note": "Schwarz entwickelt und greift e4 an. Jetzt entscheidest du: scharf mit d4 oder ruhig mit d3."
+      },
+      {
+       "san": "d3",
+       "note": "Die ruhige Alternative zu 5.d4: e4 ist gedeckt, d4 kommt später. So spielen heute auch Weltmeister."
+      },
+      {
+       "san": "d6",
+       "note": "Schwarz baut genauso solide auf und deckt e5."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit, Turm Richtung Mitte. Lieber zu früh rochieren als zu spät!"
+      },
+      {
+       "san": "O-O",
+       "note": "Auch Schwarz bringt seinen König in Sicherheit."
+      },
+      {
+       "san": "Re1",
+       "note": "Der Turm geht auf die e-Linie: Er deckt e4 und unterstützt später den Vorstoß d4."
+      },
+      {
+       "san": "a6",
+       "note": "Schwarz baut seinem Läufer ein Fluchtfeld auf a7, falls du mit d4 oder b4 kommst."
+      },
+      {
+       "san": "Bb3",
+       "note": "Vorbeugend zurück: Gegen ...b5 oder ...d5 steht der Läufer hier sicher und zielt weiter auf f7."
+      }
+     ]
+    },
+    {
+     "name": "Zweispringerspiel: 3...Sf6 4.d3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Der beste Start: Der Bauer nimmt das Zentrum und macht Dame und Läufer f1 den Weg frei."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält im Zentrum dagegen und will selbst Platz für seine Figuren."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt mit Tempo: Der Springer greift e5 an und kontrolliert d4."
+      },
+      {
+       "san": "Nc6",
+       "note": "Schwarz deckt e5 mit einer Figur – die natürlichste Antwort."
+      },
+      {
+       "san": "Bc4",
+       "note": "Die Italienische! Der Läufer zielt auf f7 – den Punkt, den nur der schwarze König deckt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Das Zweispringerspiel: Schwarz greift sofort e4 an, statt den Läufer zu entwickeln."
+      },
+      {
+       "san": "d3",
+       "note": "Deckt e4 ganz entspannt. Das wilde 4.Sg5 lernst du bei den Fallen – hier geht's solide."
+      },
+      {
+       "san": "Be7",
+       "note": "Bescheiden, aber solide: Schwarz macht die Rochade bereit."
+      },
+      {
+       "san": "O-O",
+       "note": "Erst der König, dann der Plan. Dein Aufbau passt gegen fast alles."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz rochiert ebenfalls."
+      },
+      {
+       "san": "Re1",
+       "note": "Noch ein Verteidiger für e4. Damit kannst du c3 und d4 in Ruhe vorbereiten."
+      },
+      {
+       "san": "d6",
+       "note": "Schwarz festigt e5 und öffnet seinem Läufer c8 die Diagonale."
+      },
+      {
+       "san": "c3",
+       "note": "Klassisch: c3 bereitet d4 vor. Dein Zentrum soll wachsen, ohne dass dabei etwas hängt."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "london",
+   "name": "Londoner System",
+   "eco": "D02/A48",
+   "side": "w",
+   "level": 1,
+   "summary": "Ein Aufbau statt Theorie-Pauken: Lf4, e3, Sf3, c3, Ld3 und Sbd2 – fast egal, was Schwarz spielt. Perfekt, wenn du schnell eine solide, sichere Stellung willst.",
+   "ideas": [
+    "Der Läufer c1 kommt früh nach f4 – bevor e3 ihn einsperrt.",
+    "Die Pyramide c3–d4–e3 macht dein Zentrum fast unknackbar.",
+    "Greift ...Db6 deinen Bauern b2 an, hilft Db3 oder Dc2 – nicht einfach einstellen.",
+    "Typischer Plan: Se5, f4 und Angriff am Königsflügel – oder h3 und ruhig ausbauen.",
+    "Gegen ...Ld6 ziehst du mit Lg3 zurück: Tausch nur zu deinen Bedingungen."
+   ],
+   "lines": [
+    {
+     "name": "Gegen 1...d5",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Damenbauer ins Zentrum. Er ist von der Dame gedeckt – ein ruhigerer Start als 1.e4."
+      },
+      {
+       "san": "d5",
+       "note": "Schwarz stellt sich direkt dagegen – der klassische Weg, d4 zu bremsen."
+      },
+      {
+       "san": "Bf4",
+       "note": "Das Markenzeichen: Der Läufer kommt raus, bevor e3 ihn einsperrt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Natürliche Entwicklung: Der Springer kontrolliert e4."
+      },
+      {
+       "san": "e3",
+       "note": "Stützt d4 und öffnet den Läufer f1. Die Londoner Pyramide wächst."
+      },
+      {
+       "san": "e6",
+       "note": "Solide: Schwarz öffnet seinen Läufer f8 – dafür sitzt sein Läufer c8 hinter e6 fest."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt, deckt d4 und kontrolliert e5 – dein Lieblingsfeld für später."
+      },
+      {
+       "san": "c5",
+       "note": "Schwarz greift d4 an – die typische Antwort auf den Londoner."
+      },
+      {
+       "san": "c3",
+       "note": "Die Pyramide c3–d4–e3 steht! Behalte im Auge: ...Db6 greift jetzt b2 an."
+      },
+      {
+       "san": "Nc6",
+       "note": "Mehr Druck auf d4 – Schwarz sammelt seine Kräfte gegen dein Zentrum."
+      },
+      {
+       "san": "Nbd2",
+       "note": "Nach d2, denn c3 gehört dem Bauern. Von hier kontrolliert der Springer e4 und c4."
+      },
+      {
+       "san": "Bd6",
+       "note": "Schwarz bietet den Läufertausch an – dein starker Läufer f4 nervt ihn."
+      },
+      {
+       "san": "Bg3",
+       "note": "Ausweichen statt Doppelbauer nach ...Lxf4 exf4. Nimmt Schwarz auf g3, öffnet hxg3 deine h-Linie."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz bringt seinen König in Sicherheit."
+      },
+      {
+       "san": "Bd3",
+       "note": "Der Läufer zielt auf h7. Danach O-O, Se5 und vielleicht f4 – Angriff!"
+      }
+     ]
+    },
+    {
+     "name": "Gegen den Königsinder-Aufbau",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Damenbauer ins Zentrum. Er ist von der Dame gedeckt – ein ruhigerer Start als 1.e4."
+      },
+      {
+       "san": "Nf6",
+       "note": "Flexibel: Schwarz legt sich noch nicht fest und kontrolliert e4."
+      },
+      {
+       "san": "Bf4",
+       "note": "Auch hier: Läufer raus vor e3. Der Londoner funktioniert gegen fast alles."
+      },
+      {
+       "san": "g6",
+       "note": "Schwarz will den Läufer nach g7 fianchettieren – ein Königsinder-Aufbau."
+      },
+      {
+       "san": "e3",
+       "note": "Stützt d4 und den Läufer f4. Ruhig weiterbauen."
+      },
+      {
+       "san": "Bg7",
+       "note": "Der Läufer auf g7 schaut über die lange Diagonale auf d4 und b2."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt und behält e5 im Auge – dort will Schwarz später mit ...e5 hin."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz rochiert früh, typisch für den Königsinder."
+      },
+      {
+       "san": "Be2",
+       "note": "Bescheiden, aber klug: Auf d3 könnte ...e5–e4 den Läufer belästigen. Hier steht er sicher."
+      },
+      {
+       "san": "d6",
+       "note": "Bereitet ...e5 vor – den typischen Hebel gegen deinen Läufer f4."
+      },
+      {
+       "san": "h3",
+       "note": "Wichtig! Kein ...Sg4 oder ...Lg4, und nach ...Sh5 hat dein Läufer das Fluchtfeld h2."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Der Springer unterstützt ...e5. Gleich wird es im Zentrum ernst."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit. Gegen ...e5 hältst du mit c3 und Lh2 alles stabil."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "scotch",
+   "name": "Schottische Partie",
+   "eco": "C45",
+   "side": "w",
+   "level": 1,
+   "summary": "Mit 3.d4 öffnest du sofort das Zentrum und bekommst freies Figurenspiel. Klare Stellungen, wenig Theorie – ideal, wenn du aktiv spielen willst, ohne dich durch Spanisch zu quälen.",
+   "ideas": [
+    "3.d4 klärt das Zentrum sofort – Schwarz muss auf d4 nehmen.",
+    "Dein Springer d4 steht zentral: Gegen ...Lc5 und ...Df6 schützen ihn Le3 und c3.",
+    "Nach Sxc6 bxc6 und e5 hast du Raum, Schwarz einen zerrupften Damenflügel.",
+    "Schnell rochieren und die Türme in die Mitte – die Linien sind offen."
+   ],
+   "lines": [
+    {
+     "name": "4...Sf6: Mieses-Variante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen und Linien für Dame und Läufer öffnen."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz kontert im Zentrum."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an und entwickelt gleichzeitig."
+      },
+      {
+       "san": "Nc6",
+       "note": "Schwarz deckt e5 – der Standardzug."
+      },
+      {
+       "san": "d4",
+       "note": "Die Schottische! Du greifst e5 ein zweites Mal an und öffnest sofort das Zentrum."
+      },
+      {
+       "san": "exd4",
+       "note": "Fast erzwungen: e5 lässt sich nicht halten, also tauscht Schwarz."
+      },
+      {
+       "san": "Nxd4",
+       "note": "Zurückgewonnen, der Springer steht zentral. Alle deine Figuren haben jetzt freie Bahn."
+      },
+      {
+       "san": "Nf6",
+       "note": "Schwarz greift e4 an – die solideste Antwort auf die Schottische."
+      },
+      {
+       "san": "Nxc6",
+       "note": "Erst tauschen, damit e5 mit Tempo kommt. Schwarz bekommt dafür einen Doppelbauern."
+      },
+      {
+       "san": "bxc6",
+       "note": "Schwarz nimmt Richtung Zentrum. Seine Bauern am Damenflügel sind aber zerrupft."
+      },
+      {
+       "san": "e5",
+       "note": "Verjagt den Springer f6 mit Tempo. Dein Raumvorteil wächst."
+      },
+      {
+       "san": "Qe7",
+       "note": "Fesselt deinen Bauern: exf6 wäre jetzt illegal, weil die Dame dann Schach gäbe. Der Springer ist gerettet."
+      },
+      {
+       "san": "Qe2",
+       "note": "Deckt e5 und hebt die Fesselung auf. Dein Läufer f1 kommt später über g2 ins Spiel."
+      },
+      {
+       "san": "Nd5",
+       "note": "Der Springer springt ins Zentrum, solange er noch darf."
+      },
+      {
+       "san": "c4",
+       "note": "Verjagt den Springer gleich wieder und gewinnt Raum. Danach folgen meist b3 und Lb2."
+      }
+     ]
+    },
+    {
+     "name": "4...Lc5: Klassische Variante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen und Linien für Dame und Läufer öffnen."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz kontert im Zentrum."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an und entwickelt gleichzeitig."
+      },
+      {
+       "san": "Nc6",
+       "note": "Schwarz deckt e5 – der Standardzug."
+      },
+      {
+       "san": "d4",
+       "note": "Die Schottische! Du greifst e5 ein zweites Mal an und öffnest sofort das Zentrum."
+      },
+      {
+       "san": "exd4",
+       "note": "Fast erzwungen: e5 lässt sich nicht halten, also tauscht Schwarz."
+      },
+      {
+       "san": "Nxd4",
+       "note": "Zurückgewonnen, der Springer steht zentral. Alle deine Figuren haben jetzt freie Bahn."
+      },
+      {
+       "san": "Bc5",
+       "note": "Schwarz greift deinen Springer d4 an – mit dem Läufer und gleich auch mit der Dame."
+      },
+      {
+       "san": "Be3",
+       "note": "Deckt den Springer ein zweites Mal. Simpel und gut."
+      },
+      {
+       "san": "Qf6",
+       "note": "Jetzt ist d4 dreimal angegriffen: Läufer, Dame und Springer. Pass auf!"
+      },
+      {
+       "san": "c3",
+       "note": "Dritter Verteidiger – d4 hält. Ohne c3 würde dir nach dem Tausch auf d4 eine Figur fehlen."
+      },
+      {
+       "san": "Nge7",
+       "note": "Der Springer muss nach e7, weil die Dame auf f6 steht. Von dort unterstützt er ...d5."
+      },
+      {
+       "san": "Bc4",
+       "note": "Aktiver Läufer, zielt auf f7 – und du bist bereit zur Rochade."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz rochiert. Beide Seiten stehen aktiv."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit. Weiter geht's mit Sd2 und f4 – Raum am Königsflügel."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ruy-lopez",
+   "name": "Spanische Partie",
+   "eco": "C60–C99",
+   "side": "w",
+   "level": 2,
+   "summary": "Die königliche Eröffnung: Mit Lb5 setzt du den Verteidiger von e5 unter Druck und spielst auf langfristigen Vorteil. Ideal, wenn du Geduld hast und gern strategisch drückst.",
+   "ideas": [
+    "Lb5 greift den Springer c6 an, der e5 deckt – indirekter, aber dauerhafter Druck.",
+    "Kein Grund zur Eile: erst O-O, Te1 und c3, dann d4.",
+    "Der Läufer zieht sich über a4 nach b3 zurück und zielt weiter auf f7.",
+    "Typisches Manöver: Sb1–d2–f1–g3 für den Angriff am Königsflügel.",
+    "h3 verhindert ...Lg4, bevor du mit d4 das Zentrum aufbaust."
+   ],
+   "lines": [
+    {
+     "name": "Geschlossene Hauptlinie",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen, Dame und Läufer befreien – der Start in die Spanische."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält mit seinem Zentrumsbauern dagegen."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an und entwickelt eine Figur – zwei Fliegen mit einer Klappe."
+      },
+      {
+       "san": "Nc6",
+       "note": "Deckt e5. Genau diesen Springer nimmst du gleich ins Visier."
+      },
+      {
+       "san": "Bb5",
+       "note": "Die Spanische! Du greifst den Verteidiger von e5 an. Lxc6 nebst Sxe5 klappt noch nicht: ...Dd4 holt alles zurück."
+      },
+      {
+       "san": "a6",
+       "note": "Die Morphy-Verteidigung: Schwarz fragt den Läufer sofort, was er vorhat."
+      },
+      {
+       "san": "Ba4",
+       "note": "Der Läufer bleibt am Springer dran. Lxc6 geht auch, ist aber zahmer – du willst den Druck behalten."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickelt und greift e4 an. Schwarz will dich vor der Rochade aus der Ruhe bringen."
+      },
+      {
+       "san": "O-O",
+       "note": "Rochade! e4 darf ruhig hängen: Nach ...Sxe4 kommen d4 oder Te1 mit viel Spiel für dich."
+      },
+      {
+       "san": "Be7",
+       "note": "Die Hauptlinie: Schwarz lässt e4 in Ruhe und bereitet die eigene Rochade vor."
+      },
+      {
+       "san": "Re1",
+       "note": "Der Turm deckt e4. Jetzt droht wirklich Lxc6 nebst Sxe5 – e5 hängt!"
+      },
+      {
+       "san": "b5",
+       "note": "Schwarz verjagt den Läufer und beseitigt damit die Drohung gegen e5."
+      },
+      {
+       "san": "Bb3",
+       "note": "Zurück auf die Traumdiagonale: Von b3 aus zielt der Läufer direkt auf f7."
+      },
+      {
+       "san": "d6",
+       "note": "Deckt e5 endgültig und öffnet dem Läufer c8 den Weg."
+      },
+      {
+       "san": "c3",
+       "note": "Bereitet d4 vor und gibt dem Läufer das Rückzugsfeld c2. Als Nächstes kommt meist h3 gegen ...Lg4."
+      }
+     ]
+    },
+    {
+     "name": "Offene Spanische: 5...Sxe4",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen, Dame und Läufer befreien – der Start in die Spanische."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält mit seinem Zentrumsbauern dagegen."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an und entwickelt eine Figur – zwei Fliegen mit einer Klappe."
+      },
+      {
+       "san": "Nc6",
+       "note": "Deckt e5. Genau diesen Springer nimmst du gleich ins Visier."
+      },
+      {
+       "san": "Bb5",
+       "note": "Die Spanische! Du greifst den Verteidiger von e5 an. Lxc6 nebst Sxe5 klappt noch nicht: ...Dd4 holt alles zurück."
+      },
+      {
+       "san": "a6",
+       "note": "Die Morphy-Verteidigung: Schwarz fragt den Läufer sofort, was er vorhat."
+      },
+      {
+       "san": "Ba4",
+       "note": "Der Läufer bleibt am Springer dran. Lxc6 geht auch, ist aber zahmer – du willst den Druck behalten."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickelt und greift e4 an. Schwarz will dich vor der Rochade aus der Ruhe bringen."
+      },
+      {
+       "san": "O-O",
+       "note": "Rochade! e4 darf ruhig hängen: Nach ...Sxe4 kommen d4 oder Te1 mit viel Spiel für dich."
+      },
+      {
+       "san": "Nxe4",
+       "note": "Die Offene Spanische: Schwarz schnappt sich e4. Keine Panik – den Bauern holst du zurück."
+      },
+      {
+       "san": "d4",
+       "note": "Öffne das Zentrum, solange der schwarze König noch in der Mitte steht!"
+      },
+      {
+       "san": "b5",
+       "note": "Schwarz verjagt erst den Läufer, damit der Springer c6 nach ...d5 nicht gefesselt ist."
+      },
+      {
+       "san": "Bb3",
+       "note": "Zurück auf die starke Diagonale. Der Läufer drückt jetzt auf d5."
+      },
+      {
+       "san": "d5",
+       "note": "Stützt den Springer e4. Schwarz hat aktive Figuren, dafür aber ein paar Schwächen."
+      },
+      {
+       "san": "dxe5",
+       "note": "Bauer zurück! Der Bauer e5 nimmt Schwarz Platz, und du stehst angenehm."
+      }
+     ]
+    },
+    {
+     "name": "Berliner Verteidigung mit 4.d3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen, Dame und Läufer befreien – der Start in die Spanische."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält mit seinem Zentrumsbauern dagegen."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an und entwickelt eine Figur – zwei Fliegen mit einer Klappe."
+      },
+      {
+       "san": "Nc6",
+       "note": "Deckt e5. Genau diesen Springer nimmst du gleich ins Visier."
+      },
+      {
+       "san": "Bb5",
+       "note": "Die Spanische! Du greifst den Verteidiger von e5 an. Lxc6 nebst Sxe5 klappt noch nicht: ...Dd4 holt alles zurück."
+      },
+      {
+       "san": "Nf6",
+       "note": "Die Berliner Verteidigung: Schwarz greift sofort e4 an. Extrem solide – auch Weltmeister vertrauen ihr."
+      },
+      {
+       "san": "d3",
+       "note": "Deckt e4 ganz einfach und umgeht das berüchtigte Berliner Endspiel. Ruhig aufbauen!"
+      },
+      {
+       "san": "Bc5",
+       "note": "Schwarz bringt den Läufer aktiv nach c5, mit Blick auf f2."
+      },
+      {
+       "san": "c3",
+       "note": "Bereitet d4 vor und gibt deinem Läufer später ein Zuhause auf c2."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz rochiert und hält das Zentrum stabil."
+      },
+      {
+       "san": "O-O",
+       "note": "Auch dein König geht in Sicherheit. Jetzt heißt es: geduldig manövrieren."
+      },
+      {
+       "san": "d6",
+       "note": "Deckt e5 und macht dem Läufer c8 den Weg frei."
+      },
+      {
+       "san": "h3",
+       "note": "Kleiner Zug, große Wirkung: Kein ...Lg4 mehr, das deinen Springer f3 fesseln würde."
+      },
+      {
+       "san": "a6",
+       "note": "Jetzt fragt Schwarz den Läufer doch noch."
+      },
+      {
+       "san": "Ba4",
+       "note": "Ausweichen statt tauschen – so behältst du das Läuferpaar. Später geht's über c2 zurück."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "queens-gambit",
+   "name": "Damengambit",
+   "eco": "D20–D69",
+   "side": "w",
+   "level": 2,
+   "summary": "Mit c4 bietest du einen Bauern an, um Schwarz aus dem Zentrum zu locken – kein echtes Gambit, du bekommst ihn fast immer zurück. Für alle, die solide Stellungen mit Dauerdruck mögen.",
+   "ideas": [
+    "c4 greift d5 an: Langfristig willst du mit e4 das ganze Zentrum.",
+    "Gegen das Abgelehnte fesselt Lg5 den Springer f6 und erhöht den Druck auf d5.",
+    "In der Abtauschvariante: Minoritätsangriff mit b4–b5 gegen die schwarzen Damenflügelbauern.",
+    "Nimmt Schwarz auf c4, holst du den Bauern mit e3 und Lxc4 entspannt zurück.",
+    "Der schwarze Läufer c8 ist oft das Sorgenkind – halte ihn eingesperrt."
+   ],
+   "lines": [
+    {
+     "name": "Abgelehnt: Orthodoxe Variante",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Zentrum besetzen – der Bauer ist von der Dame gedeckt."
+      },
+      {
+       "san": "d5",
+       "note": "Schwarz hält mit dem eigenen Damenbauern dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Du bietest c4 an, um den Bauern d5 aus dem Zentrum zu locken."
+      },
+      {
+       "san": "e6",
+       "note": "Abgelehnt! Schwarz stützt d5 felsenfest. Dafür ist sein Läufer c8 erst mal eingesperrt."
+      },
+      {
+       "san": "Nc3",
+       "note": "Mehr Druck auf d5 und Kontrolle über e4."
+      },
+      {
+       "san": "Nf6",
+       "note": "Deckt d5 noch einmal und entwickelt."
+      },
+      {
+       "san": "Bg5",
+       "note": "Fesselt den Springer an die Dame – dadurch wackelt die Deckung von d5."
+      },
+      {
+       "san": "Be7",
+       "note": "Löst die Fesselung: Jetzt kann der Springer wieder frei agieren."
+      },
+      {
+       "san": "e3",
+       "note": "Öffnet den Läufer f1 und stützt d4. Ruhig und solide."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz rochiert früh – sein König ist sicher."
+      },
+      {
+       "san": "Nf3",
+       "note": "Der zweite Springer kommt raus und kontrolliert e5."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Der Springer unterstützt später die Befreiungszüge ...c5 oder ...e5."
+      },
+      {
+       "san": "Rc1",
+       "note": "Vorausschauend: Der Turm stellt sich auf die c-Linie, die sich bald öffnen wird."
+      },
+      {
+       "san": "c6",
+       "note": "Schwarz stützt d5 erneut und plant ...dxc4 nebst ...Sd5 zur Befreiung."
+      },
+      {
+       "san": "Bd3",
+       "note": "Entwickelt den letzten Läufer. Nach ...dxc4 Lxc4 hast du freies Spiel, Schwarz muss sich mühsam befreien."
+      }
+     ]
+    },
+    {
+     "name": "Abgelehnt: Abtauschvariante",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Zentrum besetzen – der Bauer ist von der Dame gedeckt."
+      },
+      {
+       "san": "d5",
+       "note": "Schwarz hält mit dem eigenen Damenbauern dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Du bietest c4 an, um den Bauern d5 aus dem Zentrum zu locken."
+      },
+      {
+       "san": "e6",
+       "note": "Abgelehnt! Schwarz stützt d5 felsenfest. Dafür ist sein Läufer c8 erst mal eingesperrt."
+      },
+      {
+       "san": "Nc3",
+       "note": "Mehr Druck auf d5 und Kontrolle über e4."
+      },
+      {
+       "san": "Nf6",
+       "note": "Deckt d5 noch einmal und entwickelt."
+      },
+      {
+       "san": "cxd5",
+       "note": "Die Abtauschvariante, eine Alternative zu 4.Lg5: Du klärst das Zentrum und bekommst einen klaren Plan."
+      },
+      {
+       "san": "exd5",
+       "note": "Schwarz nimmt mit dem e-Bauern zurück – sein Läufer c8 ist jetzt frei."
+      },
+      {
+       "san": "Bg5",
+       "note": "Fesselt den Springer f6 und erhöht den Druck auf d5."
+      },
+      {
+       "san": "c6",
+       "note": "Stützt d5 und gibt der Dame Luft. Das ist die typische Karlsbader Struktur."
+      },
+      {
+       "san": "e3",
+       "note": "Öffnet den Läufer f1 und stützt d4."
+      },
+      {
+       "san": "Be7",
+       "note": "Löst die Fesselung und macht die Rochade bereit."
+      },
+      {
+       "san": "Qc2",
+       "note": "Verhindert ...Lf5 – der Läufer c8 soll eingesperrt bleiben. Und die Dame schaut schon auf h7."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Entwickelt und kann f6 nachdecken, falls du Lxf6 spielst."
+      },
+      {
+       "san": "Bd3",
+       "note": "Dame und Läufer zielen gemeinsam auf h7. Später kommt der Minoritätsangriff b4–b5."
+      }
+     ]
+    },
+    {
+     "name": "Angenommen",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Zentrum besetzen – der Bauer ist von der Dame gedeckt."
+      },
+      {
+       "san": "d5",
+       "note": "Schwarz hält mit dem eigenen Damenbauern dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Du bietest c4 an, um den Bauern d5 aus dem Zentrum zu locken."
+      },
+      {
+       "san": "dxc4",
+       "note": "Angenommen! Schwarz will den Bauern meist gar nicht behalten, sondern freies Spiel für seine Figuren."
+      },
+      {
+       "san": "Nf3",
+       "note": "Ruhig entwickeln und ...e5 verhindern. Der Bauer c4 läuft dir nicht weg."
+      },
+      {
+       "san": "Nf6",
+       "note": "Schwarz entwickelt und kontrolliert e4."
+      },
+      {
+       "san": "e3",
+       "note": "Öffnet den Läufer f1 – gleich holt er sich den Bauern c4 zurück."
+      },
+      {
+       "san": "e6",
+       "note": "Solide: Schwarz öffnet seinen Läufer f8 und bereitet ...c5 vor."
+      },
+      {
+       "san": "Bxc4",
+       "note": "Bauer zurück, Läufer aktiv. Du hast jetzt mehr Zentrum als Schwarz."
+      },
+      {
+       "san": "c5",
+       "note": "Der typische Gegenschlag: Schwarz greift d4 an, bevor du dich festsetzt."
+      },
+      {
+       "san": "O-O",
+       "note": "Erst den König in Sicherheit, dann das Zentrum klären."
+      },
+      {
+       "san": "a6",
+       "note": "Bereitet ...b5 vor, um deinen Läufer zu verjagen und den Läufer c8 nach b7 zu bringen."
+      },
+      {
+       "san": "Qe2",
+       "note": "Die Dame deckt c4 und macht Platz für Td1. Dein Ziel: e4 durchsetzen."
+      },
+      {
+       "san": "b5",
+       "note": "Schwarz gewinnt Raum am Damenflügel und verjagt deinen Läufer."
+      },
+      {
+       "san": "Bb3",
+       "note": "Zurück auf die Diagonale a2–g8. Mit Td1 und e4 übernimmst du jetzt die Mitte."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vienna",
+   "name": "Wiener Partie",
+   "eco": "C25–C29",
+   "side": "w",
+   "level": 2,
+   "summary": "Mit 2.Sc3 statt 2.Sf3 hältst du dir den Vorstoß f4 offen – der kann Schwarz böse überraschen. Für Angriffslustige, die abseits der ausgetretenen Pfade spielen wollen.",
+   "ideas": [
+    "2.Sc3 deckt e4 und lässt den f-Bauern frei für f4.",
+    "Mit f4 öffnest du die f-Linie für Turm und Angriff.",
+    "Ruhige Alternative: g3 und Lg2 – der Läufer drückt über die lange Diagonale.",
+    "Rechne immer mit ...d5: Schwarz will das Zentrum sofort öffnen."
+   ],
+   "lines": [
+    {
+     "name": "Wiener Gambit: 3.f4",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrumsbauer, Linien öffnen – der Klassiker."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält im Zentrum dagegen."
+      },
+      {
+       "san": "Nc3",
+       "note": "Die Wiener Partie: Der Springer deckt e4 und d5, und dein f-Bauer bleibt frei für f4."
+      },
+      {
+       "san": "Nf6",
+       "note": "Die beste Antwort: Schwarz greift e4 an und bereitet ...d5 vor."
+      },
+      {
+       "san": "f4",
+       "note": "Das Wiener Gambit! Wie Königsgambit, nur besser vorbereitet. Nimmt Schwarz auf f4, kommt e5 mit Tempo."
+      },
+      {
+       "san": "d5",
+       "note": "Die stärkste Antwort: Gegenschlag im Zentrum statt Bauernraub."
+      },
+      {
+       "san": "fxe5",
+       "note": "Schlägt und greift dabei den Springer f6 an."
+      },
+      {
+       "san": "Nxe4",
+       "note": "Der Springer springt aktiv ins Zentrum."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt, deckt e5 und bereitet d4 vor. Solide statt wild."
+      },
+      {
+       "san": "Be7",
+       "note": "Schwarz bereitet die Rochade vor."
+      },
+      {
+       "san": "d4",
+       "note": "Großes Zentrum mit d4 und e5 – dein Raumvorteil ist der Lohn fürs Gambit."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit. Jetzt will Schwarz dein Zentrum mit ...f6 oder ...f5 knacken."
+      },
+      {
+       "san": "Bd3",
+       "note": "Greift den Springer e4 an und zielt auf h7 – ein Läufer mit Angriffslust."
+      },
+      {
+       "san": "f5",
+       "note": "Stützt den Springer e4. Aber Achtung: Jetzt geht en passant!"
+      },
+      {
+       "san": "exf6",
+       "note": "En passant! Du öffnest die f-Linie – nach O-O wird es dort ungemütlich für Schwarz."
+      }
+     ]
+    },
+    {
+     "name": "Ruhig mit 3.g3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrumsbauer, Linien öffnen – der Klassiker."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält im Zentrum dagegen."
+      },
+      {
+       "san": "Nc3",
+       "note": "Die Wiener Partie: Der Springer deckt e4 und d5, und dein f-Bauer bleibt frei für f4."
+      },
+      {
+       "san": "Nf6",
+       "note": "Die beste Antwort: Schwarz greift e4 an und bereitet ...d5 vor."
+      },
+      {
+       "san": "g3",
+       "note": "Die ruhige Alternative zu 3.f4: Dein Läufer kommt nach g2 und drückt über die lange Diagonale."
+      },
+      {
+       "san": "d5",
+       "note": "Schwarz nutzt die Chance und schlägt sofort im Zentrum zu."
+      },
+      {
+       "san": "exd5",
+       "note": "Tauschen – sonst wird e4 zum Dauerziel."
+      },
+      {
+       "san": "Nxd5",
+       "note": "Der Springer steht zentral, aber genau vor deinem künftigen Läufer g2."
+      },
+      {
+       "san": "Bg2",
+       "note": "Jetzt zielt der Läufer auf d5 und b7. Der Springer muss sich entscheiden."
+      },
+      {
+       "san": "Nxc3",
+       "note": "Schwarz tauscht, bevor der Springer d5 unter Druck gerät."
+      },
+      {
+       "san": "bxc3",
+       "note": "Zur Mitte zurückschlagen! Der Bauer stützt d4, und die b-Linie öffnet sich für deinen Turm."
+      },
+      {
+       "san": "Bd6",
+       "note": "Der Läufer deckt e5 und zielt Richtung deines Königsflügels."
+      },
+      {
+       "san": "Nf3",
+       "note": "Entwickelt mit Angriff auf e5."
+      },
+      {
+       "san": "O-O",
+       "note": "Schwarz rochiert – e5 ist ja durch den Läufer d6 gedeckt."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit. Danach Tb1 und d3 oder d4 – dein Läufer g2 drückt auf den Damenflügel."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "scandinavian",
+   "name": "Skandinavisch",
+   "eco": "B01",
+   "side": "b",
+   "level": 1,
+   "summary": "Du greifst e4 mit 1...d5 sofort an und bestimmst das Spiel ab Zug eins. Mit ...Da5 bekommst du einen soliden, leicht zu lernenden Aufbau – super für Einsteiger.",
+   "ideas": [
+    "Dein Aufbau ist fast immer gleich: ...Da5, ...Sf6, ...Lf5, ...e6, ...c6.",
+    "Die Dame steht auf a5 sicher und fesselt nach d4 den Springer c3.",
+    "Den Läufer c8 vor ...e6 rausbringen – nach f5 oder g4.",
+    "...c6 nimmt Sd5- und Sb5-Tricks den Biss und gibt der Dame das Fluchtfeld c7.",
+    "Danach: ...Sbd7, ...Lb4 oder ...Le7 und Rochade."
+   ],
+   "lines": [
+    {
+     "name": "Hauptlinie: 8.De2",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "d5",
+       "note": "Skandinavisch! Du greifst e4 sofort an und bestimmst das Spiel ab Zug eins."
+      },
+      {
+       "san": "exd5",
+       "note": "Weiß nimmt – das spielen fast alle."
+      },
+      {
+       "san": "Qxd5",
+       "note": "Die Dame holt den Bauern zurück. Ja, sie kommt früh raus – gleich bringst du sie in Sicherheit."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß entwickelt mit Tempo und greift deine Dame an."
+      },
+      {
+       "san": "Qa5",
+       "note": "Auf a5 steht die Dame sicher am Rand, hat den Springer c3 im Blick und kann jederzeit zurück."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das Zentrum auf. Jetzt ist sein Springer c3 an den König gefesselt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickeln und e4 kontrollieren."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt."
+      },
+      {
+       "san": "Bf5",
+       "note": "Der Läufer kommt vor ...e6 raus – das ist dein großer Vorteil gegenüber Französisch."
+      },
+      {
+       "san": "Bc4",
+       "note": "Weiß zielt auf f7 und e6."
+      },
+      {
+       "san": "e6",
+       "note": "Jetzt ...e6: Der Läufer f5 ist schon draußen, und der Läufer f8 wird frei."
+      },
+      {
+       "san": "Bd2",
+       "note": "Achtung, Falle! Zieht der Springer c3 weg, greift der Läufer d2 deine Dame an."
+      },
+      {
+       "san": "c6",
+       "note": "Wichtig! Nimmt Sd5- und Sb5-Tricks den Biss und gibt deiner Dame das Feld c7."
+      },
+      {
+       "san": "Qe2",
+       "note": "Weiß plant die lange Rochade und einen Durchbruch im Zentrum."
+      },
+      {
+       "san": "Bb4",
+       "note": "Fesselt den Springer c3 und greift ihn doppelt an. Danach folgen ...Sbd7 und die Rochade."
+      }
+     ]
+    },
+    {
+     "name": "8.Sd5: der Abzugstrick",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "d5",
+       "note": "Skandinavisch! Du greifst e4 sofort an und bestimmst das Spiel ab Zug eins."
+      },
+      {
+       "san": "exd5",
+       "note": "Weiß nimmt – das spielen fast alle."
+      },
+      {
+       "san": "Qxd5",
+       "note": "Die Dame holt den Bauern zurück. Ja, sie kommt früh raus – gleich bringst du sie in Sicherheit."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß entwickelt mit Tempo und greift deine Dame an."
+      },
+      {
+       "san": "Qa5",
+       "note": "Auf a5 steht die Dame sicher am Rand, hat den Springer c3 im Blick und kann jederzeit zurück."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das Zentrum auf. Jetzt ist sein Springer c3 an den König gefesselt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickeln und e4 kontrollieren."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt."
+      },
+      {
+       "san": "Bf5",
+       "note": "Der Läufer kommt vor ...e6 raus – das ist dein großer Vorteil gegenüber Französisch."
+      },
+      {
+       "san": "Bc4",
+       "note": "Weiß zielt auf f7 und e6."
+      },
+      {
+       "san": "e6",
+       "note": "Jetzt ...e6: Der Läufer f5 ist schon draußen, und der Läufer f8 wird frei."
+      },
+      {
+       "san": "Bd2",
+       "note": "Achtung, Falle! Zieht der Springer c3 weg, greift der Läufer d2 deine Dame an."
+      },
+      {
+       "san": "c6",
+       "note": "Wichtig! Nimmt Sd5- und Sb5-Tricks den Biss und gibt deiner Dame das Feld c7."
+      },
+      {
+       "san": "Nd5",
+       "note": "Weiß versucht den Trick trotzdem: Der Springer zieht weg, und der Läufer d2 greift deine Dame an."
+      },
+      {
+       "san": "Qd8",
+       "note": "Dame zurück, alles gedeckt: c6 und e6 bewachen d5. Nach Sxf6+ nimmst du einfach zurück."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "e5-black",
+   "name": "Offene Spiele mit 1...e5",
+   "eco": "C50–C99",
+   "side": "b",
+   "level": 1,
+   "summary": "Mit 1...e5 kämpfst du klassisch ums Zentrum – der Weg, den jeder Großmeister gelernt hat. Hier lernst du die wichtigsten Antworten auf Italienisch und Spanisch.",
+   "ideas": [
+    "...e5 und ...Sc6: Zentrum halten und schnell entwickeln.",
+    "Gegen Lc4 spielst du ...Sf6 – Angriff auf e4 statt passiv warten.",
+    "Gegen Sg5 nie ...Sxd5? (Fried Liver!) – spiel ...Sa5 und greif den Läufer an.",
+    "Gegen Spanisch: ...a6 und ...b5 verjagen den Läufer, ...Le7 und ...O-O sichern den König.",
+    "Rochiere früh: Der Bauer f7 ist dein wunder Punkt."
+   ],
+   "lines": [
+    {
+     "name": "Zweispringer gegen 4.d3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "e5",
+       "note": "Du hältst dagegen: gleiches Recht im Zentrum und freie Bahn für Dame und Läufer f8."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß greift deinen Bauern e5 an."
+      },
+      {
+       "san": "Nc6",
+       "note": "Deckt e5 und entwickelt – die solideste Antwort."
+      },
+      {
+       "san": "Bc4",
+       "note": "Italienisch: Der Läufer zielt auf f7, deinen wundesten Punkt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Das Zweispringerspiel: Du greifst sofort e4 an, statt nur abzuwarten."
+      },
+      {
+       "san": "d3",
+       "note": "Weiß deckt e4 ganz ruhig – der häufigste Zug heute."
+      },
+      {
+       "san": "Bc5",
+       "note": "Aktiver Läufer: Er zielt auf f2, den wunden Punkt von Weiß."
+      },
+      {
+       "san": "c3",
+       "note": "Weiß bereitet d4 vor."
+      },
+      {
+       "san": "d6",
+       "note": "Deckt e5 und öffnet den Läufer c8. Jetzt bist du gegen d4 gewappnet."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert."
+      },
+      {
+       "san": "O-O",
+       "note": "Du auch – nach der Rochade ist f7 viel sicherer."
+      },
+      {
+       "san": "Re1",
+       "note": "Weiß unterstützt e4 und den späteren Vorstoß d4."
+      },
+      {
+       "san": "a6",
+       "note": "Baut deinem Läufer das Fluchtfeld a7: Nach d4 oder b4 bleibt er auf der Diagonale."
+      },
+      {
+       "san": "Bb3",
+       "note": "Weiß zieht seinen Läufer vorbeugend zurück."
+      },
+      {
+       "san": "Ba7",
+       "note": "Der Läufer geht schon mal in Deckung und zielt weiter auf f2. Jetzt kann d4 ihn nicht mehr ärgern."
+      }
+     ]
+    },
+    {
+     "name": "Zweispringer gegen 4.Sg5",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "e5",
+       "note": "Du hältst dagegen: gleiches Recht im Zentrum und freie Bahn für Dame und Läufer f8."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß greift deinen Bauern e5 an."
+      },
+      {
+       "san": "Nc6",
+       "note": "Deckt e5 und entwickelt – die solideste Antwort."
+      },
+      {
+       "san": "Bc4",
+       "note": "Italienisch: Der Läufer zielt auf f7, deinen wundesten Punkt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Das Zweispringerspiel: Du greifst sofort e4 an, statt nur abzuwarten."
+      },
+      {
+       "san": "Ng5",
+       "note": "Weiß greift f7 doppelt an: Springer und Läufer. Jetzt ist Genauigkeit gefragt!"
+      },
+      {
+       "san": "d5",
+       "note": "Der richtige Gegenstoß: Du versperrst dem Läufer c4 den Weg nach f7."
+      },
+      {
+       "san": "exd5",
+       "note": "Weiß nimmt. Jetzt kommt der wichtigste Moment der Variante."
+      },
+      {
+       "san": "Na5",
+       "note": "Nicht ...Sxd5? – dann kommt Sxf7! (Fried Liver). Stattdessen greifst du den Läufer c4 an."
+      },
+      {
+       "san": "Bb5+",
+       "note": "Weiß rettet den Läufer mit Schach."
+      },
+      {
+       "san": "c6",
+       "note": "Blockiert mit Tempo: Der Läufer wird schon wieder angegriffen."
+      },
+      {
+       "san": "dxc6",
+       "note": "Weiß nimmt den Bauern."
+      },
+      {
+       "san": "bxc6",
+       "note": "Zurück – du hast einen Bauern weniger, aber schnelle Entwicklung."
+      },
+      {
+       "san": "Be2",
+       "note": "Weiß zieht den Läufer zurück. Er ist einen Bauern vorn, aber du bist schneller."
+      },
+      {
+       "san": "h6",
+       "note": "Verjagt den Springer g5. Für den Bauern bekommst du Raum und Tempo – genau dafür hast du ihn gegeben."
+      }
+     ]
+    },
+    {
+     "name": "Spanisch: Morphy-Verteidigung",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "e5",
+       "note": "Du hältst dagegen: gleiches Recht im Zentrum und freie Bahn für Dame und Läufer f8."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß greift deinen Bauern e5 an."
+      },
+      {
+       "san": "Nc6",
+       "note": "Deckt e5 und entwickelt – die solideste Antwort."
+      },
+      {
+       "san": "Bb5",
+       "note": "Spanisch: Der Läufer greift deinen Springer an – den Verteidiger von e5."
+      },
+      {
+       "san": "a6",
+       "note": "Die Morphy-Verteidigung: Frag den Läufer, was er will. Nimmt er auf c6, bekommst du das Läuferpaar."
+      },
+      {
+       "san": "Ba4",
+       "note": "Weiß behält den Läufer und damit den Druck."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickeln mit Angriff auf e4."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert. e4 ist indirekt gedeckt: Nach ...Sxe4 kommt Te1 oder d4."
+      },
+      {
+       "san": "Be7",
+       "note": "Die solide Hauptlinie: erst den König sichern, dann um e4 kümmern."
+      },
+      {
+       "san": "Re1",
+       "note": "Weiß deckt e4 und droht jetzt Lxc6 nebst Sxe5."
+      },
+      {
+       "san": "b5",
+       "note": "Verjagt den Läufer und beendet die Drohung gegen e5."
+      },
+      {
+       "san": "Bb3",
+       "note": "Der Läufer zielt jetzt auf f7."
+      },
+      {
+       "san": "d6",
+       "note": "Deckt e5 und öffnet den Läufer c8."
+      },
+      {
+       "san": "c3",
+       "note": "Weiß bereitet d4 vor."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit. Dein Aufbau steht – als Nächstes ...Sa5 und ...c5 oder ...Lb7."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "caro-kann",
+   "name": "Caro-Kann",
+   "eco": "B10–B19",
+   "side": "b",
+   "level": 2,
+   "summary": "Solide wie ein Fels: Mit ...c6 und ...d5 kämpfst du ums Zentrum, ohne deinen Läufer c8 einzusperren. Ideal, wenn du sicher stehen und auf Fehler lauern willst.",
+   "ideas": [
+    "Erst ...c6, dann ...d5: Dein d-Bauer ist gestützt, und der Läufer c8 bleibt frei.",
+    "Läufer raus vor ...e6! Sonst sperrst du ihn ein wie im Französisch.",
+    "In der Vorstoßvariante greift ...c5 die weiße Bauernkette an der Basis an.",
+    "Im Klassischen: ...Lf5–g6, dann ...Sd7, ...Sgf6 und ...e6 – ruhig, aber fest.",
+    "Keine Angst vorm Endspiel – deine Bauernstruktur ist oft die bessere."
+   ],
+   "lines": [
+    {
+     "name": "Vorstoßvariante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "c6",
+       "note": "Caro-Kann: bereitet ...d5 vor. Der Bauer c6 stützt d5, ohne deinen Läufer c8 einzusperren."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das große Zentrum auf."
+      },
+      {
+       "san": "d5",
+       "note": "Jetzt greifst du e4 an. Weiß muss entscheiden: vorziehen, tauschen oder decken."
+      },
+      {
+       "san": "e5",
+       "note": "Die Vorstoßvariante: Weiß gewinnt Raum und nimmt deinem Springer das Feld f6."
+      },
+      {
+       "san": "Bf5",
+       "note": "Das Wichtigste zuerst: Läufer raus, bevor ...e6 ihn einsperrt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt ruhig und deckt d4."
+      },
+      {
+       "san": "e6",
+       "note": "Jetzt passt ...e6: Der Läufer ist schon draußen, und der Läufer f8 wird frei."
+      },
+      {
+       "san": "Be2",
+       "note": "Die Short-Variante: Weiß rochiert schnell und spielt auf Raumvorteil."
+      },
+      {
+       "san": "c5",
+       "note": "Der Hebel! Du greifst die Bauernkette an ihrer Basis d4 an."
+      },
+      {
+       "san": "Be3",
+       "note": "Weiß stützt d4 mit dem Läufer."
+      },
+      {
+       "san": "cxd4",
+       "note": "Jetzt tauschen: Das Zentrum öffnet sich, und deine Figuren bekommen Luft."
+      },
+      {
+       "san": "Nxd4",
+       "note": "Weiß nimmt mit dem Springer zurück – der greift dabei deinen Läufer f5 an."
+      },
+      {
+       "san": "Ne7",
+       "note": "Deckt den Läufer f5 zusätzlich. Mit ...Sbc6 machst du gleich Druck auf d4 und e5."
+      }
+     ]
+    },
+    {
+     "name": "Klassische Variante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "c6",
+       "note": "Caro-Kann: bereitet ...d5 vor. Der Bauer c6 stützt d5, ohne deinen Läufer c8 einzusperren."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das große Zentrum auf."
+      },
+      {
+       "san": "d5",
+       "note": "Jetzt greifst du e4 an. Weiß muss entscheiden: vorziehen, tauschen oder decken."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß deckt e4 mit dem Springer. (3.Sd2 führt meist zum Gleichen.)"
+      },
+      {
+       "san": "dxe4",
+       "note": "Du nimmst – Weiß muss mit dem Springer zurückschlagen."
+      },
+      {
+       "san": "Nxe4",
+       "note": "Der Springer steht zentral, aber du kannst ihn sofort angreifen."
+      },
+      {
+       "san": "Bf5",
+       "note": "Die Klassische Variante: Der Läufer greift den Springer an und kommt aktiv ins Spiel."
+      },
+      {
+       "san": "Ng3",
+       "note": "Weiß greift deinen Läufer an."
+      },
+      {
+       "san": "Bg6",
+       "note": "Zurück nach g6: Der Läufer bleibt auf seiner schönen Diagonale."
+      },
+      {
+       "san": "h4",
+       "note": "Weiß droht h5 und will deinen Läufer vertreiben."
+      },
+      {
+       "san": "h6",
+       "note": "Gibt dem Läufer das Rückzugsfeld h7, damit h5 ihn nicht in die Enge treibt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt und bereitet h5 vor."
+      },
+      {
+       "san": "Nd7",
+       "note": "Verhindert Se5, das deinen Läufer g6 angreifen würde, und bereitet ...Sgf6 vor."
+      },
+      {
+       "san": "h5",
+       "note": "Weiß gewinnt Raum und verjagt deinen Läufer."
+      },
+      {
+       "san": "Bh7",
+       "note": "Genau dafür war ...h6 da: Der Läufer bleibt auf der Diagonale b1–h7. Danach ...e6 und ...Sgf6."
+      }
+     ]
+    },
+    {
+     "name": "Abtauschvariante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "c6",
+       "note": "Caro-Kann: bereitet ...d5 vor. Der Bauer c6 stützt d5, ohne deinen Läufer c8 einzusperren."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das große Zentrum auf."
+      },
+      {
+       "san": "d5",
+       "note": "Jetzt greifst du e4 an. Weiß muss entscheiden: vorziehen, tauschen oder decken."
+      },
+      {
+       "san": "exd5",
+       "note": "Die Abtauschvariante: Weiß tauscht und will ruhig spielen."
+      },
+      {
+       "san": "cxd5",
+       "note": "Mit dem c-Bauern zurück – du behältst die Mitte, und die c-Linie öffnet sich."
+      },
+      {
+       "san": "Bd3",
+       "note": "Der Läufer kontrolliert f5 und zielt auf h7."
+      },
+      {
+       "san": "Nc6",
+       "note": "Entwickelt und kontrolliert e5 und d4."
+      },
+      {
+       "san": "c3",
+       "note": "Weiß stützt d4 – die typische Abtausch-Struktur."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickelt und deckt d5."
+      },
+      {
+       "san": "Bf4",
+       "note": "Der Läufer kontrolliert e5 – der Londoner lässt grüßen."
+      },
+      {
+       "san": "Bg4",
+       "note": "Aktiv! Der Läufer kommt vor ...e6 raus und greift die Dame d1 an."
+      },
+      {
+       "san": "Qb3",
+       "note": "Weiß weicht aus und greift b7 an – ein typischer Trick in dieser Struktur."
+      },
+      {
+       "san": "Qd7",
+       "note": "Deckt b7 ganz ruhig. Den Bauern herzuschenken lohnt sich hier nicht."
+      },
+      {
+       "san": "Nd2",
+       "note": "Weiß entwickelt und plant Sgf3."
+      },
+      {
+       "san": "e6",
+       "note": "Jetzt erst ...e6: Dein Läufer g4 ist schon draußen. Danach ...Ld6 und Rochade."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "french",
+   "name": "Französisch",
+   "eco": "C00–C19",
+   "side": "b",
+   "level": 2,
+   "summary": "Mit ...e6 und ...d5 baust du eine stabile Bauernkette und greifst das weiße Zentrum später mit ...c5 und ...f6 an. Ideal für Konterspieler mit Geduld.",
+   "ideas": [
+    "Greif die weiße Bauernkette an der Basis an: ...c5 gegen d4.",
+    "Mach Druck auf d4 mit ...Sc6, ...Db6 und ...Sf5.",
+    "Dein Sorgenkind ist der Läufer c8 – tausche ihn oder befreie ihn später mit ...b6 und ...La6.",
+    "In der Winawer gibt ...Lxc3 Weiß Doppelbauern – du spielst auf die bessere Struktur.",
+    "Mit ...f6 kannst du später die weiße Spitze e5 sprengen."
+   ],
+   "lines": [
+    {
+     "name": "Vorstoßvariante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "e6",
+       "note": "Französisch: bereitet ...d5 vor – mit festem Stand, weil e6 den Bauern d5 stützt."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das Zentrum aus."
+      },
+      {
+       "san": "d5",
+       "note": "Jetzt greifst du e4 an. Weiß muss vorziehen, decken oder tauschen."
+      },
+      {
+       "san": "e5",
+       "note": "Die Vorstoßvariante: Weiß gewinnt Raum und nimmt deinem Springer das Feld f6."
+      },
+      {
+       "san": "c5",
+       "note": "Sofort an die Basis! ...c5 greift d4 an, den Fuß der weißen Bauernkette."
+      },
+      {
+       "san": "c3",
+       "note": "Weiß stützt d4."
+      },
+      {
+       "san": "Nc6",
+       "note": "Mehr Druck auf d4. Jede Figur, die d4 angreift, zählt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß deckt d4 erneut."
+      },
+      {
+       "san": "Qb6",
+       "note": "Die Dame greift d4 und b2 gleichzeitig an – der typische Druck in der Vorstoßvariante."
+      },
+      {
+       "san": "Be2",
+       "note": "Weiß bereitet die Rochade vor."
+      },
+      {
+       "san": "cxd4",
+       "note": "Jetzt tauschen: Die c-Linie öffnet sich, und d4 wird zum Dauerziel."
+      },
+      {
+       "san": "cxd4",
+       "note": "Weiß nimmt zurück. Der Bauer d4 muss jetzt allein von Figuren gedeckt werden."
+      },
+      {
+       "san": "Nh6",
+       "note": "Sieht komisch aus, ist aber stark: Der Springer will über f5 d4 zum dritten Mal angreifen."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß entwickelt. Nach ...Sf5 will er mit Sa4 deine Dame verjagen."
+      },
+      {
+       "san": "Nf5",
+       "note": "Ziel erreicht: Springer, Springer und Dame nehmen d4 ins Visier. Jetzt muss Weiß genau rechnen."
+      }
+     ]
+    },
+    {
+     "name": "Winawer-Variante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "e6",
+       "note": "Französisch: bereitet ...d5 vor – mit festem Stand, weil e6 den Bauern d5 stützt."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das Zentrum aus."
+      },
+      {
+       "san": "d5",
+       "note": "Jetzt greifst du e4 an. Weiß muss vorziehen, decken oder tauschen."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß deckt e4 mit dem Springer."
+      },
+      {
+       "san": "Bb4",
+       "note": "Die Winawer: Du fesselst den Springer und erhöhst den Druck auf e4."
+      },
+      {
+       "san": "e5",
+       "note": "Weiß zieht vorbei und gewinnt Raum."
+      },
+      {
+       "san": "c5",
+       "note": "Der Standard-Hebel: Angriff auf d4, die Basis der Kette."
+      },
+      {
+       "san": "a3",
+       "note": "Weiß stellt deinen Läufer zur Rede: tauschen oder zurückziehen?"
+      },
+      {
+       "san": "Bxc3+",
+       "note": "Tauschen! Weiß bekommt einen Doppelbauern auf der c-Linie – ein langfristiges Ziel."
+      },
+      {
+       "san": "bxc3",
+       "note": "Weiß nimmt zurück. Er hat das Läuferpaar, du die bessere Struktur."
+      },
+      {
+       "san": "Ne7",
+       "note": "Nach e7, weil der Bauer e5 das Feld f6 bewacht. Von hier kann der Springer nach f5 oder g6."
+      },
+      {
+       "san": "Qg4",
+       "note": "Weiß greift sofort g7 an – der aggressivste Plan."
+      },
+      {
+       "san": "O-O",
+       "note": "Mutig, aber gut: Der König deckt g7. Mit ...Sf5 oder ...Sg6 kommt bald Verstärkung."
+      },
+      {
+       "san": "Bd3",
+       "note": "Der Läufer zielt auf h7. Weiß will mit Dame und Läufer an deinen König."
+      },
+      {
+       "san": "Nbc6",
+       "note": "Entwickelt mit Druck auf d4. Gegen Dh5 hilft ...Sg6 bei der Verteidigung."
+      }
+     ]
+    },
+    {
+     "name": "Abtauschvariante",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "e6",
+       "note": "Französisch: bereitet ...d5 vor – mit festem Stand, weil e6 den Bauern d5 stützt."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut das Zentrum aus."
+      },
+      {
+       "san": "d5",
+       "note": "Jetzt greifst du e4 an. Weiß muss vorziehen, decken oder tauschen."
+      },
+      {
+       "san": "exd5",
+       "note": "Die Abtauschvariante: Weiß macht die Stellung symmetrisch und ruhig."
+      },
+      {
+       "san": "exd5",
+       "note": "Zurücknehmen – und freu dich: Dein Läufer c8 ist plötzlich frei!"
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Du auch. In symmetrischen Stellungen gewinnt, wer seine Figuren besser stellt."
+      },
+      {
+       "san": "Bd3",
+       "note": "Der Läufer zielt auf h7."
+      },
+      {
+       "san": "Bd6",
+       "note": "Spiegelbildlich: Dein Läufer zielt auf h2."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert."
+      },
+      {
+       "san": "O-O",
+       "note": "Du auch – König in Sicherheit."
+      },
+      {
+       "san": "Bg5",
+       "note": "Weiß fesselt deinen Springer f6 an die Dame."
+      },
+      {
+       "san": "Bg4",
+       "note": "Gleiches Recht für alle: Du fesselst seinen Springer f3."
+      },
+      {
+       "san": "Nbd2",
+       "note": "Weiß bringt den letzten Springer raus."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Und du ebenso. Danach ...c6 und ...Dc7 oder ...Te8 – ruhig ausbauen."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sicilian",
+   "name": "Sizilianisch",
+   "eco": "B22/B90",
+   "side": "b",
+   "level": 3,
+   "summary": "Die kämpferischste Antwort auf 1.e4: Mit ...c5 sorgst du für ein unausgeglichenes Spiel und spielst auf Gewinn. Die Najdorf war die Waffe von Fischer und Kasparow – für alle, die Komplikationen lieben.",
+   "ideas": [
+    "...c5 tauscht später einen Flügel- gegen einen Zentrumsbauern: Du hast mehr Mitte.",
+    "...a6 (Najdorf) hält b5 unter Kontrolle und bereitet ...e5 oder ...b5 vor.",
+    "...e5 verjagt den Springer d4. Danach ist d5 das Schlüsselfeld – kontrolliere es mit ...Le6.",
+    "Der Befreiungszug ...d5 löst fast alle Probleme, wenn er klappt.",
+    "Gegen 2.c3: sofort ...d5 – die Dame steht auf d5 sicher, weil Sc3 nicht geht."
+   ],
+   "lines": [
+    {
+     "name": "Najdorf: Englischer Angriff 6.Le3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum und öffnet Dame und Läufer."
+      },
+      {
+       "san": "c5",
+       "note": "Sizilianisch! Du kontrollierst d4 von der Seite und sorgst für ein unausgeglichenes Spiel."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt und bereitet d4 vor."
+      },
+      {
+       "san": "d6",
+       "note": "Kontrolliert e5 und öffnet deinen Läufer c8. So kannst du gleich ...Sf6 spielen, ohne dass e5 nervt."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß öffnet das Zentrum – die Offene Sizilianische."
+      },
+      {
+       "san": "cxd4",
+       "note": "Natürlich nehmen: Du tauschst deinen c-Bauern gegen seinen wertvollen d-Bauern."
+      },
+      {
+       "san": "Nxd4",
+       "note": "Weiß nimmt zurück und hat etwas Entwicklungsvorsprung."
+      },
+      {
+       "san": "Nf6",
+       "note": "Greift e4 an. Meist deckt Weiß mit Sc3 – dann kann sein c-Bauer nicht mehr nach c4."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß deckt e4 – der Standardzug."
+      },
+      {
+       "san": "a6",
+       "note": "Die Najdorf! Kein Sb5 oder Lb5 mehr, und ...e5 oder ...b5 sind vorbereitet."
+      },
+      {
+       "san": "Be3",
+       "note": "Weiß plant f3, Dd2, O-O-O und g4 – den gefürchteten Englischen Angriff."
+      },
+      {
+       "san": "e5",
+       "note": "Die Kernidee: Du verjagst den Springer d4 und bekommst deinen Anteil am Zentrum."
+      },
+      {
+       "san": "Nb3",
+       "note": "Der Springer zieht sich zurück. Auf f3 würde er den f-Bauern blockieren."
+      },
+      {
+       "san": "Be6",
+       "note": "Kontrolliert d5, das Schlüsselfeld der Najdorf, und bereitet ...d5 vor."
+      },
+      {
+       "san": "f3",
+       "note": "Sichert e4 und bereitet g4 vor – Weiß will am Königsflügel stürmen."
+      },
+      {
+       "san": "Be7",
+       "note": "Entwickeln und rochieren. Danach ...O-O, ...Sbd7 und ...b5: Dein Gegenangriff kommt am Damenflügel."
+      }
+     ]
+    },
+    {
+     "name": "Najdorf: Klassisch 6.Le2",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum und öffnet Dame und Läufer."
+      },
+      {
+       "san": "c5",
+       "note": "Sizilianisch! Du kontrollierst d4 von der Seite und sorgst für ein unausgeglichenes Spiel."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt und bereitet d4 vor."
+      },
+      {
+       "san": "d6",
+       "note": "Kontrolliert e5 und öffnet deinen Läufer c8. So kannst du gleich ...Sf6 spielen, ohne dass e5 nervt."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß öffnet das Zentrum – die Offene Sizilianische."
+      },
+      {
+       "san": "cxd4",
+       "note": "Natürlich nehmen: Du tauschst deinen c-Bauern gegen seinen wertvollen d-Bauern."
+      },
+      {
+       "san": "Nxd4",
+       "note": "Weiß nimmt zurück und hat etwas Entwicklungsvorsprung."
+      },
+      {
+       "san": "Nf6",
+       "note": "Greift e4 an. Meist deckt Weiß mit Sc3 – dann kann sein c-Bauer nicht mehr nach c4."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß deckt e4 – der Standardzug."
+      },
+      {
+       "san": "a6",
+       "note": "Die Najdorf! Kein Sb5 oder Lb5 mehr, und ...e5 oder ...b5 sind vorbereitet."
+      },
+      {
+       "san": "Be2",
+       "note": "Der klassische Aufbau: Weiß rochiert kurz und spielt positionell."
+      },
+      {
+       "san": "e5",
+       "note": "Gleiche Idee wie immer: Springer verjagen und dein Stück vom Zentrum nehmen."
+      },
+      {
+       "san": "Nb3",
+       "note": "Der Springer weicht nach b3 aus. Von dort hat er c5 und d4 im Blick."
+      },
+      {
+       "san": "Be7",
+       "note": "Einfach entwickeln und rochieren. ...Le6 und ...Sbd7 kommen danach."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß bringt seinen König in Sicherheit."
+      },
+      {
+       "san": "O-O",
+       "note": "Du auch! Plan: ...Le6, ...Sbd7, ...Tc8 – und irgendwann der Befreiungsschlag ...d5."
+      }
+     ]
+    },
+    {
+     "name": "Alapin: 2.c3",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Weiß besetzt das Zentrum und öffnet Dame und Läufer."
+      },
+      {
+       "san": "c5",
+       "note": "Sizilianisch! Du kontrollierst d4 von der Seite und sorgst für ein unausgeglichenes Spiel."
+      },
+      {
+       "san": "c3",
+       "note": "Das Alapin: Weiß will mit d4 ein volles Bauernzentrum bauen."
+      },
+      {
+       "san": "d5",
+       "note": "Sofort zuschlagen! Weil c3 besetzt ist, kann Weiß deine Dame nicht mit Sc3 jagen."
+      },
+      {
+       "san": "exd5",
+       "note": "Weiß tauscht, damit e4 nicht hängt."
+      },
+      {
+       "san": "Qxd5",
+       "note": "Die Dame steht zentral und sicher – Sc3 geht ja nicht."
+      },
+      {
+       "san": "d4",
+       "note": "Weiß baut sein Zentrum auf."
+      },
+      {
+       "san": "Nf6",
+       "note": "Entwickeln: Der Springer kontrolliert e4 und deckt d5."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt seinen Königsspringer."
+      },
+      {
+       "san": "e6",
+       "note": "Solide: Öffnet den Läufer f8 und stützt die Mitte."
+      },
+      {
+       "san": "Bd3",
+       "note": "Der Läufer zielt auf deinen Königsflügel."
+      },
+      {
+       "san": "Nc6",
+       "note": "Mehr Druck auf d4 – der Springer steht hier ideal."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert."
+      },
+      {
+       "san": "cxd4",
+       "note": "Jetzt tauschen: Weiß bekommt einen isolierten Bauern auf d4 – ein schönes Ziel für dich."
+      },
+      {
+       "san": "cxd4",
+       "note": "Weiß nimmt zurück. Der Isolani gibt ihm aber aktive Figuren."
+      },
+      {
+       "san": "Be7",
+       "note": "Erst rochieren! Nicht ...Sxd4? Sxd4 Dxd4?? Lb5+ – Abzugsangriff von Dd1, und deine Dame ist weg."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "qgd-black",
+   "name": "Damengambit abgelehnt",
+   "eco": "D30–D69",
+   "side": "b",
+   "level": 2,
+   "summary": "Mit 2...e6 hältst du d5 felsenfest und entwickelst dich in Ruhe. Seit über 100 Jahren eine der solidesten Antworten auf 1.d4 – ideal, wenn du sicher stehen willst.",
+   "ideas": [
+    "d5 mit ...e6 stützen und ruhig entwickeln: ...Sf6, ...Le7, ...O-O.",
+    "Dein Sorgenkind ist der Läufer c8 – befreie ihn mit ...b6 und ...Lb7.",
+    "Befreiungszüge wie ...c5 oder ...e5 lösen den Druck im Zentrum.",
+    "Gegen Lg5 fragt ...h6 den Läufer – Weiß muss tauschen oder zurückgehen."
+   ],
+   "lines": [
+    {
+     "name": "Tartakower gegen 4.Lg5",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum mit dem Damenbauern."
+      },
+      {
+       "san": "d5",
+       "note": "Du hältst direkt dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Weiß bietet c4 an, um deinen Bauern d5 wegzulocken."
+      },
+      {
+       "san": "e6",
+       "note": "Abgelehnt! ...e6 stützt d5 – der Bauer bleibt, wo er hingehört."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß erhöht den Druck auf d5."
+      },
+      {
+       "san": "Nf6",
+       "note": "Deckt d5 noch einmal und entwickelt."
+      },
+      {
+       "san": "Bg5",
+       "note": "Weiß fesselt deinen Springer – er soll d5 nicht mehr richtig decken können."
+      },
+      {
+       "san": "Be7",
+       "note": "Löst die Fesselung. Ruhig und gut."
+      },
+      {
+       "san": "e3",
+       "note": "Weiß öffnet den Läufer f1."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit, bevor es im Zentrum losgeht."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt."
+      },
+      {
+       "san": "h6",
+       "note": "Frag den Läufer: tauschen oder zurück? Das Luftloch auf h7 kann später auch nützlich sein."
+      },
+      {
+       "san": "Bh4",
+       "note": "Weiß hält die Fesselung aufrecht."
+      },
+      {
+       "san": "b6",
+       "note": "Die Tartakower-Idee: Dein Problemläufer c8 kommt über b7 ins Spiel."
+      },
+      {
+       "san": "Be2",
+       "note": "Weiß entwickelt seinen Läufer."
+      },
+      {
+       "san": "Bb7",
+       "note": "Der Läufer steht auf der langen Diagonale und kämpft um e4. Später befreist du dich mit ...c5."
+      }
+     ]
+    },
+    {
+     "name": "Abtauschvariante",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum mit dem Damenbauern."
+      },
+      {
+       "san": "d5",
+       "note": "Du hältst direkt dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Weiß bietet c4 an, um deinen Bauern d5 wegzulocken."
+      },
+      {
+       "san": "e6",
+       "note": "Abgelehnt! ...e6 stützt d5 – der Bauer bleibt, wo er hingehört."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß erhöht den Druck auf d5."
+      },
+      {
+       "san": "Nf6",
+       "note": "Deckt d5 noch einmal und entwickelt."
+      },
+      {
+       "san": "cxd5",
+       "note": "Weiß tauscht sofort und legt die Struktur fest."
+      },
+      {
+       "san": "exd5",
+       "note": "Mit dem e-Bauern zurück: Dein Läufer c8 ist jetzt frei!"
+      },
+      {
+       "san": "Bg5",
+       "note": "Weiß fesselt deinen Springer."
+      },
+      {
+       "san": "c6",
+       "note": "Stützt d5 und schafft der Dame Platz. Das ist die typische Karlsbader Struktur."
+      },
+      {
+       "san": "e3",
+       "note": "Weiß öffnet den Läufer f1."
+      },
+      {
+       "san": "Be7",
+       "note": "Löst die Fesselung und bereitet die Rochade vor."
+      },
+      {
+       "san": "Qc2",
+       "note": "Weiß verhindert ...Lf5 – er will deinen Läufer eingesperrt halten."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Entwickelt und kann f6 nachdecken, falls Weiß dort tauscht."
+      },
+      {
+       "san": "Bd3",
+       "note": "Weiß zielt mit Dame und Läufer auf h7."
+      },
+      {
+       "san": "O-O",
+       "note": "Rochade! h7 ist durch den Springer f6 gedeckt. Danach folgen ...Te8 und ...Sf8."
+      }
+     ]
+    },
+    {
+     "name": "Gegen 4.Sf3 und 5.Lf4",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum mit dem Damenbauern."
+      },
+      {
+       "san": "d5",
+       "note": "Du hältst direkt dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Weiß bietet c4 an, um deinen Bauern d5 wegzulocken."
+      },
+      {
+       "san": "e6",
+       "note": "Abgelehnt! ...e6 stützt d5 – der Bauer bleibt, wo er hingehört."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß erhöht den Druck auf d5."
+      },
+      {
+       "san": "Nf6",
+       "note": "Deckt d5 noch einmal und entwickelt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt flexibel."
+      },
+      {
+       "san": "Be7",
+       "note": "Solide: erst rochieren, dann im Zentrum aktiv werden."
+      },
+      {
+       "san": "Bf4",
+       "note": "Der moderne Zug: Der Läufer kontrolliert e5 und geht ...h6-Fragen aus dem Weg."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit."
+      },
+      {
+       "san": "e3",
+       "note": "Weiß stützt d4 und den Läufer f4."
+      },
+      {
+       "san": "c5",
+       "note": "Der Befreiungsschlag! Du greifst d4 an, bevor Weiß sich festsetzt."
+      },
+      {
+       "san": "dxc5",
+       "note": "Weiß nimmt."
+      },
+      {
+       "san": "Bxc5",
+       "note": "Zurückgewonnen – der Läufer steht aktiv auf c5, deine Stellung ist frei."
+      },
+      {
+       "san": "a3",
+       "note": "Weiß bereitet b4 vor, um deinen Läufer zu vertreiben."
+      },
+      {
+       "san": "Nc6",
+       "note": "Entwickelt mit Druck aufs Zentrum. Danach ...Da5 oder ...d4 – du spielst aktiv mit."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "slav",
+   "name": "Slawisch",
+   "eco": "D10–D19",
+   "side": "b",
+   "level": 2,
+   "summary": "Mit 2...c6 stützt du d5, ohne den Läufer c8 einzusperren – das Beste aus zwei Welten. Solide und aktiv, beliebt bis in die Weltspitze.",
+   "ideas": [
+    "...c6 stützt d5 und lässt den Läufer c8 frei – der kommt nach f5 oder g4.",
+    "Nach ...dxc4 und a4 kommt der Läufer nach f5, dann ...e6, ...Lb4 und ...O-O.",
+    "In der Abtauschvariante: aktiv mit ...Sc6 und ...Lf5 – und an b7 denken!",
+    "Jagt Sh4 deinen Läufer f5: ...Lg6, und nach Sxg6 hxg6 hast du die h-Linie."
+   ],
+   "lines": [
+    {
+     "name": "Hauptlinie mit 4...dxc4",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "d5",
+       "note": "Du hältst dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Weiß greift d5 an."
+      },
+      {
+       "san": "c6",
+       "note": "Slawisch! ...c6 stützt d5, und dein Läufer c8 bleibt frei – anders als nach ...e6."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt und kontrolliert e5."
+      },
+      {
+       "san": "Nf6",
+       "note": "Du entwickelst und deckst d5."
+      },
+      {
+       "san": "Nc3",
+       "note": "Mehr Druck auf d5."
+      },
+      {
+       "san": "dxc4",
+       "note": "Jetzt nehmen! Weiß muss Zeit investieren, um c4 zurückzugewinnen."
+      },
+      {
+       "san": "a4",
+       "note": "Verhindert ...b5, mit dem du den Bauern c4 festhalten würdest."
+      },
+      {
+       "san": "Bf5",
+       "note": "Der Läufer kommt vor ...e6 raus – genau dafür spielst du Slawisch."
+      },
+      {
+       "san": "e3",
+       "note": "Weiß öffnet den Läufer f1, um c4 zurückzuholen."
+      },
+      {
+       "san": "e6",
+       "note": "Jetzt ...e6: Der Läufer f5 ist draußen, der Läufer f8 kann folgen."
+      },
+      {
+       "san": "Bxc4",
+       "note": "Weiß holt den Bauern zurück."
+      },
+      {
+       "san": "Bb4",
+       "note": "Fesselt den Springer c3 – damit wird e4 für Weiß schwerer durchzusetzen."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert."
+      },
+      {
+       "san": "O-O",
+       "note": "Du auch – solide und aktiv. Typische Pläne: ...Sbd7, ...De7 und ...e5 oder ...c5."
+      }
+     ]
+    },
+    {
+     "name": "Abtauschvariante",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "d5",
+       "note": "Du hältst dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Weiß greift d5 an."
+      },
+      {
+       "san": "c6",
+       "note": "Slawisch! ...c6 stützt d5, und dein Läufer c8 bleibt frei – anders als nach ...e6."
+      },
+      {
+       "san": "cxd5",
+       "note": "Die Abtauschvariante: Weiß macht die Stellung symmetrisch."
+      },
+      {
+       "san": "cxd5",
+       "note": "Zurück. Die c-Linie ist offen – für beide Seiten."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß entwickelt mit Druck auf d5."
+      },
+      {
+       "san": "Nf6",
+       "note": "Deckt d5."
+      },
+      {
+       "san": "Bf4",
+       "note": "Weiß bringt den Läufer aktiv raus."
+      },
+      {
+       "san": "Nc6",
+       "note": "Entwickelt und kontrolliert e5 und d4."
+      },
+      {
+       "san": "e3",
+       "note": "Weiß stützt d4."
+      },
+      {
+       "san": "Bf5",
+       "note": "Spiegelbildlich: Auch dein Läufer kommt aktiv raus, bevor ...e6 ihn einsperrt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt."
+      },
+      {
+       "san": "e6",
+       "note": "Öffnet den Läufer f8. Achtung: Jetzt kommt oft Db3 gegen b7."
+      },
+      {
+       "san": "Qb3",
+       "note": "Weiß greift b7 an."
+      },
+      {
+       "san": "Bb4",
+       "note": "Gegenangriff statt passiv decken: Der Läufer fesselt den Springer c3. Danach folgt die Rochade."
+      }
+     ]
+    },
+    {
+     "name": "Ruhig mit 4.e3",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "d5",
+       "note": "Du hältst dagegen."
+      },
+      {
+       "san": "c4",
+       "note": "Das Damengambit: Weiß greift d5 an."
+      },
+      {
+       "san": "c6",
+       "note": "Slawisch! ...c6 stützt d5, und dein Läufer c8 bleibt frei – anders als nach ...e6."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt und kontrolliert e5."
+      },
+      {
+       "san": "Nf6",
+       "note": "Du entwickelst und deckst d5."
+      },
+      {
+       "san": "e3",
+       "note": "Der ruhige Weg: Weiß stützt d4 und öffnet den Läufer f1 – dafür ist der Läufer c1 eingesperrt."
+      },
+      {
+       "san": "Bf5",
+       "note": "Läufer raus, bevor ...e6 kommt – der slawische Grundgedanke."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß entwickelt."
+      },
+      {
+       "san": "e6",
+       "note": "Jetzt ...e6: solide Kette, und beide Läufer sind frei."
+      },
+      {
+       "san": "Nh4",
+       "note": "Weiß jagt deinen Läufer – er will das Läuferpaar."
+      },
+      {
+       "san": "Bg6",
+       "note": "Rückzug auf g6. Lass ihn ruhig tauschen: Nach Sxg6 hxg6 bekommst du die halboffene h-Linie."
+      },
+      {
+       "san": "Nxg6",
+       "note": "Weiß holt sich das Läuferpaar."
+      },
+      {
+       "san": "hxg6",
+       "note": "Zur Mitte schlagen – dein Turm h8 schaut jetzt über die h-Linie, und deine Struktur bleibt fest."
+      },
+      {
+       "san": "Bd3",
+       "note": "Weiß zielt auf g6. Deine Kette steht aber stabil."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Entwickelt und unterstützt ...e5 oder ...c5. Danach ...Ld6 – du stehst bequem."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kings-indian",
+   "name": "Königsindisch",
+   "eco": "E60–E99",
+   "side": "b",
+   "level": 3,
+   "summary": "Du lässt Weiß das Zentrum – und greifst es später mit ...e5 und einem Bauernsturm am Königsflügel an. Scharf, dynamisch und nichts für Angsthasen.",
+   "ideas": [
+    "Erst ...Sf6, ...g6, ...Lg7 und ...O-O – dann ...d6 und ...e5.",
+    "Der Läufer g7 ist dein Star: Er zielt über die lange Diagonale.",
+    "Nach d5 von Weiß: Springer umstellen, ...f5 und Bauernsturm am Königsflügel.",
+    "Weiß spielt am Damenflügel, du am Königsflügel – wer schneller ist, gewinnt.",
+    "Im Abtausch-Endspiel keine Panik: Du stehst völlig okay."
+   ],
+   "lines": [
+    {
+     "name": "Klassische Hauptlinie",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "Nf6",
+       "note": "Flexibel: Du kontrollierst e4 und legst dich noch nicht fest."
+      },
+      {
+       "san": "c4",
+       "note": "Weiß gewinnt Raum am Damenflügel."
+      },
+      {
+       "san": "g6",
+       "note": "Dein Läufer f8 wird gleich auf g7 fianchettiert."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß plant e4 und ein großes Bauernzentrum."
+      },
+      {
+       "san": "Bg7",
+       "note": "Dein Läufer steht auf der langen Diagonale und zielt durchs Zentrum."
+      },
+      {
+       "san": "e4",
+       "note": "Weiß baut das Zentrum mit c4, d4 und e4. Lass ihn – du greifst es später an."
+      },
+      {
+       "san": "d6",
+       "note": "Kontrolliert e5 und bereitet ...e5 vor. Der Kampf ums Zentrum beginnt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt klassisch."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit – im Königsinder rochierst du früh."
+      },
+      {
+       "san": "Be2",
+       "note": "Weiß bereitet die Rochade vor."
+      },
+      {
+       "san": "e5",
+       "note": "Der Schlag ins Zentrum! Gewinnen kann Weiß e5 nicht: Nach dxe5 dxe5 Dxd8 Txd8 Sxe5? holt ...Sxe4 alles zurück."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert und hält die Spannung."
+      },
+      {
+       "san": "Nc6",
+       "note": "Mehr Druck auf d4. Weiß muss jetzt Farbe bekennen."
+      },
+      {
+       "san": "d5",
+       "note": "Weiß schließt das Zentrum und gewinnt Raum. Ab jetzt stürmt jeder auf seinem Flügel."
+      },
+      {
+       "san": "Ne7",
+       "note": "Der Springer macht Platz für ...f5. Danach ...Se8 oder ...Sd7 und ...f5 – auf zum Königsangriff!"
+      }
+     ]
+    },
+    {
+     "name": "Abtauschvariante",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "Nf6",
+       "note": "Flexibel: Du kontrollierst e4 und legst dich noch nicht fest."
+      },
+      {
+       "san": "c4",
+       "note": "Weiß gewinnt Raum am Damenflügel."
+      },
+      {
+       "san": "g6",
+       "note": "Dein Läufer f8 wird gleich auf g7 fianchettiert."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß plant e4 und ein großes Bauernzentrum."
+      },
+      {
+       "san": "Bg7",
+       "note": "Dein Läufer steht auf der langen Diagonale und zielt durchs Zentrum."
+      },
+      {
+       "san": "e4",
+       "note": "Weiß baut das Zentrum mit c4, d4 und e4. Lass ihn – du greifst es später an."
+      },
+      {
+       "san": "d6",
+       "note": "Kontrolliert e5 und bereitet ...e5 vor. Der Kampf ums Zentrum beginnt."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt klassisch."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit – im Königsinder rochierst du früh."
+      },
+      {
+       "san": "Be2",
+       "note": "Weiß bereitet die Rochade vor."
+      },
+      {
+       "san": "e5",
+       "note": "Der Schlag ins Zentrum! Gewinnen kann Weiß e5 nicht: Nach dxe5 dxe5 Dxd8 Txd8 Sxe5? holt ...Sxe4 alles zurück."
+      },
+      {
+       "san": "dxe5",
+       "note": "Weiß tauscht ab und will die Damen loswerden – so versuchen viele, den Königsinder zu entschärfen."
+      },
+      {
+       "san": "dxe5",
+       "note": "Zurück. Die Stellung ist symmetrisch, aber dein Läufer g7 wird später stark."
+      },
+      {
+       "san": "Qxd8",
+       "note": "Damentausch: Weiß hofft auf ein ruhiges Endspiel."
+      },
+      {
+       "san": "Rxd8",
+       "note": "Mit dem Turm zurück – er steht sofort auf der offenen d-Linie. Das Endspiel ist für dich völlig okay."
+      }
+     ]
+    },
+    {
+     "name": "Fianchetto-Variante",
+     "moves": [
+      {
+       "san": "d4",
+       "note": "Weiß besetzt das Zentrum."
+      },
+      {
+       "san": "Nf6",
+       "note": "Flexibel: Du kontrollierst e4 und legst dich noch nicht fest."
+      },
+      {
+       "san": "c4",
+       "note": "Weiß gewinnt Raum am Damenflügel."
+      },
+      {
+       "san": "g6",
+       "note": "Dein Läufer f8 wird gleich auf g7 fianchettiert."
+      },
+      {
+       "san": "Nf3",
+       "note": "Weiß entwickelt zuerst den Königsspringer."
+      },
+      {
+       "san": "Bg7",
+       "note": "Dein Läufer kommt auf die lange Diagonale – wie immer."
+      },
+      {
+       "san": "g3",
+       "note": "Weiß fianchettiert auch: Sein Läufer g2 hält gegen deinen Läufer g7."
+      },
+      {
+       "san": "O-O",
+       "note": "König in Sicherheit."
+      },
+      {
+       "san": "Bg2",
+       "note": "Der weiße Läufer steht auf der langen Diagonale."
+      },
+      {
+       "san": "d6",
+       "note": "Bereitet ...e5 vor – der Plan bleibt gleich."
+      },
+      {
+       "san": "O-O",
+       "note": "Weiß rochiert."
+      },
+      {
+       "san": "Nbd7",
+       "note": "Der Springer unterstützt ...e5 und lässt den c-Bauern frei für ...c6."
+      },
+      {
+       "san": "Nc3",
+       "note": "Weiß kontrolliert d5 und e4."
+      },
+      {
+       "san": "e5",
+       "note": "Jetzt der typische Schlag ins Zentrum."
+      },
+      {
+       "san": "e4",
+       "note": "Weiß baut ebenfalls ein Zentrum und hält dagegen."
+      },
+      {
+       "san": "c6",
+       "note": "Kontrolliert d5 und macht der Dame den Weg nach b6 oder a5 frei. Später oft ...exd4 und ...Te8."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "name": "Fallen & Fiese Tricks",
+   "eco": "C41–C57",
+   "side": "w",
+   "level": 1,
+   "summary": "Ein paar fiese Fallen, mit denen du unvorsichtige Gegner im Handumdrehen erwischst – und dabei lernst, warum f7 und offene Linien so gefährlich sind. Spaß garantiert, aber verlass dich nicht nur auf Fallen!",
+   "ideas": [
+    "f7 ist der wunde Punkt: Läufer c4 plus Springer oder Dame – da wird's brenzlig.",
+    "Abzugsschach: Zieht eine Figur weg und dahinter gibt jemand Schach, ist oft die Dame weg.",
+    "Eine gute Falle ist auch dann kein schlechter Zug, wenn der Gegner nicht reinfällt.",
+    "Fällt er nicht rein: ruhig weiterspielen statt beleidigt angreifen."
+   ],
+   "lines": [
+    {
+     "name": "Seekadettenmatt (Legal-Falle)",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen – wie immer."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält dagegen."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an."
+      },
+      {
+       "san": "d6",
+       "note": "Die Philidor-Verteidigung: solide, aber etwas passiv."
+      },
+      {
+       "san": "Bc4",
+       "note": "Der Läufer zielt auf f7 – merk dir diesen Punkt!"
+      },
+      {
+       "san": "Bg4",
+       "note": "Schwarz fesselt deinen Springer an die Dame. Sieht stark aus, ist aber riskant."
+      },
+      {
+       "san": "Nc3",
+       "note": "Entwickelt – und die Falle ist gestellt. Gleich gibt es ein Scheinopfer der Dame."
+      },
+      {
+       "san": "g6",
+       "note": "Ein Fehler: Schwarz denkt nur an seine Entwicklung und übersieht deinen Trick."
+      },
+      {
+       "san": "Nxe5",
+       "note": "Ignoriere die Fesselung! Nimmt Schwarz nicht die Dame, gewinnst du nach ...dxe5 Dxg4 einen Bauern."
+      },
+      {
+       "san": "Bxd1",
+       "note": "Gierig! Schwarz schnappt sich die Dame – und läuft direkt ins Matt."
+      },
+      {
+       "san": "Bxf7+",
+       "note": "Schach! Der König hat nur noch ein Feld: e7."
+      },
+      {
+       "san": "Ke7",
+       "note": "Der einzige Zug."
+      },
+      {
+       "san": "Nd5#",
+       "note": "Matt! Drei kleine Figuren schlagen die Dame – das berühmte Seekadettenmatt von 1750."
+      }
+     ]
+    },
+    {
+     "name": "Fried-Liver-Angriff",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen – wie immer."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält dagegen."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an."
+      },
+      {
+       "san": "Nc6",
+       "note": "Schwarz deckt e5."
+      },
+      {
+       "san": "Bc4",
+       "note": "Der Läufer zielt auf f7 – den Punkt, den nur der König deckt."
+      },
+      {
+       "san": "Nf6",
+       "note": "Das Zweispringerspiel: Schwarz greift e4 an."
+      },
+      {
+       "san": "Ng5",
+       "note": "Jetzt greifst du f7 doppelt an: Springer und Läufer!"
+      },
+      {
+       "san": "d5",
+       "note": "Die richtige Verteidigung: Schwarz versperrt die Diagonale zum Punkt f7."
+      },
+      {
+       "san": "exd5",
+       "note": "Du nimmst – jetzt muss Schwarz genau spielen. Richtig wäre ...Sa5."
+      },
+      {
+       "san": "Nxd5",
+       "note": "Natürlich, aber falsch! Der Springer nimmt zurück und lädt dich zum Opfer ein."
+      },
+      {
+       "san": "Nxf7",
+       "note": "Das Fried-Liver-Opfer! Dein Springer gabelt Dame und Turm – der König muss nehmen."
+      },
+      {
+       "san": "Kxf7",
+       "note": "Schwarz nimmt – sonst ist mindestens der Turm h8 weg."
+      },
+      {
+       "san": "Qf3+",
+       "note": "Schach! Und der Springer d5 wackelt, denn er ist durch deinen Läufer an den König gefesselt."
+      },
+      {
+       "san": "Ke6",
+       "note": "Der König läuft nach vorn, um den Springer selbst zu decken – mutig, aber mitten im Brett."
+      },
+      {
+       "san": "Nc3",
+       "note": "Noch ein Angreifer auf d5! Der König steht im Freien, und dein Angriff rollt."
+      }
+     ]
+    },
+    {
+     "name": "Petrow-Falle: Abzugsschach",
+     "moves": [
+      {
+       "san": "e4",
+       "note": "Zentrum besetzen – wie immer."
+      },
+      {
+       "san": "e5",
+       "note": "Schwarz hält dagegen."
+      },
+      {
+       "san": "Nf3",
+       "note": "Greift e5 an."
+      },
+      {
+       "san": "Nf6",
+       "note": "Die Russische Verteidigung: Schwarz greift lieber e4 an, statt e5 zu decken."
+      },
+      {
+       "san": "Nxe5",
+       "note": "Du nimmst e5. Schwarz sollte jetzt erst ...d6 spielen und dann auf e4 nehmen."
+      },
+      {
+       "san": "Nxe4",
+       "note": "Ein Fehler! Schwarz kopiert dich – aber du hast einen Trick parat."
+      },
+      {
+       "san": "Qe2",
+       "note": "Greift den Springer e4 an – und die e-Linie Richtung schwarzer König ist offen!"
+      },
+      {
+       "san": "Nf6",
+       "note": "Der Springer flieht und übersieht das Abzugsschach. Besser war 4...De7."
+      },
+      {
+       "san": "Nc6+",
+       "note": "Abzugsschach! Die Dame gibt Schach, und dein Springer greift gleichzeitig die Dame d8 an."
+      },
+      {
+       "san": "Be7",
+       "note": "Schwarz muss erst das Schach abwehren – die Dame ist nicht mehr zu retten."
+      },
+      {
+       "san": "Nxd8",
+       "note": "Dame gewonnen! Das ist die Macht des Abzugsschachs."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
