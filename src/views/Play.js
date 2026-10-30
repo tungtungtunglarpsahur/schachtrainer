@@ -89,7 +89,7 @@ function Setup({ s, query, onStart }) {
   const [time, setTime] = useState('none');
   const [coach, setCoach] = useState(s.settings.coach);
   const [speed, setSpeed] = useState(s.settings.botSpeed || 'normal');
-  const recommended = botFor(s.play.rating + 100);
+  const recommended = botFor(s.play.rating);
   const [fen, setFen] = useState(query.get('fen') || '');
   const bot = botFor(elo);
   const fenOk = !fen || !!safeChess(fen);

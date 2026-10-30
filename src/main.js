@@ -43,7 +43,7 @@ function useRoute() {
   useEffect(() => {
     const on = () => {
       setR(parseHash());
-      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+      window.scrollTo(0, 0);
     };
     addEventListener('hashchange', on);
     return () => removeEventListener('hashchange', on);
