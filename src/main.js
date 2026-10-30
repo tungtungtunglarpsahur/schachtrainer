@@ -1,5 +1,5 @@
 // Einstieg: Router, App-Rahmen, Zeitmessung.
-import { html, render, useEffect, useMemo, useRef, useState } from '../vendor/preact-htm.js';
+import { html, render, useEffect, useRef, useState } from '../vendor/preact-htm.js';
 import { useStore, update, today, todayView, streakNow, rankFor, storageOk, state, SURVEY_VERSION } from './lib/store.js';
 import { loadContent } from './lib/content.js';
 import { Icon, Logo, Toasts, Ring } from './ui/kit.js';
@@ -100,165 +100,57 @@ addEventListener('contextmenu', (e) => {
   if (touchDevice.matches && !editable(e.target)) e.preventDefault();
 });
 
-// Leiste unten (Handy & iPad hochkant): beim Runterscrollen ausblenden, beim Hochscrollen
-// und ganz oben wieder zeigen. Abschaltbar in den Einstellungen.
+// Leiste unten (Handy & iPad hochkant): wird beim Runterscrollen Stück für Stück durchsichtiger,
+// bis sie ganz verschwindet – beim Hochscrollen genauso wieder zurück. Ganz oben ist sie immer da.
+// Direkt an die Scroll-Position gekoppelt (keine Animation, die abläuft), deshalb absolut ruhig.
 const smallScreen = matchMedia('(max-width: 900px)');
-function useBarHidden(enabled, routeKey, pinned) {
-  const [hidden, setHidden] = useState(false);
-  useEffect(() => setHidden(false), [routeKey]);
+const calmMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const FADE_DIST = 160; // so viele Pixel Scrollen von ganz sichtbar bis unsichtbar
+function useBarFade(enabled, routeKey, pinned, bar) {
+  const v = useRef(1);
+  const pin = useRef(pinned);
+  pin.current = pinned;
+  const apply = (val) => {
+    v.current = val;
+    const el = bar.current;
+    if (!el) return;
+    const full = val >= 0.999;
+    el.style.opacity = full ? '' : val.toFixed(3);
+    el.style.transform = full || calmMotion.matches ? '' : `translate3d(0, ${((1 - val) * 12).toFixed(2)}px, 0)`;
+    el.classList.toggle('faded', val < 0.25);
+  };
+  useEffect(() => apply(1), [routeKey]);
+  useEffect(() => {
+    if (pinned) apply(1);
+  }, [pinned]);
   useEffect(() => {
     if (!enabled) {
-      setHidden(false);
+      apply(1);
       return;
     }
     let lastY = Math.max(0, scrollY);
-    let run = 0;
     let raf = 0;
-    const check = () => {
+    const tick = () => {
       raf = 0;
       const y = Math.max(0, scrollY);
       const dy = y - lastY;
       lastY = y;
-      if (!smallScreen.matches || y < 48) {
-        run = 0;
-        setHidden(false);
-        return;
-      }
-      if (!dy) return;
-      if (Math.sign(dy) !== Math.sign(run)) run = 0;
-      run += dy;
-      if (run > 28) setHidden(true);
-      else if (run < -18) setHidden(false);
+      if (!smallScreen.matches || pin.current) return apply(1);
+      // Runter: durchsichtiger. Hoch: sichtbarer. Nahe ganz oben: mindestens so sichtbar, wie man oben ist.
+      let next = Math.min(1, Math.max(0, v.current - dy / FADE_DIST));
+      next = Math.max(next, 1 - y / FADE_DIST);
+      if (Math.abs(next - v.current) > 0.001) apply(next);
     };
     const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(check);
+      if (!raf) raf = requestAnimationFrame(tick);
     };
     addEventListener('scroll', onScroll, { passive: true });
     return () => {
       removeEventListener('scroll', onScroll);
       if (raf) cancelAnimationFrame(raf);
+      apply(1);
     };
   }, [enabled]);
-  return enabled && hidden && !pinned;
-}
-
-// „Schredder“: Beim Ausblenden wird die Leiste in Streifen geschnitten, die in einer gleichmäßigen
-// Welle nach unten gezogen werden und dabei verwischen. Beim Einblenden läuft alles exakt rückwärts.
-// Sauber und flüssig: Streifen liegen fertig gezeichnet bereit, bewegt werden nur Position und
-// Deckkraft (das schafft jedes iPhone mühelos), das Verwischen ist eine Überblendung zu einer
-// vorab weichgezeichneten Kopie. Dreht man mittendrin um, kehrt die Bewegung nahtlos um.
-const SHRED = { dur: 440, wave: 180, drop: 84 };
-function BarShred({ hidden, count, bar, items }) {
-  const box = useRef(null);
-  const anims = useRef([]);
-  const token = useRef(0);
-  const started = useRef(false);
-  const geo = useRef('');
-
-  // Streifen pixelgenau über die echte Leiste legen (ganze Pixel – keine Nähte).
-  const layout = () => {
-    const el = box.current;
-    const real = bar.current;
-    if (!el || !real) return false;
-    const r = real.getBoundingClientRect();
-    if (!r.width) return false;
-    const key = [r.left, r.top, r.width, r.height, count].map(Math.round).join();
-    if (key === geo.current) return true;
-    geo.current = key;
-    Object.assign(el.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-    const xs = Array.from({ length: count + 1 }, (_, i) => Math.round((i * r.width) / count));
-    [...el.children].forEach((strip, i) => {
-      strip.style.left = xs[i] + 'px';
-      strip.style.width = xs[i + 1] - xs[i] + 'px';
-      strip.querySelectorAll('.ghost').forEach((g) => {
-        g.style.left = -xs[i] + 'px';
-        g.style.width = r.width + 'px';
-      });
-    });
-    anims.current.forEach((a) => a.cancel());
-    anims.current = [];
-    return true;
-  };
-
-  const build = () => {
-    const strips = [...box.current.children];
-    const last = Math.max(1, strips.length - 1);
-    const list = [];
-    strips.forEach((strip, i) => {
-      const delay = Math.round((i / last) * SHRED.wave); // Welle von links nach rechts
-      const timing = { duration: SHRED.dur, delay, endDelay: SHRED.wave - delay, fill: 'both', easing: 'cubic-bezier(0.3, 0.1, 0.55, 0.6)' };
-      list.push(
-        strip.animate(
-          [
-            { transform: 'translate3d(0, 0, 0) scale(1, 1)', opacity: 1 },
-            { transform: 'translate3d(0, 10px, 0) scale(1, 1.03)', opacity: 1, offset: 0.2 },
-            { transform: `translate3d(0, ${SHRED.drop}px, 0) scale(1, 1.5)`, opacity: 0 },
-          ],
-          timing,
-        ),
-        strip.firstElementChild.animate([{ opacity: 1 }, { opacity: 1, offset: 0.12 }, { opacity: 0, offset: 0.62 }, { opacity: 0 }], timing),
-        strip.lastElementChild.animate([{ opacity: 0 }, { opacity: 0, offset: 0.12 }, { opacity: 1, offset: 0.62 }, { opacity: 1 }], timing),
-      );
-    });
-    list.forEach((a) => {
-      a.pause();
-      a.currentTime = 0;
-    });
-    anims.current = list;
-  };
-
-  const hiddenRef = useRef(hidden);
-  hiddenRef.current = hidden;
-
-  useEffect(() => {
-    layout();
-    const re = () => {
-      if (!hiddenRef.current) layout();
-    };
-    addEventListener('resize', re);
-    return () => {
-      removeEventListener('resize', re);
-      anims.current.forEach((a) => a.cancel());
-      bar.current?.classList.remove('ghosting');
-    };
-  }, [count]);
-
-  useEffect(() => {
-    if (!started.current) {
-      started.current = true;
-      if (!hidden) return;
-    }
-    const el = box.current;
-    const real = bar.current;
-    if (!el || !real || !el.animate || !layout()) {
-      real?.classList.toggle('ghosting', hidden);
-      return;
-    }
-    if (!anims.current.length) build();
-    const run = ++token.current;
-    const list = anims.current;
-    el.classList.add('on');
-    if (hidden) real.classList.add('ghosting'); // echte Leiste blendet weich aus, die Streifen übernehmen
-    list.forEach((a) => {
-      a.playbackRate = hidden ? 1 : -1;
-      a.play();
-    });
-    Promise.all(list.map((a) => a.finished)).then(
-      () => {
-        if (run !== token.current || hidden) return;
-        real.classList.remove('ghosting'); // zusammengesetzt: echte Leiste blendet über den Streifen ein …
-        setTimeout(() => run === token.current && el.classList.remove('on'), 240); // … dann Streifen weg
-      },
-      () => {},
-    );
-  }, [hidden]);
-
-  return html`<div ref=${box} class="shred" inert aria-hidden="true">
-    ${Array.from({ length: count }, () => html`<div class="shred-strip">
-      <div class="shred-sharp"><nav class="tabbar ghost">${items}</nav></div>
-      <div class="shred-soft"><nav class="tabbar ghost">${items}</nav></div>
-    </div>`)}
-  </div>`;
 }
 
 function TopBar({ s }) {
@@ -289,14 +181,8 @@ function Shell({ route, children }) {
   const active = (href) => (href === '#/' ? first === '#/' : first.startsWith(href.replace(/s$/, '')));
   const moreActive = MORE.some((n) => active(n.href));
   useEffect(() => setMore(false), [route.raw]);
-  const barHidden = useBarHidden(s.settings.hideBar !== false, route.raw, more);
-  const fx = s.settings.effects || 'full';
-  const shred = s.settings.hideBar !== false && s.settings.animation !== false && fx !== 'off' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
   const barRef = useRef(null);
-  const tabItems = (copy) => html`
-    ${TABS.map((n) => html`<a href=${copy ? undefined : n.href} class=${active(n.href) && !more ? 'active' : ''}><${Icon} name=${n.icon} size=${22} /><span>${n.label}</span></a>`)}
-    <button type="button" class=${moreActive || more ? 'active' : ''} onClick=${copy ? undefined : () => setMore(!more)} aria-expanded=${copy ? undefined : more}><${Icon} name="grid" size=${22} /><span>Mehr</span></button>`;
-  const ghostItems = useMemo(() => tabItems(true), [first, more, moreActive]);
+  useBarFade(s.settings.hideBar !== false, route.raw, more, barRef);
   return html`<div class="shell">
     <aside class="sidebar">
       <div class="sidebar-logo"><${Logo} /></div>
@@ -318,8 +204,10 @@ function Shell({ route, children }) {
       <nav class="more-sheet" aria-label="Weitere Bereiche">
         ${MORE.map((n) => html`<a href=${n.href} class=${active(n.href) ? 'active' : ''} onClick=${() => setMore(false)}><${Icon} name=${n.icon} /><span>${n.label}</span></a>`)}
       </nav>`}
-    <nav ref=${barRef} class=${`tabbar ${shred ? 'shredmode' : barHidden ? 'away' : ''}`}>${tabItems(false)}</nav>
-    ${shred ? html`<${BarShred} hidden=${barHidden} count=${fx === 'subtle' ? 6 : 10} bar=${barRef} items=${ghostItems} />` : null}
+    <nav ref=${barRef} class="tabbar">
+      ${TABS.map((n) => html`<a href=${n.href} class=${active(n.href) && !more ? 'active' : ''}><${Icon} name=${n.icon} size=${22} /><span>${n.label}</span></a>`)}
+      <button type="button" class=${moreActive || more ? 'active' : ''} onClick=${() => setMore(!more)} aria-expanded=${more}><${Icon} name="grid" size=${22} /><span>Mehr</span></button>
+    </nav>
   </div>`;
 }
 

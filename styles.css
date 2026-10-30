@@ -1076,22 +1076,8 @@ body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none
 input, textarea, select, [contenteditable='true'], .selectable { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 a, svg, .piece, .piece-icon { -webkit-user-drag: none; }
 
-/* Leiste unten (Handy & iPad hochkant): verschwindet beim Runterscrollen, kommt beim Hochscrollen zurück */
-.shred { display: none; }
+/* Leiste unten (Handy & iPad hochkant): wird beim Runterscrollen Stück für Stück durchsichtig – an die Scroll-Position gekoppelt */
 @media (max-width: 900px) {
-  /* Ohne Effekte: die Leiste gleitet weich nach unten */
-  .tabbar:not(.shredmode) { transition: transform 0.5s var(--ease), opacity 0.4s var(--ease); }
-  .tabbar.away { transform: translate3d(0, calc(100% + 24px + var(--safe-b)), 0); opacity: 0; pointer-events: none; }
-  /* Schredder: echte Leiste blendet weich aus, fertig gezeichnete Streifen übernehmen */
-  .tabbar.shredmode { transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.3, 1); }
-  .tabbar.shredmode.ghosting { opacity: 0; pointer-events: none; }
-  .shred { display: block; position: fixed; left: 0; top: 0; width: 0; height: 0; z-index: 89; pointer-events: none; opacity: 0; }
-  .shred.on { opacity: 1; }
-  .shred-strip { position: absolute; top: 0; height: 100%; overflow: hidden; transform-origin: 50% 0; will-change: transform, opacity; }
-  .shred-sharp, .shred-soft { position: absolute; inset: 0; will-change: opacity; }
-  .shred-soft { opacity: 0; filter: blur(6px); }
-  .tabbar.ghost { position: absolute; top: 0; right: auto; bottom: auto; height: 100%; display: flex; view-transition-name: none; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); background: linear-gradient(180deg, rgba(38, 38, 42, 0.96), rgba(20, 20, 22, 0.97)); }
-}
-@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
-  .tabbar { transition: opacity 0.2s linear; }
+  .tabbar { will-change: opacity, transform; transition: opacity 0.1s linear, transform 0.1s linear; }
+  .tabbar.faded { pointer-events: none; }
 }

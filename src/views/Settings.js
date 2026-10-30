@@ -161,7 +161,7 @@ export function Settings() {
         <div class="seg">${EFFECTS.map((x) => html`<button class=${effects === x.id ? 'on' : ''} onClick=${() => set('effects', x.id)}>${x.label}</button>`)}</div>
       </div>
       <${Toggle} label="Animationen" desc="Weiche Übergänge und gleitende Figuren" value=${st.animation} onChange=${(v) => set('animation', v)} />
-      <${Toggle} label="Leiste unten ausblenden" desc="Auf Handy und iPad verschwindet die Leiste beim Runterscrollen und kommt beim Hochscrollen zurück." value=${st.hideBar !== false} onChange=${(v) => set('hideBar', v)} />
+      <${Toggle} label="Leiste unten ausblenden" desc="Auf Handy und iPad wird die Leiste beim Runterscrollen immer durchsichtiger, bis sie verschwindet – beim Hochscrollen kommt sie genauso zurück." value=${st.hideBar !== false} onChange=${(v) => set('hideBar', v)} />
     </section>
 
     <section class="card st-card" id="st-sound">
