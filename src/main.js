@@ -99,6 +99,15 @@ addEventListener('selectstart', (e) => {
 addEventListener('contextmenu', (e) => {
   if (touchDevice.matches && !editable(e.target)) e.preventDefault();
 });
+// Kein Reinzoomen mit zwei Fingern (iPhone/iPad melden das als „gesture“-Ereignis).
+for (const t of ['gesturestart', 'gesturechange', 'gestureend']) addEventListener(t, (e) => e.preventDefault(), { passive: false });
+addEventListener(
+  'touchmove',
+  (e) => {
+    if (e.touches && e.touches.length > 1) e.preventDefault();
+  },
+  { passive: false },
+);
 
 // Leiste unten (Handy & iPad hochkant): wird beim Runterscrollen Stück für Stück durchsichtiger,
 // bis sie ganz verschwindet – beim Hochscrollen genauso wieder zurück. Ganz oben ist sie immer da.

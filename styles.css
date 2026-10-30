@@ -1082,3 +1082,9 @@ a, svg, .piece, .piece-icon { -webkit-user-drag: none; }
   .tabbar { will-change: opacity, transform; transition: opacity 0.1s linear, transform 0.1s linear; }
   .tabbar.faded { pointer-events: none; }
 }
+
+/* Wie eine App: kein Reinzoomen (zwei Finger oder Doppeltippen) und kein Zoom beim Tippen in Eingabefelder */
+html { touch-action: pan-x pan-y; }
+@media (pointer: coarse) {
+  input, textarea, select, .input { font-size: max(16px, 1em); }
+}

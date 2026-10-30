@@ -94,6 +94,9 @@ export function Board({
   const [userArrows, setUserArrows] = useState([]);
   const [userMarks, setUserMarks] = useState({});
   const rightStart = useRef(null);
+  // Pfeile per Finger/Maus erst nach kurzem Festhalten – Tippen und Wischen malt keine Pfeile mehr.
+  const hold = useRef(null);
+  const HOLD_MS = 380;
   const [preview, setPreview] = useState(null);
   const [ghosts, setGhosts] = useState([]);
   const [fx, setFx] = useState([]);
@@ -103,7 +106,10 @@ export function Board({
   const ref = useRef();
 
   const later = (fn, ms) => timers.current.push(setTimeout(fn, ms));
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  useEffect(() => () => {
+    timers.current.forEach(clearTimeout);
+    clearTimeout(hold.current?.timer);
+  }, []);
 
   useEffect(() => {
     setSel(null);
@@ -188,8 +194,8 @@ export function Board({
     onMove({ from, to });
   };
 
-  const startArrow = (e, sq) => {
-    rightStart.current = { sq, rect: ref.current.getBoundingClientRect(), color: arrowColor(e), tap: e.button !== 2, pid: e.pointerId };
+  const startArrow = (e, sq, viaHold = false) => {
+    rightStart.current = { sq, rect: ref.current.getBoundingClientRect(), color: arrowColor(e), tap: e.button !== 2 && !viaHold, pid: e.pointerId };
     try {
       ref.current.setPointerCapture?.(e.pointerId);
     } catch {}
@@ -217,7 +223,7 @@ export function Board({
 
   const onPointerDown = (e) => {
     if (promo) return;
-    if (dragRef.current || rightStart.current) return; // zweiter Finger während eines Zuges: ignorieren
+    if (dragRef.current || rightStart.current || hold.current) return; // zweiter Finger während eines Zuges: ignorieren
     const sq = squareAt(e);
     if (!sq) return;
     if (e.button === 2 || (e.button === 0 && drawMode)) {
@@ -233,9 +239,28 @@ export function Board({
       return;
     }
     if (!canPick(sq)) {
-      // Von einem Feld ohne eigene Figur aus kann man direkt Pfeile ziehen.
+      // Kurz tippen: Auswahl und eigene Pfeile weg. Festhalten (ca. 0,4 s): Pfeil ziehen bzw. Feld markieren.
       setSel(null);
-      startArrow(e, sq);
+      clearTimeout(hold.current?.timer);
+      const keys = { button: 0, pointerId: e.pointerId, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, altKey: e.altKey };
+      hold.current = {
+        sq,
+        pid: e.pointerId,
+        x: e.clientX,
+        y: e.clientY,
+        timer: setTimeout(() => {
+          if (!hold.current || hold.current.sq !== sq) return;
+          hold.current = null;
+          try {
+            navigator.vibrate?.(8);
+          } catch {}
+          startArrow(keys, sq, true);
+          setPreview(null);
+        }, HOLD_MS),
+      };
+      try {
+        ref.current.setPointerCapture?.(e.pointerId);
+      } catch {}
       return;
     }
     e.preventDefault();
@@ -260,6 +285,12 @@ export function Board({
   };
 
   const onPointerMove = (e) => {
+    const hd = hold.current;
+    if (hd && hd.pid === e.pointerId && Math.hypot(e.clientX - hd.x, e.clientY - hd.y) > 10) {
+      // Bewegt, bevor die Haltezeit um war: kein Pfeil.
+      clearTimeout(hd.timer);
+      hold.current = { ...hd, moved: true, timer: null };
+    }
     const st = rightStart.current;
     if (st) {
       if (st.pid !== e.pointerId) return;
@@ -286,6 +317,17 @@ export function Board({
   };
 
   const onPointerUp = (e) => {
+    const hu = hold.current;
+    if (hu && hu.pid === e.pointerId) {
+      clearTimeout(hu.timer);
+      hold.current = null;
+      if (!hu.moved) {
+        // Kurzer Tipp auf ein leeres Feld: eigene Pfeile und Markierungen wegräumen.
+        setUserArrows([]);
+        setUserMarks({});
+      }
+      return;
+    }
     if (rightStart.current) {
       if (rightStart.current.pid === e.pointerId) finishArrow(e);
       return;
@@ -302,6 +344,8 @@ export function Board({
   };
 
   const cancelAll = () => {
+    clearTimeout(hold.current?.timer);
+    hold.current = null;
     rightStart.current = null;
     setPreview(null);
     const d = dragRef.current;
