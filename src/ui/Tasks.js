@@ -321,8 +321,11 @@ export function PlayTask({ step, onDone, onMistake }) {
       return;
     }
     setStatus('thinking');
+    const t0 = Date.now();
     const r = await engine.analyze(c.fen(), { depth: 14, movetime: 500 });
     if (!alive.current || !r?.bestmove) return;
+    await wait(Math.max(0, 900 + Math.random() * 600 - (Date.now() - t0))); // kurz „überlegen“ wie ein Mensch
+    if (!alive.current) return;
     const reply = c.move(parseUci(r.bestmove));
     playMove(reply, c);
     setFen(c.fen());

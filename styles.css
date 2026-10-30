@@ -496,7 +496,7 @@ select.input { appearance: none; -webkit-appearance: none; }
 
 /* ---------- Training / Spiel ---------- */
 .trainer-grid, .game-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 360px); gap: 26px; align-items: start; }
-.trainer-board { width: 100%; max-width: max(320px, min(calc(100dvh - 150px), 760px)); }
+.trainer-board { width: 100%; max-width: max(320px, min(calc(100dvh - 200px), 760px)); }
 .trainer-board.narrow { max-width: max(320px, min(calc(100dvh - 230px), 620px)); margin: 0 auto; width: 100%; }
 .trainer-side { display: grid; gap: 12px; }
 .turn-title { display: flex; align-items: center; gap: 10px; margin: 0; }
@@ -692,7 +692,7 @@ select.input { appearance: none; -webkit-appearance: none; }
   .banner { margin: 12px 24px 0; }
   .trainer-grid, .game-grid { grid-template-columns: minmax(0, 1fr) minmax(280px, 330px); gap: 20px; }
   .game-board-col { max-width: max(320px, min(calc(100dvh - 190px), 760px)); }
-  .trainer-board { max-width: max(320px, min(calc(100dvh - 130px), 760px)); }
+  .trainer-board { max-width: max(320px, min(calc(100dvh - 190px), 760px)); }
 }
 @media (max-width: 1100px) and (max-height: 700px) and (min-width: 901px) {
   .game-board-col { max-width: max(300px, calc(100dvh - 170px)); }
@@ -796,4 +796,8 @@ select.input { appearance: none; -webkit-appearance: none; }
 @media (max-width: 900px) {
   /* Wenn der Coach die Partie anhält, gehört die Frage direkt unters Brett */
   .game-side > .coach-feed:has(.btn-row) { order: -3; border-color: rgba(248, 113, 113, 0.35); }
+}
+@media (max-width: 900px) {
+  .game-side, .trainer-side { width: 100%; max-width: 720px; margin: 0 auto; }
+  .game-actions { grid-template-columns: repeat(4, 1fr); }
 }
