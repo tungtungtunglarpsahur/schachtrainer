@@ -95,7 +95,7 @@ export function InstallGuide({ first = false }) {
 
   const top = html`<div class="ig-top">
     <${Logo} small />
-    ${!first ? html`<button type="button" class="ig-close" onClick=${leave} aria-label="Schließen"><${Icon} name="x" size=${18} /></button>` : null}
+    ${first ? html`<span class="ig-rec"><${Icon} name="check" size=${13} /> Empfohlen</span>` : html`<button type="button" class="ig-close" onClick=${leave} aria-label="Schließen"><${Icon} name="x" size=${18} /></button>`}
   </div>`;
 
   // Instagram, TikTok & Co.: erst in Safari öffnen.
