@@ -801,3 +801,10 @@ select.input { appearance: none; -webkit-appearance: none; }
   .game-side, .trainer-side { width: 100%; max-width: 720px; margin: 0 auto; }
   .game-actions { grid-template-columns: repeat(4, 1fr); }
 }
+/* Rätsel: Countdown bis zum nächsten Rätsel */
+.auto-next { height: 3px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.auto-next span { display: block; height: 100%; background: #fff; transform-origin: left; animation: auto-next 1.6s linear forwards; }
+@keyframes auto-next { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.auto-toggle { border-top: 0; padding: 4px 0; }
+.auto-toggle b { font-size: 0.9rem; }
+.auto-toggle small { font-size: 0.78rem; }

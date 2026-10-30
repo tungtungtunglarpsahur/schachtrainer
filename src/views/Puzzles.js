@@ -103,6 +103,14 @@ function Training({ db, mode, query }) {
     return () => removeEventListener('keydown', k);
   });
 
+  // Flüssig trainieren: nach einer richtigen Lösung geht es von allein weiter.
+  const auto = s.settings.autoNext !== false;
+  useEffect(() => {
+    if (!result?.success || !auto) return;
+    const t = setTimeout(next, 1600);
+    return () => clearTimeout(t);
+  }, [result, auto]);
+
   if (!puzzle)
     return html`<div class="page center-page"><h1>Alles wiederholt! 🎉</h1><p class="muted">Gerade sind keine Fehler fällig. Neue Fehler landen automatisch hier.</p><a class="btn primary" href="#/puzzles/train">Weiter trainieren</a></div>`;
 
@@ -128,11 +136,16 @@ function Training({ db, mode, query }) {
           <span>+${result.xp} XP</span>
         </div>
         <div class="theme-chips">${puzzle.themes.filter((t) => SKILL_THEMES.includes(t) || t.startsWith('mateIn')).map((t) => html`<span class="tchip">${themeName(t)}</span>`)}<span class="tchip dim">Rätsel ${puzzle.rating}</span></div>
+        ${result.success && auto && html`<div class="auto-next"><span></span></div>`}
         <div class="btn-row">
           <button class="btn primary" onClick=${next}>Nächstes <${Icon} name="next" /></button>
           <a class="btn ghost" href=${`#/analysis?fen=${encodeURIComponent(puzzle.fen)}&moves=${puzzle.moves.join(',')}`}><${Icon} name="scope" /> Analysieren</a>
         </div>`}
         ${!result && failed && html`<button class="btn ghost" onClick=${() => settle(false)}>Aufgeben & weiter</button>`}
+        <label class="toggle-row auto-toggle">
+          <span><b>Automatisch weiter</b><small>Nach richtiger Lösung direkt das nächste Rätsel</small></span>
+          <span class="switch"><input type="checkbox" checked=${auto} onChange=${(e) => update((st) => { st.settings.autoNext = e.target.checked; })} /><span></span></span>
+        </label>
         <div class="mini-stats">
           <div><small>Rating</small><b>${s.puzzle.rating}</b></div>
           <div><small>Heute</small><b>${session.ok}/${session.total}</b></div>

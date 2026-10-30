@@ -1,9 +1,10 @@
 // Einstellungen: Plan, Brett, Sound, Daten (Backup / Import / Zurücksetzen).
-import { html, useRef } from '../../vendor/preact-htm.js';
+import { html, useRef, useState } from '../../vendor/preact-htm.js';
 import { useStore, update, exportData, importData, resetAll, LEVELS } from '../lib/store.js';
 import { GOALS, MINUTES } from './Onboarding.js';
 import { Board } from '../ui/Board.js';
 import { Icon, toast } from '../ui/kit.js';
+import { SPEEDS } from './Play.js';
 
 const THEMES = [
   { id: 'slate', name: 'Graphit' },
@@ -72,6 +73,11 @@ export function Settings() {
       <${Toggle} label="Animationen" value=${s.settings.animation} onChange=${(v) => set('animation', v)} />
       <${Toggle} label="Automatisch zur Dame umwandeln" value=${s.settings.autoQueen} onChange=${(v) => set('autoQueen', v)} />
       <${Toggle} label="Bewertungsbalken in Partien" desc="Nur im Coach-Modus „Voll“" value=${s.settings.showEval} onChange=${(v) => set('showEval', v)} />
+      <${Toggle} label="Rätsel: automatisch weiter" desc="Nach richtiger Lösung direkt zum nächsten Rätsel" value=${s.settings.autoNext !== false} onChange=${(v) => set('autoNext', v)} />
+      <div class="toggle-row" style=${{ cursor: 'default', flexWrap: 'wrap' }}>
+        <span><b>Bot-Tempo</b><small>${(SPEEDS.find((x) => x.id === (s.settings.botSpeed || 'normal')) || SPEEDS[1]).desc}</small></span>
+        <div class="seg wrap">${SPEEDS.map((x) => html`<button class=${(s.settings.botSpeed || 'normal') === x.id ? 'on' : ''} onClick=${() => set('botSpeed', x.id)}>${x.label}</button>`)}</div>
+      </div>
     </section>
 
     <section class="card">
@@ -91,12 +97,7 @@ export function Settings() {
           }
           e.target.value = '';
         }} />
-        <button class="btn ghost danger" onClick=${() => {
-          if (confirm('Wirklich ALLES löschen? Fortschritt, Partien und Einstellungen sind dann weg.')) {
-            resetAll();
-            location.hash = '#/';
-          }
-        }}><${Icon} name="trash" /> Alles zurücksetzen</button>
+        <${ResetButton} />
       </div>
     </section>
 
@@ -105,4 +106,17 @@ export function Settings() {
       <p class="muted small">Engine: Stockfish 18 (GPLv3) · Regeln: chess.js (BSD) · Rätsel: Lichess-Datenbank (CC0) · Figuren: Colin M. L. Burnett (GPLv2+) · UI: Preact (MIT) + htm (Apache-2.0).</p>
     </section>
   </div>`;
+}
+
+/** Zweistufiges Zurücksetzen statt Browser-Popup. */
+function ResetButton() {
+  const [armed, setArmed] = useState(false);
+  if (!armed) return html`<button class="btn ghost danger" onClick=${() => setArmed(true)}><${Icon} name="trash" /> Alles zurücksetzen</button>`;
+  return html`<span class="btn-row">
+    <button class="btn primary" onClick=${() => {
+      resetAll();
+      location.hash = '#/';
+    }}><${Icon} name="trash" /> Ja, alles löschen</button>
+    <button class="btn ghost" onClick=${() => setArmed(false)}>Abbrechen</button>
+  </span>`;
 }
