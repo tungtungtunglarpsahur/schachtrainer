@@ -50,7 +50,6 @@ body {
   background:
     radial-gradient(1100px 520px at 50% -260px, rgba(255, 255, 255, 0.07), transparent 70%),
     var(--bg);
-  background-attachment: fixed;
 }
 body::before {
   content: '';
@@ -307,10 +306,10 @@ select.input { appearance: none; -webkit-appearance: none; }
 .sq.light .co { color: var(--dark); }
 .sq.dark .co { color: var(--light); }
 .pieces { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
-.pieces .piece { position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%; transition: transform 0.28s var(--ease); will-change: transform; animation: piece-in 0.3s var(--ease); }
+.pieces .piece { position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%; transition: transform 0.22s var(--ease); animation: piece-in 0.3s var(--ease); }
 @keyframes piece-in { from { opacity: 0; scale: 0.6; } }
 .board.no-anim .pieces .piece { transition: none; animation: none; }
-.pieces .piece.dragging { transition: none; z-index: 10; transform-origin: center; filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.5)); scale: 1.18; animation: none; }
+.pieces .piece.dragging { transition: none; z-index: 10; transform-origin: center; scale: 1.18; will-change: transform; }
 .pieces .piece.dragging.touch { scale: 1.45; }
 .pieces .piece.ghost { opacity: 0.3; }
 .board.interactive { cursor: pointer; }
@@ -831,3 +830,30 @@ select.input { appearance: none; -webkit-appearance: none; }
 @media (min-width: 561px) and (max-width: 1180px) {
   .tiles:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ---------- Brett: Markierungen, Pfeile, Zug-Symbole (wie chess.com) ---------- */
+.sq.mark-o::before { background: rgba(255, 169, 77, 0.55); }
+.sq.mark-glow-r::before, .sq.mark-glow-g::before, .sq.mark-glow-y::before { content: ''; position: absolute; inset: 0; z-index: 1; animation: sq-glow 1.6s ease-in-out infinite; }
+.sq.mark-glow-r::before { background: radial-gradient(circle, rgba(248, 113, 113, 0.75) 0%, rgba(248, 113, 113, 0.35) 55%, rgba(248, 113, 113, 0.12) 100%); box-shadow: inset 0 0 0 3px rgba(248, 113, 113, 0.9); }
+.sq.mark-glow-g::before { background: radial-gradient(circle, rgba(74, 222, 128, 0.7) 0%, rgba(74, 222, 128, 0.3) 55%, rgba(74, 222, 128, 0.1) 100%); box-shadow: inset 0 0 0 3px rgba(74, 222, 128, 0.85); }
+.sq.mark-glow-y::before { background: radial-gradient(circle, rgba(242, 207, 107, 0.7) 0%, rgba(242, 207, 107, 0.3) 55%, transparent 100%); box-shadow: inset 0 0 0 3px rgba(242, 207, 107, 0.85); }
+@keyframes sq-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+.arrows .arrow-preview { animation: none; }
+.move-badge { position: absolute; z-index: 6; width: 5.6%; aspect-ratio: 1; min-width: 18px; min-height: 18px; margin: 0.5% 0 0 -6%; border-radius: 50%; display: grid; place-items: center; font: 800 clamp(9px, 1.6vw, 13px) / 1 var(--font); letter-spacing: -0.06em; color: #fff; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.9); pointer-events: none; animation: badge-in 0.45s var(--spring) both; }
+.move-badge.t-best { background: #22a35a; }
+.move-badge.t-good { background: #4c9f70; }
+.move-badge.t-book { background: #a17a52; }
+.move-badge.t-inacc { background: #d9a520; }
+.move-badge.t-mistake { background: #e8742c; }
+.move-badge.t-blunder { background: #d93a3a; }
+@keyframes badge-in { from { transform: scale(0.2); opacity: 0; } }
+.btn.on { background: #f5f5f6; color: var(--accent-ink); border-color: #fff; }
+.draw-hint { font-size: 0.8rem; color: var(--muted); text-align: center; margin: 2px 0 0; animation: fadein 0.3s; }
+/* Testpartie */
+.test-progress { display: grid; gap: 6px; margin-bottom: 12px; font-size: 0.8rem; font-weight: 600; color: var(--text-2); }
+.test-result .tag { display: block; margin-bottom: 6px; }
+.test-elo { display: inline-flex; align-items: baseline; gap: 8px; font-family: var(--display); font-weight: 800; font-size: clamp(3.2rem, 12vw, 4.6rem); letter-spacing: -0.06em; line-height: 1; margin: 4px 0 10px; background: linear-gradient(180deg, #ffffff 30%, #a1a1aa); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 40px rgba(255, 255, 255, 0.15); animation: pop 0.7s var(--spring) both; font-variant-numeric: tabular-nums; }
+.test-elo small { font-size: 1rem; letter-spacing: 0; color: var(--muted); -webkit-text-fill-color: var(--muted); }
+/* Spiel-Buttons: Symbol über Text, damit fünf nebeneinander passen */
+.game-actions { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; }
+.game-actions .btn { flex-direction: column; gap: 3px; font-size: 0.74rem; padding: 8px 4px; min-height: 58px; }

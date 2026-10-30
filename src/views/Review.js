@@ -4,7 +4,7 @@ import { update, useStore } from '../lib/store.js';
 import { engine } from '../lib/engine.js';
 import { classify, explain, accuracyOf, CLASSES } from '../lib/coach.js';
 import { Chess, sanDe, whiteScore, scoreCp, winPct, formatScore } from '../lib/chess-util.js';
-import { Board } from '../ui/Board.js';
+import { Board, squaresIn } from '../ui/Board.js';
 import { Coach, EvalBar, Icon, Bar } from '../ui/kit.js';
 import { recordMistake } from '../lib/mistakes.js';
 
@@ -115,7 +115,9 @@ export function GameReview({ id }) {
       <div class="game-board-col">
         <div class="board-with-eval">
           <${EvalBar} score=${score} orientation=${game.color} />
-          <${Board} fen=${p.fen} orientation=${game.color} lastMove=${p.move ? [p.move.from, p.move.to] : null} arrows=${ex?.arrows || []} />
+          <${Board} fen=${p.fen} orientation=${game.color} lastMove=${p.move ? [p.move.from, p.move.to] : null} arrows=${ex?.arrows || []}
+            badges=${c && p.move ? { [p.move.to]: { sym: c.sym, tone: c.tone } } : null}
+            marks=${ex?.text ? Object.fromEntries(squaresIn(ex.text).map((q) => [q, ['mistake', 'blunder', 'inacc'].includes(c?.tone) ? 'glow-r' : 'glow-g'])) : {}} />
         </div>
         <div class="nav-row">
           <button class="btn ghost" onClick=${() => setCur(0)}>⏮</button>

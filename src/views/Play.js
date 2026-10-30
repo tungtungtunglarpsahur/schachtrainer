@@ -3,10 +3,10 @@ import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
 import { update, useStore, saveNow } from '../lib/store.js';
 import { useContent } from '../lib/content.js';
 import { engine, botMove, nullMoveFen, warmup } from '../lib/engine.js';
-import { classify, explain, threatText, hintFor, CLASSES } from '../lib/coach.js';
+import { classify, explain, threatText, hintFor, accuracyOf, winOf, CLASSES } from '../lib/coach.js';
 import { recordGame, checkAchievements } from '../lib/progress.js';
 import { Chess, START_FEN, parseUci, safeChess, sanDe, toUci, whiteScore, capturedPieces, colorName } from '../lib/chess-util.js';
-import { Board } from '../ui/Board.js';
+import { Board, squaresIn } from '../ui/Board.js';
 import { Coach, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
 import { play, playMove } from '../lib/sound.js';
 import { recordMistake } from '../lib/mistakes.js';
@@ -22,6 +22,11 @@ export const BOTS = [
   { name: 'Stockfish', elo: 3000, desc: 'Volle Stärke. Viel Glück.', icon: 'bK', art: 'b8', style: 'balanced', hello: 'Bereit? Ich bin immer bereit.' },
 ];
 
+/** Bot für die Einstufungspartie: passt seine Stärke nach jedem deiner Züge an. */
+const TESTBOT = { name: 'Testbot', elo: 1000, desc: 'Passt sich deinem Spiel an', icon: 'bN', art: 'b3', style: 'balanced', hello: 'Ich passe mich deinem Spiel an. Spiel ganz normal – nach 15 Zügen bekommst du deine Wertung.' };
+const TEST_MOVES = 15;
+const clampElo = (x) => Math.max(400, Math.min(2400, Math.round(x)));
+
 const STYLE_LABEL = { random: 'Chaotisch', attack: 'Angriff', balanced: 'Ausgewogen', tactical: 'Taktisch', solid: 'Positionell' };
 
 /** Wie lange der Bot „überlegt“, bevor er zieht. */
@@ -33,6 +38,22 @@ export const SPEEDS = [
 ];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Zahl, die hochzählt (für die Wertung nach der Testpartie). */
+function CountUp({ to, ms = 1400 }) {
+  const [v, setV] = useState(matchMedia('(prefers-reduced-motion: reduce)').matches ? to : 0);
+  useEffect(() => {
+    if (v === to) return;
+    const t0 = performance.now();
+    let id = requestAnimationFrame(function step(t) {
+      const k = Math.min(1, (t - t0) / ms);
+      setV(Math.round(to * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) id = requestAnimationFrame(step);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [to]);
+  return html`<span>${v}</span>`;
+}
 
 /** Menschliche Bedenkzeit in ms – hängt von Phase, Stellung, Stärke, Uhr und Tempo ab. */
 function thinkTime(chess, elo, speedId, clockMs, inc) {
@@ -77,7 +98,11 @@ export const botFor = (elo) => BOTS.reduce((a, b) => (Math.abs(b.elo - elo) < Ma
 
 export function Play({ query }) {
   const s = useStore();
-  const [game, setGame] = useState(() => (query.get('resume') && s.currentGame ? s.currentGame.setup : null));
+  const [game, setGame] = useState(() => {
+    if (query.get('test'))
+      return { test: true, elo: clampElo(s.play.rating), userColor: 'w', time: 'none', coach: 'quiet', speed: s.settings.botSpeed || 'normal', startFen: START_FEN, botName: TESTBOT.name, key: 'test' };
+    return query.get('resume') && s.currentGame ? s.currentGame.setup : null;
+  });
   useEffect(warmup, []);
   if (game) return html`<${Game} setup=${game} resume=${!!query.get('resume') && s.currentGame} onExit=${() => setGame(null)} onNew=${(g) => setGame({ ...g, key: Date.now() })} key=${game.key || 0} />`;
   return html`<${Setup} s=${s} query=${query} onStart=${(g) => setGame({ ...g, key: Date.now() })} />`;
@@ -182,7 +207,15 @@ function Game({ setup, resume, onExit, onNew }) {
   const content = useContent();
   const { elo, userColor, coach, startFen, botName } = setup;
   const speed = setup.speed || s.settings.botSpeed || 'normal';
-  const bot = BOTS.find((b) => b.name === botName) || botFor(elo);
+  const test = !!setup.test;
+  const bot = test ? TESTBOT : BOTS.find((b) => b.name === botName) || botFor(elo);
+  const eloRef = useRef(elo);
+  const accRef = useRef([]);
+  const [botElo, setBotElo] = useState(elo);
+  const [testResult, setTestResult] = useState(null);
+  const [badge, setBadge] = useState(null);
+  const [glow, setGlow] = useState({});
+  const [draw, setDraw] = useState(false);
   const tc = TIMES.find((t) => t.id === setup.time) || TIMES[0];
   const chessRef = useRef(null);
   const tokenRef = useRef(0);
@@ -191,7 +224,14 @@ function Game({ setup, resume, onExit, onNew }) {
   const [last, setLast] = useState(null);
   const [status, setStatus] = useState('init');
   const [evalScore, setEvalScore] = useState(null);
-  const [msgs, setMsgs] = useState([{ text: `Los geht's gegen **${botName}** (${elo}). Du spielst ${colorName(userColor)}.${coach !== 'off' ? ' Ich schaue dir über die Schulter.' : ''}`, tone: 'info' }]);
+  const [msgs, setMsgs] = useState([
+    {
+      text: test
+        ? `**Testpartie:** Du spielst ${colorName(userColor)}. Der Bot startet bei ${elo} und passt sich nach jedem Zug an dich an. Nach ${TEST_MOVES} Zügen bekommst du deine Wertung.`
+        : `Los geht's gegen **${botName}** (${elo}). Du spielst ${colorName(userColor)}.${coach !== 'off' ? ' Ich schaue dir über die Schulter.' : ''}`,
+      tone: 'info',
+    },
+  ]);
   const [intro, setIntro] = useState(resume ? null : 'in');
   const [askResign, setAskResign] = useState(false);
   const [threat, setThreat] = useState(null);
@@ -293,11 +333,45 @@ function Game({ setup, resume, onExit, onNew }) {
     return true;
   };
 
+  /** Auswertung der Testpartie: Genauigkeit + angepasste Bot-Stärke + Ergebnis → Wertung. */
+  const finishTest = (result, reason) => {
+    const c = chess();
+    const accs = accRef.current;
+    const avg = accs.length ? accs.reduce((a, b) => a + b, 0) / accs.length : 50;
+    const accElo = clampElo(400 + (avg - 35) * 30);
+    let est = (accElo + eloRef.current) / 2;
+    const end = reason === 'Testende';
+    if (result === 'win') est += end ? 60 : 150;
+    if (result === 'loss') est -= end ? 60 : 100;
+    // Wenige Züge = wenig Aussagekraft: dann bleibt die Wertung nah am Startwert.
+    const conf = Math.min(1, accs.length / 10);
+    est = elo * (1 - conf) + est * conf;
+    est = Math.round(clampElo(est) / 10) * 10;
+    const counts = (k) => classesRef.current.filter((x) => x === k).length;
+    const gid = Date.now().toString(36);
+    update((st) => {
+      st.play.rating = est;
+      st.play.history.push([Date.now(), est]);
+      st.profile.placementDone = true;
+      st.currentGame = null;
+      recordGame(st, { id: gid, date: Date.now(), pgn: c.pgn(), result, reason: reason === 'Testende' ? 'Testpartie' : reason, color: userColor, elo: eloRef.current, bot: 'Testbot', moves: c.history().length, rated: false, startFen, classes: classesRef.current });
+    });
+    saveNow();
+    setStatus('over');
+    setTestResult({ id: gid, est, avg: Math.round(avg), botElo: eloRef.current, best: counts('best') + counts('excellent'), good: counts('good'), bad: counts('mistake') + counts('blunder'), moves: accs.length });
+    play('win');
+    confetti(90);
+  };
+
   const finish = (result, reason) => {
     if (chessRef.current.__over) return;
     chessRef.current.__over = true;
     tokenRef.current++;
     engine.cancelAll();
+    if (test) {
+      finishTest(result, reason);
+      return;
+    }
     const c = chess();
     c.setHeader('White', userColor === 'w' ? s.profile.name || 'Du' : `${botName} (${elo})`);
     c.setHeader('Black', userColor === 'b' ? s.profile.name || 'Du' : `${botName} (${elo})`);
@@ -363,10 +437,10 @@ function Game({ setup, resume, onExit, onNew }) {
     setStatus('bot');
     const t0 = Date.now();
     const c0 = chess();
-    const want = thinkTime(c0, elo, speed, tc.base ? clockRef.current[c0.turn()] : 0, tc.inc);
+    const want = thinkTime(c0, eloRef.current, speed, tc.base ? clockRef.current[c0.turn()] : 0, tc.inc);
     let uci = null;
     try {
-      uci = await botMove(c0.fen(), elo, bot.style);
+      uci = await botMove(c0.fen(), eloRef.current, bot.style);
     } catch {
       // Engine nicht verfügbar: lieber ein zufälliger legaler Zug als eine hängende Partie.
       const legal = c0.moves({ verbose: true });
@@ -386,10 +460,9 @@ function Game({ setup, resume, onExit, onNew }) {
     addInc(m.color);
     setFen(c.fen());
     setLast([m.from, m.to]);
+    setBadge(null);
+    setGlow({});
     persist();
-    if (coach !== 'off') {
-      // Eval nach Botzug kommt mit der Benutzer-Analyse
-    }
     if (!checkOver()) userTurn();
   };
 
@@ -412,6 +485,8 @@ function Game({ setup, resume, onExit, onNew }) {
     setHint(null);
     setThreat(null);
     setMate(null);
+    setBadge(null);
+    setGlow({});
     persist();
     const ply = c.history().length - 1;
     if (c.isGameOver()) {
@@ -435,6 +510,20 @@ function Game({ setup, resume, onExit, onNew }) {
         return n;
       });
     const bad = cls && (cls.key === 'mistake' || cls.key === 'blunder');
+    if (cls) setBadge({ [m.to]: { sym: cls.sym, tone: cls.tone } });
+    if (test && cls) {
+      const adj = { best: 70, excellent: 50, good: 25, inaccuracy: -30, mistake: -80, blunder: -140 }[cls.key] || 0;
+      eloRef.current = clampElo(eloRef.current + adj);
+      setBotElo(eloRef.current);
+      accRef.current.push(accuracyOf(cls.loss));
+      if (accRef.current.length >= TEST_MOVES) {
+        // Nach 15 Zügen: Stellung bewerten (Gewinnchance aus deiner Sicht) und auswerten.
+        const sc = after?.lines?.[0]?.score;
+        const mine = sc ? 100 - winOf(sc) : 50;
+        finish(mine >= 75 ? 'win' : mine <= 25 ? 'loss' : 'draw', 'Testende');
+        return;
+      }
+    }
     const bestUci = before?.lines?.[0]?.pv?.[0];
     if (bad && bestUci && bestUci !== toUci(m)) {
       caught.current++;
@@ -444,7 +533,10 @@ function Game({ setup, resume, onExit, onNew }) {
       const ex = explain({ fenBefore, move: m, before, after, cls, opp: botName });
       if (ex.text) {
         say({ text: `**${cls.label} ${cls.sym}** – ${ex.text}`, tone: cls.tone, arrows: ex.arrows });
-        if (bad) {
+        const hot = squaresIn(ex.text);
+        if (hot.length) setGlow(Object.fromEntries(hot.map((q) => [q, bad || cls.key === 'inaccuracy' ? 'glow-r' : 'glow-g'])));
+        if (bad && test) setHint({ arrows: ex.arrows });
+        if (bad && !test) {
           setHint({ arrows: ex.arrows });
           setPaused({ text: ex.text, cls });
           setStatus('paused');
@@ -467,6 +559,8 @@ function Game({ setup, resume, onExit, onNew }) {
     }
     takebacks.current++;
     setPaused(null);
+    setBadge(null);
+    setGlow({});
     setFen(c.fen());
     const h = c.history({ verbose: true });
     const lm = h[h.length - 1];
@@ -510,13 +604,15 @@ function Game({ setup, resume, onExit, onNew }) {
   };
   const showEval = coach === 'full' && s.settings.showEval;
   const arrows = [...(hint?.arrows || []), ...(coach === 'full' && threat && status === 'user' ? [threat.arrow] : [])];
+  const threatGlow = coach === 'full' && threat && status === 'user' ? Object.fromEntries(squaresIn(threat.text).map((q) => [q, 'glow-y'])) : {};
+  const marks = { ...threatGlow, ...glow, ...(hint?.marks || {}) };
   const top = orientation === userColor ? (userColor === 'w' ? 'b' : 'w') : userColor;
   const bottom = top === 'w' ? 'b' : 'w';
   const playerLine = (side) => {
     const isBot = side !== userColor;
     const thinkingNow = isBot && status === 'bot';
     return html`<div class=${`player ${c && c.turn() === side && !over && status !== 'intro' ? 'to-move' : ''} ${thinkingNow ? 'thinking' : ''}`}>
-      <span class="player-name">${isBot ? html`<${PieceIcon} p=${bot.icon} size=${26} /> <span>${botName}</span> <span class="elo-badge">${elo}</span>` : html`<${PieceIcon} p=${userColor + 'K'} size=${26} /> <span>${s.profile.name || 'Du'}</span> <span class="elo-badge">${s.play.rating}</span>`}</span>
+      <span class="player-name">${isBot ? html`<${PieceIcon} p=${bot.icon} size=${26} /> <span>${botName}</span> <span class="elo-badge">${test ? botElo : elo}</span>` : html`<${PieceIcon} p=${userColor + 'K'} size=${26} /> <span>${s.profile.name || 'Du'}</span> <span class="elo-badge">${s.play.rating}</span>`}</span>
       ${thinkingNow ? html`<span class="bot-status"><${ThinkingDots} /> <span class="hide-sm">denkt nach</span></span>` : null}
       <span class="captured">${lost[side === 'w' ? 'b' : 'w'].map((t) => html`<span class=${`piece-icon piece ${side === 'w' ? 'b' : 'w'}${t.toUpperCase()}`}></span>`)}</span>
       ${tc.base ? html`<span class=${`clock ${c && c.turn() === side && !over ? 'run' : ''} ${clock[side] < 20000 ? 'low' : ''}`}>${fmt(clock[side])}</span>` : null}
@@ -529,8 +625,9 @@ function Game({ setup, resume, onExit, onNew }) {
         ${playerLine(top)}
         <div class="board-with-eval">
           ${showEval && html`<${EvalBar} score=${evalScore} orientation=${orientation} />`}
-          <${Board} fen=${fen} orientation=${orientation} movable=${status === 'user' && !paused ? userColor : null} onMove=${onMove} lastMove=${last} arrows=${arrows} marks=${hint?.marks || {}} />
+          <${Board} fen=${fen} orientation=${orientation} movable=${status === 'user' && !paused ? userColor : null} onMove=${onMove} lastMove=${last} arrows=${arrows} marks=${marks} badges=${badge} drawMode=${draw} />
         </div>
+        ${draw && html`<p class="draw-hint">Pfeil-Modus: von Feld zu Feld ziehen · Feld antippen markiert es · <b>Pfeile</b> nochmal tippen zum Spielen</p>`}
         ${playerLine(bottom)}
       </div>
       <aside class="game-side">
@@ -539,6 +636,8 @@ function Game({ setup, resume, onExit, onNew }) {
         </div>`}
         ${coach === 'full' && threat && status === 'user' && html`<div class=${`threat ${threat.level}`}><${Md} text=${threat.text} tag="span" /></div>`}
         <div class="card coach-feed">
+          ${test &&
+          html`<div class="test-progress"><span>Testpartie · Zug ${Math.min(TEST_MOVES, accRef.current.length + 1)} von ${TEST_MOVES}</span><div class="bar"><div style=${{ width: `${(accRef.current.length / TEST_MOVES) * 100}%` }}></div></div></div>`}
           ${msgs.slice(-4).map((m) => html`<${Coach} text=${m.text} tone=${m.tone} />`)}
           ${paused && html`<div class="btn-row">
             <button class="btn primary" onClick=${takeback}><${Icon} name="undo" /> Zug zurücknehmen</button>
@@ -558,8 +657,9 @@ function Game({ setup, resume, onExit, onNew }) {
           </div>
         </div>
         <div class="game-actions">
-          ${coach !== 'off' && html`<button class="btn ghost" onClick=${askHint} disabled=${status !== 'user' || hintLevel >= 2}><${Icon} name="bulb" /> Tipp</button>`}
-          <button class="btn ghost" onClick=${takeback} disabled=${!hist.length || status === 'over' || status === 'init'}><${Icon} name="undo" /> Zurück</button>
+          ${coach !== 'off' && !test && html`<button class="btn ghost" onClick=${askHint} disabled=${status !== 'user' || hintLevel >= 2}><${Icon} name="bulb" /> Tipp</button>`}
+          ${!test && html`<button class="btn ghost" onClick=${takeback} disabled=${!hist.length || status === 'over' || status === 'init'}><${Icon} name="undo" /> Zurück</button>`}
+          <button class=${`btn ghost ${draw ? 'on' : ''}`} onClick=${() => setDraw(!draw)} aria-pressed=${draw}><${Icon} name="pen" /> Pfeile</button>
           <button class="btn ghost" onClick=${() => setOrientation(orientation === 'w' ? 'b' : 'w')}><${Icon} name="flip" /> Drehen</button>
           <button class="btn ghost danger" onClick=${resign} disabled=${status === 'over' || status === 'intro'}><${Icon} name="flag" /> Aufgeben</button>
         </div>
@@ -587,6 +687,24 @@ function Game({ setup, resume, onExit, onNew }) {
       </div>`}
     <//>`}
     ${over?.hidden && html`<div class="btn-row center"><a class="btn primary" href=${`#/review/${over.id}`}>Partie analysieren</a><button class="btn ghost" onClick=${onExit}>Neue Partie</button></div>`}
+    ${testResult &&
+    html`<${Modal} onClose=${() => (location.hash = '#/')}>
+      <div class="game-over test-result">
+        <small class="tag">Deine Einstufung</small>
+        <div class="test-elo"><${CountUp} to=${testResult.est} /><small>Elo</small></div>
+        <p class="muted">So stark spielst du ungefähr. Diese Wertung steigt, wenn du Partien gewinnst und Rätsel löst.</p>
+        <div class="summary-grid">
+          <div><small>Genauigkeit</small><b>${testResult.avg} %</b></div>
+          <div><small>Starke Züge</small><b>${testResult.best}</b></div>
+          <div><small>Fehler</small><b>${testResult.bad}</b></div>
+        </div>
+        <p class="muted small">Der Bot hat sich während der Partie auf ${testResult.botElo} eingestellt.</p>
+        <div class="btn-row center">
+          <a class="btn primary xl" href="#/"><${Icon} name="play" /> Los geht's</a>
+          <a class="btn ghost" href=${`#/review/${testResult.id}`}><${Icon} name="scope" /> Partie ansehen</a>
+        </div>
+      </div>
+    <//>`}
     ${askResign &&
     html`<${Modal} onClose=${() => setAskResign(false)}>
       <div class="game-over">

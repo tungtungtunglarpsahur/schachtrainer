@@ -60,6 +60,15 @@ export function Settings() {
       <button class="btn secondary" onClick=${() => update((st) => { st.profile.onboarded = false; })}><${Icon} name="repeat" /> Umfrage wiederholen</button>
     </section>
 
+    <section class="card help-card">
+      <h3>Hilfe & Einstieg</h3>
+      <p class="muted small">Schau dir die kurze Einführung nochmal an oder spiel das Testspiel erneut, um deine Wertung neu zu bestimmen.</p>
+      <div class="btn-row">
+        <button class="btn secondary" onClick=${() => update((st) => { st.profile.tutorialDone = false; })}><${Icon} name="bulb" /> Tutorial nochmal ansehen</button>
+        <button class="btn ghost" onClick=${() => (location.hash = '#/play?test=1')}><${Icon} name="play" /> Testspiel wiederholen</button>
+      </div>
+    </section>
+
     <section class="card">
       <h3>Brett & Spiel</h3>
       <div class="theme-pick">

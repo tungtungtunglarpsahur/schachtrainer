@@ -4,6 +4,7 @@ import { useStore, update, today, todayView, streakNow, rankFor, storageOk, SURV
 import { loadContent } from './lib/content.js';
 import { Icon, Logo, Toasts, Ring } from './ui/kit.js';
 import { Onboarding } from './views/Onboarding.js';
+import { Tutorial } from './views/Tutorial.js';
 import { Home } from './views/Home.js';
 import { Learn } from './views/Learn.js';
 import { LessonView } from './views/Lesson.js';
@@ -12,7 +13,7 @@ import { Play } from './views/Play.js';
 import { GameReview } from './views/Review.js';
 import { Openings, OpeningTrainer } from './views/Openings.js';
 import { Analysis } from './views/Analysis.js';
-import { Profile } from './views/Profile.js';
+import { Progress } from './views/Progress.js';
 import { Settings } from './views/Settings.js';
 
 const NAV = [
@@ -20,14 +21,14 @@ const NAV = [
   { href: '#/learn', icon: 'path', label: 'Lernpfad' },
   { href: '#/puzzles', icon: 'puzzle', label: 'Rätsel' },
   { href: '#/play', icon: 'play', label: 'Spielen' },
+  { href: '#/progress', icon: 'chart', label: 'Fortschritt' },
   { href: '#/openings', icon: 'book', label: 'Eröffnungen' },
   { href: '#/analysis', icon: 'scope', label: 'Analyse' },
-  { href: '#/profile', icon: 'chart', label: 'Profil' },
   { href: '#/settings', icon: 'gear', label: 'Einstellungen' },
 ];
-// Unten auf dem Handy: vier feste Tabs + „Mehr“.
-const TABS = [NAV[0], NAV[1], NAV[2], NAV[3]];
-const MORE = [NAV[4], NAV[5], NAV[6], NAV[7]];
+// Unten auf dem Handy: Start, Rätsel, Spielen, Fortschritt + „Mehr“.
+const TABS = [NAV[0], NAV[2], NAV[3], NAV[4]];
+const MORE = [NAV[1], NAV[5], NAV[6], NAV[7]];
 
 
 const parseHash = () => {
@@ -70,9 +71,9 @@ function TopBar({ s }) {
   return html`<header class="topbar">
     <div class="topbar-logo"><${Logo} small /></div>
     <div class="topbar-stats">
-      <a href="#/profile" class=${`chip streak ${streak ? 'on' : ''}`} title="Tage in Folge"><${Icon} name="flame" size=${16} /> ${streak}</a>
-      <a href="#/profile" class="chip" title="Rätsel-Rating"><${Icon} name="puzzle" size=${15} /> ${s.puzzle.rating}</a>
-      <a href="#/profile" class="chip rank" style=${{ '--rank': rank.color }} title=${`Rang: ${rank.name}`}>
+      <a href="#/progress" class=${`chip streak ${streak ? 'on' : ''}`} title="Tage in Folge"><${Icon} name="flame" size=${16} /> ${streak}</a>
+      <a href="#/progress" class="chip" title="Rätsel-Rating"><${Icon} name="puzzle" size=${15} /> ${s.puzzle.rating}</a>
+      <a href="#/progress" class="chip rank" style=${{ '--rank': rank.color }} title=${`Rang: ${rank.name}`}>
         <span class=${`piece-icon piece ${rank.icon}`}></span><span class="hide-sm">${rank.name}</span>
       </a>
       <a href="#/" class="chip goal" title="Tagesziel">
@@ -125,6 +126,7 @@ function App() {
     loadContent();
   }, []);
   if (!s.profile.onboarded || (s.profile.surveyV || 0) < SURVEY_VERSION) return html`<${Onboarding} /><${Toasts} />`;
+  if (!s.profile.tutorialDone) return html`<${Tutorial} /><${Toasts} />`;
   const [a, b] = route.parts;
   let view;
   switch (a) {
@@ -155,8 +157,9 @@ function App() {
     case 'analysis':
       view = html`<${Analysis} key=${route.query.toString()} query=${route.query} />`;
       break;
+    case 'progress':
     case 'profile':
-      view = html`<${Profile} />`;
+      view = html`<${Progress} />`;
       break;
     case 'settings':
       view = html`<${Settings} />`;
