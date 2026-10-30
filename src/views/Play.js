@@ -39,7 +39,8 @@ function thinkTime(chess, elo, speedId, clockMs, inc) {
   const f = (SPEEDS.find((x) => x.id === speedId) || SPEEDS[1]).f;
   const legal = chess.moves({ verbose: true });
   const ply = chess.history().length;
-  const last = chess.history({ verbose: true }).at(-1);
+  const hist = chess.history({ verbose: true });
+  const last = hist[hist.length - 1];
   let t;
   if (legal.length <= 1) t = 650;
   else if (ply < 8) t = 900 + Math.random() * 1000;
