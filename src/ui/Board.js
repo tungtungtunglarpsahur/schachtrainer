@@ -44,7 +44,9 @@ function trackPieces(memo, pieces) {
     } else next[sq] = { id: memo.seq++, p };
   }
   memo.map = next;
-  return { list: Object.entries(next).map(([sq, e]) => ({ sq, ...e })), gone: vanished.map(([sq, e]) => ({ sq, ...e })) };
+  // Feste Reihenfolge nach ID: sonst verschiebt Preact DOM-Knoten, und Gleit-Animationen brechen ab.
+  const list = Object.entries(next).map(([sq, e]) => ({ sq, ...e })).sort((a, b) => a.id - b.id);
+  return { list, gone: vanished.map(([sq, e]) => ({ sq, ...e })) };
 }
 
 const ARROW_COLORS = { g: '#5ee08f', r: '#f87171', b: '#8fb3ff', y: '#f2cf6b', o: '#ffa94d' };
@@ -130,7 +132,8 @@ export function Board({
       const k = kingSquare(chess, chess.turn());
       if (k) items.push({ kind: chess.isCheckmate() ? 'mate' : 'check', sq: k });
       if (chess.isCheckmate() && effects === 'full') {
-        setShake((x) => x + 1);
+        setShake(1);
+        later(() => setShake(0), 650);
       }
     }
     if (!items.length) return;
@@ -186,7 +189,7 @@ export function Board({
   };
 
   const startArrow = (e, sq) => {
-    rightStart.current = { sq, rect: ref.current.getBoundingClientRect(), color: arrowColor(e), tap: e.button !== 2 };
+    rightStart.current = { sq, rect: ref.current.getBoundingClientRect(), color: arrowColor(e), tap: e.button !== 2, pid: e.pointerId };
     try {
       ref.current.setPointerCapture?.(e.pointerId);
     } catch {}
@@ -214,6 +217,7 @@ export function Board({
 
   const onPointerDown = (e) => {
     if (promo) return;
+    if (dragRef.current || rightStart.current) return; // zweiter Finger während eines Zuges: ignorieren
     const sq = squareAt(e);
     if (!sq) return;
     if (e.button === 2 || (e.button === 0 && drawMode)) {
@@ -243,7 +247,7 @@ export function Board({
     const id = tracked.find((t) => t.sq === sq)?.id;
     const el = ref.current.querySelector(`.pieces [data-id="${id}"]`);
     // Sofort aufnehmen: die Figur springt mittig unter den Zeiger (wie bei chess.com).
-    dragRef.current = { sq, id, el, x, y, rect, sx: e.clientX, sy: e.clientY, moved: false, hover: sq };
+    dragRef.current = { sq, id, el, x, y, rect, sx: e.clientX, sy: e.clientY, moved: false, hover: sq, pid: e.pointerId };
     if (el) {
       el.style.transform = dragTransform(dragRef.current);
       el.classList.add('dragging');
@@ -258,13 +262,16 @@ export function Board({
   const onPointerMove = (e) => {
     const st = rightStart.current;
     if (st) {
+      if (st.pid !== e.pointerId) return;
       const to = squareAt(e, st.rect);
       const pv = to && to !== st.sq ? [st.sq, to, st.color] : null;
       if (pv?.[1] !== preview?.[1]) setPreview(pv);
       return;
     }
     const d = dragRef.current;
-    if (!d) return;
+    if (!d || d.pid !== e.pointerId) return;
+    // Stellung hat sich während des Ziehens geändert (z. B. Zurücknehmen): nicht mehr schreiben.
+    if (d.el && !d.el.classList.contains('dragging')) return;
     const [x, y] = posAt(e, d.rect);
     d.x = x;
     d.y = y;
@@ -280,11 +287,11 @@ export function Board({
 
   const onPointerUp = (e) => {
     if (rightStart.current) {
-      finishArrow(e);
+      if (rightStart.current.pid === e.pointerId) finishArrow(e);
       return;
     }
     const d = dragRef.current;
-    if (!d) return;
+    if (!d || d.pid !== e.pointerId) return;
     const to = squareAt(e, d.rect);
     if (d.el) d.el.classList.remove('dragging');
     endDrag();
@@ -337,7 +344,7 @@ export function Board({
 
   return html`<div
     ref=${ref}
-    class=${`board theme-${boardTheme} ${animation ? '' : 'no-anim'} ${movable ? 'interactive' : ''} ${dragSq ? 'grabbing' : ''} ${shake ? 'fx-mate' : ''} fx-${effects} ${className}`}
+    class=${`board theme-${boardTheme} ${animation ? '' : 'no-anim'} ${movable ? 'interactive' : ''} ${dragSq ? 'grabbing' : ''} ${shake ? 'fx-shake' : ''} fx-${effects} ${className}`}
     onPointerDown=${onPointerDown}
     onPointerMove=${onPointerMove}
     onPointerUp=${onPointerUp}

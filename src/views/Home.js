@@ -51,7 +51,9 @@ const DAY = 864e5;
 const weekMinutes = (s) => {
   let sec = 0;
   for (let i = 0; i < 7; i++) {
-    const d = new Date(Date.now() - i * DAY);
+    const d = new Date();
+    d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() - i);
     const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     sec += s.days[k]?.seconds || 0;
   }

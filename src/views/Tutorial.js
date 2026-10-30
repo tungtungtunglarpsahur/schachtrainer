@@ -15,7 +15,8 @@ const MOVE_FEN = '4k3/8/8/8/8/8/4P3/4K3 w - - 0 1';
 const PUZZLE_FEN = '6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1';
 
 const finish = (hash) => {
-  location.hash = hash;
+  // Hatte jemand in der Umfrage den Rätsel-Einstufungstest gewählt, führt „Später“ dorthin.
+  location.hash = hash === '#/' && /placement/.test(location.hash) ? '#/puzzles/placement' : hash;
   update((s) => {
     s.profile.tutorialDone = true;
   });

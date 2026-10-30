@@ -6,7 +6,13 @@ import { themeStats, ACHIEVEMENTS } from '../lib/progress.js';
 import { Bar, CountUp, Icon, PieceIcon, Ring } from '../ui/kit.js';
 
 const DAY = 864e5;
-const keyOf = (offset) => dayKey(new Date(Date.now() - offset * DAY));
+// Kalendertage zurückrechnen (nicht n × 24 h – sonst verrutscht es bei der Zeitumstellung).
+const keyOf = (offset) => {
+  const d = new Date();
+  d.setHours(12, 0, 0, 0);
+  d.setDate(d.getDate() - offset);
+  return dayKey(d);
+};
 const fmtMin = (min) => (min >= 60 ? `${Math.floor(min / 60)} h ${min % 60} min` : `${min} min`);
 
 /** Summe eines Tageswerts über einen Zeitraum (offset 0 = heute). */

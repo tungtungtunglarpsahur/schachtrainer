@@ -78,12 +78,13 @@ export const ttsSupported = () => {
 
 let voiceCache = [];
 const listeners = new Set();
-function refreshVoices() {
+function refreshVoices(notify = true) {
   try {
     voiceCache = window.speechSynthesis.getVoices() || [];
   } catch {
     voiceCache = [];
   }
+  if (!notify) return;
   listeners.forEach((cb) => {
     try {
       cb(voiceCache);
@@ -93,10 +94,11 @@ function refreshVoices() {
   });
 }
 if (ttsSupported()) {
-  refreshVoices();
+  refreshVoices(false);
   try {
-    window.speechSynthesis.addEventListener?.('voiceschanged', refreshVoices);
-    if (!window.speechSynthesis.addEventListener) window.speechSynthesis.onvoiceschanged = refreshVoices;
+    const onChange = () => refreshVoices(true);
+    window.speechSynthesis.addEventListener?.('voiceschanged', onChange);
+    if (!window.speechSynthesis.addEventListener) window.speechSynthesis.onvoiceschanged = onChange;
   } catch {
     /* egal */
   }
@@ -110,7 +112,7 @@ const rank = (v) => {
 
 export function germanVoices() {
   if (!ttsSupported()) return [];
-  if (!voiceCache.length) refreshVoices();
+  if (!voiceCache.length) refreshVoices(false);
   return voiceCache
     .filter((v) => String(v.lang || '').toLowerCase().startsWith('de'))
     .sort((a, b) => rank(a) - rank(b))
@@ -124,7 +126,7 @@ export function onVoices(cb) {
 
 function pickVoice() {
   const want = state.settings.ttsVoice;
-  const all = voiceCache.length ? voiceCache : (refreshVoices(), voiceCache);
+  const all = voiceCache.length ? voiceCache : (refreshVoices(false), voiceCache);
   if (want) {
     const v = all.find((x) => x.voiceURI === want);
     if (v) return v;
@@ -133,8 +135,12 @@ function pickVoice() {
   return de[0] || null;
 }
 
+let pending = null;
+
 function say(text, interrupt) {
   if (!ttsSupported() || !text) return;
+  clearTimeout(pending);
+  pending = null;
   try {
     const synth = window.speechSynthesis;
     const u = new window.SpeechSynthesisUtterance(text);
@@ -148,7 +154,8 @@ function say(text, interrupt) {
     if (interrupt && (synth.speaking || synth.pending)) {
       synth.cancel();
       // Chrome verschluckt manchmal ein speak() direkt nach cancel()
-      setTimeout(() => {
+      pending = setTimeout(() => {
+        pending = null;
         try {
           synth.speak(u);
         } catch {
@@ -173,6 +180,8 @@ export function speakMove(san, { color, interrupt = false, force = false } = {})
 }
 
 export function stopSpeaking() {
+  clearTimeout(pending);
+  pending = null;
   try {
     if (ttsSupported()) window.speechSynthesis.cancel();
   } catch {
@@ -190,4 +199,17 @@ export function unlockSpeech() {
   } catch {
     /* egal */
   }
+}
+
+// iOS spricht erst, nachdem einmal aus einer Berührung heraus gesprochen wurde. Deshalb beim ersten
+// Tippen/Tastendruck nach dem Laden einmal freischalten (nur wenn Sprachausgabe an ist).
+if (ttsSupported() && typeof addEventListener === 'function') {
+  const once = () => {
+    if (!state.settings.tts && !state.settings.ttsMoves) return;
+    unlockSpeech();
+    removeEventListener('pointerup', once, true);
+    removeEventListener('keydown', once, true);
+  };
+  addEventListener('pointerup', once, true);
+  addEventListener('keydown', once, true);
 }

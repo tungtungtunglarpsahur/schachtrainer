@@ -260,7 +260,14 @@ function Game({ setup, resume, onExit, onNew }) {
 
   const persist = () => {
     update((st) => {
-      st.currentGame = { setup, moves: chess().history({ verbose: true }).map(toUci), clock: clockRef.current, classes: classesRef.current, takebacks: takebacks.current };
+      st.currentGame = {
+        setup,
+        moves: chess().history({ verbose: true }).map(toUci),
+        clock: clockRef.current,
+        classes: classesRef.current,
+        takebacks: takebacks.current,
+        test: test ? { elo: eloRef.current, moves: accRef.current, bots: botElosRef.current } : undefined,
+      };
     });
   };
 
@@ -275,6 +282,12 @@ function Game({ setup, resume, onExit, onNew }) {
         setClock(resume.clock);
       }
       setCls(() => resume.classes || []);
+      if (test && resume.test) {
+        eloRef.current = resume.test.elo || elo;
+        accRef.current = resume.test.moves || [];
+        botElosRef.current = resume.test.bots || [];
+        setBotElo(eloRef.current);
+      }
     }
     chessRef.current = c;
     setFen(c.fen());
@@ -410,7 +423,7 @@ function Game({ setup, resume, onExit, onNew }) {
       beforeRef.current = null;
       return;
     }
-    const p = engine.analyze(f, { depth: 13, movetime: 800, multipv: 2 });
+    const p = engine.analyze(f, { depth: 13, movetime: 800, multipv: 2 }).catch(() => null);
     beforeRef.current = p;
     p.then((r) => {
       if (!r || token !== tokenRef.current) return;
@@ -421,11 +434,14 @@ function Game({ setup, resume, onExit, onNew }) {
     if (coach === 'full') {
       const nf = nullMoveFen(f);
       if (nf)
-        engine.analyze(nf, { depth: 10, movetime: 300 }).then((r) => {
-          if (!r || token !== tokenRef.current) return;
-          const t = threatText(nf, r);
-          if (t) setThreat(t);
-        });
+        engine
+          .analyze(nf, { depth: 10, movetime: 300 })
+          .then((r) => {
+            if (!r || token !== tokenRef.current) return;
+            const t = threatText(nf, r);
+            if (t) setThreat(t);
+          })
+          .catch(() => {});
     }
   };
 
@@ -498,8 +514,14 @@ function Game({ setup, resume, onExit, onNew }) {
       return;
     }
     setStatus('thinking');
-    const before = await beforeRef.current;
-    const after = await engine.analyze(c.fen(), { depth: 12, movetime: 600 });
+    let before = null;
+    let after = null;
+    try {
+      before = await beforeRef.current;
+      after = await engine.analyze(c.fen(), { depth: 12, movetime: 600 });
+    } catch {
+      /* Engine nicht verfügbar – die Partie läuft trotzdem weiter */
+    }
     if (token !== tokenRef.current) return;
     if (after?.lines[0]) setEvalScore(whiteScore(after.lines[0].score, after.turn));
     const cls = classify(before, after, toUci(m));
@@ -523,13 +545,19 @@ function Game({ setup, resume, onExit, onNew }) {
       eloRef.current = clampBot(0.5 * eloRef.current + 0.5 * est.rating);
       botElosRef.current.push(eloRef.current);
       setBotElo(eloRef.current);
-      if (accRef.current.length >= TEST_MOVES) {
+      if (accRef.current.length >= TEST_MOVES || Math.floor(ply / 2) + 1 >= TEST_MOVES + 5) {
         // Nach 20 Zügen: die Stellung zählt als Ergebnis (deine Gewinnchance laut Engine).
         const sc = after?.lines?.[0]?.score;
         testScoreRef.current = sc ? (100 - winOf(sc)) / 100 : 0.5;
         finish('draw', 'Testende');
         return;
       }
+    }
+    if (test && !cls && Math.floor(ply / 2) + 1 >= TEST_MOVES + 5) {
+      // Ohne Engine-Bewertung (z. B. sehr altes Gerät) endet der Test spätestens nach 25 Zügen.
+      testScoreRef.current = 0.5;
+      finish('draw', 'Testende');
+      return;
     }
     const bestUci = before?.lines?.[0]?.pv?.[0];
     if (bad && bestUci && bestUci !== toUci(m)) {

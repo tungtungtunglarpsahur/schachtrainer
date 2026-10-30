@@ -1,7 +1,17 @@
 // Stockfish 18 (WASM, ein Thread) im Web Worker. Alle Suchen laufen nacheinander.
 import { parseUci, safeChess, scoreCp } from './chess-util.js';
 
-const ENGINE_URL = new URL('../../vendor/stockfish/stockfish.js', import.meta.url);
+// Schnelle WASM-Engine braucht WebAssembly-SIMD (Safari erst ab iOS 16.4). Ältere Geräte – z. B. viele
+// Schul-iPads – bekommen automatisch die langsamere, aber überall lauffähige asm.js-Version.
+const WASM_URL = new URL('../../vendor/stockfish/stockfish.js', import.meta.url);
+const ASM_URL = new URL('../../vendor/stockfish/stockfish-asm.js', import.meta.url);
+const hasSimd = (() => {
+  try {
+    return typeof WebAssembly === 'object' && WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11]));
+  } catch {
+    return false;
+  }
+})();
 
 function parseInfo(line) {
   const t = line.split(' ');
@@ -48,22 +58,44 @@ class Engine {
 
   start() {
     if (this.ready) return this.ready;
-    this.ready = new Promise((resolve, reject) => {
-      try {
-        this.worker = new Worker(ENGINE_URL);
-      } catch (e) {
+    const fast = hasSimd && !/[?&]engine=asm/.test(location.search); // ?engine=asm zum Testen der Fallback-Engine
+    this.ready = this.boot(fast ? WASM_URL : ASM_URL)
+      .catch(() => (fast ? this.boot(ASM_URL) : Promise.reject(new Error('engine'))))
+      .catch((e) => {
         this.failed = true;
-        reject(e);
+        throw e;
+      });
+    this.ready.catch(() => {});
+    return this.ready;
+  }
+
+  /** Startet einen Engine-Worker; scheitert, wenn nach 15 s kein „uciok“ kommt (z. B. fehlendes SIMD). */
+  boot(url) {
+    return new Promise((resolve, reject) => {
+      let timer = null;
+      const fail = (e) => {
+        clearTimeout(timer);
+        this.waitFor = null;
+        try {
+          this.worker?.terminate();
+        } catch {}
+        this.worker = null;
+        this.options = {};
+        reject(e || new Error('engine'));
+      };
+      try {
+        this.worker = new Worker(url);
+      } catch (e) {
+        fail(e);
         return;
       }
+      timer = setTimeout(() => fail(new Error('timeout')), 15000);
       this.worker.onmessage = (e) => this.onLine(String(e.data));
-      this.worker.onerror = (e) => {
-        this.failed = true;
-        reject(e);
-      };
+      this.worker.onerror = (e) => fail(e);
       this.waitFor = {
         token: 'uciok',
         resolve: () => {
+          clearTimeout(timer);
           this.send('setoption name Hash value 32');
           this.waitFor = { token: 'readyok', resolve };
           this.send('isready');
@@ -71,11 +103,10 @@ class Engine {
       };
       this.send('uci');
     });
-    return this.ready;
   }
 
   send(cmd) {
-    this.worker.postMessage(cmd);
+    this.worker?.postMessage(cmd);
   }
 
   onLine(line) {

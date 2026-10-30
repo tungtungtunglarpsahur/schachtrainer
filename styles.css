@@ -306,7 +306,7 @@ select.input { appearance: none; -webkit-appearance: none; }
 .sq.light .co { color: var(--dark); }
 .sq.dark .co { color: var(--light); }
 .pieces { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
-.pieces .piece { position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%; transition: transform 0.22s var(--ease); animation: piece-in 0.3s var(--ease); }
+.pieces .piece { position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%; z-index: 1; transition: transform 0.22s var(--ease); animation: piece-in 0.3s var(--ease); }
 @keyframes piece-in { from { opacity: 0; background-size: 55%; } }
 .board.no-anim .pieces .piece { transition: none; animation: none; }
 .pieces .piece.dragging { transition: none !important; z-index: 10; will-change: transform; filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.45)); }
@@ -455,7 +455,7 @@ select.input { appearance: none; -webkit-appearance: none; }
 .node:hover { background: rgba(255, 255, 255, 0.04); }
 .node-dot { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-family: var(--display); font-size: 1.15rem; background: var(--panel-3); border: 1px solid var(--line-2); box-shadow: 0 5px 0 #0c0c0e; flex: none; transition: transform 0.35s var(--spring); }
 .node:hover .node-dot { transform: translateY(-2px) scale(1.04); }
-.node.done .node-dot { background: color-mix(in srgb, var(--c, #fff) 70%, #ffffff); color: #0a0a0b; border-color: transparent; box-shadow: 0 5px 0 color-mix(in srgb, var(--c, #888) 40%, #000); }
+.node.done .node-dot { background: #e4e4e7; background: color-mix(in srgb, var(--c, #fff) 70%, #ffffff); color: #0a0a0b; border-color: transparent; box-shadow: 0 5px 0 color-mix(in srgb, var(--c, #888) 40%, #000); }
 .node.current .node-dot { background: #fff; color: var(--bg); border-color: #fff; box-shadow: 0 5px 0 #8e8e96, 0 0 0 6px rgba(255, 255, 255, 0.12); animation: pulse-ring 1.8s ease-in-out infinite; }
 @keyframes pulse-ring { 50% { box-shadow: 0 5px 0 #8e8e96, 0 0 0 13px rgba(255, 255, 255, 0.03); } }
 .node-text b, .node-text small { display: block; }
@@ -1002,7 +1002,7 @@ body::after {
 .test-range b { color: var(--text); font-variant-numeric: tabular-nums; }
 
 /* ---------- Brett-Effekte (Einstellung „Effekte“) ---------- */
-.pieces .piece.leaving { transition: none; z-index: 1; animation: piece-out 0.34s var(--ease) forwards; pointer-events: none; }
+.pieces .piece.leaving { transition: none; z-index: 0; animation: piece-out 0.34s var(--ease) forwards; pointer-events: none; }
 @keyframes piece-out { to { opacity: 0; background-size: 45%; filter: blur(2px); } }
 .fx-layer { position: absolute; inset: 0; z-index: 7; pointer-events: none; overflow: hidden; }
 .fx-layer > span { position: absolute; width: 12.5%; height: 12.5%; display: grid; place-items: center; }
@@ -1017,11 +1017,11 @@ body::after {
 /* Landen: feiner Ring */
 .fx-land i { width: 70%; height: 70%; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.55); animation: ring-out 0.55s var(--ease) forwards; }
 /* Schach: roter Ring, Matt: großer Ring + Wackeln */
-.fx-check i, .fx-mate i { width: 80%; height: 80%; border-radius: 50%; border: 3px solid rgba(248, 113, 113, 0.9); box-shadow: 0 0 18px rgba(248, 113, 113, 0.7); animation: ring-out 0.8s var(--ease) forwards; }
-.fx-mate i { border-width: 4px; animation: ring-out-big 1.1s var(--ease) forwards; }
+.fx-check i, .fx-layer .fx-mate i { width: 80%; height: 80%; border-radius: 50%; border: 3px solid rgba(248, 113, 113, 0.9); box-shadow: 0 0 18px rgba(248, 113, 113, 0.7); animation: ring-out 0.8s var(--ease) forwards; }
+.fx-layer .fx-mate i { border-width: 4px; animation: ring-out-big 1.1s var(--ease) forwards; }
 @keyframes ring-out { 0% { opacity: 1; transform: scale(0.35); } 100% { opacity: 0; transform: scale(1.6); } }
 @keyframes ring-out-big { 0% { opacity: 1; transform: scale(0.3); } 100% { opacity: 0; transform: scale(3.2); } }
-.board.fx-mate { animation: board-shake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+.board.fx-shake { animation: board-shake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
 @keyframes board-shake { 10%, 90% { transform: translateX(-1px); } 20%, 80% { transform: translateX(3px); } 30%, 50%, 70% { transform: translateX(-5px); } 40%, 60% { transform: translateX(5px); } }
 .board.fx-off .fx-layer { display: none; }
 
