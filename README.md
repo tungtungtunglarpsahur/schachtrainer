@@ -5,6 +5,15 @@
 
 ---
 
+## Neu in Version 2.2
+
+- **Figuren kleben am Zeiger** – beim Ziehen sitzt die Figur pixelgenau unter Maus oder Finger (vorher wanderte sie durch die Vergrößerung bis zu eine Feldbreite weg), ohne Verzögerung.
+- **Brett-Effekte** – geschlagene Figuren blenden aus, Splitter beim Schlagen, Ring bei Schach, Wackeln bei Matt; in den Einstellungen Aus/Dezent/Voll.
+- **Richtige Elo im Testspiel** – Bayes-Schätzung aus dem Centipawn-Verlust jedes Zuges (kalibriert mit den Bots der App), dem Ergebnis und der Umfrage; Ergebnis mit Bereich („wahrscheinlich zwischen …“). Der Bot spielt während des Tests auf deinem geschätzten Niveau.
+- **Einstellungen neu** – App-Themen (Graphit, OLED, Mitternacht, Espresso, Nebel), Brett-Themen mit Vorschau, Sound-Pakete (Klassik, Holz, Minimal, Arcade) mit Lautstärke, Effekte, Bot-Tempo, Coach-Stufe, App teilen.
+- **Sprachausgabe (TTS)** – der Coach spricht (deutsch), Züge ansagen, Lektionen vorlesen; Stimme und Tempo wählbar.
+- **Feinschliff** – weiche Seitenübergänge, Zahlen zählen hoch, Ringe und Balken laufen ein, ruhigere Animationen auf Handys (weniger Akku, keine Ruckler).
+
 ## Neu in Version 2.1
 
 - **Tutorial nach der Umfrage** – 8 kurze Schritte mit echtem Brett zum Ausprobieren (Figur ziehen, erstes Rätsel, Pfeile, Navigation), danach direkt ins Testspiel.

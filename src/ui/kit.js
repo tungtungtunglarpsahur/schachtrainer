@@ -53,10 +53,39 @@ export function PieceIcon({ p, size = 28 }) {
   return html`<span class=${`piece-icon piece ${p}`} style=${{ width: size + 'px', height: size + 'px' }}></span>`;
 }
 
+const reduced = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Wert, der beim ersten Anzeigen von 0 aus „hineinläuft“ (für Ringe und Balken). */
+function useGrow(target) {
+  const [v, setV] = useState(reduced() ? target : 0);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setV(target));
+    return () => cancelAnimationFrame(id);
+  }, [target]);
+  return v;
+}
+
+/** Zahl, die weich hochzählt. */
+export function CountUp({ to, ms = 1200 }) {
+  const [v, setV] = useState(reduced() ? to : 0);
+  useEffect(() => {
+    const from = v;
+    if (from === to) return;
+    const t0 = performance.now();
+    let id = requestAnimationFrame(function step(t) {
+      const k = Math.min(1, (t - t0) / ms);
+      setV(Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) id = requestAnimationFrame(step);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [to]);
+  return html`<span class="count-up">${v}</span>`;
+}
+
 export function Ring({ value, size = 64, stroke = 7, children, color = 'var(--accent)' }) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
-  const v = Math.max(0, Math.min(1, value));
+  const v = useGrow(Math.max(0, Math.min(1, value || 0)));
   return html`<div class="ring" style=${{ width: size + 'px', height: size + 'px' }}>
     <svg width=${size} height=${size}>
       <circle cx=${size / 2} cy=${size / 2} r=${r} stroke="var(--line)" stroke-width=${stroke} fill="none" />
@@ -68,7 +97,8 @@ export function Ring({ value, size = 64, stroke = 7, children, color = 'var(--ac
 }
 
 export function Bar({ value, color }) {
-  return html`<div class="bar"><div style=${{ width: `${Math.max(0, Math.min(1, value)) * 100}%`, background: color }}></div></div>`;
+  const v = useGrow(Math.max(0, Math.min(1, value || 0)));
+  return html`<div class="bar"><div style=${{ width: `${v * 100}%`, background: color }}></div></div>`;
 }
 
 /** Bewertungsbalken; `score` aus Sicht Weiß. */

@@ -2,6 +2,7 @@
 import { html, useEffect, useMemo, useRef, useState } from '../../vendor/preact-htm.js';
 import { FILES, parseFen, safeChess, kingSquare } from '../lib/chess-util.js';
 import { useStore } from '../lib/store.js';
+import { play } from '../lib/sound.js';
 
 const xyOf = (sq, o) => {
   const f = sq.charCodeAt(0) - 97;
@@ -247,6 +248,7 @@ export function Board({
       el.style.transform = dragTransform(dragRef.current);
       el.classList.add('dragging');
     }
+    play('select');
     setDragSq(sq);
     try {
       ref.current.setPointerCapture?.(e.pointerId);

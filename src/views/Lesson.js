@@ -1,5 +1,5 @@
 // Lektions-Player: Schritt für Schritt, mit Fortschrittsbalken und Abschluss-Screen.
-import { html, useState } from '../../vendor/preact-htm.js';
+import { html, useEffect, useState } from '../../vendor/preact-htm.js';
 import { update, useStore } from '../lib/store.js';
 import { useContent, TRACKS } from '../lib/content.js';
 import { recordLesson, checkAchievements, buildPath, nextLessons } from '../lib/progress.js';
@@ -7,6 +7,7 @@ import { Board } from '../ui/Board.js';
 import { Icon, Md, Spinner, announce, confetti } from '../ui/kit.js';
 import { SequenceTask, GoalTask, StarsTask, PlayTask, QuizTask } from '../ui/Tasks.js';
 import { play } from '../lib/sound.js';
+import { speak, stopSpeaking, ttsSupported } from '../lib/speech.js';
 
 const TITLES = { stars: 'Bewegung', move: 'Dein Zug', line: 'Zugfolge', quiz: 'Frage', play: 'Ausspielen', info: '' };
 
@@ -18,6 +19,12 @@ export function LessonView({ id }) {
   const [mistakes, setMistakes] = useState(0);
   const [result, setResult] = useState(null);
   const [startedAt] = useState(Date.now());
+  // Coach liest jeden Schritt vor, wenn die Sprachausgabe an ist.
+  useEffect(() => {
+    const text = content?.lessonById[id]?.steps[i]?.text;
+    if (text) speak(text);
+    return () => stopSpeaking();
+  }, [content, i]);
 
   if (!content) return html`<${Spinner} />`;
   const lesson = content.lessonById[id];
@@ -101,7 +108,10 @@ export function LessonView({ id }) {
     </header>
     <div class=${`lesson-body ${hasBoard ? 'with-board' : 'text-only'}`}>
       <div class="lesson-text">
-        <small class="tag">${unit?.title} · ${lesson.title}${TITLES[step.type] ? ' · ' + TITLES[step.type] : ''}</small>
+        <div class="lesson-tagline">
+          <small class="tag">${unit?.title} · ${lesson.title}${TITLES[step.type] ? ' · ' + TITLES[step.type] : ''}</small>
+          ${ttsSupported() && html`<button class="speak-btn" onClick=${() => speak(step.text, { force: true })} aria-label="Vorlesen" title="Vorlesen"><${Icon} name="sound" size=${17} /></button>`}
+        </div>
         <${Md} class="lesson-md" text=${step.text} />
         ${solved && step.success ? html`<${Md} class="explain good" text=${step.success} />` : null}
         ${step.type === 'quiz' && !step.fen ? body : null}

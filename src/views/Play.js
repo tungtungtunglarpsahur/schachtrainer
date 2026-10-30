@@ -5,12 +5,13 @@ import { useContent } from '../lib/content.js';
 import { engine, botMove, nullMoveFen, warmup } from '../lib/engine.js';
 import { classify, explain, threatText, hintFor, accuracyOf, winOf, CLASSES } from '../lib/coach.js';
 import { recordGame, checkAchievements } from '../lib/progress.js';
-import { Chess, START_FEN, parseUci, safeChess, sanDe, toUci, whiteScore, capturedPieces, colorName } from '../lib/chess-util.js';
+import { Chess, START_FEN, parseUci, safeChess, sanDe, toUci, whiteScore, capturedPieces, colorName, scoreCp } from '../lib/chess-util.js';
 import { Board, squaresIn } from '../ui/Board.js';
-import { Coach, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
+import { Coach, CountUp, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
 import { play, playMove } from '../lib/sound.js';
 import { recordMistake } from '../lib/mistakes.js';
 import { estimateRating } from '../lib/rating.js';
+import { speak, speakMove, stopSpeaking } from '../lib/speech.js';
 
 export const BOTS = [
   { name: 'Benni', elo: 400, desc: 'Hat gestern erst die Regeln gelernt', icon: 'bP', art: 'b1', style: 'random', hello: 'Hi! Ich hab gestern erst gelernt, wie der Springer zieht. Sei nett zu mir!' },
@@ -28,6 +29,8 @@ const TESTBOT = { name: 'Testbot', elo: 1000, desc: 'Passt sich deinem Spiel an'
 const TEST_MOVES = 20;
 const clampElo = (x) => Math.max(400, Math.min(2400, Math.round(x)));
 const clampBot = (x) => Math.max(300, Math.min(2600, Math.round(x)));
+/** Grobe Einordnung einer Wertung in Worte. */
+const levelName = (r) => (r < 600 ? 'Einsteiger' : r < 1000 ? 'Hobbyspieler' : r < 1400 ? 'Fortgeschritten' : r < 1800 ? 'Vereinsspieler' : r < 2200 ? 'Experte' : 'Meisterniveau');
 
 const STYLE_LABEL = { random: 'Chaotisch', attack: 'Angriff', balanced: 'Ausgewogen', tactical: 'Taktisch', solid: 'Positionell' };
 
@@ -40,22 +43,6 @@ export const SPEEDS = [
 ];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-/** Zahl, die hochzählt (für die Wertung nach der Testpartie). */
-function CountUp({ to, ms = 1400 }) {
-  const [v, setV] = useState(matchMedia('(prefers-reduced-motion: reduce)').matches ? to : 0);
-  useEffect(() => {
-    if (v === to) return;
-    const t0 = performance.now();
-    let id = requestAnimationFrame(function step(t) {
-      const k = Math.min(1, (t - t0) / ms);
-      setV(Math.round(to * (1 - Math.pow(1 - k, 3))));
-      if (k < 1) id = requestAnimationFrame(step);
-    });
-    return () => cancelAnimationFrame(id);
-  }, [to]);
-  return html`<span>${v}</span>`;
-}
 
 /** Menschliche Bedenkzeit in ms – hängt von Phase, Stellung, Stärke, Uhr und Tempo ab. */
 function thinkTime(chess, elo, speedId, clockMs, inc) {
@@ -263,8 +250,13 @@ function Game({ setup, resume, onExit, onNew }) {
     setClock(clockRef.current);
   };
 
-  const say = (m) => setMsgs((x) => [...x.slice(-30), m]);
+  const say = (m) => {
+    setMsgs((x) => [...x.slice(-30), m]);
+    speak(m.text); // Coach spricht (nur wenn in den Einstellungen an)
+  };
   const chess = () => chessRef.current;
+  // Nur lokal zum automatischen Testen (z. B. Elo-Kalibrierung), nie auf der echten Seite.
+  if (location.hostname === 'localhost') window.__gambitGame = { fen: () => chessRef.current?.fen(), bot: () => eloRef.current, moves: () => accRef.current, bots: () => botElosRef.current };
 
   const persist = () => {
     update((st) => {
@@ -308,6 +300,7 @@ function Game({ setup, resume, onExit, onNew }) {
       timers.forEach(clearTimeout);
       tokenRef.current++;
       engine.cancelAll();
+      stopSpeaking();
     };
   }, []);
 
@@ -349,7 +342,7 @@ function Game({ setup, resume, onExit, onNew }) {
     const score = reason === 'Testende' ? (testScoreRef.current ?? 0.5) : result === 'win' ? 1 : result === 'draw' ? 0.5 : 0;
     const res = estimateRating({ moves, prior: elo, priorSd: s.profile.elo ? 300 : 400, score, opponent });
     const est = Math.max(100, Math.min(2900, res.rating));
-    const avg = moves.length ? moves.reduce((a, m) => a + accuracyOf(m.loss), 0) / moves.length : 0;
+    const avg = moves.length ? moves.reduce((a, m) => a + (m.acc ?? 0), 0) / moves.length : 0;
     const counts = (k) => classesRef.current.filter((x) => x === k).length;
     const gid = Date.now().toString(36);
     update((st) => {
@@ -461,6 +454,7 @@ function Game({ setup, resume, onExit, onNew }) {
     const c = chess();
     const m = c.move(parseUci(uci));
     playMove(m, c);
+    speakMove(m.san, { color: m.color });
     addInc(m.color);
     setFen(c.fen());
     setLast([m.from, m.to]);
@@ -483,6 +477,7 @@ function Game({ setup, resume, onExit, onNew }) {
     }
     const token = ++tokenRef.current;
     playMove(m, c);
+    speakMove(m.san, { color: m.color });
     addInc(m.color);
     setFen(c.fen());
     setLast([m.from, m.to]);
@@ -517,7 +512,12 @@ function Game({ setup, resume, onExit, onNew }) {
     if (cls) setBadge({ [m.to]: { sym: cls.sym, tone: cls.tone } });
     if (test && cls) {
       // Jeder Zug fließt in die Schätzung ein; der Bot spielt danach ungefähr auf deinem geschätzten Niveau.
-      accRef.current.push({ loss: cls.loss, move: Math.floor(ply / 2) + 1 });
+      // Centipawn-Verlust gegenüber dem besten Zug (Matt = ±1500), Sicht des Ziehenden.
+      const cpOf = (sc) => Math.max(-1500, Math.min(1500, scoreCp(sc)));
+      const sb = before?.lines?.[0]?.score;
+      const sa = after?.lines?.[0]?.score;
+      const cpLoss = after?.mated ? 0 : sb && sa ? Math.max(0, cpOf(sb) + cpOf(sa)) : cls.loss * 8;
+      accRef.current.push({ loss: cpLoss, move: Math.floor(ply / 2) + 1, acc: accuracyOf(cls.loss) });
       const est = estimateRating({ moves: accRef.current, prior: elo, priorSd: s.profile.elo ? 300 : 400 });
       eloRef.current = clampBot(0.5 * eloRef.current + 0.5 * est.rating);
       botElosRef.current.push(eloRef.current);
@@ -698,6 +698,7 @@ function Game({ setup, resume, onExit, onNew }) {
       <div class="game-over test-result">
         <small class="tag">Deine Einstufung</small>
         <div class="test-elo"><${CountUp} to=${testResult.est} /><small>Elo</small></div>
+        <p class="test-level">${levelName(testResult.est)}</p>
         <p class="test-range">Wahrscheinlich zwischen <b>${testResult.low}</b> und <b>${testResult.high}</b></p>
         <p class="muted">So stark spielst du ungefähr. Ab jetzt passt sich deine Wertung mit jeder Partie an.</p>
         <div class="summary-grid">

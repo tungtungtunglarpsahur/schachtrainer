@@ -110,6 +110,8 @@ export function Home() {
       </div>
     </section>
 
+    ${!s.profile.placementDone &&
+    html`<a class="banner resume" href="#/play?test=1"><${Icon} name="bolt" /> <span><b>Mach dein Testspiel</b> (ca. 5 Min) – danach weißt du, wie stark du wirklich spielst.</span></a>`}
     ${mineDue > 0 &&
     html`<a class="banner resume" href="#/puzzles/mine"><${Icon} name="repeat" /> <span><b>${mineDue} Stellung${mineDue === 1 ? '' : 'en'} aus deinen Partien</b> ${mineDue === 1 ? 'wartet' : 'warten'} auf Revanche – finde diesmal den besten Zug.</span></a>`}
 

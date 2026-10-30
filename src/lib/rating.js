@@ -1,23 +1,32 @@
 // Einstufung: Bayes-Schätzung der Spielstärke aus der Qualität deiner Züge und dem Ergebnis.
 //
-// Modell: Ein Spieler mit Wertung r verliert pro Zug im Schnitt mu(r) Prozentpunkte Gewinnchance
-// (nach Engine-Bewertung). Stärkere Spieler verlieren weniger. Jeder Zug ist ein Beweisstück
-// (Exponential-Likelihood), Eröffnungszüge zählen weniger, weil sie für alle leicht sind.
+// Modell: Ein Spieler mit Wertung r verliert pro Zug im Schnitt mu(r) Centipawns gegenüber dem
+// besten Zug (wie der bekannte „durchschnittliche Centipawn-Verlust“). Anders als Gewinnchancen
+// flacht das in schon verlorenen Stellungen nicht ab – Zufallszüge werden also nicht schöngerechnet.
+// Jeder Zug ist ein Beweisstück (Exponential-Likelihood), Eröffnungszüge zählen weniger.
 // Dazu kommt das Ergebnis gegen den (sich anpassenden) Bot über die Elo-Formel und eine
 // Vorab-Schätzung aus der Umfrage. Ergebnis: Mittelwert und 80-%-Bereich der Verteilung.
 
-/** Erwarteter Gewinnchancen-Verlust pro Zug (in %) bei Wertung r. */
-export const expectedLoss = (r) => 30 * Math.exp(-r / 700) + 1;
+/**
+ * Erwarteter Centipawn-Verlust pro Mittelspielzug bei Wertung r – kalibriert mit den Bots dieser App
+ * (je 8 Partien, gemessen wie in der Testpartie): ~144 bei 400, ~97 bei 700, ~79 bei 1000,
+ * ~51 bei 1600, ~34 bei 2000. Der Sockel von 20 ist Messrauschen der schnellen Engine-Analyse.
+ */
+export const expectedLoss = (r) => 204 * Math.exp(-r / 808) + 20;
+/** In der Eröffnung sind die Verluste für alle kleiner (gemessen: Züge 1–4 ≈ 40 %, 5–8 ≈ 60 %). */
+const phase = (moveNo) => (moveNo <= 4 ? 0.4 : moveNo <= 8 ? 0.6 : 1);
+/** Einzelne Züge werden bei 1000 Centipawns gedeckelt, damit ein einziger Fehler nicht alles bestimmt. */
+const CAP = 1000;
 
-/** Gewicht eines Zuges nach Zugnummer: Eröffnung ist leicht, also wenig Aussagekraft. */
-export const moveWeight = (moveNo) => (moveNo <= 4 ? 0.25 : moveNo <= 8 ? 0.6 : 1);
+/** Gewicht eines Zuges: Eröffnungszüge unterscheiden Spielstärken kaum, sie zählen weniger. */
+export const moveWeight = (moveNo) => (moveNo <= 4 ? 0.5 : moveNo <= 8 ? 0.8 : 1);
 
 const GRID = [];
 for (let r = 100; r <= 2900; r += 10) GRID.push(r);
 
 /**
  * @param {object} o
- * @param {{loss:number, move:number}[]} o.moves  Verlust in Prozentpunkten (0–100) und Zugnummer
+ * @param {{loss:number, move:number}[]} o.moves  Centipawn-Verlust des Zuges und Zugnummer
  * @param {number} o.prior        Startschätzung (z. B. aus der Umfrage)
  * @param {number} [o.priorSd]    Unsicherheit der Startschätzung
  * @param {number|null} [o.score] Ergebnis aus deiner Sicht 0…1 (Sieg 1, Remis 0,5) oder null
@@ -25,10 +34,11 @@ for (let r = 100; r <= 2900; r += 10) GRID.push(r);
  */
 export function estimateRating({ moves, prior, priorSd = 400, score = null, opponent = null }) {
   const logp = GRID.map((r) => {
-    const mu = expectedLoss(r);
+    const base = expectedLoss(r);
     let lp = -((r - prior) ** 2) / (2 * priorSd * priorSd);
     for (const m of moves) {
-      const loss = Math.min(45, Math.max(0, m.loss || 0));
+      const mu = base * phase(m.move);
+      const loss = Math.min(CAP, Math.max(0, m.loss || 0));
       lp += moveWeight(m.move) * (-Math.log(mu) - loss / mu);
     }
     if (score != null && opponent != null) {

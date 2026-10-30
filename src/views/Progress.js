@@ -3,7 +3,7 @@ import { html } from '../../vendor/preact-htm.js';
 import { useStore, rankFor, streakNow, RANKS, dayKey } from '../lib/store.js';
 import { useContent, themeName } from '../lib/content.js';
 import { themeStats, ACHIEVEMENTS } from '../lib/progress.js';
-import { Bar, Icon, PieceIcon, Ring } from '../ui/kit.js';
+import { Bar, CountUp, Icon, PieceIcon, Ring } from '../ui/kit.js';
 
 const DAY = 864e5;
 const keyOf = (offset) => dayKey(new Date(Date.now() - offset * DAY));
@@ -58,17 +58,17 @@ function RatingCard({ title, sub, value, data, empty }) {
   return html`<section class="card pg-rating">
     <div class="pg-rating-head">
       <div><h3>${title}</h3><small class="muted">${sub}</small></div>
-      <div class="pg-big"><b>${value}</b>${diff ? html`<span class=${`pg-delta ${diff > 0 ? 'up' : 'down'}`}>${diff > 0 ? '↑' : '↓'} ${Math.abs(diff)} <small>in 30 Tagen</small></span>` : null}</div>
+      <div class="pg-big"><b><${CountUp} to=${value} /></b>${diff ? html`<span class=${`pg-delta ${diff > 0 ? 'up' : 'down'}`}>${diff > 0 ? '↑' : '↓'} ${Math.abs(diff)} <small>in 30 Tagen</small></span>` : null}</div>
     </div>
     <${Curve} data=${data} empty=${empty} />
   </section>`;
 }
 
-function WeekTile({ label, now, before, fmt = (x) => x }) {
+function WeekTile({ label, now, before, unit = '', fmt = (x) => x }) {
   const diff = now - before;
   return html`<div class="pg-week-tile">
     <small>${label}</small>
-    <b>${fmt(now)}</b>
+    <b><${CountUp} to=${now} />${unit}</b>
     <span class=${`pg-delta ${diff > 0 ? 'up' : diff < 0 ? 'down' : ''}`}>${diff > 0 ? `↑ ${fmt(diff)} mehr` : diff < 0 ? `↓ ${fmt(-diff)} weniger` : 'wie letzte Woche'}</span>
   </div>`;
 }
@@ -127,16 +127,16 @@ export function Progress() {
         <div class="rank-ladder">${RANKS.map((r, i) => html`<span class=${i <= rank.index ? 'on' : ''} style=${{ '--c': r.color }} title=${`${r.name} ab ${r.xp} XP`}></span>`)}</div>
       </div>
       <div class="pg-hero-stats">
-        <div class="pg-stat"><${Icon} name="flame" /><b>${streak}</b><small>${streak === 1 ? 'Tag' : 'Tage'} am Stück</small></div>
+        <div class="pg-stat"><${Icon} name="flame" /><b><${CountUp} to=${streak} /></b><small>${streak === 1 ? 'Tag' : 'Tage'} am Stück</small></div>
         <div class="pg-stat"><${Icon} name="clock" /><b>${fmtMin(totalMin)}</b><small>trainiert</small></div>
-        <div class="pg-stat"><${Icon} name="star" /><b>${s.xp}</b><small>XP gesamt</small></div>
+        <div class="pg-stat"><${Icon} name="star" /><b><${CountUp} to=${s.xp} /></b><small>XP gesamt</small></div>
       </div>
     </section>
 
     <section>
       <div class="section-head"><h2>Diese Woche</h2><span class="muted small">im Vergleich zur Woche davor</span></div>
       <div class="pg-week">
-        <${WeekTile} label="Trainiert" now=${week.min[0]} before=${week.min[1]} fmt=${(x) => `${x} min`} />
+        <${WeekTile} label="Trainiert" now=${week.min[0]} before=${week.min[1]} unit=" min" fmt=${(x) => `${x} min`} />
         <${WeekTile} label="Rätsel gelöst" now=${week.puzzles[0]} before=${week.puzzles[1]} />
         <${WeekTile} label="Partien" now=${week.games[0]} before=${week.games[1]} />
         <${WeekTile} label="XP" now=${week.xp[0]} before=${week.xp[1]} />

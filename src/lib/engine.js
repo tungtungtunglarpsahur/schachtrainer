@@ -187,14 +187,15 @@ export async function botMove(fen, elo, style = 'balanced') {
   const chess = safeChess(fen);
   const legal = chess ? chess.moves({ verbose: true }) : [];
   if (!legal.length) return null;
-  if (Math.random() < 0.2 - t * 0.17) {
+  // Gemessen: ohne Dämpfung spielte der 1300er stärker als Stockfish auf 1600 – daher etwas mehr Zufall oben.
+  if (Math.random() < 0.2 - t * 0.14) {
     const m = legal[Math.floor(Math.random() * legal.length)];
     return m.from + m.to + (m.promotion || '');
   }
   const lines = r.lines.filter((l) => l.pv?.[0]);
   if (!lines.length) return r.bestmove;
   const best = scoreCp(lines[0].score);
-  const temp = 220 - t * 185;
+  const temp = 220 - t * 150;
   // Spielstil: unter fast gleich guten Zügen bevorzugt jeder Bot „seine“ Art Zug.
   const byUci = new Map(legal.map((m) => [m.from + m.to + (m.promotion || ''), m]));
   const flavor = (uci) => {

@@ -1,6 +1,6 @@
 // Einstieg: Router, App-Rahmen, Zeitmessung.
 import { html, render, useEffect, useState } from '../vendor/preact-htm.js';
-import { useStore, update, today, todayView, streakNow, rankFor, storageOk, SURVEY_VERSION } from './lib/store.js';
+import { useStore, update, today, todayView, streakNow, rankFor, storageOk, state, SURVEY_VERSION } from './lib/store.js';
 import { loadContent } from './lib/content.js';
 import { Icon, Logo, Toasts, Ring } from './ui/kit.js';
 import { Onboarding } from './views/Onboarding.js';
@@ -40,9 +40,27 @@ const parseHash = () => {
 function useRoute() {
   const [r, setR] = useState(parseHash());
   useEffect(() => {
+    let page = parseHash().parts[0] || '';
     const on = () => {
-      setR(parseHash());
-      window.scrollTo(0, 0);
+      const next = parseHash();
+      const go = () => {
+        setR(next);
+        window.scrollTo(0, 0);
+      };
+      // Weicher Übergang nur beim Wechsel zwischen Bereichen (nicht bei jedem Zug im Analysebrett).
+      const changed = (next.parts[0] || '') !== page;
+      page = next.parts[0] || '';
+      const calm = state.settings.animation === false || matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (changed && !calm && document.startViewTransition) {
+        try {
+          document.startViewTransition(() => new Promise((done) => {
+            go();
+            setTimeout(done, 30);
+          }));
+          return;
+        } catch {}
+      }
+      go();
     };
     addEventListener('hashchange', on);
     return () => removeEventListener('hashchange', on);
@@ -121,6 +139,12 @@ function Shell({ route, children }) {
 
 function App() {
   const s = useStore();
+  useEffect(() => {
+    const t = s.settings.appTheme || 'graphit';
+    document.documentElement.dataset.apptheme = t;
+    const bg = { graphit: '#0a0a0b', oled: '#000000', mitternacht: '#070a12', espresso: '#0d0a08', nebel: '#121316' }[t] || '#0a0a0b';
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', bg);
+  }, [s.settings.appTheme]);
   const route = useRoute();
   useEffect(() => {
     loadContent();
