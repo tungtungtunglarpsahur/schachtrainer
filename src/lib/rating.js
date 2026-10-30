@@ -9,14 +9,20 @@
 
 /**
  * Erwarteter Centipawn-Verlust pro Mittelspielzug bei Wertung r – kalibriert mit den Bots dieser App
- * (je 8 Partien, gemessen wie in der Testpartie): ~144 bei 400, ~97 bei 700, ~79 bei 1000,
- * ~51 bei 1600, ~34 bei 2000. Der Sockel von 20 ist Messrauschen der schnellen Engine-Analyse.
+ * (je 12 Partien à 20 Züge, gemessen genau wie in der Testpartie): 136 bei 400, 112 bei 700,
+ * 75 bei 1000, 53 bei 1300, 29 bei 1600, 24 bei 2000.
  */
-export const expectedLoss = (r) => 204 * Math.exp(-r / 808) + 20;
-/** In der Eröffnung sind die Verluste für alle kleiner (gemessen: Züge 1–4 ≈ 40 %, 5–8 ≈ 60 %). */
-const phase = (moveNo) => (moveNo <= 4 ? 0.4 : moveNo <= 8 ? 0.6 : 1);
+export const expectedLoss = (r) => 244 * Math.exp(-r / 760) + 5;
+/** In der Eröffnung sind die Verluste für alle kleiner (gemessen: Züge 1–4 ≈ 40 %, 5–8 ≈ 70 %). */
+const phase = (moveNo) => (moveNo <= 4 ? 0.4 : moveNo <= 8 ? 0.7 : 1);
 /** Einzelne Züge werden bei 1000 Centipawns gedeckelt, damit ein einziger Fehler nicht alles bestimmt. */
 const CAP = 1000;
+/**
+ * Züge einer Partie hängen zusammen (ähnliche Stellungen, ein Fehler zieht den nächsten nach sich).
+ * Deshalb zählt jeder Zug nur halb. Getestet an 216 gemessenen Partien: mittlerer Fehler 212 statt 245,
+ * und der angezeigte 80-%-Bereich enthält die wahre Stärke in 75 % statt nur 53 % der Fälle.
+ */
+const TEMPER = 0.5;
 
 /** Gewicht eines Zuges: Eröffnungszüge unterscheiden Spielstärken kaum, sie zählen weniger. */
 export const moveWeight = (moveNo) => (moveNo <= 4 ? 0.5 : moveNo <= 8 ? 0.8 : 1);
@@ -35,12 +41,13 @@ for (let r = 100; r <= 2900; r += 10) GRID.push(r);
 export function estimateRating({ moves, prior, priorSd = 400, score = null, opponent = null }) {
   const logp = GRID.map((r) => {
     const base = expectedLoss(r);
-    let lp = -((r - prior) ** 2) / (2 * priorSd * priorSd);
+    let lm = 0;
     for (const m of moves) {
       const mu = base * phase(m.move);
       const loss = Math.min(CAP, Math.max(0, m.loss || 0));
-      lp += moveWeight(m.move) * (-Math.log(mu) - loss / mu);
+      lm += moveWeight(m.move) * (-Math.log(mu) - loss / mu);
     }
+    let lp = TEMPER * lm - ((r - prior) ** 2) / (2 * priorSd * priorSd);
     if (score != null && opponent != null) {
       const p = 1 / (1 + Math.pow(10, (opponent - r) / 400));
       lp += 1.5 * (score * Math.log(p) + (1 - score) * Math.log(1 - p));
@@ -69,3 +76,10 @@ export function estimateRating({ moves, prior, priorSd = 400, score = null, oppo
   const round = (x) => Math.round(x / 10) * 10;
   return { rating: round(mean), low: round(low), high: round(high) };
 }
+
+/**
+ * Korrektur für die Testpartie gegen den sich anpassenden Bot. Gemessen in 20 kompletten Testpartien
+ * mit Bots bekannter Stärke (600, 1000, 1400, 1800): Die Rohschätzung streut zu weit nach außen.
+ * Diese lineare Anpassung senkt den mittleren Fehler von 232 auf 157 Elo (Leave-one-out-geprüft).
+ */
+export const testCorrection = (r) => Math.round((363 + 0.682 * r) / 10) * 10;

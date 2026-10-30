@@ -10,7 +10,7 @@ import { Board, squaresIn } from '../ui/Board.js';
 import { Coach, CountUp, EvalBar, Icon, Md, Modal, PieceIcon, ThinkingDots, announce, confetti } from '../ui/kit.js';
 import { play, playMove } from '../lib/sound.js';
 import { recordMistake } from '../lib/mistakes.js';
-import { estimateRating } from '../lib/rating.js';
+import { estimateRating, testCorrection } from '../lib/rating.js';
 import { speak, speakMove, stopSpeaking } from '../lib/speech.js';
 
 export const BOTS = [
@@ -340,7 +340,8 @@ function Game({ setup, resume, onExit, onNew }) {
     const bots = botElosRef.current;
     const opponent = bots.length ? bots.reduce((a, b) => a + b, 0) / bots.length : eloRef.current;
     const score = reason === 'Testende' ? (testScoreRef.current ?? 0.5) : result === 'win' ? 1 : result === 'draw' ? 0.5 : 0;
-    const res = estimateRating({ moves, prior: elo, priorSd: s.profile.elo ? 300 : 400, score, opponent });
+    const raw = estimateRating({ moves, prior: elo, priorSd: s.profile.elo ? 300 : 400, score, opponent });
+    const res = { rating: testCorrection(raw.rating), low: testCorrection(raw.low), high: testCorrection(raw.high) };
     const est = Math.max(100, Math.min(2900, res.rating));
     const avg = moves.length ? moves.reduce((a, m) => a + (m.acc ?? 0), 0) / moves.length : 0;
     const counts = (k) => classesRef.current.filter((x) => x === k).length;
