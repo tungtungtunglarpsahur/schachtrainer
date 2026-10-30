@@ -87,7 +87,7 @@ export function InstallGuide({ first = false }) {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(location.origin + location.pathname);
-      toast('Link kopiert – jetzt in Safari einfügen.', { icon: 'check', kind: 'good' });
+      toast('Link kopiert – jetzt in Safari einfügen.', { kind: 'good' });
     } catch {
       toast('Kopieren ging nicht – halte die Adresse oben gedrückt.');
     }

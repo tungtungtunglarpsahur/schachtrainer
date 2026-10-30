@@ -1,6 +1,6 @@
 // Fortschritt: alles, was zeigt, wie du besser wirst – Wertungen, Woche, Kalender, Stärken, Partien, Erfolge.
 import { html } from '../../vendor/preact-htm.js';
-import { useStore, rankFor, streakNow, RANKS, dayKey } from '../lib/store.js';
+import { useStore, rankFor, streakNow, RANKS, dayKey, eloOf } from '../lib/store.js';
 import { useContent, themeName } from '../lib/content.js';
 import { themeStats, ACHIEVEMENTS } from '../lib/progress.js';
 import { Bar, CountUp, Icon, PieceIcon, Ring } from '../ui/kit.js';
@@ -82,7 +82,7 @@ function WeekTile({ label, now, before, unit = '', fmt = (x) => x }) {
 export function Progress() {
   const s = useStore();
   const content = useContent();
-  const rank = rankFor(s.xp);
+  const rank = rankFor(eloOf(s));
   const streak = streakNow(s);
   const totalMin = Math.round(Object.values(s.days).reduce((a, d) => a + (d.seconds || 0), 0) / 60);
   const stats = themeStats(s);
@@ -128,9 +128,9 @@ export function Progress() {
       <div class="pg-hero-main">
         <p class="eyebrow">Dein Fortschritt</p>
         <h1>${s.profile.name ? `Stark, ${s.profile.name}!` : 'Du wirst besser.'}</h1>
-        <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${48} /><div><b>${rank.name}</b><small>${rank.next ? `Noch ${rank.next.xp - s.xp} XP bis ${rank.next.name}` : `${s.xp} XP · höchster Rang`}</small></div></div>
+        <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${48} /><div><b>${rank.name}</b><small>${rank.next ? `${eloOf(s)} Elo · noch ${rank.toNext} Elo bis ${rank.next.name}` : `${eloOf(s)} Elo · höchster Rang`}</small></div></div>
         <${Bar} value=${rank.progress} color=${rank.color} />
-        <div class="rank-ladder">${RANKS.map((r, i) => html`<span class=${i <= rank.index ? 'on' : ''} style=${{ '--c': r.color }} title=${`${r.name} ab ${r.xp} XP`}></span>`)}</div>
+        <div class="rank-ladder">${RANKS.map((r, i) => html`<span class=${i <= rank.index ? 'on' : ''} style=${{ '--c': r.color }} title=${`${r.name} ab ${r.elo} Elo`}></span>`)}</div>
       </div>
       <div class="pg-hero-stats">
         <div class="pg-stat"><${Icon} name="flame" /><b><${CountUp} to=${streak} /></b><small>${streak === 1 ? 'Tag' : 'Tage'} am Stück</small></div>

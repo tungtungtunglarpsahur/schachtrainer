@@ -1,6 +1,6 @@
 // Einstieg: Router, App-Rahmen, Zeitmessung.
 import { html, render, useEffect, useRef, useState } from '../vendor/preact-htm.js';
-import { useStore, update, today, todayView, streakNow, rankFor, storageOk, state, SURVEY_VERSION } from './lib/store.js';
+import { useStore, update, today, todayView, streakNow, rankFor, storageOk, state, SURVEY_VERSION, eloOf } from './lib/store.js';
 import { loadContent } from './lib/content.js';
 import { Icon, Logo, Toasts, Ring } from './ui/kit.js';
 import { Onboarding } from './views/Onboarding.js';
@@ -16,6 +16,9 @@ import { Analysis } from './views/Analysis.js';
 import { Progress } from './views/Progress.js';
 import { Settings } from './views/Settings.js';
 import { InstallGuide } from './views/Install.js';
+import { OnlineHub, JoinView } from './views/Online.js';
+import { OnlineGame } from './views/OnlineGame.js';
+import { useNet } from './lib/online.js';
 import { isIOS, isStandalone } from './lib/device.js';
 
 const NAV = [
@@ -23,14 +26,15 @@ const NAV = [
   { href: '#/learn', icon: 'path', label: 'Lernpfad' },
   { href: '#/puzzles', icon: 'puzzle', label: 'Rätsel' },
   { href: '#/play', icon: 'play', label: 'Spielen' },
+  { href: '#/online', icon: 'globe', label: 'Online' },
   { href: '#/progress', icon: 'chart', label: 'Fortschritt' },
   { href: '#/openings', icon: 'book', label: 'Eröffnungen' },
   { href: '#/analysis', icon: 'scope', label: 'Analyse' },
   { href: '#/settings', icon: 'gear', label: 'Einstellungen' },
 ];
-// Unten auf dem Handy: Start, Rätsel, Spielen, Fortschritt + „Mehr“.
+// Unten auf dem Handy: Start, Rätsel, Spielen, Online + „Mehr“.
 const TABS = [NAV[0], NAV[2], NAV[3], NAV[4]];
-const MORE = [NAV[1], NAV[5], NAV[6], NAV[7]];
+const MORE = [NAV[1], NAV[5], NAV[6], NAV[7], NAV[8]];
 
 
 const parseHash = () => {
@@ -70,7 +74,7 @@ function useRoute() {
   return r;
 }
 
-const TRAINING = new Set(['lesson', 'puzzles', 'play', 'review', 'opening', 'analysis', 'openings']);
+const TRAINING = new Set(['lesson', 'puzzles', 'play', 'review', 'opening', 'analysis', 'openings', 'online']);
 
 // Aktive Lernzeit zählen: nur sichtbar, nur bei Interaktion in der letzten Minute.
 let lastInput = Date.now();
@@ -166,7 +170,7 @@ function TopBar({ s }) {
   const d = todayView();
   const goal = s.profile.minutes * 60;
   const streak = streakNow(s);
-  const rank = rankFor(s.xp);
+  const rank = rankFor(eloOf(s));
   return html`<header class="topbar">
     <div class="topbar-logo"><${Logo} small /></div>
     <div class="topbar-stats">
@@ -183,8 +187,20 @@ function TopBar({ s }) {
   </header>`;
 }
 
+function SidebarFoot() {
+  const n = useNet();
+  return html`<div class="sidebar-foot">
+    ${n.user
+      ? html`<p>Angemeldet als <b>${n.user.name}</b>. Dein Fortschritt wird automatisch gesichert.</p><a href="#/online" class="link">Online spielen →</a>`
+      : html`<p>Mit einem kostenlosen Konto ist dein Fortschritt auf jedem Gerät da – und du spielst online.</p><a href="#/online" class="link">Konto erstellen →</a>`}
+  </div>`;
+}
+
 function Shell({ route, children }) {
   const s = useStore();
+  const n = useNet();
+  const inv = n.invites.length;
+  const badge = (href) => (href === '#/online' && inv ? html`<i class="nav-badge" aria-label=${`${inv} Einladung${inv === 1 ? '' : 'en'}`}>${inv}</i>` : null);
   const [more, setMore] = useState(false);
   const first = '#/' + (route.parts[0] || '');
   const active = (href) => (href === '#/' ? first === '#/' : first.startsWith(href.replace(/s$/, '')));
@@ -196,12 +212,9 @@ function Shell({ route, children }) {
     <aside class="sidebar">
       <div class="sidebar-logo"><${Logo} /></div>
       <nav>
-        ${NAV.map((n) => html`<a href=${n.href} title=${n.label} class=${`nav-item ${active(n.href) ? 'active' : ''}`}><${Icon} name=${n.icon} /><span>${n.label}</span></a>`)}
+        ${NAV.map((x) => html`<a href=${x.href} title=${x.label} class=${`nav-item ${active(x.href) ? 'active' : ''}`}><${Icon} name=${x.icon} /><span>${x.label}</span>${badge(x.href)}</a>`)}
       </nav>
-      <div class="sidebar-foot">
-        <p>Kein Account. Dein Fortschritt bleibt auf diesem Gerät.</p>
-        <a href="#/settings" class="link">Backup erstellen →</a>
-      </div>
+      <${SidebarFoot} />
     </aside>
     <div class="main">
       <${TopBar} s=${s} />
@@ -211,10 +224,10 @@ function Shell({ route, children }) {
     ${more &&
     html`<div class="more-backdrop" onClick=${() => setMore(false)}></div>
       <nav class="more-sheet" aria-label="Weitere Bereiche">
-        ${MORE.map((n) => html`<a href=${n.href} class=${active(n.href) ? 'active' : ''} onClick=${() => setMore(false)}><${Icon} name=${n.icon} /><span>${n.label}</span></a>`)}
+        ${MORE.map((x) => html`<a href=${x.href} class=${active(x.href) ? 'active' : ''} onClick=${() => setMore(false)}><${Icon} name=${x.icon} /><span>${x.label}</span></a>`)}
       </nav>`}
     <nav ref=${barRef} class="tabbar">
-      ${TABS.map((n) => html`<a href=${n.href} class=${active(n.href) && !more ? 'active' : ''}><${Icon} name=${n.icon} size=${22} /><span>${n.label}</span></a>`)}
+      ${TABS.map((x) => html`<a href=${x.href} class=${active(x.href) && !more ? 'active' : ''}><${Icon} name=${x.icon} size=${22} /><span>${x.label}</span>${badge(x.href)}</a>`)}
       <button type="button" class=${moreActive || more ? 'active' : ''} onClick=${() => setMore(!more)} aria-expanded=${more}><${Icon} name="grid" size=${22} /><span>Mehr</span></button>
     </nav>
   </div>`;
@@ -235,10 +248,18 @@ function App() {
   // iPhone & iPad im Browser: ganz am Anfang zeigen, wie die App auf den Home-Bildschirm kommt.
   // (Die App dort hat einen eigenen Speicher – deshalb vor der Umfrage.)
   const installFirst = isIOS && !isStandalone() && !s.profile.onboarded && !s.profile.surveyV && !s.profile.installSkipped;
-  if (installFirst || route.parts[0] === 'install') return html`<${InstallGuide} first=${installFirst} /><${Toasts} />`;
+  const [a, b, c] = route.parts;
+  // Einladungs-Link oder laufende Online-Partie: direkt hin – Umfrage und Tutorial können warten.
+  const direct = a === 'online' && (b === 'join' || b === 'game') && c;
+  const gated = installFirst || !s.profile.onboarded || (s.profile.surveyV || 0) < SURVEY_VERSION || !s.profile.tutorialDone;
+  if (direct && gated)
+    return html`<div class="focus-shell lite-shell">
+        <header class="lite-head"><${Logo} small /></header>
+        <main class="content">${b === 'game' ? html`<${OnlineGame} key=${c} id=${c} />` : html`<${JoinView} key=${c} cid=${c} />`}</main>
+      </div><${Toasts} focus />`;
+  if (installFirst || a === 'install') return html`<${InstallGuide} first=${installFirst} /><${Toasts} />`;
   if (!s.profile.onboarded || (s.profile.surveyV || 0) < SURVEY_VERSION) return html`<${Onboarding} /><${Toasts} />`;
   if (!s.profile.tutorialDone) return html`<${Tutorial} /><${Toasts} />`;
-  const [a, b] = route.parts;
   let view;
   switch (a) {
     case undefined:
@@ -274,6 +295,14 @@ function App() {
       break;
     case 'settings':
       view = html`<${Settings} />`;
+      break;
+    case 'online':
+      view =
+        b === 'game' && c
+          ? html`<${OnlineGame} key=${c} id=${c} />`
+          : b === 'join' && c
+          ? html`<${JoinView} key=${c} cid=${c} />`
+          : html`<${OnlineHub} query=${route.query} />`;
       break;
     default:
       view = html`<${Home} />`;

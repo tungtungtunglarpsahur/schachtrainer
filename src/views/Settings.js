@@ -1,6 +1,7 @@
 // Einstellungen: Aussehen, Sound, Sprachausgabe, Spiel, Plan, Teilen, Daten.
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
-import { useStore, update, exportData, importData, resetAll, LEVELS } from '../lib/store.js';
+import { useStore, update, exportData, importData, resetAll, LEVELS, rankFor } from '../lib/store.js';
+import { useNet, logout, pushProgress, loggedIn } from '../lib/online.js';
 import { GOALS, MINUTES } from './Onboarding.js';
 import { Board } from '../ui/Board.js';
 import { Icon, toast } from '../ui/kit.js';
@@ -37,6 +38,7 @@ const COACH = [
 ];
 
 const SECTIONS = [
+  { id: 'st-account', label: 'Konto', icon: 'user' },
   { id: 'st-look', label: 'Aussehen', icon: 'palette' },
   { id: 'st-sound', label: 'Sound', icon: 'sound' },
   { id: 'st-voice', label: 'Sprache', icon: 'bubble' },
@@ -76,6 +78,8 @@ const smooth = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? '
 
 export function Settings() {
   const s = useStore();
+  const n = useNet();
+  const u = n.user;
   const st = s.settings;
   const file = useRef();
   const link = useRef();
@@ -127,11 +131,13 @@ export function Settings() {
   const effects = st.effects || 'full';
 
   return html`<div class="page settings st">
-    <div class="page-head"><div><h1>Einstellungen</h1><p class="muted">Alles wird sofort gespeichert – nur auf diesem Gerät.</p></div></div>
+    <div class="page-head"><div><h1>Einstellungen</h1><p class="muted">${u ? 'Alles wird sofort gespeichert – und auf deinem Konto gesichert.' : 'Alles wird sofort gespeichert – auf diesem Gerät.'}</p></div></div>
 
     <nav class="st-nav" aria-label="Bereiche">
       ${SECTIONS.map((x) => html`<button onClick=${() => jump(x.id)}><${Ico} name=${x.icon} size=${16} />${x.label}</button>`)}
     </nav>
+
+    <${AccountCard} u=${u} />
 
     <section class="card st-card" id="st-look">
       <${Head} id="st-look" icon="palette" title="Aussehen" sub="Farben, Brett und Effekte" />
@@ -275,7 +281,7 @@ export function Settings() {
 
     <section class="card st-card" id="st-share">
       <${Head} id="st-share" icon="share" title="App teilen" sub="Für Freunde, Familie oder deine Schulgruppe" />
-      <p class="muted small" style=${{ margin: 0 }}>Schick einfach den Link. Jeder bekommt seinen eigenen Fortschritt – gespeichert auf dem eigenen Gerät, ganz ohne Anmeldung.</p>
+      <p class="muted small" style=${{ margin: 0 }}>Schick einfach den Link. Jeder bekommt seinen eigenen Fortschritt – ganz ohne Anmeldung. Mit kostenlosem Konto ist er auf jedem Gerät da, und ihr könnt online gegeneinander spielen.</p>
       <div class="st-link">
         <input ref=${link} class="input" readonly value=${shareUrl()} aria-label="Link zur App" onFocus=${(e) => e.target.select()} />
         <button class="btn primary" onClick=${copyLink}><${Icon} name="check" /> Link kopieren</button>
@@ -286,13 +292,15 @@ export function Settings() {
         <div class="st-step"><b>Android</b><span>In Chrome oben rechts auf <kbd>⋮</kbd> tippen, dann <kbd>App installieren</kbd> oder <kbd>Zum Startbildschirm</kbd>.</span></div>
         <div class="st-step"><b>Computer</b><span>In Chrome oder Edge rechts in der Adressleiste auf <kbd>Installieren</kbd> klicken.</span></div>
         <div class="st-step"><b>Offline</b><span>Einmal geöffnet, läuft Learning King auch ohne Internet weiter.</span></div>
-        <div class="st-step"><b>Gut zu wissen</b><span>Die App auf dem Home-Bildschirm hat ihren eigenen Speicher. Deinen bisherigen Fortschritt nimmst du mit: hier unten <kbd>Backup herunterladen</kbd>, dann in der App <kbd>Backup laden</kbd>.</span></div>
+        <div class="st-step"><b>Gut zu wissen</b><span>Die App auf dem Home-Bildschirm hat ihren eigenen Speicher. Am einfachsten meldest du dich dort mit deinem Konto an – dann ist alles wieder da. Ohne Konto: hier unten <kbd>Backup herunterladen</kbd>, dann in der App <kbd>Backup laden</kbd>.</span></div>
       </div>
     </section>
 
     <section class="card st-card" id="st-data">
       <${Head} id="st-data" icon="download" title="Deine Daten" sub="Backup, Wiederherstellen, Zurücksetzen" />
-      <p class="muted small">Learning King hat keinen Server und keinen Account. Dein Fortschritt liegt im Speicher dieses Browsers. Wenn du die Browserdaten löschst, ist er weg – mach ab und zu ein Backup.</p>
+      <p class="muted small">${u
+        ? 'Dein Fortschritt liegt im Speicher dieses Browsers und wird automatisch auf deinem Konto gesichert. Ein Backup als Datei geht trotzdem jederzeit.'
+        : 'Dein Fortschritt liegt im Speicher dieses Browsers. Ohne Konto gilt: Wenn du die Browserdaten löschst, ist er weg – mach ab und zu ein Backup.'}</p>
       <div class="btn-row">
         <button class="btn primary" onClick=${() => { exportData(); toast('Backup heruntergeladen'); }}><${Icon} name="download" /> Backup herunterladen</button>
         <button class="btn secondary" onClick=${() => file.current.click()}><${Icon} name="upload" /> Backup laden</button>
@@ -318,12 +326,48 @@ export function Settings() {
   </div>`;
 }
 
+/** Konto & Online: angemeldet bleiben, Fortschritt sichern, abmelden. */
+function AccountCard({ u }) {
+  const [busy, setBusy] = useState(false);
+  const rank = u ? rankFor(u.r) : null;
+  const saveNow = async () => {
+    setBusy(true);
+    await pushProgress();
+    setBusy(false);
+    toast('Fortschritt gesichert', { kind: 'good' });
+  };
+  return html`<section class="card st-card" id="st-account">
+    <${Head} id="st-account" icon="user" title="Konto & Online" sub=${u ? 'Du bist angemeldet und bleibst es auch' : 'Angemeldet bleiben, Fortschritt sichern, online spielen'} />
+    ${u
+      ? html`<div class="st-account">
+            <span class="on-avatar big" style=${{ '--rank': rank.color }}><span class=${`piece-icon piece ${rank.icon}`}></span></span>
+            <div><b>${u.name}</b><small>${u.r}${u.prov ? '?' : ''} Elo · ${rank.name} · ${u.games || 0} Online-${u.games === 1 ? 'Partie' : 'Partien'}</small></div>
+          </div>
+          <p class="muted small">Dein Fortschritt wird automatisch auf deinem Konto gesichert. Auf einem anderen Gerät oder in der App auf dem Home-Bildschirm einfach anmelden – alles ist wieder da.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="#/online"><${Icon} name="globe" /> Online spielen</a>
+            <button class="btn secondary" disabled=${busy} onClick=${saveNow}><${Icon} name="upload" /> Jetzt sichern</button>
+            <button class="btn ghost" onClick=${async () => {
+              await logout();
+              toast('Abgemeldet. Dein Fortschritt bleibt auf diesem Gerät.');
+            }}><${Icon} name="back" /> Abmelden</button>
+          </div>`
+      : html`<p class="muted small">Mit einem kostenlosen Konto bleibst du angemeldet, dein Fortschritt ist auf jedem Gerät da und du kannst gegen echte Menschen spielen – mit Elo und Rang wie bei chess.com. Keine E-Mail nötig.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="#/online"><${Icon} name="user" /> Konto erstellen</a>
+            <a class="btn ghost" href="#/online?login=1"><${Icon} name="next" /> Anmelden</a>
+          </div>`}
+  </section>`;
+}
+
 /** Zweistufiges Zurücksetzen statt Browser-Popup. */
 function ResetButton() {
   const [armed, setArmed] = useState(false);
   if (!armed) return html`<button class="btn ghost danger" onClick=${() => setArmed(true)}><${Icon} name="trash" /> Alles zurücksetzen</button>`;
   return html`<span class="btn-row">
-    <button class="btn primary" onClick=${() => {
+    <button class="btn primary" onClick=${async () => {
+      // Mit Konto: erst abmelden – der Stand auf dem Konto bleibt so erhalten.
+      if (loggedIn()) await logout();
       resetAll();
       location.hash = '#/';
     }}><${Icon} name="trash" /> Ja, alles löschen</button>

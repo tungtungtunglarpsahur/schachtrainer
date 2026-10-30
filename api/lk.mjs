@@ -12,7 +12,10 @@ const DAY = 86400;
 const GAME_TTL = 14 * DAY;
 const SESSION_TTL = 400 * DAY;
 const CH_TTL = 30 * 60;
-const FIRST_MOVE_MS = 40000; // so lange hat jede Seite für ihren ersten Zug, sonst wird abgebrochen
+// So lange hat jede Seite für ihren ersten Zug, sonst wird abgebrochen. Bei Einladungen etwas länger,
+// weil der Herausforderer vielleicht gerade woanders in der App ist.
+const firstMoveMs = (g) => (g.cid ? 60000 : 40000);
+const ABANDON_MS = 60000; // so lange muss der Gegner am Zug und offline sein, bevor man den Sieg beanspruchen kann
 const POOLS = { '3+2': [3, 2], '5+3': [5, 3], '10+0': [10, 0], '15+10': [15, 10] };
 const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
@@ -128,13 +131,15 @@ function view(g, me) {
     moves: g.moves,
     fen: g.fen,
     clock: liveClock(g, now),
-    firstDeadline: g.status === 'active' && g.moves.length < 2 ? g.turnAt + FIRST_MOVE_MS : null,
+    firstDeadline: g.status === 'active' && g.moves.length < 2 ? g.turnAt + firstMoveMs(g) : null,
+    turnAt: g.turnAt,
     status: g.status,
     result: g.result,
     reason: g.reason,
     drawOffer: g.drawOffer,
     rc: g.rc || null,
     created: g.created,
+    ended: g.endedAt || null,
     now,
   };
 }
@@ -185,10 +190,10 @@ async function endGame(g, result, reason) {
   const before = g.v;
   const over = { ...g, v: g.v + 1, status: 'over', result, reason, drawOffer: null, endedAt: Date.now() };
   if (g.tc && g.clock) over.clock = liveClock(g);
-  if (!(await casJSON(`g:${g.id}`, before, over, GAME_TTL))) return null; // jemand anderes war schneller
   const aborted = reason === 'Abgebrochen';
   const sw = result === '1-0' ? 1 : result === '0-1' ? 0 : 0.5;
   const cmds = [];
+  // Wertung VOR dem Speichern ausrechnen – so sieht jeder, der das Ende liest, sofort die Elo-Änderung.
   if (over.rated && !aborted) {
     const [uw, ub] = await Promise.all([hgetall(`u:${g.w}`), hgetall(`u:${g.b}`)]);
     const now = Date.now();
@@ -207,9 +212,9 @@ async function endGame(g, result, reason) {
       ['HINCRBY', `u:${g.b}`, key(1 - sw), 1],
       ['ZADD', 'lb', nw.r.toFixed(2), g.w],
       ['ZADD', 'lb', nb.r.toFixed(2), g.b],
-      ['SET', `g:${g.id}`, JSON.stringify(over), 'EX', GAME_TTL],
     );
   }
+  if (!(await casJSON(`g:${g.id}`, before, over, GAME_TTL))) return null; // jemand anderes war schneller
   if (!aborted) {
     const sum = (me) => JSON.stringify({ id: g.id, at: Date.now(), you: sideOf(g, me), w: g.wn, b: g.bn, wr: g.wr, br: g.br, result, reason, rated: over.rated, rc: over.rc ? (me === g.w ? over.rc.w : over.rc.b) : null, moves: g.moves.length });
     cmds.push(['LPUSH', `h:${g.w}`, sum(g.w)], ['LTRIM', `h:${g.w}`, 0, 29], ['LPUSH', `h:${g.b}`, sum(g.b)], ['LTRIM', `h:${g.b}`, 0, 29]);
@@ -224,7 +229,7 @@ async function checkClock(g) {
   if (g.status !== 'active') return g;
   const now = Date.now();
   if (g.moves.length < 2) {
-    if (now - g.turnAt > FIRST_MOVE_MS) return (await endGame(g, '1/2-1/2', 'Abgebrochen')) || (await getJSON(`g:${g.id}`));
+    if (now - g.turnAt > firstMoveMs(g)) return (await endGame(g, '1/2-1/2', 'Abgebrochen')) || (await getJSON(`g:${g.id}`));
     return g;
   }
   if (!g.tc) return g;
@@ -247,6 +252,42 @@ A.health = async () => {
     return { ok: false, configured, db: 'Fehler: ' + String(e.message || e).slice(0, 80) };
   }
 };
+
+/** Gründlicher Selbsttest (nur Wegwerf-Schlüssel): klappt alles, was Partien und Konten brauchen? */
+async function deepHealth(ip) {
+  await rateLimit(`hc:${ip}`, 10, 600);
+  const k = `t:hc:${token(4)}`;
+  const out = { ok: true };
+  const step = async (name, fn) => {
+    try {
+      const good = await fn();
+      out[name] = good ? 'ok' : 'falsch';
+      if (!good) out.ok = false;
+    } catch (e) {
+      out[name] = 'Fehler: ' + String(e.message || e).slice(0, 80);
+      out.ok = false;
+    }
+  };
+  const t0 = Date.now();
+  await step('ping', async () => (await cmd('PING')) === 'PONG');
+  out.ms = Date.now() - t0;
+  await step('set', async () => (await cmd('SET', k, JSON.stringify({ v: 1, x: 'a' }), 'EX', 60)) === 'OK');
+  await step('cas', async () => (await casJSON(k, 1, { v: 2, x: 'b' }, 60)) && !(await casJSON(k, 1, { v: 3 }, 60)));
+  await step('getdel', async () => JSON.parse(await cmd('GETDEL', k)).v === 2 && (await cmd('GET', k)) === null);
+  await step('nx', async () => (await cmd('SET', k, '1', 'NX', 'PX', 5000)) === 'OK' && (await cmd('SET', k, '1', 'NX', 'PX', 5000)) === null);
+  await step('lex', async () => {
+    await multi([['ZADD', `${k}:z`, 0, 'anna_1'], ['ZADD', `${k}:z`, 0, 'ben'], ['EXPIRE', `${k}:z`, 60]]);
+    const r = await cmd('ZRANGEBYLEX', `${k}:z`, '[an', '[an\xff', 'LIMIT', 0, 5);
+    return r.length === 1 && r[0] === 'anna_1';
+  });
+  await step('hash', async () => {
+    await multi([['HSET', `${k}:h`, 'r', '800', 'name', 'X'], ['HINCRBY', `${k}:h`, 'w', 1], ['EXPIRE', `${k}:h`, 60]]);
+    const h = await hgetall(`${k}:h`);
+    return h && h.r === '800' && Number(h.w) === 1;
+  });
+  await multi([['DEL', k, `${k}:z`, `${k}:h`]]);
+  return out;
+}
 
 A.register = async ({ body, ip }) => {
   const name = String(body.name || '').trim();
@@ -289,15 +330,16 @@ A.logout = async ({ me }) => {
 };
 
 A.me = async ({ me, body }) => {
-  const cmds = [['GET', `ug:${me.id}`], ['SMEMBERS', `ci:${me.id}`], ['EXPIRE', `s:${me.token}`, SESSION_TTL]];
+  const cmds = [['GET', `ug:${me.id}`], ['SMEMBERS', `ci:${me.id}`], ['SMEMBERS', `co:${me.id}`]];
   if (body.ping) cmds.push(['SET', `on:${me.id}`, '1', 'EX', 75]);
-  const [gid, inbox] = await multi(cmds);
+  const [gid, inbox, outbox] = await multi(cmds);
   let game = null;
   if (gid) {
     const g = await getJSON(`g:${gid}`);
-    if (g && g.status === 'active') game = { id: g.id, vs: g.w === me.id ? g.bn : g.wn };
+    if (g && g.status === 'active') game = { id: g.id, vs: g.w === me.id ? g.bn : g.wn, moves: g.moves.length };
   }
-  return { user: pub(me.user), game, invites: await loadChallenges(me.id, inbox, 'ci') };
+  const [invites, outgoing] = await Promise.all([loadChallenges(me.id, inbox, 'ci'), loadChallenges(me.id, outbox, 'co')]);
+  return { user: pub(me.user), game, invites, outgoing: outgoing.length };
 };
 
 // Fortschritt (Lektionen, Rätsel, Einstellungen …) auf dem Server sichern
@@ -378,6 +420,22 @@ async function loadChallenges(owner, cids, kind) {
   return out.sort((a, b) => b.created - a.created);
 }
 
+async function acceptChallenge(me, cid) {
+  const raw = await cmd('GET', `c:${cid}`);
+  if (!raw) fail('Diese Einladung ist abgelaufen oder wurde schon angenommen.', 404);
+  const c = JSON.parse(raw);
+  if (c.from.id === me.id) fail('Das ist deine eigene Einladung – schick den Link an einen Freund.');
+  if (c.to && c.to.id !== me.id) fail('Diese Einladung ist für jemand anderen.', 403);
+  // Immer nur eine laufende Partie pro Person (wie bei chess.com)
+  const [mine, theirs] = await Promise.all([activeGame(me.id), activeGame(c.from.id)]);
+  if (mine) fail('Du spielst gerade schon eine Partie – beende sie zuerst.', 409, 'busy');
+  if (theirs) fail(`${c.from.name} spielt gerade noch eine Partie – versuch es gleich nochmal.`, 409, 'busy');
+  if (!(await cmd('GETDEL', `c:${cid}`))) fail('Zu spät – jemand anderes war schneller.', 409);
+  const g = await createGame(c.from.id, me.id, { tc: c.tc, rated: c.rated, colorFor: c.color, cid: c.cid });
+  await multi([['SET', `cg:${c.cid}`, g.id, 'EX', 3600], ['SREM', `co:${c.from.id}`, c.cid], ...(c.to ? [['SREM', `ci:${c.to.id}`, c.cid]] : [])]);
+  return g.id;
+}
+
 A['challenge.create'] = async ({ me, body }) => {
   const tc = cleanTc(body.tc);
   const color = ['w', 'b', 'r'].includes(body.color) ? body.color : 'r';
@@ -388,9 +446,13 @@ A['challenge.create'] = async ({ me, body }) => {
     const u = await hgetall(`u:${to}`);
     if (!u) fail('Spieler nicht gefunden.', 404);
     to = { id: to, name: u.name };
+    // Hat der andere mich gerade selbst herausgefordert (z. B. beide drücken „Revanche“)? Dann gilt das als Annehmen.
+    const mutual = (await loadChallenges(me.id, await cmd('SMEMBERS', `ci:${me.id}`), 'ci')).find((c) => c.from.id === to.id);
+    if (mutual) return { game: await acceptChallenge(me, mutual.cid) };
   }
   await rateLimit(`ch:${me.id}`, 40, 600);
-  const c = { cid: token(6), from: { id: me.id, name: me.user.name, r: Math.round(num(me.user.r)) }, to, tc, color, rated: !!body.rated, created: Date.now() };
+  // Ohne Uhr immer ungewertet – sonst ließe sich eine verlorene Partie endlos hinauszögern.
+  const c = { cid: token(6), from: { id: me.id, name: me.user.name, r: Math.round(num(me.user.r)) }, to, tc, color, rated: !!body.rated && !!tc, created: Date.now() };
   const cmds = [['SET', `c:${c.cid}`, JSON.stringify(c), 'EX', CH_TTL], ['SADD', `co:${me.id}`, c.cid]];
   if (to) cmds.push(['SADD', `ci:${to.id}`, c.cid]);
   await multi(cmds);
@@ -407,17 +469,7 @@ A['challenge.get'] = async ({ body, me }) => {
   const c = JSON.parse(raw);
   return { challenge: c, mine: me ? c.from.id === me.id : false };
 };
-A['challenge.accept'] = async ({ me, body }) => {
-  const raw = await cmd('GET', `c:${body.cid}`);
-  if (!raw) fail('Diese Einladung ist abgelaufen oder wurde schon angenommen.', 404);
-  const c = JSON.parse(raw);
-  if (c.from.id === me.id) fail('Das ist deine eigene Einladung – schick den Link an einen Freund.');
-  if (c.to && c.to.id !== me.id) fail('Diese Einladung ist für jemand anderen.', 403);
-  if (!(await cmd('GETDEL', `c:${body.cid}`))) fail('Zu spät – jemand anderes war schneller.', 409);
-  const g = await createGame(c.from.id, me.id, { tc: c.tc, rated: c.rated, colorFor: c.color, cid: c.cid });
-  await multi([['SET', `cg:${c.cid}`, g.id, 'EX', 3600], ['SREM', `co:${c.from.id}`, c.cid], ...(c.to ? [['SREM', `ci:${c.to.id}`, c.cid]] : [])]);
-  return { game: g.id };
-};
+A['challenge.accept'] = async ({ me, body }) => ({ game: await acceptChallenge(me, String(body.cid || '').slice(0, 20)) });
 A['challenge.cancel'] = async ({ me, body }) => {
   const raw = await cmd('GET', `c:${body.cid}`);
   if (raw) {
@@ -499,8 +551,31 @@ async function loadGame(gid) {
 A['game.get'] = async ({ me, body }) => {
   let g = await loadGame(body.id);
   g = await checkClock(g);
-  if (body.v && Number(body.v) === g.v) return { same: true, clock: liveClock(g), now: Date.now() };
-  return { game: view(g, me?.id) };
+  // Ab und zu (ping): „ich bin da“ melden und nachsehen, ob der Gegner noch da ist.
+  let presence;
+  if (body.ping && g.status === 'active') {
+    const mine = me ? sideOf(g, me.id) : null;
+    const res = await multi([...(mine ? [['SET', `on:${me.id}`, '1', 'EX', 75]] : []), ['GET', `on:${g.w}`], ['GET', `on:${g.b}`]]);
+    const [ow, ob] = res.slice(-2);
+    presence = { w: !!ow || mine === 'w', b: !!ob || mine === 'b' };
+  }
+  if (body.v && Number(body.v) === g.v) return { same: true, clock: liveClock(g), now: Date.now(), presence };
+  return { game: view(g, me?.id), presence };
+};
+
+/** Gegner offline und lässt seine Uhr laufen? Nach einer Minute kann man den Sieg beanspruchen. */
+A['game.claim'] = async ({ me, body }) => {
+  let g = await loadGame(body.id);
+  const side = sideOf(g, me.id);
+  if (!side) fail('Das ist nicht deine Partie.', 403);
+  g = await checkClock(g);
+  if (g.status !== 'active') return { game: view(g, me.id) };
+  const opp = side === 'w' ? 'b' : 'w';
+  if (g.moves.length < 2 || turnOf(g) !== opp) fail('Das geht nur, wenn dein Gegner am Zug ist.', 409);
+  if (Date.now() - g.turnAt < ABANDON_MS) fail('Warte noch kurz – vielleicht kommt dein Gegner gleich zurück.', 409);
+  if (await cmd('GET', `on:${g[opp]}`)) fail('Dein Gegner ist wieder da.', 409);
+  const out = (await endGame(g, side === 'w' ? '1-0' : '0-1', 'Gegner hat die Partie verlassen')) || (await getJSON(`g:${g.id}`));
+  return { game: view(out, me.id) };
 };
 
 A['game.move'] = async ({ me, body }) => {
@@ -596,14 +671,18 @@ export default async function handler(req, res) {
   };
   try {
     // GET nur für den Gesundheits-Check: /api/lk?a=health
-    if (req.method === 'GET' && /[?&]a=health\b/.test(req.url || '')) return send(200, await A.health());
+    if (req.method === 'GET' && /[?&]a=health\b/.test(req.url || '')) {
+      const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'x').split(',')[0].trim();
+      return send(200, configured && /[?&]deep=1\b/.test(req.url || '') ? await deepHealth(ip) : await A.health());
+    }
     if (req.method !== 'POST') return send(405, { error: 'Nur POST.' });
     const body = await readBody(req);
     const action = String(body.a || '');
     const fn = A[action];
     if (!fn) return send(404, { error: 'Unbekannte Aktion.' });
     if (!configured) return send(503, { error: 'Der Online-Modus wird gerade eingerichtet.', code: 'setup' });
-    const me = await auth(req, !OPEN.has(action));
+    // Abfragen während der Partie (mit Version) brauchen kein Konto – spart Datenbank-Zugriffe.
+    const me = action === 'game.get' && body.v && !body.ping ? null : await auth(req, !OPEN.has(action));
     const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'x').split(',')[0].trim();
     const out = await fn({ body, me, ip, req });
     return send(200, out);

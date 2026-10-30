@@ -1,7 +1,8 @@
 // Pflicht-Umfrage beim ersten Start: eine Frage pro Screen. Aus den Antworten entsteht der persönliche Plan.
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
 import { LEVELS, SURVEY_VERSION, update, useStore } from '../lib/store.js';
-import { Logo, PieceIcon } from '../ui/kit.js';
+import { Logo, PieceIcon, Modal } from '../ui/kit.js';
+import { AuthCard } from './Online.js';
 
 export const GOALS = [
   { id: 'basics', name: 'Regeln & Grundlagen', desc: 'Figuren, Schach, Matt, Spezialzüge', icon: 'wP' },
@@ -240,6 +241,7 @@ export function Onboarding() {
   const [a, setA] = useState(() => initialAnswers(s));
   const [view, setView] = useState({ step: 0, dir: 'fwd', phase: 'in' });
   const [pop, setPopState] = useState(null);
+  const [login, setLogin] = useState(false);
   const popN = useRef(0);
   const setPop = (k) => setPopState(k ? { k, n: ++popN.current } : null);
   const stepRef = useRef(0);
@@ -464,8 +466,9 @@ export function Onboarding() {
       <p class="ob-lead">Ein paar kurze Fragen – dann baut Learning King dein persönliches Training: Lernpfad, Rätsel, Eröffnungen und Bots, die genau zu dir passen.</p>
       <button type="button" class="btn primary xl ob-start" data-native onClick=${() => go(1)}>Umfrage starten <${Glyph} name="next" /></button>
       <p class="ob-note"><${Glyph} name="clock" size=${15} /> Dauert ca. 1 Minute · bleibt auf deinem Gerät</p>
+      <button type="button" class="ob-login" data-native onClick=${() => setLogin(true)}>Schon ein Konto? <b>Anmelden</b></button>
       <ul class="ob-features">
-        <li><${Glyph} name="lock" size=${16} /> Kein Account</li>
+        <li><${Glyph} name="lock" size=${16} /> Konto freiwillig</li>
         <li><${Glyph} name="chip" size=${16} /> Stockfish 18 im Browser</li>
         <li><${Glyph} name="wifi" size=${16} /> Läuft auch offline</li>
       </ul>
@@ -635,5 +638,14 @@ export function Onboarding() {
       <button type="button" class="btn ghost ob-nav-back" data-native onClick=${back}><${Glyph} name="back" size=${18} /> Zurück</button>
       <button type="button" class="btn primary ob-nav-next" data-native disabled=${!ok} onClick=${next}>${nextLabel} <${Glyph} name="next" size=${18} /></button>
     </nav>`}
+
+    ${login &&
+    html`<${Modal} onClose=${() => setLogin(false)}>
+      <div data-native>
+        <h2 style=${{ marginTop: 0 }}>Willkommen zurück</h2>
+        <p class="muted small" style=${{ marginTop: 0 }}>Melde dich an – dein Fortschritt, deine Elo und deine Einstellungen kommen auf dieses Gerät.</p>
+        <${AuthCard} startMode="login" onDone=${() => setLogin(false)} />
+      </div>
+    <//>`}
   </div>`;
 }

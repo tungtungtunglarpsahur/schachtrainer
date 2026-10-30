@@ -1,6 +1,6 @@
 // Profil: Statistiken, Rating-Verlauf, Stärken/Schwächen, Partien, Erfolge.
 import { html } from '../../vendor/preact-htm.js';
-import { useStore, rankFor, streakNow, RANKS } from '../lib/store.js';
+import { useStore, rankFor, streakNow, RANKS, eloOf } from '../lib/store.js';
 import { themeName } from '../lib/content.js';
 import { themeStats, ACHIEVEMENTS } from '../lib/progress.js';
 import { Bar, Icon, PieceIcon } from '../ui/kit.js';
@@ -22,7 +22,7 @@ function Spark({ data, color = 'var(--accent)' }) {
 
 export function Profile() {
   const s = useStore();
-  const rank = rankFor(s.xp);
+  const rank = rankFor(eloOf(s));
   const stats = themeStats(s);
   const strong = [...stats].reverse().slice(0, 5);
   const weak = stats.slice(0, 5);
@@ -43,9 +43,9 @@ export function Profile() {
       <div class="hero-left">
         <p class="eyebrow">Profil</p>
         <h1>${s.profile.name || 'Dein Fortschritt'}</h1>
-        <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${48} /><div><b>${rank.name}</b><small>${rank.next ? `${s.xp} / ${rank.next.xp} XP bis ${rank.next.name}` : `${s.xp} XP · höchster Rang`}</small></div></div>
+        <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${48} /><div><b>${rank.name}</b><small>${rank.next ? `${eloOf(s)} / ${rank.next.elo} Elo bis ${rank.next.name}` : `${eloOf(s)} Elo · höchster Rang`}</small></div></div>
         <${Bar} value=${rank.progress} color=${rank.color} />
-        <div class="rank-ladder">${RANKS.map((r, i) => html`<span class=${i <= rank.index ? 'on' : ''} style=${{ '--c': r.color }} title=${`${r.name} ab ${r.xp} XP`}></span>`)}</div>
+        <div class="rank-ladder">${RANKS.map((r, i) => html`<span class=${i <= rank.index ? 'on' : ''} style=${{ '--c': r.color }} title=${`${r.name} ab ${r.elo} Elo`}></span>`)}</div>
       </div>
       <div class="stat-grid">
         <div class="stat"><small>Rätsel-Rating</small><b>${s.puzzle.rating}</b></div>

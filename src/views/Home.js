@@ -1,10 +1,11 @@
 // Startseite: Tagesplan, Fortschritt und Schnellstart-Kacheln.
 import { html } from '../../vendor/preact-htm.js';
-import { useStore, todayView, streakNow, rankFor, saveSoon } from '../lib/store.js';
+import { useStore, todayView, streakNow, rankFor, saveSoon, eloOf } from '../lib/store.js';
 import { useContent, TRACKS, THEME_GROUPS } from '../lib/content.js';
 import { todayPlan, taskProgress, buildPath, nextLessons, duePuzzles } from '../lib/progress.js';
 import { Icon, Ring, Bar, PieceIcon, Spinner } from '../ui/kit.js';
 import { dueMistakes } from '../lib/mistakes.js';
+import { useNet } from '../lib/online.js';
 
 // Aus der Einstiegs-Umfrage: „Wo hakt es?“ → passende Trainings.
 const FOCUS = {
@@ -41,10 +42,10 @@ function taskInfo(task, content) {
 }
 
 const TILES = [
+  { href: '#/online', title: 'Online spielen', sub: 'Gegen echte Menschen – mit Elo und Rang', art: 'attack', icon: 'wQ' },
   { href: '#/play', title: 'Partie spielen', sub: 'Gegen einen Bot – der Coach hilft dir', art: 'play', icon: 'bK' },
   { href: '#/puzzles/train', title: 'Rätsel lösen', sub: 'Immer passend zu deinem Niveau', art: 'tactic', icon: 'wN' },
   { href: '#/openings', title: 'Eröffnungen', sub: 'Gute erste Züge lernen', art: 'open', icon: 'wB' },
-  { href: '#/puzzles/rush', title: 'Rätsel-Rush', sub: '3 Minuten gegen die Uhr', art: 'rush', icon: 'wQ' },
 ];
 
 const DAY = 864e5;
@@ -70,6 +71,7 @@ export function GameTile({ href, title, sub, art, badge, icon }) {
 
 export function Home() {
   const s = useStore();
+  const n = useNet();
   const content = useContent();
   if (!content) return html`<${Spinner} />`;
   const before = s.plan;
@@ -78,7 +80,7 @@ export function Home() {
   const d = todayView();
   const goalPct = d.seconds / (s.profile.minutes * 60);
   const streak = streakNow(s);
-  const rank = rankFor(s.xp);
+  const rank = rankFor(eloOf(s));
   const items = plan.tasks.map((t) => ({ t, info: taskInfo(t, content), p: taskProgress(t, s, plan) }));
   const nextItem = items.find((x) => x.p < 1);
   const done = items.filter((x) => x.p >= 1).length;
@@ -112,6 +114,11 @@ export function Home() {
       </div>
     </section>
 
+    ${n.game &&
+    html`<a class="banner resume" href=${`#/online/game/${n.game.id}`}><${Icon} name="play" /> <span><b>Online-Partie gegen ${n.game.vs}</b> läuft – tippen zum Weiterspielen.</span></a>`}
+    ${!n.game &&
+    n.invites.length > 0 &&
+    html`<a class="banner resume" href="#/online"><${Icon} name="bolt" /> <span><b>${n.invites[0].from.name}</b> ${n.invites.length > 1 ? `und ${n.invites.length - 1} weitere fordern` : 'fordert'} dich heraus – jetzt annehmen.</span></a>`}
     ${!s.profile.placementDone &&
     html`<a class="banner resume" href="#/play?test=1"><${Icon} name="bolt" /> <span><b>Mach dein Testspiel</b> (ca. 5 Min) – danach weißt du, wie stark du wirklich spielst.</span></a>`}
     ${mineDue > 0 &&
@@ -155,7 +162,7 @@ export function Home() {
       </div>
       <a class="card rank-card home-progress" href="#/progress" style=${{ '--rank': rank.color }}>
         <div class="section-head"><h3>Dein Fortschritt</h3><span class="link">Alles ansehen <${Icon} name="next" size=${14} /></span></div>
-        <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${54} /><div><b>${rank.name}</b><small>${rank.next ? `Noch ${rank.next.xp - s.xp} XP bis ${rank.next.name}` : 'Höchster Rang erreicht'}</small></div></div>
+        <div class="rank-row"><${PieceIcon} p=${rank.icon} size=${54} /><div><b>${rank.name}</b><small>${rank.next ? `${eloOf(s)} Elo · noch ${rank.toNext} bis ${rank.next.name}` : `${eloOf(s)} Elo · höchster Rang`}</small></div></div>
         <${Bar} value=${rank.progress} color=${rank.color} />
         <div class="mini-stats">
           <div><small>Wertung</small><b>${s.play.rating}</b></div>

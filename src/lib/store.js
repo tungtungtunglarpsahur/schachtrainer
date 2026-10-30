@@ -1,4 +1,4 @@
-// Gesamter Lernstand, lokal im Browser (localStorage). Kein Account, kein Server.
+// Gesamter Lernstand, lokal im Browser (localStorage). Mit Konto zusätzlich auf dem Server gesichert.
 import { useEffect, useReducer } from '../../vendor/preact-htm.js';
 
 const KEY = 'gambit.v1';
@@ -160,24 +160,40 @@ export function addXp(s, n) {
   }
 }
 
-// ---------- Ränge (wie VIP-Stufen) ----------
+// ---------- Ränge nach Elo (online echt, sonst aus den Partien gegen Bots) ----------
 
 export const RANKS = [
-  { name: 'Bauer', xp: 0, color: '#b89474', icon: 'wP' },
-  { name: 'Springer', xp: 300, color: '#c3c7ce', icon: 'wN' },
-  { name: 'Läufer', xp: 900, color: '#dcc58a', icon: 'wB' },
-  { name: 'Turm', xp: 2000, color: '#a3bfd8', icon: 'wR' },
-  { name: 'Dame', xp: 4000, color: '#c3b6e0', icon: 'wQ' },
-  { name: 'König', xp: 8000, color: '#e6e6ea', icon: 'wK' },
-  { name: 'Großmeister', xp: 15000, color: '#ffffff', icon: 'wK' },
+  { name: 'Bauer', elo: 0, color: '#b89474', icon: 'wP' },
+  { name: 'Springer', elo: 600, color: '#c3c7ce', icon: 'wN' },
+  { name: 'Läufer', elo: 900, color: '#dcc58a', icon: 'wB' },
+  { name: 'Turm', elo: 1200, color: '#a3bfd8', icon: 'wR' },
+  { name: 'Dame', elo: 1500, color: '#c3b6e0', icon: 'wQ' },
+  { name: 'König', elo: 1800, color: '#e6e6ea', icon: 'wK' },
+  { name: 'Learning King', elo: 2100, color: '#ffffff', icon: 'wK' },
 ];
 
-export function rankFor(xp) {
+/** Deine Elo: online (falls angemeldet), sonst die Wertung aus den Partien gegen Bots. */
+export const eloOf = (s = state) => Math.round(s.online?.r ?? s.play?.rating ?? 800);
+
+export function rankFor(elo) {
   let i = 0;
-  while (i + 1 < RANKS.length && xp >= RANKS[i + 1].xp) i++;
+  while (i + 1 < RANKS.length && elo >= RANKS[i + 1].elo) i++;
   const r = RANKS[i];
   const next = RANKS[i + 1];
-  return { ...r, index: i, next, progress: next ? (xp - r.xp) / (next.xp - r.xp) : 1 };
+  return { ...r, index: i, next, toNext: next ? next.elo - elo : 0, progress: next ? Math.max(0, Math.min(1, (elo - r.elo) / (next.elo - r.elo))) : 1 };
+}
+
+/** Kompletten Stand ersetzen (z. B. vom Server nach der Anmeldung). */
+export function replaceState(data) {
+  state = merge(defaults(), data);
+  saveNow();
+  listeners.forEach((l) => l());
+}
+
+/** Bei jeder Änderung benachrichtigt werden (für die Sicherung auf dem Server). */
+export function subscribe(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
 }
 
 // ---------- Backup ----------
