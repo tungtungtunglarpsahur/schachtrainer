@@ -1,0 +1,165 @@
+/* Learning King – Anleitung „Zum Home-Bildschirm“ (alle Klassen mit ig-Präfix). */
+
+.ig {
+  --ig-w: 560px;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0b;
+  color: var(--text);
+  overflow-x: clip;
+}
+.ig-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 22% at 50% -4%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(50% 22% at 50% 106%, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 70%);
+}
+.ig-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(var(--ig-w), 100%);
+  margin: 0 auto;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 20px 0;
+}
+.ig-top .logo { pointer-events: none; }
+.ig-close { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-2); background: rgba(255, 255, 255, 0.04); color: var(--text-2); cursor: pointer; }
+
+.ig-main {
+  flex: 1 0 auto;
+  width: min(var(--ig-w), 100%);
+  margin: 0 auto;
+  padding: 14px 20px calc(18px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.ig-main > * { animation: ig-rise 0.7s var(--ease) both; }
+.ig-main > :nth-child(2) { animation-delay: 0.06s; }
+.ig-main > :nth-child(3) { animation-delay: 0.12s; }
+.ig-main > :nth-child(4) { animation-delay: 0.18s; }
+.ig-main > :nth-child(5) { animation-delay: 0.24s; }
+.ig-main > :nth-child(6) { animation-delay: 0.3s; }
+.ig-center { justify-content: center; }
+
+.ig-title { margin: 6px 0 0; font-family: var(--display); font-size: clamp(1.55rem, 6.4vw, 2.3rem); font-weight: 750; letter-spacing: -0.04em; line-height: 1.08; text-wrap: balance; }
+.ig-sub { margin: 10px 0 0; max-width: 30em; color: var(--muted); font-size: 0.98rem; line-height: 1.5; text-wrap: balance; }
+.ig-sub b { color: var(--text); }
+
+/* Video: gleiche Farbe wie der Hintergrund – das Handy „schwebt“ */
+.ig-video {
+  position: relative;
+  height: clamp(250px, 44dvh, 560px);
+  aspect-ratio: 3 / 5;
+  margin: 16px 0 6px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #0a0a0b;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* Ränder weich auslaufen lassen – kein sichtbarer Kasten um das Video */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+  mask-composite: intersect;
+}
+.ig-video video { width: 100%; height: 100%; display: block; object-fit: cover; background: #0a0a0b; }
+.ig-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding-left: 4px;
+  color: #0a0a0b;
+  background: linear-gradient(180deg, #fff, #d9d9de);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.9), 0 0 0 8px rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s, transform 0.35s var(--spring);
+  pointer-events: none;
+}
+.ig-video.paused .ig-play { opacity: 1; transform: none; }
+
+/* Schritte 1–4, laufen mit dem Video mit */
+.ig-steps { position: relative; display: flex; gap: 22px; margin: 8px 0 0; padding: 0 4px; }
+.ig-steps::before { content: ''; position: absolute; left: 22px; right: 22px; top: 50%; height: 2px; margin-top: -1px; background: var(--line-2); border-radius: 2px; }
+.ig-dot {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  background: #141416;
+  color: var(--muted);
+  font: 700 0.9rem/1 var(--font);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.4s var(--spring), box-shadow 0.3s, border-color 0.3s;
+}
+.ig-dot.past { background: #2a2a2f; color: var(--text-2); border-color: transparent; }
+.ig-dot.on { background: #fff; color: #0a0a0b; border-color: #fff; transform: scale(1.12); box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1), 0 0 22px rgba(255, 255, 255, 0.35); }
+.ig-step { min-height: 3em; max-width: 25em; margin: 12px 0 0; color: var(--text-2); font-size: 1rem; line-height: 1.5; text-wrap: balance; animation: ig-swap 0.4s var(--ease) both; }
+.ig-step b { color: var(--text); font-weight: 650; }
+.ig-glyph { display: inline-grid; place-items: center; width: 24px; height: 24px; margin: 0 1px; border-radius: 7px; vertical-align: -6px; background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+.ig-actions { display: grid; gap: 4px; width: min(100%, 360px); margin-top: 16px; }
+.ig-actions .btn { width: 100%; justify-content: center; }
+.ig-later { min-height: 46px; padding: 10px; border: 0; background: none; color: var(--muted); font: inherit; font-weight: 600; font-size: 0.92rem; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 255, 255, 0.22); }
+.ig-later:hover { color: var(--text); }
+.ig-other { margin: 18px 0 0; max-width: 28em; color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+.ig-other b { color: var(--text-2); }
+
+/* In-App-Browser: Liste */
+.ig-badge { width: 72px; height: 72px; border-radius: 22px; display: grid; place-items: center; margin-bottom: 8px; color: #fff; background: linear-gradient(160deg, #26262b, #121214); border: 1px solid var(--line-2); box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.9); }
+.ig-list { list-style: none; display: grid; gap: 10px; width: min(100%, 400px); margin: 22px 0 0; padding: 0; text-align: left; }
+.ig-list li { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); }
+.ig-list li span { width: 28px; height: 28px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #0a0a0b; font-weight: 800; font-size: 0.85rem; }
+.ig-list li p { margin: 0; color: var(--text-2); line-height: 1.45; }
+.ig-list li b { color: var(--text); }
+
+/* Fertig: das neue Symbol hüpft */
+.ig-home { position: relative; display: grid; justify-items: center; gap: 10px; margin-bottom: 18px; }
+.ig-home small { font-size: 0.85rem; font-weight: 600; color: var(--text-2); }
+.ig-glow { position: absolute; left: 50%; top: 52px; width: 260px; height: 260px; margin: -130px 0 0 -130px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 62%); animation: ig-glow 2.4s ease-in-out infinite; pointer-events: none; }
+.ig-appicon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 24%;
+  background: radial-gradient(80% 70% at 50% 42%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 70%), linear-gradient(145deg, #2a2a30, #08080a);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 50px -18px rgba(0, 0, 0, 0.95);
+  animation: ig-pop 0.9s var(--spring) both, ig-bob 3s ease-in-out 1s infinite;
+}
+.ig-appicon .crown { width: 64%; height: 64%; filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.25)); }
+
+@keyframes ig-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes ig-swap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes ig-pop { 0% { opacity: 0; transform: scale(0.3); } 60% { opacity: 1; transform: scale(1.08); } 100% { transform: scale(1); } }
+@keyframes ig-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes ig-glow { 0%, 100% { opacity: 0.6; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.05); } }
+
+@media (max-height: 740px) {
+  .ig-intro { display: none; }
+  .ig-video { height: clamp(240px, 50dvh, 560px); margin-top: 12px; }
+}
+@media (min-width: 700px) and (min-height: 900px) {
+  .ig-video { height: clamp(300px, 48dvh, 600px); }
+  .ig-title { font-size: 2.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ig *, .ig *::before, .ig *::after { animation: none !important; transition: none !important; }
+}

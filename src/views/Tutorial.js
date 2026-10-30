@@ -186,7 +186,7 @@ export function Tutorial() {
   const screens = {
     how: () => html`
       <div class="tu-logo"><${Logo} /></div>
-      ${head(name ? `Willkommen, ${name}` : 'Willkommen', 'So funktioniert gambit', 'Drei Dinge – mehr brauchst du nicht.')}
+      ${head(name ? `Willkommen, ${name}` : 'Willkommen', 'So funktioniert Learning King', 'Drei Dinge – mehr brauchst du nicht.')}
       <ul class="tu-rows">
         ${[
           ['wP', 'Lernen', 'Kurze Lektionen erklären dir Schritt für Schritt, wie Schach funktioniert.'],

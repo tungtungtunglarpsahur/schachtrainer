@@ -461,7 +461,7 @@ export function Onboarding() {
     welcome: () => html`<div class="ob-hero">
       <div class="ob-hero-logo"><${Logo} /></div>
       <h1 class="ob-hero-title">Setz auf<br />deinen Kopf.</h1>
-      <p class="ob-lead">Ein paar kurze Fragen – dann baut gambit dein persönliches Training: Lernpfad, Rätsel, Eröffnungen und Bots, die genau zu dir passen.</p>
+      <p class="ob-lead">Ein paar kurze Fragen – dann baut Learning King dein persönliches Training: Lernpfad, Rätsel, Eröffnungen und Bots, die genau zu dir passen.</p>
       <button type="button" class="btn primary xl ob-start" data-native onClick=${() => go(1)}>Umfrage starten <${Glyph} name="next" /></button>
       <p class="ob-note"><${Glyph} name="clock" size=${15} /> Dauert ca. 1 Minute · bleibt auf deinem Gerät</p>
       <ul class="ob-features">

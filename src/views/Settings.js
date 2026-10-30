@@ -114,7 +114,7 @@ export function Settings() {
   };
   const shareApp = async () => {
     try {
-      await navigator.share({ title: 'gambit – Schach lernen', text: 'Lern mit mir Schach! Rätsel, Lektionen und Bots mit Coach – kostenlos und ohne Anmeldung.', url: shareUrl() });
+      await navigator.share({ title: 'Learning King – Schach lernen', text: 'Lern mit mir Schach! Rätsel, Lektionen und Bots mit Coach – kostenlos und ohne Anmeldung.', url: shareUrl() });
     } catch {
       /* abgebrochen */
     }
@@ -282,16 +282,17 @@ export function Settings() {
         ${canShare ? html`<button class="btn secondary" onClick=${shareApp}><${Ico} name="share" /> Teilen</button>` : null}
       </div>
       <div class="st-steps">
-        <div class="st-step"><b>iPhone & iPad</b><span>In Safari auf <kbd>Teilen</kbd> tippen, dann <kbd>Zum Home-Bildschirm</kbd>. Schon startet gambit wie eine App.</span></div>
+        <div class="st-step"><b>iPhone & iPad</b><span>In Safari auf <kbd>Teilen</kbd> tippen, dann <kbd>Zum Home-Bildschirm</kbd>. Schon startet Learning King wie eine App. <a class="link" href="#/install">Anleitung mit Video →</a></span></div>
         <div class="st-step"><b>Android</b><span>In Chrome oben rechts auf <kbd>⋮</kbd> tippen, dann <kbd>App installieren</kbd> oder <kbd>Zum Startbildschirm</kbd>.</span></div>
         <div class="st-step"><b>Computer</b><span>In Chrome oder Edge rechts in der Adressleiste auf <kbd>Installieren</kbd> klicken.</span></div>
-        <div class="st-step"><b>Offline</b><span>Einmal geöffnet, läuft gambit auch ohne Internet weiter.</span></div>
+        <div class="st-step"><b>Offline</b><span>Einmal geöffnet, läuft Learning King auch ohne Internet weiter.</span></div>
+        <div class="st-step"><b>Gut zu wissen</b><span>Die App auf dem Home-Bildschirm hat ihren eigenen Speicher. Deinen bisherigen Fortschritt nimmst du mit: hier unten <kbd>Backup herunterladen</kbd>, dann in der App <kbd>Backup laden</kbd>.</span></div>
       </div>
     </section>
 
     <section class="card st-card" id="st-data">
       <${Head} id="st-data" icon="download" title="Deine Daten" sub="Backup, Wiederherstellen, Zurücksetzen" />
-      <p class="muted small">gambit hat keinen Server und keinen Account. Dein Fortschritt liegt im Speicher dieses Browsers. Wenn du die Browserdaten löschst, ist er weg – mach ab und zu ein Backup.</p>
+      <p class="muted small">Learning King hat keinen Server und keinen Account. Dein Fortschritt liegt im Speicher dieses Browsers. Wenn du die Browserdaten löschst, ist er weg – mach ab und zu ein Backup.</p>
       <div class="btn-row">
         <button class="btn primary" onClick=${() => { exportData(); toast('Backup heruntergeladen'); }}><${Icon} name="download" /> Backup herunterladen</button>
         <button class="btn secondary" onClick=${() => file.current.click()}><${Icon} name="upload" /> Backup laden</button>
@@ -311,7 +312,7 @@ export function Settings() {
     </section>
 
     <section class="card credits">
-      <h3>Über gambit</h3>
+      <h3>Über Learning King</h3>
       <p class="muted small">Engine: Stockfish 18 (GPLv3) · Regeln: chess.js (BSD) · Rätsel: Lichess-Datenbank (CC0) · Figuren: Colin M. L. Burnett (GPLv2+) · UI: Preact (MIT) + htm (Apache-2.0) · Schrift: Geist (OFL).</p>
     </section>
   </div>`;

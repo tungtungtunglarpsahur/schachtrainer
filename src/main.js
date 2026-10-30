@@ -15,6 +15,8 @@ import { Openings, OpeningTrainer } from './views/Openings.js';
 import { Analysis } from './views/Analysis.js';
 import { Progress } from './views/Progress.js';
 import { Settings } from './views/Settings.js';
+import { InstallGuide } from './views/Install.js';
+import { isIOS, isStandalone } from './lib/device.js';
 
 const NAV = [
   { href: '#/', icon: 'home', label: 'Start' },
@@ -214,6 +216,10 @@ function App() {
   useEffect(() => {
     loadContent();
   }, []);
+  // iPhone & iPad im Browser: ganz am Anfang zeigen, wie die App auf den Home-Bildschirm kommt.
+  // (Die App dort hat einen eigenen Speicher – deshalb vor der Umfrage.)
+  const installFirst = isIOS && !isStandalone() && !s.profile.onboarded && !s.profile.surveyV && !s.profile.installSkipped;
+  if (installFirst || route.parts[0] === 'install') return html`<${InstallGuide} first=${installFirst} /><${Toasts} />`;
   if (!s.profile.onboarded || (s.profile.surveyV || 0) < SURVEY_VERSION) return html`<${Onboarding} /><${Toasts} />`;
   if (!s.profile.tutorialDone) return html`<${Tutorial} /><${Toasts} />`;
   const [a, b] = route.parts;

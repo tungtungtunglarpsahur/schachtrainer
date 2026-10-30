@@ -1,4 +1,4 @@
-/* gambit – Tutorial nach der Umfrage (alle Klassen mit tu-Präfix). */
+/* Learning King – Tutorial nach der Umfrage (alle Klassen mit tu-Präfix). */
 
 .tu {
   --tu-w: 640px;
@@ -63,7 +63,7 @@
 
 .tu-rows, .tu-list, .tu-stats, .tu-buttons, .tu-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 
-/* ---------- 1: So funktioniert gambit ---------- */
+/* ---------- 1: So funktioniert Learning King ---------- */
 
 .tu-row { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: 20px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), var(--panel); border: 1px solid var(--line); animation: tu-rise 0.55s var(--ease) calc(var(--i) * 90ms + 120ms) both; }
 .tu-row-ico { width: 60px; height: 60px; border-radius: 16px; display: grid; place-items: center; background: #e4e4e7; flex: none; box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.8); }

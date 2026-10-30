@@ -187,7 +187,7 @@ export function exportData() {
   const blob = new Blob([JSON.stringify(state, null, 1)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `gambit-backup-${dayKey()}.json`;
+  a.download = `learning-king-backup-${dayKey()}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -196,7 +196,7 @@ export function exportData() {
 
 export async function importData(file) {
   const data = JSON.parse(await file.text());
-  if (!data || data.v !== 1 || !data.profile) throw new Error('Das ist keine gambit-Sicherung.');
+  if (!data || data.v !== 1 || !data.profile) throw new Error('Das ist keine Learning-King-Sicherung.');
   state = merge(defaults(), data);
   saveNow();
   listeners.forEach((l) => l());

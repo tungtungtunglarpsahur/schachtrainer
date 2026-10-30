@@ -1,4 +1,4 @@
-/* gambit – Design-System „Graphit“: Schwarz, Grautöne, Weiß als Akzent.
+/* Learning King – Design-System „Graphit“: Schwarz, Grautöne, Weiß als Akzent.
    Alles Wichtige läuft über Tokens; Animationen nur über transform/opacity. */
 :root {
   --bg: #0a0a0b;
@@ -116,19 +116,21 @@ em { font-style: normal; color: var(--muted); font-weight: 400; }
 /* ---------- Boot & Spinner ---------- */
 .boot, .spinner { min-height: 60vh; display: grid; place-items: center; align-content: center; gap: 18px; color: var(--muted); font-size: 0.9rem; letter-spacing: 0.01em; }
 .boot { min-height: 100vh; min-height: 100dvh; }
-.boot-mark { width: 40px; height: 40px; border-radius: 9px; background: conic-gradient(#f5f5f6 0 25%, #3a3a40 0 50%, #f5f5f6 0 75%, #3a3a40 0); transform: rotate(45deg); animation: spin 1.5s var(--ease) infinite; box-shadow: 0 0 40px rgba(255, 255, 255, 0.12); }
+.boot-mark { width: 52px; height: 52px; animation: crown-bob 1.6s var(--ease) infinite; filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.28)); }
+.boot-mark svg { width: 100%; height: 100%; display: block; }
+@keyframes crown-bob { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-6px) rotate(-5deg); } 60% { transform: translateY(0) rotate(3deg); } }
 
 /* ---------- Logo ---------- */
-.logo { display: inline-flex; align-items: center; gap: 11px; }
-.logo-mark { width: 28px; height: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5px; transform: rotate(45deg) scale(0.86); flex: none; transition: transform 0.6s var(--spring); }
-.logo:hover .logo-mark { transform: rotate(135deg) scale(0.86); }
-.logo-mark i { border-radius: 3px; background: #3c3c42; }
-.logo-mark i:nth-child(1), .logo-mark i:nth-child(4) { background: linear-gradient(135deg, #ffffff, #bdbdc4); box-shadow: 0 0 14px rgba(255, 255, 255, 0.25); }
-.wordmark { font-family: var(--display); font-weight: 800; font-size: 1.7rem; letter-spacing: -0.06em; display: inline-block; line-height: 1; }
-.wordmark .i { position: relative; display: inline-block; }
-.wordmark .i b { position: absolute; left: 50%; top: 0.03em; width: 0.24em; height: 0.24em; border-radius: 2px; background: #fff; transform: translateX(-50%) rotate(45deg); box-shadow: 0 0 12px rgba(255, 255, 255, 0.7); }
-.logo.small .wordmark { font-size: 1.4rem; }
-.logo.small .logo-mark { width: 22px; height: 22px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text); }
+.logo-mark { width: 30px; height: 30px; flex: none; display: block; filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.22)); transition: transform 0.6s var(--spring); }
+.logo-mark svg, .crown { width: 100%; height: 100%; display: block; overflow: visible; }
+.crown-dark { fill: #3c3c42; }
+.logo:hover .logo-mark { transform: translateY(-2px) rotate(-8deg); }
+.wordmark { font-family: var(--display); font-size: 1.45rem; letter-spacing: -0.045em; line-height: 1; display: inline-flex; align-items: baseline; gap: 0.26em; white-space: nowrap; }
+.wordmark .wm-a { font-weight: 600; color: #c9c9d1; }
+.wordmark .wm-b { font-weight: 800; color: #fff; }
+.logo.small .wordmark { font-size: 1.16rem; }
+.logo.small .logo-mark { width: 24px; height: 24px; }
 
 /* ---------- Shell ---------- */
 .shell { display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; }
@@ -337,7 +339,7 @@ select.input { appearance: none; -webkit-appearance: none; }
 .board-with-eval .board { flex: 1; min-width: 0; }
 .coach { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; animation: slide-left 0.45s var(--ease) both; }
 .coach-avatar { width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(180deg, #2a2a2f, #18181b); border: 1px solid var(--line-2); display: grid; place-items: center; flex: none; }
-.coach-avatar .logo-mark { width: 15px; height: 15px; gap: 1.5px; }
+.coach-avatar .logo-mark { width: 18px; height: 18px; filter: none; }
 .coach-bubble { background: rgba(255, 255, 255, 0.035); border: 1px solid var(--line); padding: 10px 13px; border-radius: 4px 14px 14px 14px; font-size: 0.9rem; flex: 1; color: var(--text-2); line-height: 1.5; }
 .coach.blunder .coach-bubble { border-color: rgba(248, 113, 113, 0.45); background: rgba(248, 113, 113, 0.07); }
 .coach.mistake .coach-bubble { border-color: rgba(251, 146, 60, 0.45); background: rgba(251, 146, 60, 0.06); }

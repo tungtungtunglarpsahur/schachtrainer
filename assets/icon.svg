@@ -1,19 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#232327"/>
-      <stop offset="1" stop-color="#09090a"/>
-    </linearGradient>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#b9b9c0"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2a30"/><stop offset="1" stop-color="#08080a"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.46" r="0.42"><stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#b4b4bc"/></linearGradient>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <g transform="translate(32 32) rotate(45) translate(-15.25 -15.25)">
-    <rect x="0" y="0" width="14" height="14" rx="2.5" fill="url(#g)"/>
-    <rect x="16.5" y="0" width="14" height="14" rx="2.5" fill="#3c3c42"/>
-    <rect x="0" y="16.5" width="14" height="14" rx="2.5" fill="#3c3c42"/>
-    <rect x="16.5" y="16.5" width="14" height="14" rx="2.5" fill="url(#g)"/>
-  </g>
+  <rect width="64" height="64" rx="14" fill="url(#glow)"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" fill="none" stroke="#ffffff" stroke-opacity="0.07"/>
+  <svg x="11.52" y="12.12" width="40.96" height="40.96" viewBox="0 0 48 48">
+    <g fill="url(#g)"><path d="M9 34.6 4.6 16.4Q4.3 15 5.5 15.8l9.9 7.1q.9.6 1.4-.3l6.1-10.4q1.1-1.8 2.2 0l6.1 10.4q.5.9 1.4.3l9.9-7.1q1.2-.8.9.6L39 34.6q-.2 1-1.2 1H10.2q-1 0-1.2-1z"/><rect x="22.3" y="1.6" width="3.4" height="9" rx=".9"/><rect x="19.6" y="4.1" width="8.8" height="3.4" rx=".9"/><rect x="2.6" y="9.9" width="4.4" height="4.4" rx=".9" transform="rotate(45 4.8 12.1)"/><rect x="41" y="9.9" width="4.4" height="4.4" rx=".9" transform="rotate(45 43.2 12.1)"/><rect x="8.5" y="37.6" width="7" height="7" rx="1.4"/><rect x="24.5" y="37.6" width="7" height="7" rx="1.4"/></g><g fill="#45454c"><rect x="16.5" y="37.6" width="7" height="7" rx="1.4"/><rect x="32.5" y="37.6" width="7" height="7" rx="1.4"/></g>
+  </svg>
 </svg>

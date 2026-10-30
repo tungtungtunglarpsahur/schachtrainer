@@ -1,11 +1,30 @@
-// Kleine UI-Bausteine: Logo, Icons, Fortschrittsring, Eval-Balken, Toasts, Konfetti.
-import { html, useEffect, useState } from '../../vendor/preact-htm.js';
+// Kleine UI-Bausteine: Logo (Krone), Icons, Fortschrittsring, Eval-Balken, Toasts, Konfetti.
+import { html, useEffect, useMemo, useState } from '../../vendor/preact-htm.js';
 import { formatScore, scoreCp, winPct } from '../lib/chess-util.js';
 
+let crownN = 0;
+/** Logo-Zeichen von Learning King: Krone mit Königskreuz, darunter eine Reihe Schachfelder. */
+export function Crown() {
+  const id = useMemo(() => `lk-crown-${++crownN}`, []);
+  const light = `url(#${id})`;
+  return html`<svg class="crown" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+    <defs><linearGradient id=${id} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#b4b4bc" /></linearGradient></defs>
+    <path fill=${light} d="M9 34.6 4.6 16.4Q4.3 15 5.5 15.8l9.9 7.1q.9.6 1.4-.3l6.1-10.4q1.1-1.8 2.2 0l6.1 10.4q.5.9 1.4.3l9.9-7.1q1.2-.8.9.6L39 34.6q-.2 1-1.2 1H10.2q-1 0-1.2-1z" />
+    <rect fill=${light} x="22.3" y="1.6" width="3.4" height="9" rx=".9" />
+    <rect fill=${light} x="19.6" y="4.1" width="8.8" height="3.4" rx=".9" />
+    <rect fill=${light} x="2.6" y="9.9" width="4.4" height="4.4" rx=".9" transform="rotate(45 4.8 12.1)" />
+    <rect fill=${light} x="41" y="9.9" width="4.4" height="4.4" rx=".9" transform="rotate(45 43.2 12.1)" />
+    <rect fill=${light} x="8.5" y="37.6" width="7" height="7" rx="1.4" />
+    <rect class="crown-dark" x="16.5" y="37.6" width="7" height="7" rx="1.4" />
+    <rect fill=${light} x="24.5" y="37.6" width="7" height="7" rx="1.4" />
+    <rect class="crown-dark" x="32.5" y="37.6" width="7" height="7" rx="1.4" />
+  </svg>`;
+}
+
 export function Logo({ small = false }) {
-  return html`<a href="#/" class=${`logo ${small ? 'small' : ''}`} aria-label="gambit Startseite">
-    <span class="logo-mark"><i></i><i></i><i></i><i></i></span>
-    <span class="wordmark">gamb<span class="i">ı<b></b></span>t</span>
+  return html`<a href="#/" class=${`logo ${small ? 'small' : ''}`} aria-label="Learning King – Startseite">
+    <span class="logo-mark"><${Crown} /></span>
+    <span class="wordmark"><span class="wm-a">Learning</span><span class="wm-b">King</span></span>
   </a>`;
 }
 
@@ -22,6 +41,7 @@ const ICONS = {
   bolt: 'M13 2 4 14h7l-1 8 9-12h-7z',
   check: 'M4 12.5 9.5 18 20 6',
   x: 'M5 5l14 14M19 5 5 19',
+  copy: 'M9 9h11v11H9zM15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4',
   back: 'M15 5l-7 7 7 7',
   flip: 'M7 4v13m0 0-3-3m3 3 3-3M17 20V7m0 0-3 3m3-3 3 3',
   undo: 'M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3',
@@ -206,12 +226,12 @@ export function ThinkingDots() {
 }
 
 export function Spinner({ label = 'Lädt …' }) {
-  return html`<div class="spinner"><div class="boot-mark"></div><span>${label}</span></div>`;
+  return html`<div class="spinner"><div class="boot-mark"><${Crown} /></div><span>${label}</span></div>`;
 }
 
 export function Coach({ text, tone = 'info', children }) {
   return html`<div class=${`coach ${tone}`}>
-    <div class="coach-avatar"><span class="logo-mark"><i></i><i></i><i></i><i></i></span></div>
+    <div class="coach-avatar"><span class="logo-mark"><${Crown} /></span></div>
     <div class="coach-bubble">${text ? html`<${Md} text=${text} />` : null}${children}</div>
   </div>`;
 }

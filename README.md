@@ -1,9 +1,16 @@
-<p align="center"><img src="assets/logo.svg" alt="gambit" width="360"></p>
+<p align="center"><img src="assets/logo.svg" alt="Learning King" width="380"></p>
 
 <h3 align="center">Setz auf deinen Kopf.</h3>
 <p align="center">Dein persönlicher Schachtrainer – ohne Account, alles bleibt auf deinem Gerät.</p>
 
 ---
+
+## Neu in Version 2.3
+
+- **Neuer Name und neues Logo: Learning King** – Krone mit Königskreuz, darunter eine Reihe Schachfelder. Neue App-Symbole (auch für Android „maskable“) und neues Vorschaubild für WhatsApp & Co.
+- **Home-Bildschirm-Anleitung fürs iPhone und iPad** – wer die Seite zum ersten Mal in Safari öffnet, sieht vor der Umfrage ein kurzes Video, wie Learning King auf den Home-Bildschirm kommt. Das Video passt zur iOS-Version (iOS 18, 26 und 27 sehen unterschiedlich aus), die Schritte laufen mit dem Video mit. Aus Instagram & Co. heraus gibt es stattdessen den Hinweis „In Safari öffnen“. Jederzeit wieder unter Einstellungen → App teilen.
+- **Leiste unten blendet sich aus** – auf Handy und iPad verschwindet sie beim Runterscrollen (abschaltbar).
+- **Festhalten kopiert nichts mehr** – langes Drücken auf Figuren, Knöpfe oder Text markiert und kopiert nichts.
 
 ## Neu in Version 2.2
 
@@ -36,7 +43,7 @@
 - **Handy quer** – Brett links, Coach und Züge rechts.
 - Aufgeben und Zurücksetzen mit eigenem Bestätigungsschritt statt Browser-Popup.
 
-## Was gambit kann
+## Was Learning King kann
 
 - **Persönlicher Lernplan** – beim ersten Start beantwortest du eine kurze Umfrage zu Niveau, Zielen, Schwächen und Zeit pro Tag (5–60 Min). Daraus entsteht jeden Tag ein passender Mix aus Lektionen, Rätseln, Wiederholungen, Eröffnungstraining und Probepartien.
 - **Lernpfad wie Duolingo, nur tiefer** – interaktive Lektionen von den Regeln bis zu Turmendspielen: Sterne-Minispiele für die Gangart, Zielzüge, Zugfolgen, Quiz und Ausspielen gegen die Engine.
@@ -55,7 +62,7 @@
 
 ## Starten
 
-gambit ist eine statische Web-App ohne Build-Schritt.
+Learning King ist eine statische Web-App ohne Build-Schritt.
 
 **GitHub Pages:** Repository → *Settings* → *Pages* → *Deploy from a branch* → `main` / `root`. Nach einer Minute läuft die App unter `https://<name>.github.io/<repo>/`.
 
