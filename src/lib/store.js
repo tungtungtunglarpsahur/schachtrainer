@@ -3,6 +3,11 @@ import { useEffect, useReducer } from '../../vendor/preact-htm.js';
 
 const KEY = 'gambit.v1';
 const listeners = new Set();
+let version = 0; // zählt jede Änderung – so verpasst keine Ansicht ein Update zwischen Anzeigen und Anmelden
+const notify = () => {
+  version++;
+  listeners.forEach((l) => l());
+};
 let saveTimer = null;
 export let storageOk = true;
 
@@ -102,13 +107,15 @@ export function saveSoon() {
 export function update(fn) {
   fn(state);
   if (!saveTimer) saveTimer = setTimeout(persist, 250);
-  listeners.forEach((l) => l());
+  notify();
 }
 
 export function useStore() {
   const [, force] = useReducer((x) => x + 1, 0);
+  const seen = version;
   useEffect(() => {
     listeners.add(force);
+    if (version !== seen) force(); // dazwischen geändert? Dann gleich neu zeichnen
     return () => listeners.delete(force);
   }, []);
   return state;
@@ -187,7 +194,7 @@ export function rankFor(elo) {
 export function replaceState(data) {
   state = merge(defaults(), data);
   saveNow();
-  listeners.forEach((l) => l());
+  notify();
 }
 
 /** Bei jeder Änderung benachrichtigt werden (für die Sicherung auf dem Server). */
@@ -215,11 +222,11 @@ export async function importData(file) {
   if (!data || data.v !== 1 || !data.profile) throw new Error('Das ist keine Learning-King-Sicherung.');
   state = merge(defaults(), data);
   saveNow();
-  listeners.forEach((l) => l());
+  notify();
 }
 
 export function resetAll() {
   state = defaults();
   saveNow();
-  listeners.forEach((l) => l());
+  notify();
 }

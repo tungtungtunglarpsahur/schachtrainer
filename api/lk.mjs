@@ -296,7 +296,7 @@ A.register = async ({ body, ip }) => {
   if (RESERVED.has(id) || BAD.some((w) => id.includes(w))) fail('Diesen Benutzernamen kannst du leider nicht nehmen.');
   const pass = String(body.pass || '');
   if (pass.length < 4 || pass.length > 64) fail('Das Passwort braucht mindestens 4 Zeichen.');
-  await rateLimit(`reg:${ip}`, 12, 3600);
+  await rateLimit(`reg:${ip}`, 30, 3600); // großzügig: ganze Schulklasse im selben WLAN
   const start = Math.max(100, Math.min(2400, Math.round(num(body.start, 800))));
   const { salt, hash } = await hashPass(pass);
   const now = Date.now();
@@ -463,8 +463,9 @@ A['challenge.list'] = async ({ me }) => {
   return { incoming: await loadChallenges(me.id, inc, 'ci'), outgoing: await loadChallenges(me.id, out, 'co') };
 };
 A['challenge.get'] = async ({ body, me }) => {
-  const [raw, gid] = await multi([['GET', `c:${body.cid}`], ['GET', `cg:${body.cid}`]]);
+  const [raw, gid, declined] = await multi([['GET', `c:${body.cid}`], ['GET', `cg:${body.cid}`], ['GET', `cd:${body.cid}`]]);
   if (gid) return { game: gid };
+  if (declined) return { declined: true, by: declined };
   if (!raw) fail('Diese Einladung ist abgelaufen oder wurde schon angenommen.', 404);
   const c = JSON.parse(raw);
   return { challenge: c, mine: me ? c.from.id === me.id : false };
@@ -477,7 +478,13 @@ A['challenge.cancel'] = async ({ me, body }) => {
     const mine = c.from.id === me.id;
     const forMe = c.to && c.to.id === me.id;
     if (!mine && !forMe) fail('Nicht deine Einladung.', 403);
-    await multi([['DEL', `c:${c.cid}`], ['SREM', `co:${c.from.id}`, c.cid], ...(c.to ? [['SREM', `ci:${c.to.id}`, c.cid]] : [])]);
+    await multi([
+      ['DEL', `c:${c.cid}`],
+      ['SREM', `co:${c.from.id}`, c.cid],
+      ...(c.to ? [['SREM', `ci:${c.to.id}`, c.cid]] : []),
+      // Abgelehnt? Merken, damit der Herausforderer es sofort sieht (statt „abgelaufen“).
+      ...(forMe && !mine ? [['SET', `cd:${c.cid}`, c.to.name, 'EX', 600]] : []),
+    ]);
   }
   return { ok: true };
 };

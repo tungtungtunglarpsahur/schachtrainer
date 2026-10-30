@@ -16,7 +16,7 @@ import { Analysis } from './views/Analysis.js';
 import { Progress } from './views/Progress.js';
 import { Settings } from './views/Settings.js';
 import { InstallGuide } from './views/Install.js';
-import { OnlineHub, JoinView } from './views/Online.js';
+import { OnlineHub, JoinView, InvitePopup } from './views/Online.js';
 import { OnlineGame } from './views/OnlineGame.js';
 import { useNet } from './lib/online.js';
 import { isIOS, isStandalone } from './lib/device.js';
@@ -230,6 +230,7 @@ function Shell({ route, children }) {
       ${TABS.map((x) => html`<a href=${x.href} class=${active(x.href) && !more ? 'active' : ''}><${Icon} name=${x.icon} size=${22} /><span>${x.label}</span>${badge(x.href)}</a>`)}
       <button type="button" class=${moreActive || more ? 'active' : ''} onClick=${() => setMore(!more)} aria-expanded=${more}><${Icon} name="grid" size=${22} /><span>Mehr</span></button>
     </nav>
+    <${InvitePopup} route=${route} />
   </div>`;
 }
 

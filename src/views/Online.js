@@ -4,7 +4,7 @@ import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
 import { useStore, rankFor, RANKS } from '../lib/store.js';
 import { Icon, PieceIcon, Spinner, toast, Modal } from '../ui/kit.js';
 import { play } from '../lib/sound.js';
-import { api, useNet, loggedIn, register, login, logout, refreshMe, setFastPolling, POOLS, START_LEVELS, tcLabel, tcKind, joinLink } from '../lib/online.js';
+import { api, useNet, loggedIn, register, login, logout, refreshMe, setFastPolling, acceptInvite, declineInvite, POOLS, START_LEVELS, tcLabel, tcKind, joinLink } from '../lib/online.js';
 
 const go = (hash) => (location.hash = hash);
 
@@ -244,13 +244,14 @@ function Elapsed({ since }) {
   return html`${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
+const yourColor = (c) => (c.color === 'w' ? 'Schwarz' : c.color === 'b' ? 'Weiß' : 'Zufall');
+
 function InviteRow({ c }) {
   const [busy, setBusy] = useState(false);
   const accept = async () => {
     setBusy(true);
     try {
-      const r = await api('challenge.accept', { cid: c.cid });
-      go(`#/online/game/${r.game}`);
+      await acceptInvite(c);
     } catch (e) {
       toast(e.message);
       refreshMe();
@@ -258,17 +259,54 @@ function InviteRow({ c }) {
       setBusy(false);
     }
   };
-  const decline = async () => {
-    await api('challenge.cancel', { cid: c.cid }).catch(() => {});
-    refreshMe();
-  };
+  const decline = () => declineInvite(c);
   return html`<div class="on-invite">
     <${PlayerLine} u=${{ name: c.from.name, r: c.from.r }} />
-    <span class="on-tc">${tcLabel(c.tc)} · ${c.rated ? 'gewertet' : 'ungewertet'}</span>
+    <span class="on-tc">${tcLabel(c.tc)} · ${c.rated ? 'gewertet' : 'ungewertet'} · du spielst ${yourColor(c)}</span>
     <div class="btn-row">
+      <button class="btn ghost" onClick=${decline}><${Icon} name="x" /> Ablehnen</button>
       <button class="btn primary" disabled=${busy} onClick=${accept}><${Icon} name="check" /> Annehmen</button>
-      <button class="btn ghost" onClick=${decline}>Ablehnen</button>
     </div>
+  </div>`;
+}
+
+// ---------- Einladung von überall: schnell annehmen oder ablehnen ----------
+const later = new Set(); // mit „Später“ weggeklickt (bleibt im Online-Bereich)
+export function InvitePopup({ route }) {
+  const n = useNet();
+  const [, redraw] = useState(0);
+  const [busy, setBusy] = useState(false);
+  const [a, b] = route.parts;
+  const list = n.invites.filter((c) => !later.has(c.cid));
+  const c = list[0];
+  // Nicht während einer Online-Partie (dort gibt es Revanche im Ergebnis) und nicht mit laufender Partie
+  if (!c || n.game || (a === 'online' && (b === 'game' || b === 'join'))) return null;
+  const rank = rankFor(c.from.r);
+  const accept = async () => {
+    setBusy(true);
+    try {
+      await acceptInvite(c);
+    } catch (e) {
+      toast(e.message);
+      refreshMe();
+    } finally {
+      setBusy(false);
+    }
+  };
+  return html`<div class="on-pop" key=${c.cid} role="alertdialog" aria-label=${`${c.from.name} fordert dich heraus`}>
+    <div class="on-pop-top">
+      <span class="on-avatar" style=${{ '--rank': rank.color }}><span class=${`piece-icon piece ${rank.icon}`}></span></span>
+      <span class="on-pname"><b>${c.from.name} fordert dich heraus</b><small>${c.from.r} Elo · ${tcLabel(c.tc)} · ${c.rated ? 'gewertet' : 'ungewertet'} · du: ${yourColor(c)}</small></span>
+      <button class="on-pop-x" title="Später" aria-label="Später" onClick=${() => {
+        later.add(c.cid);
+        redraw((x) => x + 1);
+      }}><${Icon} name="x" size=${16} /></button>
+    </div>
+    <div class="on-pop-btns">
+      <button class="btn ghost" onClick=${() => declineInvite(c)}><${Icon} name="x" size=${18} /> Ablehnen</button>
+      <button class="btn primary" disabled=${busy} onClick=${accept}><${Icon} name="check" size=${18} /> ${busy ? 'Startet …' : 'Annehmen'}</button>
+    </div>
+    ${list.length > 1 ? html`<a class="on-pop-more" href="#/online">+ ${list.length - 1} weitere Einladung${list.length > 2 ? 'en' : ''}</a>` : null}
   </div>`;
 }
 
@@ -327,6 +365,10 @@ function WaitingChallenge({ c, onEnd }) {
         if (r.game) {
           play('notify');
           go(`#/online/game/${r.game}`);
+        } else if (r.declined) {
+          play('bad');
+          toast(`${r.by || 'Dein Gegner'} hat abgelehnt.`);
+          onEnd();
         }
       } catch (e) {
         if (e.status === 404) {

@@ -180,6 +180,10 @@ export function OnlineGame({ id }) {
       try {
         const r = await api('challenge.get', { cid: rematch.cid });
         if (r.game) location.hash = `#/online/game/${r.game}`;
+        else if (r.declined) {
+          toast(`${r.by || 'Dein Gegner'} will gerade keine Revanche.`);
+          setRematch(null);
+        }
       } catch (e) {
         if (e.status === 404) {
           toast('Keine Antwort auf die Revanche.');

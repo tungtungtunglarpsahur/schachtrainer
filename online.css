@@ -254,6 +254,35 @@
 .on-rankup { margin: 0 0 6px; font-weight: 600; animation: pop 0.6s 1.1s var(--spring) both; }
 .on-result > .btn.xl { margin: 8px auto 4px; }
 
+/* ---------- Einladung von überall: schnell annehmen / ablehnen ---------- */
+.on-pop {
+  position: fixed; z-index: 95; top: calc(70px + var(--safe-t)); right: 20px; width: min(400px, calc(100vw - 24px));
+  display: grid; gap: 12px; padding: 14px; border-radius: 20px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel-3) 94%, transparent), color-mix(in srgb, var(--panel) 96%, transparent));
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+  animation: on-pop-in 0.55s var(--spring) both;
+}
+@keyframes on-pop-in {
+  from { opacity: 0; transform: translateY(-18px) scale(0.97); }
+}
+.on-pop-top { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.on-pop .on-pname b { white-space: normal; line-height: 1.25; }
+.on-pop .on-avatar { animation: on-glow 2s ease-in-out infinite; }
+@keyframes on-glow {
+  50% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rank) 60%, transparent), 0 0 18px -2px color-mix(in srgb, var(--rank) 55%, transparent); }
+}
+.on-pop-x {
+  flex: none; align-self: flex-start; width: 32px; height: 32px; display: grid; place-items: center;
+  border: 0; border-radius: 10px; background: rgba(255, 255, 255, 0.05); color: var(--muted); cursor: pointer; transition: background 0.2s, color 0.2s;
+}
+.on-pop-x:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); }
+.on-pop-btns { display: grid; grid-template-columns: 1fr 1.35fr; gap: 8px; }
+.on-pop-btns .btn { min-height: 46px; }
+.on-pop-more { justify-self: center; font-size: 0.82rem; font-weight: 550; color: var(--muted); }
+.on-pop-more:hover { color: var(--text); }
+
 /* ---------- Navigation, Einstellungen, Umfrage ---------- */
 .nav-badge {
   display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 5px; border-radius: 99px;
@@ -286,6 +315,9 @@
   .on-ranks .piece-icon { width: 100%; height: auto; aspect-ratio: 1; max-width: 44px; }
   .on-match { grid-row: auto; }
 }
+@media (max-width: 900px) {
+  .on-pop { top: calc(8px + var(--safe-t)); left: 12px; right: 12px; width: auto; margin: 0 auto; max-width: 440px; }
+}
 @media (max-width: 560px) {
   .on-page { gap: 18px; }
   .on-auth { padding: 18px; }
@@ -304,6 +336,7 @@
   .on-pools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) {
+  .on-pop, .on-pop .on-avatar { animation: none; }
   .on-radar i { animation: none; opacity: 0.35; }
   .on-radar i:nth-child(2) { transform: scale(0.65); }
   .on-radar i:nth-child(3) { transform: scale(0.35); }

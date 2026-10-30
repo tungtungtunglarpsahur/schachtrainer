@@ -116,9 +116,6 @@ export function Home() {
 
     ${n.game &&
     html`<a class="banner resume" href=${`#/online/game/${n.game.id}`}><${Icon} name="play" /> <span><b>Online-Partie gegen ${n.game.vs}</b> läuft – tippen zum Weiterspielen.</span></a>`}
-    ${!n.game &&
-    n.invites.length > 0 &&
-    html`<a class="banner resume" href="#/online"><${Icon} name="bolt" /> <span><b>${n.invites[0].from.name}</b> ${n.invites.length > 1 ? `und ${n.invites.length - 1} weitere fordern` : 'fordert'} dich heraus – jetzt annehmen.</span></a>`}
     ${!s.profile.placementDone &&
     html`<a class="banner resume" href="#/play?test=1"><${Icon} name="bolt" /> <span><b>Mach dein Testspiel</b> (ca. 5 Min) – danach weißt du, wie stark du wirklich spielst.</span></a>`}
     ${mineDue > 0 &&

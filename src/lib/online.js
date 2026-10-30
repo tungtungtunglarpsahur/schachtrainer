@@ -7,7 +7,11 @@ import { play } from './sound.js';
 
 const SKEY = 'lk.session';
 const listeners = new Set();
-const emit = () => listeners.forEach((l) => l());
+let version = 0;
+const emit = () => {
+  version++;
+  listeners.forEach((l) => l());
+};
 
 let sess = (() => {
   try {
@@ -22,8 +26,11 @@ export const net = { user: sess?.user || null, invites: [], game: null, outgoing
 
 export function useNet() {
   const [, force] = useReducer((x) => x + 1, 0);
+  const seen = version;
   useEffect(() => {
     listeners.add(force);
+    // Kam zwischen dem ersten Zeichnen und jetzt etwas Neues an (z. B. eine Einladung)? Dann neu zeichnen.
+    if (version !== seen) force();
     return () => listeners.delete(force);
   }, []);
   return net;
@@ -190,6 +197,25 @@ export async function logout() {
 let loop = null;
 let fast = false;
 let seenOnce = false;
+const declined = new Set(); // gerade abgelehnt – nicht wieder auftauchen lassen, bis der Server es weiß
+
+/** Einladung annehmen: Partie startet, direkt hin. */
+export async function acceptInvite(c) {
+  const r = await api('challenge.accept', { cid: c.cid });
+  net.invites = net.invites.filter((x) => x.cid !== c.cid);
+  emit();
+  location.hash = `#/online/game/${r.game}`;
+  return r.game;
+}
+/** Einladung ablehnen – verschwindet sofort, der andere sieht „abgelehnt“. */
+export async function declineInvite(c) {
+  declined.add(c.cid);
+  net.invites = net.invites.filter((x) => x.cid !== c.cid);
+  emit();
+  try {
+    await api('challenge.cancel', { cid: c.cid });
+  } catch {}
+}
 export async function refreshMe() {
   if (!sess?.token) return null;
   try {
@@ -197,16 +223,18 @@ export async function refreshMe() {
     const before = new Set(net.invites.map((c) => c.cid));
     const prevGame = net.game?.id || null;
     remember(r.user);
-    net.invites = r.invites || [];
+    net.invites = (r.invites || []).filter((c) => !declined.has(c.cid));
     net.game = r.game;
     net.outgoing = r.outgoing || 0;
     net.setup = false;
     emit();
-    // Neue Herausforderung? Kurz Bescheid geben (nicht beim allerersten Laden).
+    // Neue Herausforderung? Ton – das Fenster mit Annehmen/Ablehnen erscheint von selbst.
+    // (In Lektionen gibt es kein Fenster, dort nur ein kurzer Hinweis.)
     const fresh = net.invites.filter((c) => !before.has(c.cid));
-    if (seenOnce && fresh.length) {
+    if (seenOnce && fresh.length && !/^#\/online\/game\//.test(location.hash)) {
       play('notify');
-      toast(`**${fresh[0].from.name}** fordert dich heraus – im Bereich *Online* annehmen.`, { ms: 5000 });
+      if (/^#\/(lesson|puzzles\/placement)/.test(location.hash))
+        toast(`**${fresh[0].from.name}** fordert dich heraus – nach der Lektion annehmen.`, { ms: 5000 });
     }
     // Jemand hat deine Einladung angenommen? Dann direkt zur Partie (wie bei chess.com).
     const g = net.game;
