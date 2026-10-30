@@ -145,7 +145,8 @@ export function GoalTask({ step, onDone, onMistake }) {
       return;
     }
     const uci = toUci(m);
-    const ok = step.goal === 'exact' ? step.solutions.includes(uci) || step.solutions.includes(uci.slice(0, 4)) : GOAL_TEST[step.goal]?.(c, m);
+    // Ein Matt ist immer richtig – auch wenn ein anderer Zug hinterlegt ist.
+    const ok = c.isCheckmate() || (step.goal === 'exact' ? step.solutions.includes(uci) || step.solutions.includes(uci.slice(0, 4)) : GOAL_TEST[step.goal]?.(c, m));
     if (ok) {
       playMove(m, c);
       play('good');

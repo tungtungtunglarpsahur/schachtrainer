@@ -10,16 +10,26 @@ const expected = (a, b) => 1 / (1 + 10 ** ((b - a) / 400));
 
 // ---------- Rätsel ----------
 
-export function recordPuzzle(s, puzzle, success, { rated = true, review = false } = {}) {
+/**
+ * Ergebnis eines Rätsels speichern.
+ * result: true/'clean' = sofort gelöst · 'hint' = mit Tipp gelöst · 'retry' = nach Fehlversuch gelöst · false/'fail' = Lösung gezeigt.
+ * Mit Tipp ändert sich das Rating nicht; nach einem Fehlversuch zählt nur der halbe Verlust.
+ */
+export function recordPuzzle(s, puzzle, result, { rated = true, review = false } = {}) {
+  const outcome = result === true ? 'clean' : result === false ? 'fail' : result;
+  const clean = outcome === 'clean';
+  const solved = outcome !== 'fail';
   const p = s.puzzle;
   const before = p.rating;
-  if (rated) {
+  if (rated && outcome !== 'hint') {
     const k = p.solved + p.failed < 25 ? 40 : 20;
-    p.rating = Math.round(Math.max(100, Math.min(3300, p.rating + k * ((success ? 1 : 0) - expected(p.rating, puzzle.rating)))));
+    const full = k * ((clean ? 1 : 0) - expected(p.rating, puzzle.rating));
+    const change = outcome === 'retry' ? full / 2 : full;
+    p.rating = Math.round(Math.max(100, Math.min(3300, p.rating + change)));
     p.history.push([Date.now(), p.rating]);
     if (p.history.length > 600) p.history.splice(0, p.history.length - 600);
   }
-  if (success) p.solved++;
+  if (solved) p.solved++;
   else p.failed++;
   p.seen[puzzle.id] = Date.now();
   const ids = Object.keys(p.seen);
@@ -27,10 +37,11 @@ export function recordPuzzle(s, puzzle, success, { rated = true, review = false 
   for (const t of puzzle.themes) {
     if (!SKILL_THEMES.includes(t)) continue;
     const cur = p.themes[t] || [0, 0];
-    p.themes[t] = [cur[0] + 1, cur[1] + (success ? 1 : 0)];
+    p.themes[t] = [cur[0] + 1, cur[1] + (clean ? 1 : 0)];
   }
+  // Nur sauber gelöste Rätsel rücken in der Wiederholung vor – alles andere kommt bald wieder.
   const card = p.srs[puzzle.id];
-  if (!success) p.srs[puzzle.id] = { box: 0, due: Date.now() + INTERVALS[0] };
+  if (!clean) p.srs[puzzle.id] = { box: 0, due: Date.now() + INTERVALS[0] };
   else if (card) {
     const box = card.box + 1;
     if (box >= INTERVALS.length) delete p.srs[puzzle.id];
@@ -39,9 +50,10 @@ export function recordPuzzle(s, puzzle, success, { rated = true, review = false 
   const d = today(s);
   d.puzzles++;
   if (review) d.reviews++;
-  const gain = success ? Math.round(6 + Math.max(0, Math.min(10, (puzzle.rating - before) / 40))) : 1;
+  const full = Math.round(6 + Math.max(0, Math.min(10, (puzzle.rating - before) / 40)));
+  const gain = clean ? full : solved ? Math.max(2, Math.round(full / 2)) : 1;
   addXp(s, gain);
-  return { delta: p.rating - before, xp: gain };
+  return { delta: p.rating - before, xp: gain, outcome };
 }
 
 export function duePuzzles(s) {

@@ -58,6 +58,15 @@ function PuzzleDb({ mode, query }) {
   return html`<${Training} db=${db} mode=${mode} query=${query} />`;
 }
 
+const OUTCOME = {
+  clean: { label: 'Richtig!', tone: 'good', text: 'Gelöst!' },
+  hint: { label: 'Mit Tipp gelöst', tone: 'mid', text: 'Gelöst – mit Tipp bleibt dein Rating gleich.' },
+  retry: { label: 'Gelöst – im 2. Anlauf', tone: 'mid', text: 'Geschafft! Weil der erste Zug nicht saß, zählt nur der halbe Verlust. Das Rätsel kommt bald zur Wiederholung.' },
+  fail: { label: 'Verfehlt', tone: 'bad', text: 'Lösung gezeigt – kommt in die Wiederholung.' },
+};
+// In der Wiederholung gibt es kein Rating – dort ohne Punkte-Hinweise.
+const REVIEW_TEXT = { clean: 'Gelöst!', hint: 'Mit Tipp gelöst – kommt bald nochmal.', retry: 'Geschafft – im 2. Anlauf. Kommt bald nochmal.', fail: 'Lösung gezeigt – kommt bald nochmal.' };
+
 function Training({ db, mode, query }) {
   const s = useStore();
   const review = mode === 'review';
@@ -72,26 +81,30 @@ function Training({ db, mode, query }) {
   };
   const [puzzle, setPuzzle] = useState(choose);
   const [result, setResult] = useState(null);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState(false); // falscher Zug gemacht
+  const [hinted, setHinted] = useState(false); // Tipp benutzt
   const [session, setSession] = useState({ ok: 0, total: 0, streak: 0 });
 
-  const settle = (success) => {
+  // outcome: 'clean' (sofort gelöst), 'hint' (mit Tipp), 'retry' (nach Fehlversuch), 'fail' (Lösung gezeigt)
+  const settle = (outcome) => {
     if (result) return;
     let r;
     let fresh = [];
     update((st) => {
-      r = recordPuzzle(st, puzzle, success, { rated: !review, review });
+      r = recordPuzzle(st, puzzle, outcome, { rated: !review, review });
       fresh = checkAchievements(st);
     });
     announce(fresh);
-    setResult({ success, ...r });
-    setSession((x) => ({ ok: x.ok + (success ? 1 : 0), total: x.total + 1, streak: success ? x.streak + 1 : 0 }));
-    if (success && session.streak + 1 >= 5 && (session.streak + 1) % 5 === 0) confetti(60);
+    setResult(r);
+    const solved = outcome !== 'fail';
+    setSession((x) => ({ ok: x.ok + (solved ? 1 : 0), total: x.total + 1, streak: outcome === 'clean' ? x.streak + 1 : outcome === 'hint' ? x.streak : 0 }));
+    if (outcome === 'clean' && session.streak + 1 >= 5 && (session.streak + 1) % 5 === 0) confetti(60);
   };
 
   const next = () => {
     setResult(null);
     setFailed(false);
+    setHinted(false);
     setPuzzle(choose());
   };
 
@@ -106,7 +119,7 @@ function Training({ db, mode, query }) {
   // Flüssig trainieren: nach einer richtigen Lösung geht es von allein weiter.
   const auto = s.settings.autoNext !== false;
   useEffect(() => {
-    if (!result?.success || !auto) return;
+    if (!result || result.outcome === 'fail' || !auto) return;
     const t = setTimeout(next, 1600);
     return () => clearTimeout(t);
   }, [result, auto]);
@@ -120,28 +133,30 @@ function Training({ db, mode, query }) {
     <div class="trainer-grid">
       <div class="trainer-board">
         <${SequenceTask} key=${puzzle.id} fen=${puzzle.fen} moves=${puzzle.moves} setup
-          onMistake=${() => {
-            setFailed(true);
-          }}
-          onDone=${(ok) => settle(ok && !failed)} solveLabel="Lösung" />
+          onMistake=${(why) => (why === 'hint' ? setHinted(true) : setFailed(true))}
+          onDone=${(ok) => settle(!ok ? 'fail' : failed ? 'retry' : hinted ? 'hint' : 'clean')} solveLabel="Lösung" />
       </div>
       <aside class="trainer-side card">
         <small class="tag">${title}</small>
         <h2 class="turn-title"><span class=${`turn-dot ${side}`}></span>${colorName(side)} am Zug</h2>
-        <p class="muted">${result ? (result.success ? 'Gelöst!' : 'Lösung gezeigt – kommt in die Wiederholung.') : failed ? 'Ein Fehler zählt schon als verfehlt – lös es trotzdem zu Ende.' : 'Finde den besten Zug.'}</p>
+        <p class="muted">${result
+          ? review ? REVIEW_TEXT[result.outcome] : OUTCOME[result.outcome].text
+          : failed ? (review ? 'Nicht ganz – versuch\'s nochmal.' : 'Nicht ganz – versuch\'s nochmal. Findest du es jetzt, verlierst du nur halb so viele Punkte.')
+          : hinted ? (review ? 'Tipp genutzt – lös es zu Ende.' : 'Mit Tipp bleibt dein Rating gleich – lös es zu Ende.')
+          : 'Finde den besten Zug.'}</p>
         ${result &&
-        html`<div class=${`result-box ${result.success ? 'good' : 'bad'}`}>
-          <b>${result.success ? 'Richtig!' : 'Verfehlt'}</b>
-          ${!review && html`<span class="delta">${result.delta >= 0 ? '+' : ''}${result.delta}</span>`}
+        html`<div class=${`result-box ${OUTCOME[result.outcome].tone}`}>
+          <b>${OUTCOME[result.outcome].label}</b>
+          ${!review && html`<span class="delta">${result.delta > 0 ? '+' : result.delta === 0 ? '±' : ''}${result.delta}</span>`}
           <span>+${result.xp} XP</span>
         </div>
         <div class="theme-chips">${puzzle.themes.filter((t) => SKILL_THEMES.includes(t) || t.startsWith('mateIn')).map((t) => html`<span class="tchip">${themeName(t)}</span>`)}<span class="tchip dim">Rätsel ${puzzle.rating}</span></div>
-        ${result.success && auto && html`<div class="auto-next"><span></span></div>`}
+        ${result.outcome !== 'fail' && auto && html`<div class="auto-next"><span></span></div>`}
         <div class="btn-row">
           <button class="btn primary" onClick=${next}>Nächstes <${Icon} name="next" /></button>
           <a class="btn ghost" href=${`#/analysis?fen=${encodeURIComponent(puzzle.fen)}&moves=${puzzle.moves.join(',')}`}><${Icon} name="scope" /> Analysieren</a>
         </div>`}
-        ${!result && failed && html`<button class="btn ghost" onClick=${() => settle(false)}>Aufgeben & weiter</button>`}
+        ${!result && failed && html`<button class="btn ghost" onClick=${() => settle('fail')}>Aufgeben & weiter</button>`}
         <label class="toggle-row auto-toggle">
           <span><b>Automatisch weiter</b><small>Nach richtiger Lösung direkt das nächste Rätsel</small></span>
           <span class="switch"><input type="checkbox" checked=${auto} onChange=${(e) => update((st) => { st.settings.autoNext = e.target.checked; })} /><span></span></span>

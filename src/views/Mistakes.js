@@ -126,7 +126,7 @@ function MistakeTask({ item, pos, count, session, onGraded, onNext }) {
     setFen(c.fen());
     setLast([m.from, m.to]);
     const uci = toUci(m);
-    if (good.has(uci)) {
+    if (good.has(uci) || c.isCheckmate()) {
       setState('right');
       setFlash({ sq: m.to, kind: 'good', key: Date.now() });
       play('good');
