@@ -7,6 +7,14 @@
    "title": "Turmendspiele",
    "description": "Die häufigsten Endspiele überhaupt: Turm hinter den Freibauern, Lucena, Philidor und der aktive Turm.",
    "icon": "wR"
+  },
+  {
+   "id": "end-minor",
+   "track": "endgames",
+   "level": 3,
+   "title": "Leichtfiguren & Dame",
+   "description": "Falscher Läufer, ungleiche Läufer, Springer gegen Bauern und Dame gegen Bauer.",
+   "icon": "wB"
   }
  ],
  "lessons": [
@@ -368,7 +376,7 @@
     },
     {
      "type": "move",
-     "text": "Jetzt du: Nur **ein** Turmzug gewinnt hier. Sperr den schwarzen König so weit wie möglich vom Bauern weg!",
+     "text": "Jetzt du: Nur **ein** Zug gewinnt hier. Sperr den schwarzen König mit dem Turm so weit wie möglich vom Bauern weg!",
      "fen": "7r/8/8/6k1/3P4/2K5/8/R7 w - - 0 1",
      "goal": "exact",
      "solutions": [
@@ -442,6 +450,335 @@
     {
      "type": "info",
      "text": "**Merke:** Aktivität geht vor! Schneide den gegnerischen König mit dem Turm ab, such Schachs von der Seite und bring deinen König nach vorn. Ein aktiver König und Turm sind oft mehr wert als ein Bauer."
+    }
+   ]
+  },
+  {
+   "id": "end-wrong-bishop",
+   "unit": "end-minor",
+   "title": "Falscher Läufer und Randbauer",
+   "subtitle": "Wenn ein ganzer Läufer mehr nicht reicht.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Läufer und h-Bauer gegen König – klingt nach Sieg. Doch dein Läufer ist **weißfeldrig**, das Umwandlungsfeld h8 aber **schwarz**.\nSitzt der König erst in der Ecke, kriegt ihn niemand mehr heraus: **Remis**. Man spricht vom **falschen Läufer**.",
+     "fen": "7k/8/8/7P/2B3K1/8/8/8 w - - 0 1",
+     "marks": {
+      "h8": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Und mit einem **a-Bauern**: Welcher Läufer gewinnt?",
+     "options": [
+      "Der weißfeldrige",
+      "Der schwarzfeldrige",
+      "Egal – Läufer ist Läufer"
+     ],
+     "answer": 0,
+     "explain": "Entscheidend ist die Farbe des Umwandlungsfelds: a8 ist weiß. Nur ein weißfeldriger Läufer kann den König von dort vertreiben."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz. Weiß hat Läufer und h-Bauer – aber den falschen Läufer! Nur ein Zug rettet dich.",
+     "fen": "8/4k3/7P/8/2B1K3/8/8/8 b - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e7f6"
+     ],
+     "hint": "f7 und g8 bewacht der Läufer. Welcher Weg führt trotzdem zum h-Bauern?",
+     "success": "Genau! Über f6 erreicht dein König den Bauern oder die Ecke – Remis. Jeder andere Zug kommt zu spät."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Weiß. Der schwarze König will über g6 an den Bauern. Nur ein Zug hält ihn auf!",
+     "fen": "8/8/5k1P/8/4K3/8/4B3/8 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e2h5"
+     ],
+     "hint": "Kann dein Läufer das Feld g6 bewachen?",
+     "success": "Stark! Lh5 sperrt g6 und f7. Greift der König mit Kg5 an, läuft der Bauer: h7 und h8=D."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine: Du bist Schwarz. Bring deinen König in die Ecke und halte 8 Züge lang Remis!",
+     "fen": "8/4k3/8/7P/2B1K3/8/8/8 b - - 0 1",
+     "goal": "hold",
+     "maxMoves": 8
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Läuferendspiel-Rätsel. Achte auf die Feldfarben!",
+     "themes": [
+      "bishopEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Läufer + Randbauer gewinnt nur, wenn der Läufer das Umwandlungsfeld bewachen kann. Beim **falschen Läufer** rettet sich der Verteidiger mit dem König in die Ecke."
+    }
+   ]
+  },
+  {
+   "id": "end-opposite-bishops",
+   "unit": "end-minor",
+   "title": "Ungleichfarbige Läufer",
+   "subtitle": "Zwei Bauern weniger – und trotzdem Remis.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Ungleichfarbige Läufer**: Einer läuft auf Weiß, einer auf Schwarz. Weiß hat zwei Bauern mehr – trotzdem ist es **Remis**!\nDer König blockiert den e-Bauern auf dem weißen Feld e6, der Läufer hält die schwarzen Felder f6 und g7.",
+     "fen": "7b/8/4k3/4P1P1/4K3/3B4/8/8 w - - 0 1",
+     "marks": {
+      "e6": "g",
+      "f6": "g",
+      "g7": "g"
+     },
+     "arrows": [
+      [
+       "h8",
+       "f6",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Warum kommt Weiß hier nicht weiter?",
+     "fen": "7b/8/4k3/4P1P1/4K3/3B4/8/8 w - - 0 1",
+     "options": [
+      "König und Läufer stoppen je einen Bauern",
+      "Weiß hat zu wenig Bauern",
+      "Der weiße Läufer steht falsch"
+     ],
+     "answer": 0,
+     "explain": "Der König hält den e-Bauern, der Läufer das Feld g7. Weiße Felder deckt der König, schwarze der Läufer – eine **Festung**."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz, zwei Bauern weniger. Weiß droht g7 und g8=D. Nur ein Zug baut die Festung!",
+     "fen": "8/3k4/6P1/4P3/1bB2K2/8/8/8 b - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b4f8"
+     ],
+     "hint": "g8 ist ein weißes Feld – das kann dein Läufer nie bewachen. Aber g7 ist schwarz …",
+     "success": "Genau! Lf8 hält g7, dein König stoppt den e-Bauern. Mehr braucht es nicht – Remis."
+    },
+    {
+     "type": "quiz",
+     "text": "Wieder zwei weiße Mehrbauern – diesmal **weit auseinander**. Wie steht es?",
+     "fen": "8/8/3k4/1P3P2/2B1K2b/8/8/8 w - - 0 1",
+     "options": [
+      "Weiß gewinnt",
+      "Remis wie eben",
+      "Schwarz gewinnt"
+     ],
+     "answer": 0,
+     "explain": "Weit getrennte Freibauern überfordern die Verteidigung: Der König kann nicht beide stoppen, und den anderen hält der Läufer allein nicht auf."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine: Du bist Schwarz, zwei Bauern weniger. Bau die Festung – König vor die Bauern, der Läufer hält die schwarzen Felder. Halte 8 Züge lang!",
+     "fen": "8/3k4/6P1/4P3/4K3/3B4/7b/8 b - - 0 1",
+     "goal": "hold",
+     "maxMoves": 8
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Läuferendspiel-Rätsel. Welche Farbe hat welcher Läufer?",
+     "themes": [
+      "bishopEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Ungleichfarbige Läufer sind die beste Remischance. Blockiere mit dem König auf der einen Farbe und halte mit dem Läufer die andere. Gewinnen kann man meist nur mit weit getrennten Freibauern."
+    }
+   ]
+  },
+  {
+   "id": "end-knight-pawns",
+   "unit": "end-minor",
+   "title": "Springer gegen Bauern",
+   "subtitle": "Wann der Springer einen Bauern stoppt – und wann nicht.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein **Springer** stoppt einen Bauern, wenn er ein Feld vor ihm oder das **Umwandlungsfeld** bewacht.\nHier bewacht der Springer f3 das Feld g1: Nach g1=D folgt Sxg1+. Der Bauer kommt nicht durch – Remis.",
+     "fen": "8/8/8/8/1K6/5N1k/6p1/8 b - - 0 1",
+     "arrows": [
+      [
+       "f3",
+       "g1",
+       "g"
+      ]
+     ],
+     "marks": {
+      "g1": "g"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der weiße Springer will deinen g-Bauern stoppen. Ist er schnell genug?",
+     "fen": "8/8/5K2/3N4/6p1/5k2/8/8 b - - 3 71",
+     "moves": [
+      "g4g3",
+      "f6e5",
+      "g3g2",
+      "d5f4",
+      "g2g1q"
+     ],
+     "hint": "Lauf einfach los – dein König deckt den Bauern.",
+     "success": "Der Springer kam zu spät – und dein König deckte den Bauern bis zur Umwandlung."
+    },
+    {
+     "type": "quiz",
+     "text": "Gegen welchen Bauern tut sich ein Springer am schwersten?",
+     "options": [
+      "Gegen einen Randbauern (a oder h)",
+      "Gegen einen Mittelbauern (d oder e)",
+      "Das ist immer gleich"
+     ],
+     "answer": 0,
+     "explain": "Am Rand hat der Springer kaum Felder. Steht er in der Ecke vor dem Bauern, kann er sogar gefangen werden."
+    },
+    {
+     "type": "line",
+     "text": "Genau das passiert hier: Der Springer blockiert deinen a-Bauern von a1 aus – doch in der Ecke hat er nur zwei Felder. Fang ihn!",
+     "fen": "8/8/8/2K5/8/3k4/p7/N7 b - - 9 61",
+     "moves": [
+      "d3c3",
+      "c5d5",
+      "c3b2",
+      "d5e4",
+      "b2a1"
+     ],
+     "hint": "Nimm dem Springer mit deinem König die Felder b3 und c2 weg.",
+     "success": "Gefangen! Am Rand – und erst recht in der Ecke – ist der Springer hilflos."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt bist du Weiß: a-Bauer gegen Springer. Bring den Bauern durch – aber zuerst muss dein König aus dem Weg!",
+     "fen": "8/K7/P7/3n4/4k3/8/8/8 w - - 1 50",
+     "moves": [
+      "a7b7",
+      "e4e5",
+      "a6a7"
+     ],
+     "hint": "Wohin mit dem König, damit er dem Bauern Platz macht und zugleich die Springerfelder vor a8 bewacht?",
+     "success": "Kb7 räumt den Weg und bewacht b6 und c7. Von dort könnte der Springer a8 bewachen – jetzt kommt er nicht mehr heran."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt hast du den Springer. Erst schlagen, dann stoppen: Erreicht dein Springer rechtzeitig ein Feld, das g1 bewacht?",
+     "fen": "8/1k6/3Pn3/4NK2/8/6p1/8/8 w - - 0 59",
+     "moves": [
+      "f5e6",
+      "g3g2",
+      "e5f3",
+      "g2g1q",
+      "f3g1"
+     ],
+     "hint": "Nimm zuerst den Springer e6. Dann such ein Springerfeld, das g1 bewacht.",
+     "success": "Perfekt! Von f3 aus bewacht dein Springer g1 – die neue Dame fällt sofort. Danach entscheidet der d-Bauer."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Springerendspiel-Rätsel. Zähl die Züge bis zur Umwandlung!",
+     "themes": [
+      "knightEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Ein Springer stoppt einen Bauern, wenn er ein Feld vor ihm oder das Umwandlungsfeld bewacht. Gegen **Randbauern** tut er sich schwer – in der Ecke kann er sogar gefangen werden."
+    }
+   ]
+  },
+  {
+   "id": "end-queen-pawn",
+   "unit": "end-minor",
+   "title": "Dame gegen Bauer auf der 7.",
+   "subtitle": "Schach, Fesselung, Königsschritt – und die Patt-Ausnahmen.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Dame gegen Bauer auf der 7.:** Mit Schach und Fesselung zwingst du den König **vor** seinen Bauern, hier nach d1. Dort blockiert er ihn selbst – und dein König kommt einen Schritt näher. Das wiederholst du, bis er da ist.",
+     "fen": "7K/8/8/8/8/4Q3/3p4/3k4 w - - 0 1",
+     "arrows": [
+      [
+       "h8",
+       "g7",
+       "b"
+      ]
+     ],
+     "marks": {
+      "d1": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Schwarz droht d1=D. Halte den Bauern auf – mit Schach oder Fesselung!",
+     "fen": "7K/8/8/8/8/8/2kp4/4Q3 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e1e4",
+      "e1e2",
+      "e1f2"
+     ],
+     "hint": "Stell die Dame auf die 2. Reihe, sodass der Bauer gefesselt ist – oder gib ein Schach, bei dem die Dame sicher steht.",
+     "success": "Genau! Ob Schach oder Fesselung: Der Bauer kann nicht sofort umwandeln, und du gewinnst Zeit."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum willst du den schwarzen König nach d1 zwingen?",
+     "options": [
+      "Dann blockiert er seinen eigenen Bauern",
+      "Dann ist er schachmatt",
+      "Dann kann er die Dame nicht schlagen"
+     ],
+     "answer": 0,
+     "explain": "Steht der König auf d1, kann der Bauer nicht ziehen. Diesen Moment nutzt dein König, um einen Schritt näher zu kommen."
+    },
+    {
+     "type": "quiz",
+     "text": "Die Ausnahme: Läuferbauer. Schwarz hat Ka1 gezogen und lässt den Bauern c2 hängen. Was passiert nach Dxc2?",
+     "fen": "8/7K/8/8/8/1Q6/2p5/k7 w - - 0 1",
+     "options": [
+      "Patt – Remis!",
+      "Weiß gewinnt die Partie",
+      "Schwarz wandelt doch noch um"
+     ],
+     "answer": 0,
+     "explain": "Nach Dxc2 hat der König auf a1 kein Feld mehr, steht aber nicht im Schach: **Patt**. Auch Randbauern (a, h) halten so oft Remis."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt bist du Schwarz mit dem c-Bauern. Halte 8 Züge lang Remis! Tipp: Wird es eng, geh mit dem König nach a1 – Dxc2 wäre dann patt.",
+     "fen": "7K/8/8/8/4Q3/8/2p5/1k6 b - - 0 1",
+     "goal": "hold",
+     "maxMoves": 8
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Damenendspiel-Rätsel. Such nach Schachs und Fesselungen!",
+     "themes": [
+      "queenEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Dame gegen Bauer auf der 7.: Mit Schach und Fesselung den König vor seinen Bauern zwingen, dann ein Königsschritt näher – und von vorn. Ausnahme: Läufer- und Randbauern halten oft Remis, wenn der König des Angreifers weit weg ist."
     }
    ]
   }
