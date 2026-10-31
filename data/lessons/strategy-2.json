@@ -7,6 +7,14 @@
    "title": "Pläne im Mittelspiel",
    "description": "Was tun, wenn es nichts zu schlagen gibt? Figuren verbessern, Linien erobern, klug tauschen, angreifen.",
    "icon": "wR"
+  },
+  {
+   "id": "strategy-advanced",
+   "track": "strategy",
+   "level": 3,
+   "title": "Positionelles Spiel",
+   "description": "Vorposten, gute und schlechte Läufer, Bauernschwächen und Prophylaxe – so denken starke Spieler.",
+   "icon": "wQ"
   }
  ],
  "lessons": [
@@ -344,6 +352,246 @@
     {
      "type": "info",
      "text": "**Merke:** Mehr Material? **Figuren tauschen**, Bauern behalten. Weniger Material? Figuren behalten und aktiv spielen. Du greifst an? Angreifer behalten, **Verteidiger abtauschen**. Und vor jedem Tausch ins Endspiel kurz prüfen: Ist es danach gewonnen?"
+    }
+   ]
+  },
+  {
+   "id": "strategy-king-attack",
+   "unit": "strategy-middlegame",
+   "title": "Angriff auf den König",
+   "subtitle": "Mehr Angreifer als Verteidiger – und Linien auf.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein Königsangriff klappt, wenn **mehr Angreifer als Verteidiger** am König stehen und **offene Linien** zu ihm führen.\nHier hat Schwarz keinen h-Bauern mehr: Die h-Linie zum König ist frei. Dame und Springer g5 zielen schon auf h7. Aber reicht das?",
+     "fen": "r3r1k1/pp2qpp1/2p1bn2/3p2N1/6PQ/P3R3/1P3P1P/5K1R w - - 0 22",
+     "arrows": [
+      [
+       "h4",
+       "h7",
+       "r"
+      ],
+      [
+       "g5",
+       "h7",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Welche weiße Figur hilft beim Angriff noch **nicht** mit?",
+     "fen": "r3r1k1/pp2qpp1/2p1bn2/3p2N1/6PQ/P3R3/1P3P1P/5K1R w - - 0 22",
+     "options": [
+      "Turm e3",
+      "Springer g5",
+      "Dame h4"
+     ],
+     "answer": 0,
+     "explain": "Der **Turm e3** steht abseits. Über die 3. Reihe kann er aber in einem Zug nach h3 schwenken – ein **Turmschwenk**. (Der Turm h1 steckt hinter dem Bauern h2 fest.)"
+    },
+    {
+     "type": "line",
+     "text": "Dann los: Hol den Turm e3 dazu! Mit ihm ist es Matt in 3.",
+     "fen": "r3r1k1/pp2qpp1/2p1bn2/3p2N1/6PQ/P3R3/1P3P1P/5K1R w - - 0 22",
+     "moves": [
+      "e3h3",
+      "g8f8",
+      "h4h8",
+      "f6g8",
+      "g5h7"
+     ],
+     "hint": "Erst der Turmschwenk, dann Schach auf h8. Zum Schluss springt der Springer.",
+     "success": "Matt! Mit dem dritten Angreifer war der König nicht mehr zu halten. Ein Turmschwenk bringt Türme blitzschnell zum König."
+    },
+    {
+     "type": "info",
+     "text": "Haben die Könige **entgegengesetzt rochiert**, ist der **Bauernsturm** die stärkste Waffe: g5 vertreibt den Springer f6, h5 und hxg6 reißen die h-Linie auf. Dein eigener König wird dabei nicht geschwächt – er steht ja auf der anderen Seite. Jetzt zählt jedes Tempo!",
+     "fen": "r4rk1/pp1bppbp/2np1np1/q7/3NP1PP/2N1BP2/PPPQ4/1K1R1B1R w - - 0 12",
+     "arrows": [
+      [
+       "g4",
+       "g5",
+       "g"
+      ],
+      [
+       "h4",
+       "h5",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Warum ist ein Bauernsturm riskant, wenn **beide** Könige auf derselben Seite stehen?",
+     "options": [
+      "Du reißt deinen eigenen Schutz mit ein",
+      "Bauern dürfen dann nur ein Feld ziehen",
+      "Der Gegner darf dann nicht mehr rochieren"
+     ],
+     "answer": 0,
+     "explain": "Die Bauern, die du nach vorn schickst, fehlen dann vor deinem eigenen König. Bei entgegengesetzter Rochade passiert das nicht."
+    },
+    {
+     "type": "line",
+     "text": "Der weiße h-Bauer ist schon bis h6 gestürmt. Jetzt reißt er die Stellung auf – Matt in 2!",
+     "fen": "5r1k/1p3pp1/p1pr1q1P/1n1p4/7Q/3BP3/5P1P/2RR2K1 w - - 0 31",
+     "moves": [
+      "h6g7",
+      "h8g7",
+      "h4h7"
+     ],
+     "hint": "Schlag mit dem Bauern – das öffnet gleichzeitig die h-Linie für die Dame.",
+     "success": "Matt! Der Bauer hat die Linie geöffnet, Dame und Läufer d3 haben zugeschlagen. Genau dafür stürmt man mit Bauern."
+    },
+    {
+     "type": "line",
+     "text": "Manchmal öffnet man Linien mit einem Opfer. Der Turm h3 steht schon bereit. Matt in 3!",
+     "fen": "r4r1k/2q2pp1/p1b1pN1p/4P2Q/2pP1n2/2P4R/1PB3PP/R5K1 w - - 4 27",
+     "moves": [
+      "h5h6",
+      "g7h6",
+      "h3h6",
+      "h8g7",
+      "h6h7"
+     ],
+     "hint": "Die Dame schlägt auf h6 – danach gehört die h-Linie deinem Turm.",
+     "success": "Matt! Das Damenopfer hat die h-Linie geöffnet. Turm h7, gedeckt vom Springer f6 – und Läufer c2 bewacht g6."
+    },
+    {
+     "type": "quiz",
+     "text": "Was ist vor einem Königsangriff am wichtigsten?",
+     "options": [
+      "Mehr Angreifer als Verteidiger",
+      "Möglichst früh mit der Dame allein los",
+      "Erst alle Bauern am Damenflügel ziehen"
+     ],
+     "answer": 0,
+     "explain": "Eine Dame allein richtet gegen einen gut verteidigten König wenig aus. Erst wenn mehr Figuren angreifen als verteidigen, bricht die Stellung."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Königsangriffe: Zähl Angreifer und Verteidiger – und reiß die Linien auf!",
+     "themes": [
+      "kingsideAttack"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Greif den König erst an, wenn **mehr Angreifer als Verteidiger** dort stehen – hol fehlende Figuren dazu, z. B. mit einem Turmschwenk. Bei entgegengesetzter Rochade: **Bauernsturm**. Und öffne Linien zum König – notfalls mit einem Opfer."
+    }
+   ]
+  },
+  {
+   "id": "strategy-outpost",
+   "unit": "strategy-advanced",
+   "title": "Vorposten für den Springer",
+   "subtitle": "Ein Feld, von dem dich kein Bauer mehr vertreibt.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein **Vorposten** ist ein Feld im gegnerischen Lager, das **kein gegnerischer Bauer mehr angreifen kann** – am besten gedeckt von einem eigenen Bauern.\nDer perfekte Bewohner ist ein Springer. Auf d5 kann ihn kein Bauer vertreiben, und von dort greift er tief ins schwarze Lager.",
+     "fen": "6k1/5ppp/3p4/3Np3/4P3/8/5PPP/6K1 w - - 0 1",
+     "marks": {
+      "d5": "g"
+     },
+     "arrows": [
+      [
+       "d5",
+       "c7",
+       "g"
+      ],
+      [
+       "d5",
+       "e7",
+       "g"
+      ],
+      [
+       "d5",
+       "f6",
+       "g"
+      ],
+      [
+       "d5",
+       "b6",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Welches Feld ist hier ein echter Vorposten für Weiß?",
+     "fen": "2r2rk1/3nbppp/p2p4/4p3/1p2P3/2N5/PPP1BPPP/3R1RK1 w - - 0 18",
+     "options": [
+      "d5",
+      "c5",
+      "f5"
+     ],
+     "answer": 0,
+     "explain": "Auf **d5** kann kein schwarzer Bauer mehr schlagen: Schwarz hat keinen c-Bauern, und der e-Bauer ist schon vorbei. c5 bewacht der Bauer d6, und f5 könnte …g6 angreifen."
+    },
+    {
+     "type": "move",
+     "text": "Der Bauer b4 greift deinen Springer an. Wohin mit ihm?",
+     "fen": "2r2rk1/3nbppp/p2p4/4p3/1p2P3/2N5/PPP1BPPP/3R1RK1 w - - 0 18",
+     "goal": "exact",
+     "solutions": [
+      "c3d5"
+     ],
+     "hint": "Denk an das Feld aus der letzten Frage.",
+     "success": "Sd5! Dort steht der Springer sicher, gedeckt von e4 – und kein Bauer kann ihn je vertreiben. Von d5 aus beherrscht er c7, e7, f6 und b6."
+    },
+    {
+     "type": "quiz",
+     "text": "Der weiße Springer steht auf dem Vorposten d5. Wie wird Schwarz ihn wieder los?",
+     "options": [
+      "Nur durch Abtausch gegen eine Figur",
+      "Mit …c6 oder …e6",
+      "Gar nicht – er bleibt für immer"
+     ],
+     "answer": 0,
+     "explain": "Kein Bauer kann d5 mehr angreifen – Schwarz muss eine Figur dafür hergeben. Darum ist es klug, die Figuren abzutauschen, die deinen Vorposten bekämpfen könnten."
+    },
+    {
+     "type": "line",
+     "text": "Dein Springer thront auf dem Vorposten d5 und droht ständig Gabeln. Schlag zu!",
+     "fen": "4k1r1/pp3pb1/2bpq2p/3N4/2r1P3/4BN2/PPP3Q1/2K3R1 w - - 4 23",
+     "moves": [
+      "d5c7",
+      "e8d7",
+      "c7e6",
+      "g7b2",
+      "c1b2"
+     ],
+     "hint": "Welches Springerschach greift zugleich die Dame e6 an?",
+     "success": "Gabel! Sc7+ greift König und Dame an – die Dame ist verloren. Vom Vorposten aus ist der Springer überall gefährlich."
+    },
+    {
+     "type": "line",
+     "text": "Dein Springer steht auf dem Vorposten c5, gedeckt von zwei Bauern. Aber er versperrt deinen Türmen die c-Linie. Spring mit Schach weg!",
+     "fen": "2r5/6k1/p1r1ppnp/1pNp4/1P1P2P1/P1R2P2/5K2/2R5 w - - 2 45",
+     "moves": [
+      "c5e6",
+      "c6e6",
+      "c3c8"
+     ],
+     "hint": "Welcher Springerzug gibt Schach? Danach ist die c-Linie frei.",
+     "success": "Sxe6+ öffnet die c-Linie mit Schach. Nach Txe6 schlägt Txc8 – du gewinnst einen Turm für den Springer."
+    },
+    {
+     "type": "drill",
+     "text": "Springer auf starken Feldern sind Gabel-Spezialisten. Finde in echten Rätseln die Gabel!",
+     "themes": [
+      "fork"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Such Felder im gegnerischen Lager, die **kein Bauer mehr angreifen kann** – das sind Vorposten. Stell einen Springer darauf, am besten gedeckt von einem Bauern. Und tausch die Figuren ab, die ihn von dort vertreiben könnten."
     }
    ]
   }

@@ -7,6 +7,14 @@
    "title": "Denken wie ein Profi",
    "description": "Blunder-Check und Kandidatenzüge: So stellst du nichts mehr ein – und findest die starken Züge.",
    "icon": "wK"
+  },
+  {
+   "id": "strategy-opening",
+   "track": "strategy",
+   "level": 1,
+   "title": "Eröffnung wie ein Profi",
+   "description": "Zentrum, Entwicklung, Rochade – und die Fallen, in die Anfänger tappen.",
+   "icon": "wB"
   }
  ],
  "lessons": [
@@ -19,7 +27,7 @@
    "steps": [
     {
      "type": "info",
-     "text": "Die meisten Partien bis 1500 entscheidet kein genialer Plan, sondern ein **eingestellter** Stein. Darum machen Profis vor **jedem** Zug den **Blunder-Check**:\n1. **Was will der Gegner** mit seinem letzten Zug?\n2. **Ist nach meinem Zug noch alles gedeckt?**\nHier hat Schwarz gerade mit Schach auf f3 geschlagen.",
+     "text": "Bis etwa 1500 Elo entscheidet meist kein genialer Plan die Partie, sondern ein **eingestellter** Stein. Profis machen deshalb vor **jedem** Zug den **Blunder-Check**:\n1. **Was will der Gegner** mit seinem letzten Zug?\n2. **Ist nach meinem Zug alles gedeckt?**\nHier: Schwarz hat mit Schach auf f3 geschlagen.",
      "fen": "4rrk1/pp1q1ppp/5b2/8/3NQ3/PB1P1n2/1P3PPP/RN2R1K1 w - - 1 20",
      "arrows": [
       [
@@ -247,7 +255,7 @@
     },
     {
      "type": "line",
-     "text": "Die Dame c6 greift deinen Turm d5 an, und der Turm b4 steht ungedeckt. Dxb4? Dxd5 wäre nur ein Tausch. Prüf erst die Schachgebote!",
+     "text": "Die Dame c6 greift deinen Turm d5 an, und der schwarze Turm b4 steht ungedeckt. Dxb4? Dxd5 wäre nur ein Tausch. Prüf erst die Schachgebote!",
      "fen": "6k1/1p3p2/p1q3pp/3R4/1r6/8/3Q1PP1/6K1 w - - 0 32",
      "moves": [
       "d5d8",
@@ -317,6 +325,432 @@
     {
      "type": "info",
      "text": "**Merke:** Kandidatenzüge immer in dieser Reihenfolge prüfen: **Schach – Schlagen – Drohung**. Und zwar für dich **und** für deinen Gegner – das ist dein Blunder-Check."
+    }
+   ]
+  },
+  {
+   "id": "strategy-center",
+   "unit": "strategy-opening",
+   "title": "Kampf ums Zentrum",
+   "subtitle": "Wer die Mitte beherrscht, hat Platz für alle Figuren.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Das **Zentrum** – d4, e4, d5, e5 – ist die Kommandozentrale des Bretts. Bauern dort nehmen dem Gegner Felder weg, und deine Figuren bekommen dahinter Platz. Hier hat Weiß mit c4, d4 und e4 viel Raum. Schwarz hat das zugelassen – und will das Zentrum später angreifen.",
+     "fen": "rnbq1rk1/ppp1ppbp/3p1np1/8/2PPP3/2N2N2/PP3PPP/R1BQKB1R w KQ - 2 6",
+     "marks": {
+      "d4": "y",
+      "e4": "y",
+      "d5": "y",
+      "e5": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat 1…h6?! gespielt – ein Zug, der nichts fürs Zentrum tut. Nutze das: Stell einen **zweiten Bauern** ins Zentrum!",
+     "fen": "rnbqkbnr/ppppppp1/7p/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+     "goal": "exact",
+     "solutions": [
+      "d2d4"
+     ],
+     "hint": "Welcher Bauer kann sich direkt neben deinen Bauern e4 stellen?",
+     "success": "Perfekt! e4 und d4 Seite an Seite – das **Traumzentrum**. Zusammen kontrollieren die beiden c5, d5, e5 und f5."
+    },
+    {
+     "type": "quiz",
+     "text": "Springer gehören Richtung Zentrum. Warum steht der Springer auf f3 besser als auf h3?",
+     "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+     "options": [
+      "Von f3 aus wirkt er auf die Zentrumsfelder d4 und e5",
+      "Auf h3 stünde er der Rochade im Weg",
+      "Springer dürfen gar nicht an den Rand"
+     ],
+     "answer": 0,
+     "explain": "Von f3 aus wirkt der Springer bis ins Zentrum. Auf h3 hätte er nur halb so viele Felder – „Springer am Rand bringt Kummer und Schand“.",
+     "arrows": [
+      [
+       "f3",
+       "d4",
+       "g"
+      ],
+      [
+       "f3",
+       "e5",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Schwarz greift deinen Bauern e4 mit dem Springer an. Antworte mit einem **Bauernzug**, der Raum gewinnt und den Springer verjagt!",
+     "fen": "rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 2",
+     "goal": "exact",
+     "solutions": [
+      "e4e5"
+     ],
+     "hint": "Zieh den angegriffenen Bauern einfach weiter – mit Angriff.",
+     "success": "Stark! e5 gewinnt Raum und **Tempo**: Der Springer muss weg, und deine Bauern rücken nach – etwa mit c4 und d4."
+    },
+    {
+     "type": "quiz",
+     "text": "Zurück zu dieser Stellung: Weiß hat mit c4, d4 und e4 viel Raum. Wie holt sich Schwarz seinen Anteil am Zentrum?",
+     "fen": "rnbq1rk1/ppp1ppbp/3p1np1/8/2PPP3/2N2N2/PP3PPP/R1BQKB1R w KQ - 2 6",
+     "options": [
+      "Mit Bauernhebeln wie …e5 oder …c5",
+      "Mit Randbauernzügen wie …a6 und …h6",
+      "Mit einem frühen Damenausflug"
+     ],
+     "answer": 0,
+     "explain": "Ein Bauernzentrum greift man mit Bauern an – mit sogenannten **Hebeln**. Nach …e5 oder …c5 muss Weiß sich entscheiden: tauschen, vorbeiziehen oder decken."
+    },
+    {
+     "type": "move",
+     "text": "Französisch: Weiß hat mit 3.e5 eine **Bauernkette** gebaut (d4–e5). Greif sie mit einem Bauern an – am besten an ihrer **Basis** d4!",
+     "fen": "rnbqkbnr/ppp2ppp/4p3/3pP3/3P4/8/PPP2PPP/RNBQKBNR b KQkq - 0 3",
+     "goal": "exact",
+     "solutions": [
+      "c7c5"
+     ],
+     "hint": "Welcher Bauer kann d4 angreifen?",
+     "success": "Genau! …c5 greift die Basis der Kette an. Fällt d4, verliert auch e5 seinen Halt. Das ist der typische Plan in Französisch."
+    },
+    {
+     "type": "move",
+     "text": "Ein Trick fürs Zentrum: Du hast mit 4…Sxe4 einen Bauern geschlagen, Weiß hat mit 5.Sxe4 deinen Springer genommen. Hol die Figur zurück – mit einem Bauernzug, der **zwei** Figuren angreift!",
+     "fen": "r1bqkb1r/pppp1ppp/2n5/4p3/2B1N3/5N2/PPPP1PPP/R1BQK2R b KQkq - 0 5",
+     "goal": "exact",
+     "solutions": [
+      "d7d5"
+     ],
+     "hint": "Ein Bauer im Zentrum kann gleichzeitig nach c4 und e4 schlagen.",
+     "success": "Gabel! d5 greift Läufer und Springer an – du bekommst die Figur zurück und hast dazu das Zentrum. Dieser **Gabeltrick** kommt oft vor."
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Besetze das Zentrum mit Bauern – e4 und d4 sind der Traum – und richte deine Figuren darauf aus. Hat der Gegner das Zentrum, greif es mit **Bauernhebeln** an. Überlass ihm die Mitte nie kampflos."
+    }
+   ]
+  },
+  {
+   "id": "strategy-develop",
+   "unit": "strategy-opening",
+   "title": "Entwickeln mit Tempo",
+   "subtitle": "Jeder Zug eine neue Figur – am besten mit Angriff.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein **Tempo** ist ein Zug Zeit. Entwickelst du eine Figur **mit Angriff**, muss der Gegner reagieren, statt seine eigenen Pläne zu verfolgen. Wie hier: 2.Sf3 bringt den Springer ins Spiel und greift e5 an. Besonders wirksam ist das gegen eine früh herausgezogene Dame.",
+     "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+     "arrows": [
+      [
+       "f3",
+       "e5",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat seine Dame schon im zweiten Zug nach d5 gebracht. Entwickle eine Figur **mit Tempo** – also so, dass sie die Dame angreift!",
+     "fen": "rnb1kbnr/ppp1pppp/8/3q4/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3",
+     "goal": "exact",
+     "solutions": [
+      "b1c3"
+     ],
+     "hint": "Welche Leichtfigur erreicht mit einem Zug ein Feld, von dem aus sie d5 angreift?",
+     "success": "Genau! Sc3 entwickelt und jagt die Dame. Schwarz muss schon wieder mit ihr ziehen – und du hast eine Figur mehr im Spiel."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt umgekehrt, du spielst Schwarz: Weiß hat mit der Dame auf d4 zurückgeschlagen. Entwickle eine Figur mit Tempo!",
+     "fen": "rnbqkbnr/pppp1ppp/8/8/3QP3/8/PPP2PPP/RNB1KBNR b KQkq - 0 3",
+     "goal": "exact",
+     "solutions": [
+      "b8c6"
+     ],
+     "hint": "Welcher Springer greift die Dame auf d4 an?",
+     "success": "Richtig! Sc6 entwickelt und greift die Dame an. Weiß muss sie erneut ziehen – das Tempo gehört dir."
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Figur solltest du in der Eröffnung **nicht** früh ins Spiel bringen?",
+     "options": [
+      "Die Dame",
+      "Die Springer",
+      "Die Läufer"
+     ],
+     "answer": 0,
+     "explain": "Die Dame ist zu wertvoll: Jede kleine Figur, die sie angreift, gewinnt ein Tempo – so wie eben Sc3 und Sc6. Erst Springer und Läufer, dann rochieren, dann die Dame."
+    },
+    {
+     "type": "quiz",
+     "text": "Die schwarze Dame hat gerade den Bauern b2 gefressen und steht ganz allein im weißen Lager. Was bedeutet das?",
+     "fen": "rnb1k2r/pp3ppp/2p1pn2/3p4/3P4/P1NBP1P1/1qP2PP1/R2QK1NR w KQkq - 0 9",
+     "options": [
+      "Sie kann leicht eingesperrt werden",
+      "Sie holt sich bestimmt noch mehr Bauern",
+      "Nichts – eine Dame ist schwer zu fangen"
+     ],
+     "answer": 0,
+     "explain": "Ohne Hilfe ihrer Figuren wird eine Dame im gegnerischen Lager schnell zur Zielscheibe. Jeder Angriff auf sie ist ein Tempo – und manchmal hat sie gar kein Feld mehr.",
+     "marks": {
+      "b2": "r"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Zeig es! Fang die gierige Dame mit einem einzigen Zug.",
+     "fen": "rnb1k2r/pp3ppp/2p1pn2/3p4/3P4/P1NBP1P1/1qP2PP1/R2QK1NR w KQkq - 0 9",
+     "moves": [
+      "c3a4",
+      "b2a1",
+      "d1a1"
+     ],
+     "hint": "Greif die Dame mit einem Springer an – und prüf, ob sie danach noch ein sicheres Feld hat.",
+     "success": "Gefangen! Nach Sa4 findet die Dame kein Feld mehr und muss sich für einen Turm hergeben. Gierige Damen leben gefährlich."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Eröffnungsrätsel: Wer in der Entwicklung zurückliegt, wird oft bestraft. Finde den besten Zug!",
+     "themes": [
+      "opening"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Jeder Eröffnungszug soll eine **neue** Figur ins Spiel bringen – am besten mit Angriff (**Tempo**). Zieh nicht zweimal mit derselben Figur, und lass die Dame zu Hause, bis Springer und Läufer draußen sind."
+    }
+   ]
+  },
+  {
+   "id": "strategy-castle",
+   "unit": "strategy-opening",
+   "title": "König in Sicherheit",
+   "subtitle": "Rochier früh – und lass die Bauern vor dem König stehen.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Nach der **Rochade** steht dein König hinter einer Bauernmauer, und der Turm kommt Richtung Mitte. Zwei Faustregeln:\n1. **Rochier früh** – meist in den ersten zehn Zügen.\n2. **Lass die Bauern vor dem König stehen**, solange es geht.",
+     "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQ1RK1 w - - 2 7",
+     "marks": {
+      "f2": "g",
+      "g2": "g",
+      "h2": "g",
+      "g1": "g"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Die Dame e5 fesselt deinen Springer e4 an den König – gleich droht …f5. Löse die Fesselung mit dem wichtigsten Sicherheitszug der Eröffnung!",
+     "fen": "rn2kb1r/pb1p1ppp/1ppP4/4q3/4N3/5B2/PP3PPP/R1BQK2R w KQkq - 2 14",
+     "goal": "castle",
+     "hint": "Verlässt der König die e-Linie, ist der Springer nicht mehr gefesselt.",
+     "success": "0-0! König in Sicherheit, Fesselung weg – und dein Turm steht auf f1. Jetzt ist es der schwarze König, der in der Mitte festsitzt."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum solltest du die Bauern vor deinem rochierten König möglichst nicht ziehen?",
+     "options": [
+      "Es entstehen Löcher und offene Linien zum König",
+      "Nach der Rochade dürfen sie nicht mehr ziehen",
+      "Sonst kann der Turm nicht mehr mitspielen"
+     ],
+     "answer": 0,
+     "explain": "Bauern können nicht zurück: Jeder Schritt nach vorn hinterlässt Felder, die kein Bauer mehr deckt. Genau dort dringen gegnerische Figuren ein."
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat gleich zwei Bauern vor seinem König gezogen (f6 und g5). Bestrafe das – Matt in einem Zug!",
+     "fen": "rnbqkbnr/ppppp2p/5p2/6p1/4P3/7P/PPPP1PP1/RNBQKBNR w KQkq - 0 3",
+     "goal": "mate",
+     "hint": "Die Diagonale von h5 nach e8 ist jetzt offen.",
+     "success": "Matt! Dh5# – kein Bauer kann mehr dazwischenziehen. Das ist das Muster des **Narrenmatts**."
+    },
+    {
+     "type": "line",
+     "text": "Schwarz hat 2…f6? gespielt. Weiß hat auf e5 einen Springer geopfert, und Schwarz hat ihn genommen. Zeig, warum f6 ein Fehler war!",
+     "fen": "rnbqkbnr/pppp2pp/8/4p3/4P3/8/PPPP1PPP/RNBQKB1R w KQkq - 0 4",
+     "moves": [
+      "d1h5",
+      "g7g6",
+      "h5e5",
+      "d8e7",
+      "e5h8"
+     ],
+     "hint": "Ein Damenschach auf der offenen Diagonale – und danach eine Gabel.",
+     "success": "Stark! Erst Dh5+, dann gabelt Dxe5+ König und Turm h8. Der Turm ist weg – alles wegen eines Bauernzugs vor dem König."
+    },
+    {
+     "type": "quiz",
+     "text": "Wann rochierst du am besten?",
+     "options": [
+      "Früh – sobald Springer und Läufer draußen sind",
+      "Erst, wenn der Gegner angreift",
+      "Gar nicht – der König soll mitkämpfen"
+     ],
+     "answer": 0,
+     "explain": "Wer wartet, bis der Angriff da ist, ist oft zu spät. Rochier früh – erst im Endspiel wird der König zur kämpfenden Figur."
+    },
+    {
+     "type": "line",
+     "text": "Der schwarze König steht noch in der Mitte, und deine Dame und dein Läufer zielen schon auf e8. Bestrafe das – Matt in 2!",
+     "fen": "r3kb1r/p1q2ppp/2p1p3/1B1p2B1/Q2Pb3/8/PP3P1P/R3K1R1 w Qkq - 0 14",
+     "moves": [
+      "b5c6",
+      "c7c6",
+      "a4c6"
+     ],
+     "hint": "Schlag auf c6 mit Schach – dann ist die Diagonale zum König nicht mehr zu halten.",
+     "success": "Matt! Der König in der Mitte konnte weder fliehen noch sich verstecken. Genau dafür ist die Rochade da."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Rätsel: Ein ungeschützter König ist ein Ziel. Finde den Weg hinein!",
+     "themes": [
+      "exposedKing"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Rochier früh – meist in den ersten zehn Zügen. Lass danach die Bauern vor dem König stehen: Jeder Bauernzug dort reißt Löcher. Steht der **gegnerische** König noch in der Mitte – Linien öffnen und angreifen!"
+    }
+   ]
+  },
+  {
+   "id": "strategy-traps",
+   "unit": "strategy-opening",
+   "title": "Eröffnungsfallen erkennen",
+   "subtitle": "Stell sie selbst – und tapp nie selbst hinein.",
+   "minutes": 8,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die meisten Eröffnungsfallen zielen auf **f7** (bei Weiß: f2) – am Anfang deckt nur der König dieses Feld. Dazu kommt **Gier**: Wer ohne Blunder-Check Material schnappt, läuft ins Messer. Hier hat Schwarz deinen Springer an die Dame gefesselt.",
+     "fen": "rn1qkbnr/ppp2p1p/3p2p1/4p3/2B1P1b1/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 0 5",
+     "arrows": [
+      [
+       "c4",
+       "f7",
+       "r"
+      ],
+      [
+       "g4",
+       "d1",
+       "y"
+      ]
+     ],
+     "marks": {
+      "f7": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Ignoriere die Fesselung und schlag auf e5! Wenn Schwarz jetzt gierig die Dame nimmt, wartet eine Überraschung.",
+     "fen": "rn1qkbnr/ppp2p1p/3p2p1/4p3/2B1P1b1/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 0 5",
+     "goal": "exact",
+     "solutions": [
+      "f3e5"
+     ],
+     "hint": "Dein Springer f3 darf trotz Fesselung ziehen – dahinter steht ja nur die Dame, nicht der König.",
+     "success": "Mutig! Nach 5…dxe5 6.Dxg4 hast du einfach einen Bauern mehr. Und wenn Schwarz die Dame nimmt …"
+    },
+    {
+     "type": "line",
+     "text": "… genau das ist passiert: 5…Lxd1? Jetzt kommt das berühmte **Seekadettenmatt** – Matt in 2!",
+     "fen": "rn1qkbnr/ppp2p1p/3p2p1/4N3/2B1P3/2N5/PPPP1PPP/R1BbK2R w KQkq - 0 6",
+     "moves": [
+      "c4f7",
+      "e8e7",
+      "c3d5"
+     ],
+     "hint": "Schach auf f7 – danach hat der König nur noch ein Feld. Welcher Springer setzt dort matt?",
+     "success": "Matt mit drei kleinen Figuren gegen die Dame! Das ist die Legal-Falle von 1750 – und sie funktioniert bis heute."
+    },
+    {
+     "type": "quiz",
+     "text": "Andere Partie: Schwarz hat 3…Sd4 gespielt, der Bauer e5 ist ungedeckt. Welcher Zug ist am besten?",
+     "fen": "r1bqkbnr/pppp1ppp/8/4p3/2BnP3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+     "options": [
+      "4.Sxd4 – den frechen Springer abtauschen",
+      "4.Sxe5 – der Bauer ist gratis",
+      "4.Lxf7+ – sofort auf f7 los"
+     ],
+     "answer": 0,
+     "explain": "Nach **4.Sxe5?** kommt **4…Dg5!** mit Angriff auf e5 und g2. 4.Lxf7+? Kxf7 5.Sxe5+ bringt nur zwei Bauern für den Läufer. Nach 4.Sxd4 exd4 stehst du gut."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz – und Weiß hat mit 4.Sxe5? den Köder geschluckt. Antworte mit einem **Damenzug**, der zwei Dinge gleichzeitig angreift!",
+     "fen": "r1bqkbnr/pppp1ppp/8/4N3/2BnP3/8/PPPP1PPP/RNBQK2R b KQkq - 0 4",
+     "goal": "exact",
+     "solutions": [
+      "d8g5"
+     ],
+     "hint": "Deine Dame erreicht ein Feld, von dem aus sie den Springer e5 und den Bauern g2 angreift.",
+     "success": "Genau! Dg5 greift den Springer e5 und g2 an. Weiß muss jetzt sehr genau spielen – gierige Spieler machen weiter …"
+    },
+    {
+     "type": "line",
+     "text": "… wie hier: 5.Sxf7? gabelt Dame und Turm. Ignorier die Gabel – dein Angriff geht bis zum Matt!",
+     "fen": "r1b1kbnr/pppp1Npp/8/6q1/2BnP3/8/PPPP1PPP/RNBQK2R b KQkq - 0 5",
+     "moves": [
+      "g5g2",
+      "h1f1",
+      "g2e4",
+      "c4e2",
+      "d4f3"
+     ],
+     "hint": "Erst g2 schlagen, dann Schach auf e4 – zum Schluss setzt ein Springer matt.",
+     "success": "Matt durch Sf3#! Weiß hat zweimal gierig geschlagen und nie gefragt: Was will der Gegner?"
+    },
+    {
+     "type": "quiz",
+     "text": "Damengambit: Der Springer f6 ist an die Dame gefesselt. Gewinnt 6.Sxd5 jetzt einfach einen Bauern?",
+     "fen": "r1bqkb1r/pppn1ppp/5n2/3p2B1/3P4/2N5/PP2PPPP/R2QKBNR w KQkq - 0 6",
+     "options": [
+      "Nein – nach 6…Sxd5! verliert Weiß eine Figur",
+      "Ja, der gefesselte Springer darf nicht ziehen",
+      "Ja, und Weiß steht danach klar besser"
+     ],
+     "answer": 0,
+     "explain": "Die Fesselung ist nicht absolut: 6…Sxd5! 7.Lxd8 Lb4+ 8.Dd2 Lxd2+ 9.Kxd2 Kxd8 – Schwarz hat eine Figur gegen einen Bauern gewonnen. Das ist die **Elefantenfalle**.",
+     "arrows": [
+      [
+       "g5",
+       "d8",
+       "y"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Jetzt bist du Schwarz, und Weiß ist mit 6.Sxd5? in die Falle getappt. Lass die **Elefantenfalle** zuschnappen!",
+     "fen": "r1bqkb1r/pppn1ppp/5n2/3N2B1/3P4/8/PP2PPPP/R2QKBNR b KQkq - 0 6",
+     "moves": [
+      "f6d5",
+      "g5d8",
+      "f8b4"
+     ],
+     "hint": "Nimm den Springer – auch wenn deine Dame dann hängt. Danach rettet dich ein Läuferschach.",
+     "success": "Zugeschnappt! Nach 8.Dd2 ist die weiße Dame gefesselt, und du holst dir Dame und Läufer zurück – unterm Strich eine Figur für einen Bauern."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Fallen aus echten Partien: Finde den Zug, der zuschnappt!",
+     "themes": [
+      "opening",
+      "attackingF2F7"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Fallen leben von Gier und von schwachen Punkten wie f7. Bevor du in der Eröffnung Material schnappst, frag: **Warum lässt mein Gegner das zu?** Und stell selbst nur Fallen, deren Züge auch ohne Fehler des Gegners gut sind."
     }
    ]
   }

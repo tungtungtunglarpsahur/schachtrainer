@@ -49,6 +49,8 @@ function Setup({ s }) {
       </div>
     </section>
 
+    ${s.profile.level === 0 &&
+    html`<a class="banner resume" href="#/learn"><${Icon} name="bulb" /> <span><b>Tipp:</b> Lern zuerst im Lernpfad die Regeln – danach bringt der Intensiv-Plan am meisten.</span></a>`}
     <section class="card int-setup">
       <div class="int-field">
         <span class="int-label">Wie viele Tage hast du?</span>

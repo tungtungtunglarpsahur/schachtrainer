@@ -500,6 +500,128 @@
      "text": "**Merke:** Drei gegen drei? Der **mittlere** Bauer bricht zuerst durch, danach opferst du statt zurückzuschlagen. Und steht etwas im Weg: Lenk den Wächter ab, räum das Feld mit Schach – und denk auch an den Springer."
     }
    ]
+  },
+  {
+   "id": "tactics-combo-mix",
+   "unit": "tactics-combos",
+   "title": "Alles zusammen: Kombinationen erkennen",
+   "subtitle": "Opfer plus Taktik: Wenn mehrere Motive zusammenarbeiten.",
+   "minutes": 8,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine **Kombination** verbindet mehrere Motive zu einer erzwungenen Folge – oft mit Opfer.\nHier lockt **Dxh8+!** den König nach h8 (**Hinlenkung**), dann gabelt **Sf7+** König und Dame. Am Ende ist die Dame zurück, und du stehst klar auf Gewinn.",
+     "fen": "7r/pp4k1/3q2p1/3p1bN1/3p4/1P1Br3/P1P5/1K1R3Q w - - 2 28",
+     "arrows": [
+      [
+       "h1",
+       "h8",
+       "g"
+      ],
+      [
+       "g5",
+       "f7",
+       "y"
+      ]
+     ],
+     "marks": {
+      "h8": "r",
+      "d6": "r"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Gleiches Muster, andere Figuren: Lock eine schwarze Figur auf ein Gabelfeld!",
+     "fen": "2r5/p1nR1pk1/5Np1/4P2p/1P3P2/P7/2b3PP/6K1 w - - 6 32",
+     "moves": [
+      "d7c7",
+      "c8c7",
+      "f6e8",
+      "g7f8",
+      "e8c7"
+     ],
+     "hint": "Nach welchem Schlagzug steht ein schwarzer Turm dort, wo dein Springer mit Schach zuschlagen kann?",
+     "success": "Txc7! Txc7 Se8+ und Sxc7 – Hinlenkung plus Gabel. Unterm Strich hast du eine Figur gewonnen."
+    },
+    {
+     "type": "line",
+     "text": "Matt in 2! Schwarz hat die Grundreihe nur mit dem Turm f8 geschützt. Wie bringst du ihn aus dem Spiel?",
+     "fen": "1b3rk1/pp3ppp/8/3Q4/2B3P1/1PP4q/P4P2/4R1K1 w - - 0 27",
+     "moves": [
+      "d5f7",
+      "f8f7",
+      "e1e8"
+     ],
+     "hint": "Prüf alle Schachs – auch das verrückteste. Was passiert, wenn der Turm auf f7 schlagen muss?",
+     "success": "Dxf7+! Txf7 Te8# – ein Damenopfer für ein Matt."
+    },
+    {
+     "type": "quiz",
+     "text": "Nach Dxf7+ Txf7 ist **Te8** Matt. Warum kann Schwarz nicht einfach Tf8 dazwischenziehen?",
+     "fen": "1b4k1/pp3rpp/8/8/2B3P1/1PP4q/P4P2/4R1K1 w - - 0 28",
+     "options": [
+      "Der Turm f7 ist an den König gefesselt",
+      "Der Turm f7 darf nur nach vorne ziehen",
+      "Tf8 wäre Patt"
+     ],
+     "answer": 0,
+     "explain": "Der Läufer c4 fesselt den Turm f7 an den König g8. Dxf7+ hat ihn genau auf diese Diagonale gelockt. **Hinlenkung + Fesselung + Grundreihe** – drei Motive, ein Matt."
+    },
+    {
+     "type": "line",
+     "text": "Matt in 3 – eine der berühmtesten Kombinationen! Dein Springer f7 und deine Dame e6 arbeiten zusammen, der schwarze König hat kaum Luft.",
+     "fen": "5rk1/4pNbp/p2pQ1p1/1p6/5p2/3n2P1/4R1KP/3q4 w - - 4 38",
+     "moves": [
+      "f7h6",
+      "g8h8",
+      "e6g8",
+      "f8g8",
+      "h6f7"
+     ],
+     "hint": "Starte mit einem Doppelschach. Danach opferst du die Dame auf einem Feld, auf dem nur der Turm schlagen kann.",
+     "success": "Sh6+ Kh8 Dg8+! Txg8 Sf7# – Doppelschach, Damenopfer, **ersticktes Matt**. Der König wird von den eigenen Figuren eingemauert."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der weiße König steht noch in der Mitte, der Turm a1 hängt in der Luft. Öffne deiner Dame den Weg – auch wenn es etwas kostet!",
+     "fen": "2r3k1/5rbp/4p1p1/1p3pPP/3PpP2/PqP1B2R/1P5Q/R3K3 b Q - 2 31",
+     "moves": [
+      "c8c3",
+      "b2c3",
+      "b3c3",
+      "h2d2",
+      "c3a1"
+     ],
+     "hint": "Schlag auf c3. Nimmt Weiß zurück, kommt deine Dame mit Schach herein.",
+     "success": "Txc3! bxc3 Dxc3+ Dd2 Dxa1+ – Qualitätsopfer, Schach, Gabel. Der Turm ist zurück, du hast einen Bauern mehr und der weiße König steht im Freien."
+    },
+    {
+     "type": "line",
+     "text": "Matt in 3! Der Turm c8 ist der einzige Wächter der schwarzen Grundreihe. Wie wirst du ihn los?",
+     "fen": "2r4k/1b1R1pr1/pp2pNp1/4Pn1p/5P1q/8/PPQ3PP/4R1K1 w - - 5 26",
+     "moves": [
+      "c2c8",
+      "b7c8",
+      "d7d8",
+      "g7g8",
+      "d8g8"
+     ],
+     "hint": "Schlag den Wächter – auch wenn es deine Dame kostet. Danach rollt dein Turm über die Grundreihe.",
+     "success": "Dxc8+! Lxc8 Td8+ Tg8 Txg8# – Wächter beseitigt, Grundreihe geknackt, der Springer f6 deckt g8 und h7."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Opfer-Kombinationen auf deinem Niveau. Prüf zuerst alle Schachs und Schlagzüge – auch die verrückten.",
+     "themes": [
+      "sacrifice"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Kombinationen fallen nicht vom Himmel. Prüf bei jedem Zug zuerst **Schachs, Schlagzüge und Drohungen** – auch Opfer. Frag dich: Welches Motiv öffnet das nächste? Hinlenkung, Ablenkung und Räumung bereiten Gabel, Fesselung und Matt vor."
+    }
+   ]
   }
  ]
 }

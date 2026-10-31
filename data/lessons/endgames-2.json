@@ -205,7 +205,7 @@
      "text": "Jetzt gegen die Engine: die Lucena-Stellung von vorhin. Treib den König weg, Turm auf die 4. Reihe, König raus – und bring den Bauern durch!",
      "fen": "3K4/3P1k2/8/8/8/8/2r5/4R3 w - - 0 1",
      "goal": "promote",
-     "maxMoves": 20
+     "maxMoves": 24
     },
     {
      "type": "line",
@@ -232,6 +232,115 @@
     {
      "type": "info",
      "text": "**Merke:** Lucena gewinnst du in drei Schritten: König mit Schach weiter wegtreiben, Turm auf die **4. Reihe**, König raus. Kommen Schachs, blockt der Turm – die Brücke ist gebaut."
+    }
+   ]
+  },
+  {
+   "id": "end-philidor",
+   "unit": "end-rooks",
+   "title": "Philidor: Remis halten",
+   "subtitle": "Turm gegen Turm und Bauer – so rettest du dich.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Du hast einen Bauern weniger – aber das ist Remis! Die **Philidor-Verteidigung**: Dein König steht **vor** dem Bauern, dein Turm auf der **3. Reihe**.\nSo kommt der schwarze König nicht nach vorn. Und ohne ihn kommt auch der Bauer nicht weiter.",
+     "fen": "8/8/8/8/4pk2/R7/7r/4K3 w - - 0 1",
+     "arrows": [
+      [
+       "a3",
+       "h3",
+       "g"
+      ]
+     ],
+     "marks": {
+      "e3": "r",
+      "f3": "r",
+      "g3": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Warum steht dein Turm auf der 3. Reihe so gut?",
+     "fen": "8/8/8/8/4pk2/R7/7r/4K3 w - - 0 1",
+     "options": [
+      "Er sperrt den schwarzen König aus",
+      "Er greift den Bauern e4 an",
+      "Er wartet auf einen Turmtausch"
+     ],
+     "answer": 0,
+     "explain": "Käme der König auf die 3. Reihe, drohten Matt und Bauernvormarsch zugleich. Dein Turm hält ihn fern."
+    },
+    {
+     "type": "move",
+     "text": "Typischer Fehler: Dein Turm klebt passiv auf der Grundreihe. Dort stört er deinen König und ist anfällig für Th1+. Raus mit ihm!",
+     "fen": "8/8/8/8/3kp3/8/7r/R3K3 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "a1a3",
+      "a1a4",
+      "a1a5",
+      "a1a6",
+      "a1a7",
+      "a1a8"
+     ],
+     "hint": "Auf der Grundreihe droht ein Spieß: Th1+ und dann Txa1. Zieh den Turm die a-Linie hoch.",
+     "success": "Richtig – Hauptsache raus aus der Passivität! Am klarsten ist Ta3: die Philidor-Stellung."
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat **e3** gezogen. Jetzt kann sich sein König nicht mehr vor dem Bauern verstecken. Bring deinen Turm **ans andere Ende** – für Schachs von hinten!",
+     "fen": "8/8/8/8/5k2/R3p3/7r/4K3 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "a3a8",
+      "a3a7",
+      "a3a6",
+      "a3a5"
+     ],
+     "hint": "Bleib auf der a-Linie, aber geh weit weg vom schwarzen König.",
+     "success": "Genau! Aus der Ferne kann dein Turm den König jetzt pausenlos von hinten jagen."
+    },
+    {
+     "type": "move",
+     "text": "Nach 1. Ta8 Kf3 droht Schwarz **Th1#**. Was jetzt?",
+     "fen": "R7/8/8/8/8/4pk2/7r/4K3 w - - 2 2",
+     "goal": "exact",
+     "solutions": [
+      "a8f8"
+     ],
+     "hint": "Der König hat keine Deckung mehr – greif ihn von hinten an.",
+     "success": "Schach von hinten! Weicht der König aus, folgt das nächste. Ohne Deckung kommt er nicht weiter – Remis."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum helfen Schachs von hinten erst, wenn der Bauer auf der 3. Reihe steht?",
+     "options": [
+      "Vorher versteckt sich der König vor dem Bauern",
+      "Vorher ist der Turm zu langsam",
+      "Vorher sind sie nicht erlaubt"
+     ],
+     "answer": 0,
+     "explain": "Steht der Bauer auf e4, geht der König einfach nach e3 – der Bauer schirmt ihn ab. Nach e3 ist dieses Versteck weg."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine – halte 10 Züge lang! König vor den Bauern, Turm auf die 3. Reihe. Kommt e3 oder wird dein Turm vertrieben: ab ans andere Ende und Schach von hinten.",
+     "fen": "8/8/8/8/4pk2/R7/7r/4K3 w - - 0 1",
+     "goal": "hold",
+     "maxMoves": 10
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Turmendspiel-Rätsel. Achte auf aktive Türme und Schachs von hinten!",
+     "themes": [
+      "rookEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Philidor: König vor den Bauern, Turm auf die **3. Reihe**. Erst wenn der Bauer auf die 3. Reihe zieht, geht der Turm ans andere Ende und gibt Schach von hinten."
     }
    ]
   }

@@ -1,7 +1,7 @@
 // Startseite: Tagesplan, Fortschritt und Schnellstart-Kacheln.
 import { html } from '../../vendor/preact-htm.js';
 import { useStore, todayView, streakNow, rankFor, saveSoon, eloOf, update } from '../lib/store.js';
-import { useContent, TRACKS, THEME_GROUPS, themeName } from '../lib/content.js';
+import { useContent, THEME_GROUPS } from '../lib/content.js';
 import { todayPlan, taskProgress, buildPath, nextLessons } from '../lib/progress.js';
 import { Icon, Ring, Bar, PieceIcon, Spinner } from '../ui/kit.js';
 import { dueMistakes } from '../lib/mistakes.js';

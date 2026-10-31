@@ -78,6 +78,7 @@ export function Board({
   onTap = null, // (sq) => … – Tippen auf ein Feld statt Ziehen (z. B. Sehtraining)
   hideCoords = false,
   snapBack = false, // gezogene Figur springt nach dem Zug zurück (Stellung bleibt, z. B. „Alle Schachgebote“)
+  promoChoice = false, // Umwandlung immer selbst wählen (Aufgaben mit Unterverwandlung), auch bei „automatisch Dame“
   className = '',
 }) {
   const s = useStore();
@@ -200,7 +201,7 @@ export function Board({
     const p = pieces[from];
     const last = to[1] === '8' || to[1] === '1';
     if (!noPromotion && p && p[1] === 'P' && last && chess) {
-      if (autoQueen) onMove({ from, to, promotion: 'q' });
+      if (autoQueen && !promoChoice) onMove({ from, to, promotion: 'q' });
       else setPromo({ from, to, color: p[0], fen });
       return;
     }

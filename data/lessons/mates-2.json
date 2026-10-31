@@ -90,26 +90,26 @@
     },
     {
      "type": "line",
-     "text": "Jetzt das Meisterstück: **Philidors Vermächtnis**. Doppelschach, Damenopfer, ersticktes Matt. Die Dame b3 zielt schon auf g8 – setz in 3 Zügen matt!",
-     "fen": "1r3rk1/pb3Npp/1p6/2p2p2/4pq2/PQ6/1P3PPP/4RRK1 w - - 2 24",
+     "text": "Jetzt das Meisterstück: **Philidors Vermächtnis**. Doppelschach, Damenopfer, ersticktes Matt. Die Dame c4 zielt schon auf g8 – setz in 3 Zügen matt!",
+     "fen": "r1b2rk1/ppqn1Npp/2p2p2/8/2QPpP2/1P2P3/P1P3PP/R4RK1 w - - 4 19",
      "moves": [
       "f7h6",
       "g8h8",
-      "b3g8",
+      "c4g8",
       "f8g8",
       "h6f7"
      ],
-     "hint": "Zieh den Springer so, dass er Schach gibt **und** der Dame b3 den Weg nach g8 freimacht.",
+     "hint": "Zieh den Springer so, dass er Schach gibt **und** der Dame c4 den Weg nach g8 freimacht.",
      "success": "**Sh6+ Kh8 Dg8+! Txg8 Sf7#** – das Doppelschach treibt den König in die Ecke, das Opfer stellt g8 zu."
     },
     {
      "type": "quiz",
      "text": "So sieht das Ende aus. Warum war das Damenopfer auf g8 nötig?",
-     "fen": "1r4rk/pb3Npp/1p6/2p2p2/4pq2/P7/1P3PPP/4RRK1 b - - 1 26",
+     "fen": "r1b3rk/ppqn1Npp/2p2p2/8/3PpP2/1P2P3/P1P3PP/R4RK1 b - - 1 21",
      "options": [
       "Sonst wäre g8 nach Sf7+ ein Fluchtfeld",
       "Um die schwarze Dame abzulenken",
-      "Weil die Dame b3 angegriffen war"
+      "Weil die Dame c4 angegriffen war"
      ],
      "answer": 0,
      "explain": "Springt der Springer nach f7, versperrt er der Dame die Diagonale – g8 wäre frei. Darum zuerst Dg8+: Der Turm schlägt und mauert seinen König selbst ein."
@@ -618,7 +618,7 @@
       "c6e8"
      ],
      "hint": "Der Turm g8 bewacht die Grundreihe. Was passiert, wenn der König ihn schlagen muss?",
-     "success": "**Txg8+! Kxg8 De8#** – der König wird auf g8 gelockt. Die Dame deckt dort den Turm f7, der Turm sperrt die 7. Reihe."
+     "success": "**Txg8+! Kxg8 De8#** – der König wird nach g8 gelockt. Die Dame e8 deckt den Turm f7, und der Turm sperrt die 7. Reihe."
     },
     {
      "type": "drill",
@@ -858,6 +858,136 @@
     {
      "type": "info",
      "text": "**Merke:** Führt kein Schach zum Matt, such einen **stillen Zug** mit unaufhaltsamer Drohung. Frag dich: Was würde ich spielen, wenn ich zweimal ziehen dürfte? Dann prüf jede Verteidigung des Gegners."
+    }
+   ]
+  },
+  {
+   "id": "mates-in-3",
+   "unit": "mates-in-2",
+   "title": "Matt in 3: weiter rechnen",
+   "subtitle": "Drei Züge tief – mit System statt Glück.",
+   "minutes": 8,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Matt in 3 rechnest du wie einen Baum: dein Zug, **alle** Antworten, dein nächster Zug.\nHier hilft Zählen: Dame und zwei Türme stehen hintereinander auf der h-Linie, dazu zielt der Springer f6 auf h7. Zurückschlagen können nur Springer f8 und Turm f7.",
+     "fen": "5n1k/2p2r1n/p1qp1Nr1/4p3/4Pp2/5P1Q/PP5R/1K5R w - - 0 33",
+     "arrows": [
+      [
+       "h3",
+       "h7",
+       "g"
+      ],
+      [
+       "f6",
+       "h7",
+       "g"
+      ],
+      [
+       "f8",
+       "h7",
+       "r"
+      ],
+      [
+       "f7",
+       "h7",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Vier Angreifer gegen zwei Verteidiger: Schlag so lange auf h7, bis keiner mehr zurückschlagen kann. Matt in 3!",
+     "fen": "5n1k/2p2r1n/p1qp1Nr1/4p3/4Pp2/5P1Q/PP5R/1K5R w - - 0 33",
+     "moves": [
+      "h3h7",
+      "f8h7",
+      "h2h7",
+      "f7h7",
+      "h1h7"
+     ],
+     "hint": "Fang mit der Figur an, die vorne in der Reihe steht – mit Schach.",
+     "success": "**Dxh7+! Sxh7 Txh7+ Txh7 Txh7#** – drei Schläge auf h7. Am Ende deckt der Springer f6 den letzten Turm."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß plant **Te8+** (Pfeil). Wie kann Schwarz darauf antworten?",
+     "fen": "7k/2q2pr1/p2b1N2/1p1p3p/8/P1p4P/1P2RPP1/4R1K1 w - - 0 33",
+     "arrows": [
+      [
+       "e2",
+       "e8",
+       "y"
+      ]
+     ],
+     "options": [
+      "Mit Lf8 oder Tg8",
+      "Mit Df8 oder Tg8",
+      "Mit Lf8 oder Kh7"
+     ],
+     "answer": 0,
+     "explain": "Der König hat kein Feld: Der Springer f6 bewacht g8 und h7. Also bleiben **Lf8** und **Tg8**. Erst wenn du gegen beide eine Antwort hast, ist Te8+ sicher."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt rechne es ganz durch: Te8+ – und dann? Matt in 3!",
+     "fen": "7k/2q2pr1/p2b1N2/1p1p3p/8/P1p4P/1P2RPP1/4R1K1 w - - 0 33",
+     "moves": [
+      "e2e8",
+      "d6f8",
+      "e8f8",
+      "g7g8",
+      "f8g8"
+     ],
+     "hint": "Nach Lf8 bringt dich ein Schlagzug mit Schach weiter.",
+     "success": "**Te8+ Lf8 Txf8+ Tg8 Txg8#**. Nach Tg8 statt Lf8 wäre sofort Txg8# gekommen – du hattest für beide Antworten einen Plan."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Ein Turmopfer, dann jagt die Dame den König – und am Ende wartet ein Mattbild, das du schon kennst. Matt in 3!",
+     "fen": "r1bq2k1/1p4pp/p2p4/3Np3/2P1P2r/8/PP2QP1P/R5RK b - - 5 20",
+     "moves": [
+      "h4h2",
+      "h1h2",
+      "d8h4",
+      "h2g2",
+      "h4h3"
+     ],
+     "hint": "Der Bauer h2 ist der letzte Schutz des Königs. Was passiert, wenn er verschwindet?",
+     "success": "**Txh2+! Kxh2 Dh4+ Kg2 Dh3#** – der Schwalbenschwanz: Turm g1 und Bauer f2 sperren, der Läufer c8 deckt die Dame."
+    },
+    {
+     "type": "line",
+     "text": "Zwei Opfer, dann Matt. Rechne alle drei Züge durch, bevor du loslegst – Matt in 3!",
+     "fen": "r6k/2p1qrp1/2p2NRp/4p3/3b2Q1/1P1P3P/P4P2/1K4R1 w - - 10 28",
+     "moves": [
+      "g6h6",
+      "g7h6",
+      "g4g8",
+      "a8g8",
+      "g1g8"
+     ],
+     "hint": "Der Bauer g7 versperrt die g-Linie. Wie öffnest du sie – mit Schach?",
+     "success": "**Txh6+! gxh6 Dg8+! Txg8 Txg8#** – das erste Opfer öffnet die g-Linie, das zweite lockt den Turm a8 weg. Der Springer f6 deckt g8 und h7."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt ohne Netz: Die Engine verteidigt sich bestmöglich. Setz in höchstens 10 Zügen matt – am schnellsten geht es in 3!",
+     "fen": "r2q3k/1b2npr1/p3pN1p/1pp1PnPQ/3p1P2/2PP3R/PP5P/R1B3K1 w - - 0 23",
+     "goal": "mate",
+     "maxMoves": 10
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Matt-in-3-Rätsel. Erst die erzwingenden Züge – und für jede Antwort einen Plan!",
+     "themes": [
+      "mateIn3"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Matt in 3 rechnest du wie Matt in 2, nur einen Schritt weiter: erzwingende Züge zuerst, dann für **jede** Antwort prüfen, ob dein Plan noch klappt. Opfer sind erlaubt – wenn am Ende sicher Matt steht."
     }
    ]
   }

@@ -19,7 +19,9 @@ export function SequenceTask({ fen, moves, setup = false, orientation, onDone, o
   const [mistakes, setMistakes] = useState(0);
   const [helpLevel, setHelpLevel] = useState(0);
   const alive = useRef(true);
-  const learner = useRef(null);
+  // Die Seite des Lernenden direkt aus der Stellung – nicht erst nach dem ersten Effekt, sonst wäre das Brett
+  // beim Start gesperrt und falsch herum (nur bei Rätseln fiel das nicht auf, weil dort der Gegnerzug neu zeichnet).
+  const learner = setup ? (fen.split(' ')[1] === 'w' ? 'b' : 'w') : fen.split(' ')[1];
   useEffect(() => () => (alive.current = false), []);
 
   const apply = (st, uci) => {
@@ -30,7 +32,6 @@ export function SequenceTask({ fen, moves, setup = false, orientation, onDone, o
   };
 
   useEffect(() => {
-    learner.current = setup ? (fen.split(' ')[1] === 'w' ? 'b' : 'w') : fen.split(' ')[1];
     if (setup) {
       (async () => {
         await wait(650);
@@ -99,7 +100,8 @@ export function SequenceTask({ fen, moves, setup = false, orientation, onDone, o
   const arrows = helpLevel >= 2 && exp && (status === 'play' || status === 'wrong') ? [[exp.from, exp.to, 'g']] : [];
 
   return html`<div class="task-wrap">
-    <${Board} fen=${state.fen} orientation=${orientation || learner.current || 'w'} movable=${status === 'play' || status === 'wrong' ? learner.current : null}
+    <${Board} fen=${state.fen} orientation=${orientation || learner} movable=${status === 'play' || status === 'wrong' ? learner : null}
+      promoChoice=${moves.some((u) => u.length === 5 && u[4] !== 'q')}
       onMove=${onMove} lastMove=${state.last} flash=${flash} marks=${marks} arrows=${arrows} />
     ${showControls &&
     html`<div class="task-controls">
@@ -166,6 +168,7 @@ export function GoalTask({ step, onDone, onMistake }) {
   const sol = step.solutions?.[0] ? parseUci(step.solutions[0]) : null;
   return html`<div class="task-wrap">
     <${Board} fen=${fen} orientation=${step.orientation || turn} movable=${status === 'done' ? null : turn} onMove=${onMove} lastMove=${last} flash=${flash}
+      promoChoice=${(step.solutions || []).some((u) => u.length === 5 && u[4] !== 'q')}
       arrows=${status !== 'done' && help >= 2 && sol ? [[sol.from, sol.to, 'g']] : status === 'done' ? [] : step.arrows || []}
       marks=${status !== 'done' && help >= 1 && sol ? { [sol.from]: 'y' } : step.marks || {}} />
     <div class="task-controls">
