@@ -7,7 +7,7 @@
 
 ## Neu in Version 2.4
 
-- **Lernpfad komplett** – zu den Grundlagen kommen Mattbilder, Taktik, Strategie und Endspiele: __LESSONS__ neue interaktive Lektionen in __UNITS__ Einheiten, jede Stellung mit Stockfish geprüft. Fast jede Lektion endet mit **echten Rätseln zum Thema** auf deinem Niveau (neuer Schritt „Echte Rätsel“), Endspiel-Lektionen mit **Remis halten gegen die Engine** (Philidor & Co.).
+- **Lernpfad komplett** – zu den Grundlagen kommen Mattbilder, Taktik, Strategie und Endspiele: über 50 neue interaktive Lektionen in 4 Bereichen, jede Stellung mit Stockfish geprüft. Fast jede Lektion endet mit **echten Rätseln zum Thema** auf deinem Niveau (neuer Schritt „Echte Rätsel“), Endspiel-Lektionen mit **Remis halten gegen die Engine** (Philidor & Co.).
 - **Intensiv-Plan** – Turnier in ein paar Tagen? 3, 5 oder 7 Tage mit je einem Schwerpunkt in der Reihenfolge, die in Amateurpartien die meisten Punkte bringt: nichts einstellen, Gabeln, Linien-Taktik, Mattbilder, Eröffnung, Endspiel, Generalprobe. Der Tagesplan stellt sich automatisch um, mit Countdown und Abschluss.
 - **Sehtraining** – kurze Runden für den Brettblick: „Was hängt?“, „Alle Schachgebote“ und „Koordinaten“, mit Rekorden.
 - **Trainingstipp nach jeder Partie** – die Analyse erkennt, ob du Material eingestellt, ein Matt übersehen oder zugelassen hast, und schlägt die passende Lektion vor.

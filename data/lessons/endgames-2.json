@@ -273,7 +273,7 @@
     },
     {
      "type": "move",
-     "text": "Typischer Fehler: Dein Turm klebt passiv auf der Grundreihe. Dort stört er deinen König und ist anfällig für Th1+. Raus mit ihm!",
+     "text": "Typischer Fehler: Dein Turm klebt passiv auf der Grundreihe – und ist dort anfällig für Th1+. Raus mit ihm!",
      "fen": "8/8/8/8/3kp3/8/7r/R3K3 w - - 0 1",
      "goal": "exact",
      "solutions": [
@@ -341,6 +341,107 @@
     {
      "type": "info",
      "text": "**Merke:** Philidor: König vor den Bauern, Turm auf die **3. Reihe**. Erst wenn der Bauer auf die 3. Reihe zieht, geht der Turm ans andere Ende und gibt Schach von hinten."
+    }
+   ]
+  },
+  {
+   "id": "end-rook-active",
+   "unit": "end-rooks",
+   "title": "Aktivität geht vor",
+   "subtitle": "Aktiver Turm und aktiver König schlagen oft Material.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Im Turmendspiel zählt **Aktivität**. Eine starke Waffe: den gegnerischen König **abschneiden**.\nHier sperrt der Turm e1 die ganze e-Linie. Der schwarze König kommt nicht an den d-Bauern heran – Weiß gewinnt.",
+     "fen": "1r6/8/8/8/3P1k2/2K5/8/4R3 b - - 1 1",
+     "arrows": [
+      [
+       "e1",
+       "e8",
+       "g"
+      ]
+     ],
+     "marks": {
+      "f4": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du: Nur **ein** Turmzug gewinnt hier. Sperr den schwarzen König so weit wie möglich vom Bauern weg!",
+     "fen": "7r/8/8/6k1/3P4/2K5/8/R7 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "a1f1"
+     ],
+     "hint": "Der König steht auf der g-Linie. Sperr die Linie direkt daneben – dann bleiben zwei Linien zwischen ihm und dem Bauern.",
+     "success": "Genau! Tf1 hält den König auf der g- und h-Linie fest. Te1 wäre zu wenig: Dann rückt er auf die f-Linie und kann mithelfen."
+    },
+    {
+     "type": "line",
+     "text": "Ein aktiver Turm gibt auch Schach von der Seite. Du bist Schwarz – entdeckst du den Spieß?",
+     "fen": "8/1p6/1k2p2r/8/1p2P1P1/5PP1/2R2K2/8 b - - 3 50",
+     "moves": [
+      "h6h2",
+      "f2e3",
+      "h2c2"
+     ],
+     "hint": "Schach auf der 2. Reihe – und was steht dahinter?",
+     "success": "Spieß! Der König muss weg, der Turm c2 fällt. Aktive Türme suchen immer nach solchen Schachs."
+    },
+    {
+     "type": "line",
+     "text": "Dein Turm ist aktiv: Mit Schach auf der **7. Reihe** geht es los – danach gewinnst du einen Bauern und noch mehr!",
+     "fen": "3R4/6k1/3p2r1/7K/8/8/8/8 w - - 4 53",
+     "moves": [
+      "d8d7",
+      "g7f6",
+      "d7d6",
+      "f6e5",
+      "d6g6"
+     ],
+     "hint": "Beginn mit Schach auf der 7. Reihe. Dann hängt d6 – und dahinter steht der Turm g6.",
+     "success": "Schach, Bauer, Spieß: Ein aktiver Turm erzwingt alles mit Tempo."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß hat einen Bauern **weniger**. Soll Weiß hier mit Txa6+ die Türme tauschen?",
+     "fen": "8/k7/r5R1/4p3/6p1/6P1/5K2/8 w - - 0 61",
+     "options": [
+      "Ja – der weiße König ist viel aktiver",
+      "Nein – mit Bauer weniger nie tauschen",
+      "Egal – es ist sowieso Remis"
+     ],
+     "answer": 0,
+     "explain": "Nach dem Tausch frisst der weiße König mit Ke3, Ke4 und Kxe5 den Bauern – der schwarze steht weit weg auf a6. Aktivität schlägt den Mehrbauern!"
+    },
+    {
+     "type": "line",
+     "text": "Dann los: Tausch die Türme und schick deinen König auf die Jagd!",
+     "fen": "8/k7/r5R1/4p3/6p1/6P1/5K2/8 w - - 0 61",
+     "moves": [
+      "g6a6",
+      "a7a6",
+      "f2e3",
+      "a6b5",
+      "e3e4",
+      "b5c6",
+      "e4e5"
+     ],
+     "hint": "Erst Txa6+. Dann führt der kürzeste Weg des Königs über e3 und e4 zum Bauern e5.",
+     "success": "Der aktive König gewinnt das Bauernendspiel: Er frisst e5 und danach g4."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Turmendspiel-Rätsel. Such nach aktiven Zügen!",
+     "themes": [
+      "rookEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Aktivität geht vor! Schneide den gegnerischen König mit dem Turm ab, such Schachs von der Seite und bring deinen König nach vorn. Ein aktiver König und Turm sind oft mehr wert als ein Bauer."
     }
    ]
   }

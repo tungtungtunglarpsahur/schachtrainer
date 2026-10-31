@@ -797,6 +797,79 @@
      "text": "**Merke:** Isolierte, doppelte und rückständige Bauern kann kein Nachbar decken. Beim Gegner: **blockieren und angreifen** – das Feld vor dem Bauern ist ein starkes Feld für deine Figuren. Bei dir: Bauern nicht ohne Grund ziehen, damit keine Schwächen entstehen."
     }
    ]
+  },
+  {
+   "id": "strategy-prophylaxis",
+   "unit": "strategy-advanced",
+   "title": "Prophylaxe: erst verhindern, dann handeln",
+   "subtitle": "Frag immer: Was will mein Gegner – auch nach meinem Zug?",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Prophylaxe** heißt: Bevor du deinen Plan ausführst, fragst du: **Was will mein Gegner – und was kann er nach meinem Zug tun?** Dann verhinderst du seine beste Idee, oft mit einem kleinen Zug.\nHier will Weiß den Bauern d4 mit der Dame zurückholen. Eine gute Idee?",
+     "fen": "r1bqkbnr/2p2ppp/p2p4/1p6/3pP3/1B6/PPP2PPP/RNBQK2R w KQkq - 0 8"
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß spielt Dxd4. Was hat Schwarz dann vor?",
+     "fen": "r1bqkbnr/2p2ppp/p2p4/1p6/3pP3/1B6/PPP2PPP/RNBQK2R w KQkq - 0 8",
+     "options": [
+      "…c5 und …c4: Der Läufer b3 wird eingesperrt",
+      "…Sf6: Schwarz entwickelt nur eine Figur",
+      "…Lb7: Schwarz greift den Bauern e4 an"
+     ],
+     "answer": 0,
+     "explain": "Nach Dxd4? c5! muss die Dame weichen, und …c4 sperrt den Läufer b3 ein – die berühmte **Arche-Noah-Falle**. Mit c3 oder a4 vorher hätte der Läufer einen Fluchtweg."
+    },
+    {
+     "type": "quiz",
+     "text": "Du willst deinen a-Bauern nach vorn bringen. Aber erst die Frage: Was droht dann? Welcher Zug ist jetzt richtig?",
+     "fen": "2r3k1/1R3ppp/P7/8/8/8/5PPP/6K1 w - - 0 1",
+     "options": [
+      "h3 – erst Luft für den König",
+      "a7 – sofort vorwärts",
+      "Tb8+ – erst ein Schach"
+     ],
+     "answer": 0,
+     "explain": "Nach a7?? kommt …Tc1# – dein König hat kein Fluchtfeld. Tb8+? Txb8 kostet den Turm. Mit h3 (oder Kf1) ist die Gefahr gebannt – danach läuft der a-Bauer."
+    },
+    {
+     "type": "line",
+     "text": "Du willst den Läufer g3 schlagen. Aber was antwortet Schwarz auf Txg3? Erst die Gefahr beseitigen, dann zuschlagen!",
+     "fen": "1kr4r/pp6/2q1p3/3pPp2/3P4/5Rb1/PPB1Q3/1K5R w - - 4 33",
+     "moves": [
+      "h1h8",
+      "c8h8",
+      "f3g3"
+     ],
+     "hint": "Nach Txg3? käme …Txh1+. Tausch zuerst die Türme auf der h-Linie.",
+     "success": "Erst Txh8, dann Txg3! Jetzt ist …Th1+ nur noch ein Schach – Ld1 blockt, und der Läufer ist gewonnen."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz will mit …Lg4 deinen Springer f3 fesseln. Welcher Zug ist die typische Prophylaxe?",
+     "options": [
+      "h3 – dem Läufer das Feld g4 nehmen",
+      "Lg5 – selbst eine Figur fesseln",
+      "a3 – am Damenflügel Platz schaffen"
+     ],
+     "answer": 0,
+     "explain": "h3 nimmt dem Läufer das Feld g4 – ein kleiner Zug, und Schwarz braucht einen neuen Plan. Aber zieh Bauern nicht ohne Grund: Jeder Bauernzug lässt auch Felder zurück."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Rätsel: Erkenne zuerst die Idee des Gegners – dann finde den Zug, der sie verhindert.",
+     "themes": [
+      "defensiveMove"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Vor jedem Plan zwei Fragen: **Was will mein Gegner?** Und: **Was kann er nach meinem Zug tun?** Lässt sich seine beste Idee mit einem kleinen Zug verhindern – Luft machen, ein Feld wegnehmen, eine gefährliche Figur abtauschen –, dann tu das zuerst."
+    }
+   ]
   }
  ]
 }
