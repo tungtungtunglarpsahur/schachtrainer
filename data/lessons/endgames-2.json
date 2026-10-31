@@ -1,0 +1,239 @@
+{
+ "units": [
+  {
+   "id": "end-rooks",
+   "track": "endgames",
+   "level": 2,
+   "title": "Turmendspiele",
+   "description": "Die häufigsten Endspiele überhaupt: Turm hinter den Freibauern, Lucena, Philidor und der aktive Turm.",
+   "icon": "wR"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "end-rook-behind",
+   "unit": "end-rooks",
+   "title": "Der Turm gehört hinter den Freibauern",
+   "subtitle": "Von hinten schiebt er – und von hinten bremst er.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die wichtigste Regel im Turmendspiel: **Türme gehören hinter Freibauern.**\nDer weiße Turm schiebt von a1 aus. Der schwarze Turm vor dem Bauern ist **angebunden**: Verlässt er a8, folgt a8=D – und nach Txa8 Txa8 ist er weg.",
+     "fen": "r7/P4pkp/6p1/8/8/6P1/5PKP/R7 w - - 0 1",
+     "arrows": [
+      [
+       "a1",
+       "a7",
+       "g"
+      ]
+     ],
+     "marks": {
+      "a8": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Gleiche Stellung. Warum steht der weiße Turm auf a1 so stark?",
+     "fen": "r7/P4pkp/6p1/8/8/6P1/5PKP/R7 w - - 0 1",
+     "options": [
+      "Er deckt den Bauern und hält den Turm a8 fest",
+      "Er schützt den eigenen König",
+      "Er greift den Bauern f7 an"
+     ],
+     "answer": 0,
+     "explain": "Von hinten deckt der Turm den Bauern und bewacht durch ihn hindurch a8. Der schwarze Turm muss stur auf a8 bleiben."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Weiß hat seinen Turm auf b1 stehen lassen und will den e-Bauern durchbringen. Bestraf das – und denk an die Regel!",
+     "fen": "8/8/4PK2/7p/1pk2P2/8/8/1R2r3 b - - 6 60",
+     "moves": [
+      "e1b1",
+      "e6e7",
+      "b1e1"
+     ],
+     "hint": "Erst schlagen. Nach e7 muss dein Turm zurück – aber wohin genau?",
+     "success": "Stark! Von e1 aus bewacht dein Turm e8 **durch den Bauern hindurch**: Nach e8=D folgt Txe8."
+    },
+    {
+     "type": "quiz",
+     "text": "Dein Gegner hat einen gefährlichen Freibauern. Wohin gehört dein Turm am besten?",
+     "options": [
+      "Hinter den Bauern",
+      "Vor den Bauern, aufs Umwandlungsfeld",
+      "Neben den Bauern"
+     ],
+     "answer": 0,
+     "explain": "Von hinten bremst er den Bauern – und mit jedem Bauernschritt bekommt er mehr Platz. Vor dem Bauern wird er dagegen immer passiver."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt bist du Weiß – mit dem Turm hinter deinem a-Bauern. Mach Ernst! Aber Vorsicht: Schwarz hat auch Bauern, die Schach geben können.",
+     "fen": "8/6pp/P4p2/3k4/8/3pp1PP/1r6/R2K4 w - - 0 41",
+     "moves": [
+      "a6a7",
+      "e3e2",
+      "d1e1",
+      "d3d2",
+      "e1e2"
+     ],
+     "hint": "Der Turm deckt den Bauern bis a8. Bei Schachs: Welches Königsfeld führt nicht ins Matt?",
+     "success": "Sauber! Der Turm von a1 begleitet den Bauern bis zur Umwandlung – Schwarz muss seinen Turm opfern."
+    },
+    {
+     "type": "line",
+     "text": "Hier steht **dein** Turm vor dem Bauern – eigentlich schlecht. Aber der schwarze König steht auf f7 statt auf g7 oder h7. Das bestrafst du mit einem Trick!",
+     "fen": "R7/P4k2/8/8/8/6K1/r7/8 w - - 0 1",
+     "moves": [
+      "a8h8",
+      "a2a7",
+      "h8h7",
+      "f7e6",
+      "h7a7"
+     ],
+     "hint": "Mach den Weg für den Bauern frei – mit einer Drohung. Und wenn Schwarz a7 nimmt: Spieß!",
+     "success": "Der Spieß-Trick! Nimmt Schwarz den Bauern, gewinnt Th7+ den Turm. Darum gehört der König des Verteidigers nach g7 oder h7."
+    },
+    {
+     "type": "line",
+     "text": "Der schwarze Turm klebt auf a8 fest – dank deines Turms hinter dem a-Bauern. Wie nutzt du das jetzt aus?",
+     "fen": "r7/P7/R7/2k5/3pp2P/4p3/4K3/8 w - - 0 45",
+     "moves": [
+      "h4h5",
+      "c5d5",
+      "h5h6"
+     ],
+     "hint": "Du hast noch einen zweiten Freibauern. Wer soll ihn aufhalten?",
+     "success": "Genau! Der Turm a8 darf nicht weg, und der König ist zu weit entfernt: Der h-Bauer läuft durch."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Turmendspiel-Rätsel. Schau zuerst, wo die Freibauern stehen!",
+     "themes": [
+      "rookEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Türme gehören **hinter** Freibauern – hinter die eigenen, um sie zu schieben, und hinter die des Gegners, um sie zu bremsen. Ein Turm vor dem Bauern wird zum passiven Wächter."
+    }
+   ]
+  },
+  {
+   "id": "end-lucena",
+   "unit": "end-rooks",
+   "title": "Lucena: der Brückenbau",
+   "subtitle": "So gewinnst du Turm und Bauer gegen Turm.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die **Lucena-Stellung** ist der wichtigste Gewinn im Turmendspiel: Bauer auf der 7., dein König davor, der schwarze König vom Turm abgeschnitten.\nDas Problem: Dein König kommt nicht raus. c7 und c8 bewacht der Turm c2, e7 und e8 der König f7.",
+     "fen": "3K4/3P1k2/8/8/8/8/2r5/4R3 w - - 0 1",
+     "marks": {
+      "c7": "r",
+      "c8": "r",
+      "e7": "r",
+      "e8": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Was ist der erste Schritt zum Gewinn?",
+     "fen": "3K4/3P1k2/8/8/8/8/2r5/4R3 w - - 0 1",
+     "options": [
+      "Tf1+ – den König eine Linie weiter wegtreiben",
+      "d8=D – sofort umwandeln",
+      "Kc7 – den König rausziehen"
+     ],
+     "answer": 0,
+     "explain": "Nach Tf1+ muss der König weichen, und e7 wird frei. d8=D geht nicht (dein König steht auf d8), Kc7 auch nicht (der Turm c2 bewacht c7)."
+    },
+    {
+     "type": "info",
+     "text": "Nach 1. Tf1+ Kg7 kommt der Clou: **2. Tf4!** Der Turm geht auf die **4. Reihe**.\nDann läuft dein König raus, bis zur 5. Reihe. Kommt dort ein Schach von hinten, stellt sich der Turm dazwischen. Das ist die **Brücke**.",
+     "fen": "3K4/3P2k1/8/8/5R2/8/2r5/8 b - - 0 2",
+     "arrows": [
+      [
+       "f4",
+       "d4",
+       "g"
+      ],
+      [
+       "d8",
+       "e7",
+       "b"
+      ],
+      [
+       "e7",
+       "d6",
+       "b"
+      ],
+      [
+       "d6",
+       "d5",
+       "b"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Schwarz gibt Schach auf d1 – und sein König greift auch noch deinen Turm an. Ein Zug löst beides. Bau die Brücke!",
+     "fen": "8/3P4/8/3K2k1/5R2/8/8/3r4 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "f4d4"
+     ],
+     "hint": "Dein Turm steht auf der 4. Reihe. Kann er sich vor deinen König stellen?",
+     "success": "Die Brücke steht! Td4 blockt das Schach und rettet nebenbei den Turm. Auf der d-Linie ist Schluss mit Schachs – der Bauer wird Dame."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum muss der Turm gerade auf die **4. Reihe**?",
+     "options": [
+      "Von dort blockt er später die Schachs",
+      "Dort ist er vor dem König sicher",
+      "Von dort deckt er den Bauern d7"
+     ],
+     "answer": 0,
+     "explain": "Dein König läuft bis zur 5. Reihe. Kommt dann ein Schach auf der Linie, stellt sich der Turm von der 4. Reihe dazwischen."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine: die Lucena-Stellung von vorhin. Treib den König weg, Turm auf die 4. Reihe, König raus – und bring den Bauern durch!",
+     "fen": "3K4/3P1k2/8/8/8/8/2r5/4R3 w - - 0 1",
+     "goal": "promote",
+     "maxMoves": 20
+    },
+    {
+     "type": "line",
+     "text": "Ein echtes Rätsel mit derselben Idee: Dein König soll dem Bauern helfen, doch Schwarz lauert mit Schachs. Dein Turm wird wieder zum Schutzschild.",
+     "fen": "3k3K/5P1R/8/8/8/5r1p/8/8 w - - 7 54",
+     "moves": [
+      "h8g8",
+      "f3g3",
+      "h7g7",
+      "g3g7",
+      "g8g7"
+     ],
+     "hint": "Erst den König neben den Bauern. Und gegen das Schach auf der g-Linie stellt sich der Turm dazwischen.",
+     "success": "Genau wie bei Lucena: Der Turm blockt das Schach. Nach dem Tausch auf g7 ist der Bauer nicht mehr zu stoppen."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Turmendspiel-Rätsel. Denk an die Brücke!",
+     "themes": [
+      "rookEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Lucena gewinnst du in drei Schritten: König mit Schach weiter wegtreiben, Turm auf die **4. Reihe**, König raus. Kommen Schachs, blockt der Turm – die Brücke ist gebaut."
+    }
+   ]
+  }
+ ]
+}

@@ -1,8 +1,9 @@
 // Rätsel: Hub, Training (mit Rating), Themen, Wiederholung, Rush und Einstufungstest.
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
-import { update, useStore, today } from '../lib/store.js';
-import { usePuzzles, pickPuzzle, THEME_GROUPS, themeName, SKILL_THEMES } from '../lib/content.js';
-import { recordPuzzle, duePuzzles, checkAchievements, themeStats } from '../lib/progress.js';
+import { update, useStore, today, todayView } from '../lib/store.js';
+import { usePuzzles, useContent, pickPuzzle, THEME_GROUPS, themeName, SKILL_THEMES } from '../lib/content.js';
+import { recordPuzzle, duePuzzles, checkAchievements, themeStats, todayPlan, taskProgress } from '../lib/progress.js';
+import { nextPlanStep } from '../lib/plan-info.js';
 import { SequenceTask } from '../ui/Tasks.js';
 import { Icon, Spinner, announce, confetti, Bar } from '../ui/kit.js';
 import { QuickTile } from './Home.js';
@@ -90,6 +91,7 @@ const REVIEW_TEXT = { clean: 'Gelöst!', hint: 'Mit Tipp gelöst – kommt bald 
 
 function Training({ db, mode, query }) {
   const s = useStore();
+  const content = useContent();
   const review = mode === 'review';
   const group = mode.startsWith('theme-') ? THEME_GROUPS.find((g) => g.id === mode.slice(6)) : null;
   const themes = group ? group.themes : query.get('themes') ? query.get('themes').split(',') : null;
@@ -150,6 +152,14 @@ function Training({ db, mode, query }) {
 
   const side = puzzle.fen.split(' ')[1] === 'w' ? 'b' : 'w';
   const title = review ? 'Wiederholung' : group ? group.name : themes ? themes.map(themeName).join(', ') : 'Rätsel-Training';
+  // Tagesplan im Blick: wie viel noch fehlt – und danach direkt zur nächsten Aufgabe.
+  const plan = content ? todayPlan(content, s) : null;
+  const pTask = plan?.tasks.find((t) => t.kind === (review ? 'review' : 'puzzles'));
+  const pProg = pTask ? taskProgress(pTask, s, plan) : 0;
+  const dv = todayView();
+  const pTotal = pTask ? (review ? pTask.count : pTask.count + (plan.tasks.find((t) => t.kind === 'review')?.count || 0)) : 0;
+  const pDone = pTask ? Math.min(pTotal, review ? dv.reviews : dv.puzzles) : 0;
+  const nextStep = pTask && pProg >= 1 ? nextPlanStep(content, s, review ? '#/puzzles/review' : '#/puzzles/train') : null;
   return html`<div class="page trainer">
     <div class="trainer-grid">
       <div class="trainer-board">
@@ -182,6 +192,12 @@ function Training({ db, mode, query }) {
           <span><b>Automatisch weiter</b><small>Nach richtiger Lösung direkt das nächste Rätsel</small></span>
           <span class="switch"><input type="checkbox" checked=${auto} onChange=${(e) => update((st) => { st.settings.autoNext = e.target.checked; })} /><span></span></span>
         </label>
+        ${pTask &&
+        html`<div class=${`plan-strip ${pProg >= 1 ? 'done' : ''}`}>
+          <span class="ps-head"><span>Tagesplan</span><b>${pProg >= 1 ? 'geschafft ✓' : `${pDone}/${pTotal} Rätsel`}</b></span>
+          <${Bar} value=${pProg} />
+          ${nextStep && html`<a class="btn secondary sm" href=${nextStep.href}>Weiter im Plan: ${nextStep.title} <${Icon} name="next" size=${16} /></a>`}
+        </div>`}
         <div class="mini-stats">
           <div><small>Rating</small><b>${s.puzzle.rating}</b></div>
           <div><small>Heute</small><b>${session.ok}/${session.total}</b></div>

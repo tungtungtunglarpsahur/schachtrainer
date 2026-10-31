@@ -298,6 +298,7 @@ function intensivePlan(content, s, key, M, idx) {
   if (canDoPuzzles(s, content)) tasks.push({ kind: 'puzzles', count: Math.max(8, Math.round(M * (b.final ? 0.25 : 0.35))), themes: b.themes });
   if (b.openings && s.profile.level >= 1 && content.openings.length) for (const k of nextOpeningKeys(content, s, b.openings)) tasks.push({ kind: 'opening', key: k });
   if (b.rush && canDoPuzzles(s, content)) tasks.push({ kind: 'rush' });
+  if (b.final) tasks.push({ kind: 'notes' });
   const games = b.games || (M >= 45 ? 1 : 0);
   if (games && s.profile.level >= 1) tasks.push({ kind: 'play', elo: s.play.rating, count: games });
   return { v: PLAN_V, n: content.lessons.length, date: key, minutes: M, mode: 'intensive', day: idx, tasks };
@@ -316,5 +317,6 @@ export function taskProgress(task, s, plan) {
   if (task.kind === 'play') return Math.min(1, d.games / (task.count || 1));
   if (task.kind === 'vision') return Math.min(1, (d.vision || 0) / 1);
   if (task.kind === 'rush') return Math.min(1, (d.rush || 0) / 1);
+  if (task.kind === 'notes') return d.notes ? 1 : 0;
   return 0;
 }

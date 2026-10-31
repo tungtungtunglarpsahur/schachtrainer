@@ -25,7 +25,10 @@ export function Learn() {
   return html`<div class="page learn">
     <div class="page-head">
       <div><h1>Dein Lernpfad</h1><p class="muted">${doneN} von ${total} Lektionen · sortiert nach deinem Niveau und deinen Zielen</p></div>
-      ${next && html`<a class="btn primary" href=${`#/lesson/${next.id}`}><${Icon} name="play" /> Weiter: ${next.title}</a>`}
+      <div class="btn-row">
+        ${next && html`<a class="btn primary" href=${`#/lesson/${next.id}`}><${Icon} name="play" /> Weiter: ${next.title}</a>`}
+        <a class="btn ghost" href="#/notes"><${Icon} name="pen" /> Merkzettel</a>
+      </div>
     </div>
     <${Bar} value=${total ? doneN / total : 0} />
     <div class="pills">

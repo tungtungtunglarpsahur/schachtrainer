@@ -1,0 +1,351 @@
+{
+ "units": [
+  {
+   "id": "strategy-middlegame",
+   "track": "strategy",
+   "level": 2,
+   "title": "Pläne im Mittelspiel",
+   "description": "Was tun, wenn es nichts zu schlagen gibt? Figuren verbessern, Linien erobern, klug tauschen, angreifen.",
+   "icon": "wR"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "strategy-worst-piece",
+   "unit": "strategy-middlegame",
+   "title": "Die schlechteste Figur verbessern",
+   "subtitle": "Wenn nichts los ist: Hol die Figur ins Spiel, die nicht mitspielt.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Kein Schach, nichts zu schlagen, keine Drohung – was nun? Starke Spieler fragen: **Welche meiner Figuren steht am schlechtesten?** Genau die verbessern sie.\nTypisch schlecht: eine Figur **am Rand**, eine **ohne sichere Felder** oder eine, die **noch gar nicht mitspielt**.",
+     "fen": "2r1r1k1/pp1q1ppp/2pb1n2/3p4/3P4/N1PB4/PP1Q1PPP/3RR1K1 w - - 0 15"
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß ist am Zug. Welche weiße Figur steht hier am schlechtesten?",
+     "fen": "2r1r1k1/pp1q1ppp/2pb1n2/3p4/3P4/N1PB4/PP1Q1PPP/3RR1K1 w - - 0 15",
+     "options": [
+      "Springer a3",
+      "Läufer d3",
+      "Turm e1"
+     ],
+     "answer": 0,
+     "explain": "Der **Springer a3** steht am Rand. b5 und c4 sind von Bauern bewacht – ihm bleiben nur b1 und c2. Der Läufer d3 zielt auf h7, der Turm e1 steht auf der offenen e-Linie."
+    },
+    {
+     "type": "quiz",
+     "text": "Und wie bringst du den Springer a3 am besten ins Spiel?",
+     "fen": "2r1r1k1/pp1q1ppp/2pb1n2/3p4/3P4/N1PB4/PP1Q1PPP/3RR1K1 w - - 0 15",
+     "options": [
+      "Über c2 nach e3",
+      "Sofort nach b5",
+      "Sofort nach c4"
+     ],
+     "answer": 0,
+     "explain": "Auf b5 und c4 würde ein Bauer den Springer schlagen. Über c2 kommt er sicher nach e3 – von dort zielt er auf d5, f5 und g4. Aus dem Randspringer wird ein Mitspieler."
+    },
+    {
+     "type": "quiz",
+     "text": "Eine echte Partie: Weiß hat gerade einen Läufer auf h6 geopfert. Jetzt muss jede Figur mit angreifen. Welche weiße Figur steht am schlechtesten?",
+     "fen": "r2q1rk1/1b1nbp2/p3p2p/1p1pP3/2pP4/PPP2N2/B1Q2PPP/R4RK1 w - - 0 18",
+     "options": [
+      "Läufer a2",
+      "Springer f3",
+      "Dame c2"
+     ],
+     "answer": 0,
+     "explain": "Der **Läufer a2** hat nur ein einziges Feld: b1. Er beißt auf den eigenen Bauern b3 – und dahinter auf c4 und d5. So hilft er beim Angriff gar nicht."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt verbessere ihn! Ein einziger Läuferzug macht aus dem Zuschauer den gefährlichsten Angreifer.",
+     "fen": "r2q1rk1/1b1nbp2/p3p2p/1p1pP3/2pP4/PPP2N2/B1Q2PPP/R4RK1 w - - 0 18",
+     "goal": "exact",
+     "solutions": [
+      "a2b1"
+     ],
+     "hint": "Die Dame c2 zielt schon auf h7. Was passiert, wenn der Läufer **hinter** ihr steht?",
+     "success": "Lb1! Dame und Läufer bilden eine **Batterie** auf der Diagonale b1–h7: Es droht Dh7#. Aus der schlechtesten Figur wurde die gefährlichste."
+    },
+    {
+     "type": "move",
+     "text": "Prüf auch die schlechteste Figur deines Gegners! Die schwarze Dame h4 steht am Rand und hat kaum Felder. Mit einem Zug fängst du sie.",
+     "fen": "rn2kb1r/pp3ppp/2p1pnb1/3p4/3P2Pq/2P4P/PP1NPPB1/R1BQK2R w KQkq - 2 9",
+     "goal": "exact",
+     "solutions": [
+      "d2f3"
+     ],
+     "hint": "Greif die Dame an – und öffne dabei dem Läufer c1 den Weg nach g5 und h6.",
+     "success": "Sf3! Die Dame ist gefangen: g5, h5, h6 und g3 sind bewacht. Wohin sie auch zieht – Schwarz verliert sie und bekommt höchstens einen Läufer dafür."
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Faustregel stimmt?",
+     "options": [
+      "Springer gehören ins Zentrum, nicht an den Rand",
+      "Läufer stehen am besten hinter eigenen Bauern",
+      "Türme gehören auf geschlossene Linien"
+     ],
+     "answer": 0,
+     "explain": "Ein Springer im Zentrum erreicht bis zu 8 Felder, am Rand höchstens 4. Läufer brauchen offene Diagonalen, Türme offene Linien."
+    },
+    {
+     "type": "drill",
+     "text": "Die schlechteste Figur überhaupt ist eine **gefangene**. In diesen echten Rätseln steht eine gegnerische Figur so schlecht, dass du sie fangen kannst!",
+     "themes": [
+      "trappedPiece"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Ist nichts los, frag dich: **Welche meiner Figuren steht am schlechtesten?** Gib ihr ein besseres Feld – Springer ins Zentrum, Läufer auf offene Diagonalen, Türme auf offene Linien. Und prüf die schlechteste Figur des Gegners: Vielleicht kannst du sie fangen."
+    }
+   ]
+  },
+  {
+   "id": "strategy-open-files",
+   "unit": "strategy-middlegame",
+   "title": "Türme auf offene Linien",
+   "subtitle": "Offene Linie erobern, in die 7. Reihe eindringen.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Türme brauchen **offene Linien** – Linien ganz ohne Bauern. Der Turm d1 beherrscht die offene d-Linie bis d8. Der Turm a1 schläft noch hinter seinem Bauern.\n**Halboffen** heißt: Nur ein gegnerischer Bauer steht auf der Linie. Auch dort fühlen sich Türme wohl.",
+     "fen": "r4rk1/ppp2ppp/8/4p3/4P3/8/PPP2PPP/R2R2K1 w - - 0 1",
+     "arrows": [
+      [
+       "d1",
+       "d8",
+       "g"
+      ]
+     ],
+     "marks": {
+      "a1": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Linien sind hier **offen**?",
+     "fen": "2r4k/1p1b1pp1/p1p4p/8/3qB3/1P5P/P1Q2PP1/R5K1 w - - 0 24",
+     "options": [
+      "d- und e-Linie",
+      "c- und d-Linie",
+      "e- und f-Linie"
+     ],
+     "answer": 0,
+     "explain": "Auf der d- und der e-Linie steht kein einziger Bauer. Die c-Linie ist nur **halboffen**: Dort steht kein weißer, aber der schwarze Bauer c6."
+    },
+    {
+     "type": "move",
+     "text": "Beide offenen Linien warten auf deinen Turm a1. Auf einer davon trifft er sofort etwas. Stell ihn dorthin!",
+     "fen": "2r4k/1p1b1pp1/p1p4p/8/3qB3/1P5P/P1Q2PP1/R5K1 w - - 0 24",
+     "goal": "exact",
+     "solutions": [
+      "a1d1"
+     ],
+     "hint": "Was steht auf der d-Linie – und was steht dahinter?",
+     "success": "Td1! Der Turm greift die Dame an, und dahinter steht der Läufer d7: ein **Spieß** auf der offenen Linie. Schwarz verliert Material."
+    },
+    {
+     "type": "info",
+     "text": "Das große Ziel eines Turms auf der offenen Linie ist die **7. Reihe** (für Schwarz die 2.). Dort greift er die Bauern von der Seite an – wo sie sich nicht gegenseitig decken können. Und oft sperrt er den König auf der Grundreihe ein.",
+     "fen": "r4rk1/pppR1ppp/8/4p3/4P3/8/PPP2PPP/R5K1 b - - 1 1",
+     "orientation": "w",
+     "arrows": [
+      [
+       "d7",
+       "c7",
+       "r"
+      ],
+      [
+       "d7",
+       "f7",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Dein Turm steht schon auf der offenen d-Linie. Jetzt rein in die **7. Reihe** – mit Tempo!",
+     "fen": "2r3k1/pbq2ppp/1pn1p1n1/2p1N3/8/1P4P1/PBP1QPBP/3R2K1 w - - 1 20",
+     "goal": "exact",
+     "solutions": [
+      "d1d7"
+     ],
+     "hint": "Auf d7 wäre der Turm durch den Springer e5 gedeckt.",
+     "success": "Td7! Der Turm greift die Dame und f7 an und ist durch Se5 gedeckt. Nimmt die Dame ihn, schlägt der Springer zurück – Dame gegen Turm."
+    },
+    {
+     "type": "line",
+     "text": "Zwei Türme auf der 7. Reihe nennen Schachspieler gern **die Schweine** – weil sie alles fressen. Setz in 3 Zügen matt!",
+     "fen": "r4rk1/1RR3pp/8/8/8/8/5PPP/6K1 w - - 0 1",
+     "moves": [
+      "c7g7",
+      "g8h8",
+      "g7h7",
+      "h8g8",
+      "b7g7"
+     ],
+     "hint": "Schlag mit Schach auf g7. Der zweite Turm hilft beim Matt.",
+     "success": "Matt! Die Türme decken sich gegenseitig auf g7 und h7 – der König kommt nicht mehr raus."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum **verdoppelt** man Türme auf einer offenen Linie?",
+     "options": [
+      "Sie decken sich und dringen gemeinsam ein",
+      "Dann darf der Gegner nicht mehr rochieren",
+      "Verdoppelte Türme kann man nicht abtauschen"
+     ],
+     "answer": 0,
+     "explain": "Zwei Türme auf einer Linie decken sich gegenseitig. Stellt der Gegner einen Turm dagegen, wird getauscht – und dein zweiter Turm behält die Linie."
+    },
+    {
+     "type": "line",
+     "text": "Weiß hat beide Türme auf der offenen h-Linie verdoppelt. Schlag zu – Matt in 3!",
+     "fen": "r2r2k1/p7/1p4p1/2pp2N1/3npP2/1P5R/P1PP1q2/1K1B3R w - - 1 30",
+     "moves": [
+      "h3h8",
+      "g8g7",
+      "h1h7",
+      "g7f6",
+      "h7f7"
+     ],
+     "hint": "Erst Schach auf der 8. Reihe, dann kommt der zweite Turm nach.",
+     "success": "Matt! Der Turm f7 ist durch den Springer g5 gedeckt, alle Fluchtfelder sind bewacht. Verdoppelte Türme auf der offenen Linie haben es möglich gemacht."
+    },
+    {
+     "type": "drill",
+     "text": "Türme auf offenen Linien schlagen oft auf der **Grundreihe** zu. Jetzt echte Rätsel!",
+     "themes": [
+      "backRankMate"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Türme gehören auf **offene** oder halboffene Linien. Wer die offene Linie zuerst besetzt, beherrscht sie. Ziel ist die **7. Reihe**: Dort frisst der Turm Bauern und sperrt den König ein. Zwei verdoppelte Türme sind doppelt gefährlich."
+    }
+   ]
+  },
+  {
+   "id": "strategy-trades",
+   "unit": "strategy-middlegame",
+   "title": "Richtig tauschen",
+   "subtitle": "Wann ein Tausch hilft – und wann er alles verdirbt.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Tauschen ist nie egal. Regel Nr. 1: **Hast du mehr Material, tausch Figuren.** Je weniger Figuren auf dem Brett, desto schwerer wiegt dein Plus – und der Gegner hat kein Gegenspiel mehr.\nHier hast du einen Springer mehr: Txd8 Kxd8, und Schwarz kann nur noch zusehen.",
+     "fen": "3r4/pp2kppp/2p5/8/8/2N5/PPP2PPP/3R2K1 w - - 0 1",
+     "arrows": [
+      [
+       "d1",
+       "d8",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Du hast einen Bauern mehr. Was tauschst du am liebsten?",
+     "options": [
+      "Figuren",
+      "Bauern",
+      "Gar nichts – alles behalten"
+     ],
+     "answer": 0,
+     "explain": "Jeder Figurentausch bringt dich dem gewonnenen Endspiel näher. Deine Bauern brauchst du noch: Ohne Bauern reicht oft nicht mal eine Mehrfigur zum Sieg."
+    },
+    {
+     "type": "move",
+     "text": "Schach von der Dame c3! Mit Damen auf dem Brett droht dir Dauerschach. Im Bauernendspiel aber würde dein a-Bauer durchlaufen. Wehre das Schach so ab, dass Schwarz die Damen tauschen **muss**!",
+     "fen": "3Q4/5ppk/4p2p/P7/8/2q1K1P1/6P1/8 w - - 9 36",
+     "goal": "exact",
+     "solutions": [
+      "d8d3"
+     ],
+     "hint": "Stell deine Dame dazwischen – so, dass sie selbst Schach gibt.",
+     "success": "Dd3+! Schwarz muss tauschen. Nach Dxd3+ Kxd3 läuft dein a-Bauer – der schwarze König ist viel zu weit weg."
+    },
+    {
+     "type": "quiz",
+     "text": "Jetzt bist du Schwarz und hast einen Bauern weniger. Weiß bietet mit Td1 den Turmtausch an. Was spielst du?",
+     "fen": "3r4/p3kppp/1p6/8/4P3/1P6/P3KPPP/3R4 b - - 0 1",
+     "orientation": "b",
+     "options": [
+      "Txd1 – Türme tauschen",
+      "Tc8 – Turm behalten und aktivieren",
+      "Tf8 – Turm behalten, zurück zum König"
+     ],
+     "answer": 1,
+     "explain": "Mit einem Bauern weniger ist das Bauernendspiel nach Txd1 Kxd1 meist verloren. Also Turm behalten – und zwar aktiv: Tc8 erobert die offene c-Linie und droht Tc2+."
+    },
+    {
+     "type": "info",
+     "text": "Regel Nr. 2: **Wer angreift, tauscht nicht seine Angreifer** – er tauscht lieber die Verteidiger. Wer angegriffen wird, macht es umgekehrt.\nHier hat Weiß eine Figur weniger, aber einen gefährlichen Angriff. Schwarz bietet mit …De8 den Damentausch an.",
+     "fen": "r1b1qrk1/ppbn2p1/4p3/5pPQ/2pPN3/4P3/P1PB2PP/R4RK1 w - - 2 18",
+     "arrows": [
+      [
+       "e8",
+       "h5",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Nach dem Damentausch wäre dein Angriff vorbei – und die Figur weg. Rette die Dame mit einem Zug, der sogar Matt droht!",
+     "fen": "r1b1qrk1/ppbn2p1/4p3/5pPQ/2pPN3/4P3/P1PB2PP/R4RK1 w - - 2 18",
+     "goal": "exact",
+     "solutions": [
+      "g5g6"
+     ],
+     "hint": "Ein Bauernzug sperrt die Diagonale der schwarzen Dame und deckt h7.",
+     "success": "g6! Der Bauer sperrt die Diagonale und droht Dh7#. Schlägt Schwarz mit …Dxg6, folgt Dxg6 – und die schwarze Dame ist weg."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß greift an. Welche schwarze Figur ist der wichtigste Verteidiger des Königs?",
+     "fen": "r2q1rk1/pbp1bpp1/1p2pn1p/6N1/1Pn1N2P/P3P3/1BQP1PP1/R3K2R w KQ - 0 13",
+     "options": [
+      "Springer f6",
+      "Läufer e7",
+      "Bauer f7"
+     ],
+     "answer": 0,
+     "explain": "Der **Springer f6** deckt h7 – genau das Feld, auf dem Springer g5 und Dame zuschlagen wollen. Fällt dieser Verteidiger, bricht alles zusammen."
+    },
+    {
+     "type": "line",
+     "text": "Dann weg mit ihm! Tausch den Verteidiger f6 ab – mit Schach. Nebenbei macht dein Springer e4 die Diagonale für die Dame frei.",
+     "fen": "r2q1rk1/pbp1bpp1/1p2pn1p/6N1/1Pn1N2P/P3P3/1BQP1PP1/R3K2R w KQ - 0 13",
+     "moves": [
+      "e4f6",
+      "e7f6",
+      "c2h7"
+     ],
+     "hint": "Schlag auf f6 mit dem Springer, der der Dame im Weg steht.",
+     "success": "Matt! Erst den Verteidiger abtauschen, dann zuschlagen: Dh7# – gedeckt vom Springer g5."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Rätsel zum Thema **Verteidiger beseitigen**: Finde die Figur, die alles zusammenhält – und tausch sie ab!",
+     "themes": [
+      "capturingDefender"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Mehr Material? **Figuren tauschen**, Bauern behalten. Weniger Material? Figuren behalten und aktiv spielen. Du greifst an? Angreifer behalten, **Verteidiger abtauschen**. Und vor jedem Tausch ins Endspiel kurz prüfen: Ist es danach gewonnen?"
+    }
+   ]
+  }
+ ]
+}

@@ -2,43 +2,16 @@
 // übersieht in Partien weniger – das bringt gerade in wenigen Tagen viel.
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
 import { update, useStore, today } from '../lib/store.js';
-import { usePuzzles } from '../lib/content.js';
 import { safeChess, loosePieces, parseUci, FILES } from '../lib/chess-util.js';
 import { Board } from '../ui/Board.js';
 import { Icon, Spinner, PieceIcon, confetti, announce } from '../ui/kit.js';
 import { checkAchievements } from '../lib/progress.js';
 import { play } from '../lib/sound.js';
+import { VISION, VISION_MODES } from '../lib/vision.js';
+import { nextPlanStep } from '../lib/plan-info.js';
+import { usePuzzles, useContent } from '../lib/content.js';
 
-export const VISION = {
-  hanging: {
-    title: 'Was hängt?',
-    sub: 'Tippe alle Figuren an, die in Gefahr sind – bei beiden Farben.',
-    how: 'In Gefahr ist eine Figur, die angegriffen und nicht gedeckt ist – oder die eine billigere Figur schlagen kann. Falsch getippt kostet 3 Sekunden.',
-    why: 'Die meisten Partien unter 1500 kippen, weil eine Figur hängt. Dieser Blick wird hier zum Reflex.',
-    secs: 60,
-    icon: 'wR',
-    unit: 'Stellungen',
-  },
-  checks: {
-    title: 'Alle Schachgebote',
-    sub: 'Finde jedes Schach, das die Seite am Zug geben kann.',
-    how: 'Zieh eine Figur so, dass sie Schach gibt. Jeder gefundene Schach zählt einen Punkt, die Stellung bleibt stehen. Ein Zug ohne Schach kostet 2 Sekunden.',
-    why: 'Profis prüfen in jeder Stellung zuerst alle Schachs – so findet man Matts und Gabeln, die andere übersehen.',
-    secs: 90,
-    icon: 'wQ',
-    unit: 'Schachs',
-  },
-  coords: {
-    title: 'Koordinaten',
-    sub: 'Tippe das genannte Feld – so schnell du kannst.',
-    how: 'Oben steht ein Feld wie „e4“. Tippe es an. Die Koordinaten am Rand sind ausgeblendet.',
-    why: 'Wer die Felder sofort findet, liest Notation, Lektionen und Analysen viel schneller.',
-    secs: 30,
-    icon: 'wP',
-    unit: 'Felder',
-  },
-};
-export const VISION_MODES = Object.keys(VISION);
+export { VISION, VISION_MODES };
 
 const rnd = (n) => Math.floor(Math.random() * n);
 
@@ -287,6 +260,8 @@ function Round({ mode, db }) {
     } catch {}
   };
 
+  const content = useContent();
+  const nextStep = phase === 'over' ? nextPlanStep(content, s, `#/vision/${mode}`) : null;
   const pct = Math.max(0, Math.min(1, left / (v.secs * 1000)));
   const secs = Math.ceil(left / 1000);
   const boardSide = mode === 'coords' ? (orient === 'b' ? 'b' : 'w') : pos?.orientation || 'w';
@@ -341,8 +316,9 @@ function Round({ mode, db }) {
                 <small class="muted">Zeit um!</small>
                 <b class="vr-big">${score}</b>
                 <p>${score > bestBefore && score > 0 ? 'Neuer Rekord! 🏆' : bestBefore ? `Dein Rekord: ${bestBefore}` : v.unit}</p>
+                ${nextStep && html`<a class="btn primary" href=${nextStep.href}>Weiter im Plan: ${nextStep.title} <${Icon} name="next" /></a>`}
                 <div class="btn-row center">
-                  <button class="btn primary" onClick=${start}><${Icon} name="repeat" /> Nochmal</button>
+                  <button class=${`btn ${nextStep ? 'ghost' : 'primary'}`} onClick=${start}><${Icon} name="repeat" /> Nochmal</button>
                   <a class="btn ghost" href="#/vision">Andere Übung</a>
                 </div>
               </div>`}

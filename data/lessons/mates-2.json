@@ -1,0 +1,865 @@
+{
+ "units": [
+  {
+   "id": "mates-patterns",
+   "track": "mates",
+   "level": 2,
+   "title": "Berühmte Mattbilder",
+   "description": "Ersticktes Matt, Arabisches Matt, Anastasia, Boden & Co. – Muster erkennen und blitzschnell ausführen.",
+   "icon": "wN"
+  },
+  {
+   "id": "mates-in-2",
+   "track": "mates",
+   "level": 3,
+   "title": "Matt in 2 und 3 rechnen",
+   "description": "Erzwingende Züge, Opfer und stille Züge – so rechnest du Mattkombinationen sicher durch.",
+   "icon": "wR"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "mates-smothered",
+   "unit": "mates-patterns",
+   "title": "Ersticktes Matt",
+   "subtitle": "Ein Springer setzt matt – die eigenen Figuren mauern den König ein.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Beim **erstickten Matt** ist der König von seinen **eigenen Figuren** umzingelt (gelb). Ein einziger Springer gibt Schach – und gegen Springerschach hilft kein Dazwischenziehen. Matt!\nTypisch: König in der Ecke, Turm daneben, Bauern davor.",
+     "fen": "6rk/5Npp/8/8/8/8/8/6K1 b - - 0 1",
+     "marks": {
+      "g8": "y",
+      "g7": "y",
+      "h7": "y"
+     },
+     "arrows": [
+      [
+       "f7",
+       "h8",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Der schwarze König sitzt in der Ecke, Turm und Bauern kleben an ihm. Setz mit dem Springer matt!",
+     "fen": "2q3rk/pp4pp/7N/3P4/8/P6P/6PK/8 w - - 0 39",
+     "goal": "mate",
+     "solutions": [
+      "h6f7"
+     ],
+     "hint": "Von welchem Feld aus greift dein Springer h8 an?",
+     "success": "**Sf7#** – Turm g8 und die Bauern g7 und h7 nehmen ihrem eigenen König die Luft."
+    },
+    {
+     "type": "move",
+     "text": "Eine berühmte Falle aus der **Caro-Kann-Verteidigung**: Schwarz hat gerade 5…Sgf6?? gespielt. Ersticktes Matt gibt es auch mitten auf dem Brett – setz matt!",
+     "fen": "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq - 3 6",
+     "goal": "mate",
+     "solutions": [
+      "e4d6"
+     ],
+     "hint": "Der König e8 ist von seinen Figuren umstellt. Wo gibt dein Springer Schach?",
+     "success": "**Sd6#**! Dame, Läufer, Springer und Bauern blockieren den König. Und der Bauer e7 darf nicht schlagen – warum, siehst du gleich."
+    },
+    {
+     "type": "quiz",
+     "text": "Der Bauer e7 könnte den Springer d6 doch schlagen. Warum ist es trotzdem Matt?",
+     "fen": "r1bqkb1r/pp1npppp/2pN1n2/8/3P4/8/PPP1QPPP/R1B1KBNR b KQkq - 4 6",
+     "options": [
+      "Er ist gefesselt: Dahinter steht die Dame e2",
+      "Bauern schlagen nur geradeaus",
+      "Der Springer d6 ist gedeckt"
+     ],
+     "answer": 0,
+     "explain": "Die Dame e2 **fesselt** den Bauern e7 an seinen König. Schlägt er auf d6, stünde der eigene König im Schach – das ist verboten."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der weiße König hockt in der Ecke hinter seinen Bauern. Matt in 2 – dafür musst du etwas Großes opfern!",
+     "fen": "r7/p5pk/1b1N2N1/6Bp/6n1/3Q4/PPP2qPP/R6K b - - 9 23",
+     "moves": [
+      "f2g1",
+      "a1g1",
+      "g4f2"
+     ],
+     "hint": "Gib Schach auf g1. Wer muss schlagen – und welches Feld stellt er damit zu?",
+     "success": "**Dg1+! Txg1 Sf2#** – der Turm musste schlagen und mauert jetzt seinen eigenen König ein."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt das Meisterstück: **Philidors Vermächtnis**. Doppelschach, Damenopfer, ersticktes Matt. Die Dame b3 zielt schon auf g8 – setz in 3 Zügen matt!",
+     "fen": "1r3rk1/pb3Npp/1p6/2p2p2/4pq2/PQ6/1P3PPP/4RRK1 w - - 2 24",
+     "moves": [
+      "f7h6",
+      "g8h8",
+      "b3g8",
+      "f8g8",
+      "h6f7"
+     ],
+     "hint": "Zieh den Springer so, dass er Schach gibt **und** der Dame b3 den Weg nach g8 freimacht.",
+     "success": "**Sh6+ Kh8 Dg8+! Txg8 Sf7#** – das Doppelschach treibt den König in die Ecke, das Opfer stellt g8 zu."
+    },
+    {
+     "type": "quiz",
+     "text": "So sieht das Ende aus. Warum war das Damenopfer auf g8 nötig?",
+     "fen": "1r4rk/pb3Npp/1p6/2p2p2/4pq2/P7/1P3PPP/4RRK1 b - - 1 26",
+     "options": [
+      "Sonst wäre g8 nach Sf7+ ein Fluchtfeld",
+      "Um die schwarze Dame abzulenken",
+      "Weil die Dame b3 angegriffen war"
+     ],
+     "answer": 0,
+     "explain": "Springt der Springer nach f7, versperrt er der Dame die Diagonale – g8 wäre frei. Darum zuerst Dg8+: Der Turm schlägt und mauert seinen König selbst ein."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Rätsel mit erstickten Matts. Such zuerst das Feld, von dem aus dein Springer Schach gibt!",
+     "themes": [
+      "smotheredMate"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Steht der König eingeklemmt zwischen eigenen Figuren, prüf jedes **Springerschach**. Fehlt noch ein Feld, opfere darauf – dann stellt der Gegner es beim Schlagen selbst zu (Dg8+ Txg8 Sf7#)."
+    }
+   ]
+  },
+  {
+   "id": "mates-arabian",
+   "unit": "mates-patterns",
+   "title": "Arabisches Matt & Anastasia",
+   "subtitle": "Springer und Turm – ein Traumpaar am Brettrand.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Das **Arabische Matt**: Der Turm gibt direkt neben dem König Schach, der Springer deckt ihn **und** bewacht g8. Der König kann weder schlagen noch fliehen.\nEines der ältesten bekannten Mattbilder – es steht schon in alten arabischen Schachhandschriften.",
+     "fen": "7k/7R/5N2/8/8/8/8/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "h7",
+       "h8",
+       "r"
+      ],
+      [
+       "f6",
+       "h7",
+       "b"
+      ],
+      [
+       "f6",
+       "g8",
+       "b"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Der Springer f6 steht schon perfekt. Bring den Turm dazu – Matt in 1!",
+     "fen": "7k/R6p/5N2/8/5P2/2P1n2P/7K/qr6 w - - 0 45",
+     "goal": "mate",
+     "solutions": [
+      "a7h7"
+     ],
+     "hint": "Der Turm darf direkt neben den König – der Springer deckt ihn.",
+     "success": "**Txh7#** – das Arabische Matt wie aus dem Lehrbuch. Der Springer deckt den Turm und bewacht g8, der Turm sperrt g7."
+    },
+    {
+     "type": "line",
+     "text": "Erst treibt ein **Springerschach** den König in die Ecke, dann kommt der Turm. Matt in 2!",
+     "fen": "3r1rk1/p1b2ppp/1pp1p3/8/3PNn2/2P4R/PP3P1P/1K3BR1 w - - 4 26",
+     "moves": [
+      "e4f6",
+      "g8h8",
+      "h3h7"
+     ],
+     "hint": "Such ein Springerschach, das gleichzeitig h7 und g8 kontrolliert.",
+     "success": "**Sf6+ Kh8 Txh7#**. Und gxf6 ging nicht: Der Bauer g7 war durch den Turm g1 gefesselt."
+    },
+    {
+     "type": "info",
+     "text": "Das **Anastasia-Matt**: Der Springer e7 bewacht g8 und g6, der eigene Bauer g7 versperrt den Weg – und Turm oder Dame setzen auf der h-Linie matt.\nDer Name stammt aus dem Roman „Anastasia und das Schachspiel“ von 1803.",
+     "fen": "8/4N1pk/8/7R/8/8/5PPP/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "h5",
+       "h7",
+       "r"
+      ],
+      [
+       "e7",
+       "g8",
+       "b"
+      ],
+      [
+       "e7",
+       "g6",
+       "b"
+      ]
+     ],
+     "marks": {
+      "g7": "y"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Springer f5 und Turm f3 warten auf ihren Einsatz. Bau das Anastasia-Matt auf – Matt in 2!",
+     "fen": "r1b2rk1/b1np1pp1/2p5/p4N2/p3PP2/P4R2/1PP3BP/3R3K w - - 0 20",
+     "moves": [
+      "f5e7",
+      "g8h7",
+      "f3h3"
+     ],
+     "hint": "Welches Springerschach nimmt dem König gleich zwei Felder? Danach sucht der Turm die h-Linie.",
+     "success": "**Se7+ Kh7 Th3#** – nach Kh8 wäre es genauso Matt. Springer e7, Bauer g7, Turm auf der h-Linie: Anastasia!"
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Aufgabe hat der Springer e7 in diesem Matt?",
+     "fen": "r1b2r2/b1npNppk/2p5/p7/p3PP2/P6R/1PP3BP/3R3K b - - 3 21",
+     "options": [
+      "Er bewacht g8 und g6",
+      "Er gibt Schach",
+      "Er deckt den Turm h3"
+     ],
+     "answer": 0,
+     "explain": "Der Springer nimmt dem König **g8 und g6**. Nach g7 kommt er wegen des eigenen Bauern nicht, und die h-Linie gehört dem Turm."
+    },
+    {
+     "type": "line",
+     "text": "Deine Dame c2 hängt, die schwarze Dame lauert auf a2 – aber du bist am Zug! Springerschach, Damenopfer, Anastasia: Matt in 3!",
+     "fen": "r4rk1/5ppp/p7/1pR2N2/1np5/8/qPQ2PPP/2K4R w - - 3 21",
+     "moves": [
+      "f5e7",
+      "g8h8",
+      "c2h7",
+      "h8h7",
+      "c5h5"
+     ],
+     "hint": "Erst ein Springerschach. Dann lockt ein Opfer den König auf die h-Linie.",
+     "success": "**Se7+ Kh8 Dxh7+! Kxh7 Th5#** – das Damenopfer zieht den König nach h7, der Turm c5 schwenkt auf die h-Linie."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Rätsel mit Arabischem Matt oder Anastasia. Frag dich: Wo arbeiten Springer und Turm zusammen?",
+     "themes": [
+      "arabianMate",
+      "anastasiaMate"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Springer und Turm sind ein Mattduo am Brettrand. **Arabisch**: Turm direkt neben dem König, vom Springer gedeckt. **Anastasia**: Springer auf e7, eigener Bauer auf g7 – und der Turm kommt über die h-Linie."
+    }
+   ]
+  },
+  {
+   "id": "mates-boden",
+   "unit": "mates-patterns",
+   "title": "Bodens Matt & das Läuferpaar",
+   "subtitle": "Zwei Läufer im Kreuzfeuer – ganz ohne Turm und Dame.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Bodens Matt**: Zwei Läufer auf sich **kreuzenden Diagonalen**. Einer gibt Schach (a6), der andere nimmt die Fluchtfelder b8 und c7 (f4). Turm und Springer blockieren den Rest.\nTypisch nach langer Rochade – benannt nach Samuel Boden, der es 1853 spielte.",
+     "fen": "2kr4/p2n1ppp/B1p5/8/5B2/8/PPP2PPP/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "a6",
+       "c8",
+       "r"
+      ],
+      [
+       "f4",
+       "b8",
+       "b"
+      ]
+     ],
+     "marks": {
+      "d8": "y",
+      "d7": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Schwarz hat lang rochiert, aber die Bauern b7 und c7 fehlen. Finde das Kreuzfeuer der Läufer – Matt in 1!",
+     "fen": "2kr1b1r/3b2pp/p1n2p2/1B5q/8/2N3B1/PP3PPP/R4RK1 w - - 0 18",
+     "goal": "mate",
+     "solutions": [
+      "b5a6"
+     ],
+     "hint": "Der Läufer g3 bewacht schon b8 und c7. Welches Feld fehlt noch?",
+     "success": "**Lxa6#** – Läufer a6 gibt Schach, Läufer g3 sperrt b8 und c7. Turm d8 und Läufer d7 blockieren den Rest."
+    },
+    {
+     "type": "line",
+     "text": "Der Klassiker: Ein Damenopfer reißt die Bauernmauer auf, dann schlägt das Kreuzfeuer zu. Matt in 2!",
+     "fen": "2kr2nr/pp1n1ppp/2p1p3/8/1P1P1B2/2N2Q1P/1PPKBPP1/7q w - - 0 13",
+     "moves": [
+      "f3c6",
+      "b7c6",
+      "e2a6"
+     ],
+     "hint": "Der Bauer b7 versperrt die Diagonale nach c8. Wie zwingst du ihn mit Schach weg?",
+     "success": "**Dxc6+! bxc6 La6#** – der Bauer b7 musste schlagen und hat die Diagonale a6–c8 geöffnet. Der Läufer f4 hält b8 und c7."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum kann der schwarze König hier weder nach b8 noch nach c7?",
+     "fen": "2kr2nr/p2n1ppp/B1p1p3/8/1P1P1B2/2N4P/1PPK1PP1/7q b - - 1 14",
+     "options": [
+      "Der Läufer f4 bewacht beide Felder",
+      "Der Turm d8 steht im Weg",
+      "Der Springer c3 deckt sie"
+     ],
+     "answer": 0,
+     "explain": "Der Läufer f4 kontrolliert die ganze Diagonale bis b8 – also auch c7. Der Läufer a6 gibt Schach und deckt b7, Turm und Springer verstellen d8 und d7."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der weiße König steht nach langer Rochade auf c1, deine Läufer d6 und f5 sind bereit. Matt in 2!",
+     "fen": "2r2rk1/p5pp/Bp1b4/4pb2/8/2B5/PP1N1PPP/2KR3R b - - 3 21",
+     "moves": [
+      "c8c3",
+      "b2c3",
+      "d6a3"
+     ],
+     "hint": "Der Bauer b2 schützt den König. Wie lockst du ihn mit Schach weg?",
+     "success": "**Txc3+! bxc3 La3#** – Läufer a3 gibt Schach, Läufer f5 bewacht b1 und c2. Bodens Matt, diesmal mit Turmopfer."
+    },
+    {
+     "type": "info",
+     "text": "Auch **nebeneinander** setzen zwei Läufer matt: Der eine gibt auf der langen Diagonale Schach, der andere bewacht die Nachbardiagonale – hier g8. Der eigene Bauer h7 sperrt das letzte Feld.",
+     "fen": "7k/7p/8/8/2B5/8/1B6/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "b2",
+       "h8",
+       "r"
+      ],
+      [
+       "c4",
+       "g8",
+       "b"
+      ]
+     ],
+     "marks": {
+      "h7": "y"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Dein Läufer f7 bewacht schon g8. Bring den zweiten Läufer auf die lange Diagonale – Matt in 2!",
+     "fen": "r4r1k/pb2bB1p/1np5/2B3p1/1N3p2/8/PPPR2PP/2K5 w - - 0 23",
+     "moves": [
+      "c5d4",
+      "e7f6",
+      "d4f6"
+     ],
+     "hint": "Welcher Läuferzug gibt auf der Diagonale a1–h8 Schach?",
+     "success": "**Ld4+ Lf6 Lxf6#** – Schwarz kann das Schach nur kurz verstellen. Die Läufer f6 und f7 setzen gemeinsam matt."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Dein Läufer c5 bewacht g1, der Läufer b7 steht auf der langen Diagonale – noch versperrt. Ein Opfer macht sie frei. Matt in 2!",
+     "fen": "r4rk1/1b4p1/p1q1p2p/1Pb1Bp2/5P2/1P3P1N/P6P/2R1QR1K b - - 0 22",
+     "moves": [
+      "c6f3",
+      "f1f3",
+      "b7f3"
+     ],
+     "hint": "Welches Opfer öffnet die lange Diagonale und zwingt Weiß zum Zurückschlagen?",
+     "success": "**Dxf3+! Txf3 Lxf3#** – Läufer f3 gibt Schach, Läufer c5 hält g1, und der Bauer h2 sperrt seinen eigenen König ein."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Rätsel mit Bodens Matt oder Läuferpaar-Matt. Such die zwei Diagonalen – und das Opfer, das sie öffnet!",
+     "themes": [
+      "bodenMate",
+      "doubleBishopMate"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Zwei Läufer setzen allein matt – im **Kreuzfeuer** gegen den König nach langer Rochade oder **nebeneinander** in der Ecke. Ist die Diagonale noch zu, öffne sie mit einem Opfer (Dxc6+ bxc6 La6#)."
+    }
+   ]
+  },
+  {
+   "id": "mates-hook",
+   "unit": "mates-patterns",
+   "title": "Hakenmatt & Schwalbenschwanz",
+   "subtitle": "Wenn die eigenen Figuren dem König die letzten Felder nehmen.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Das **Hakenmatt**: Turm, Springer und Bauer bilden eine Kette – der Bauer deckt den Springer, der Springer deckt den Turm. Der Turm gibt direkt neben dem König Schach, der eigene Bauer f7 nimmt ihm das letzte Feld.",
+     "fen": "4R3/4kp2/5N2/4P3/8/8/8/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "e8",
+       "e7",
+       "r"
+      ],
+      [
+       "f6",
+       "e8",
+       "b"
+      ],
+      [
+       "e5",
+       "f6",
+       "b"
+      ]
+     ],
+     "marks": {
+      "f7": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Dein Springer g6 wird vom Bauern h5 gedeckt. Vollende die Kette – Matt in 1!",
+     "fen": "2R5/ppr2kp1/4ppNp/3n3P/4K3/1P4P1/P7/8 w - - 3 41",
+     "goal": "mate",
+     "solutions": [
+      "c8f8"
+     ],
+     "hint": "Der Turm muss direkt neben den König – auf ein Feld, das der Springer deckt.",
+     "success": "**Tf8#** – Bauer h5 deckt den Springer, der Springer deckt den Turm: ein Haken! Die eigenen Bauern e6, f6 und g7 sperren den König ein."
+    },
+    {
+     "type": "line",
+     "text": "Springer, Turm und der Bauer g5 – alles bereit für den Haken. Matt in 2!",
+     "fen": "rn3rk1/pp3p1p/1q1pb1p1/6P1/4N3/P2B1N2/1PP2PP1/2KR3R w - - 2 18",
+     "moves": [
+      "e4f6",
+      "g8g7",
+      "h1h7"
+     ],
+     "hint": "Der Springer muss mit Schach auf ein Feld, das der Bauer g5 deckt.",
+     "success": "**Sf6+ Kg7 Txh7#** – Bauer g5 deckt den Springer, der Springer deckt den Turm. Nach Kh8 wäre Txh7 ebenfalls Matt."
+    },
+    {
+     "type": "info",
+     "text": "Das **Schwalbenschwanz-Matt**: Die Dame gibt schräg neben dem König Schach, gedeckt vom Bauern e5. Die beiden Felder hinter dem König (e8, f7) sind von eigenen Figuren besetzt – sie bilden den „Schwalbenschwanz“.",
+     "fen": "4r3/4kp2/3Q4/4P3/8/8/8/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "d6",
+       "e7",
+       "r"
+      ],
+      [
+       "e5",
+       "d6",
+       "b"
+      ]
+     ],
+     "marks": {
+      "e8": "y",
+      "f7": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Der schwarze König steht auf f7, Läufer f8 und Bauer g7 kleben hinter ihm. Setz mit der Dame matt!",
+     "fen": "rn1q1b1r/5kp1/p2pb2p/8/3Nn3/1Q6/PP3PPP/R1B1K2R w KQ - 0 13",
+     "goal": "mate",
+     "solutions": [
+      "b3e6"
+     ],
+     "hint": "Die Dame muss schräg neben den König – auf ein Feld, das dein Springer d4 deckt.",
+     "success": "**Dxe6#** – der Springer d4 deckt die Dame, f8 und g7 sind von eigenen Figuren zugestellt. Der Schwalbenschwanz!"
+    },
+    {
+     "type": "quiz",
+     "text": "Das Feld g8 ist frei. Warum kann der König trotzdem nicht dorthin?",
+     "fen": "rn1q1b1r/5kp1/p2pQ2p/8/3Nn3/8/PP3PPP/R1B1K2R b KQ - 0 13",
+     "options": [
+      "Die Dame deckt g8 – durch den König hindurch",
+      "Der Springer d4 deckt g8",
+      "Im Schach darf der König nur schlagen"
+     ],
+     "answer": 0,
+     "explain": "Die Dame wirkt auf der Diagonale e6–g8 **durch den König hindurch**. Auf der Schachlinie nach hinten auszuweichen, klappt nie."
+    },
+    {
+     "type": "line",
+     "text": "Erst schlägst du mit Schach auf e8, dann setzt die Dame mit Hilfe des Läufers a3 matt. Matt in 2!",
+     "fen": "4r1k1/pp1Q3p/1qn3p1/8/5P2/B1P5/P5PP/7K w - - 0 24",
+     "moves": [
+      "d7e8",
+      "g8g7",
+      "e8f8"
+     ],
+     "hint": "Nach dem Schlagzug muss der König nach g7. Welches Feld neben ihm deckt der Läufer a3?",
+     "success": "**Dxe8+ Kg7 Df8#** – der Läufer a3 deckt die Dame, und die Bauern g6 und h7 sperren ihren eigenen König ein."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der weiße König steht auf h1, sein Turm g1 klebt daneben. Matt in 2 – mit Schwalbenschwanz!",
+     "fen": "1rbqr1k1/5pbp/pp4p1/2pPp2P/4P3/2NBB3/PP3P2/R2Q2RK b - - 0 19",
+     "moves": [
+      "d8h4",
+      "h1g2",
+      "h4h3"
+     ],
+     "hint": "Gib mit der Dame Schach auf der h-Linie. Wohin muss der König – und welches Feld deckt dein Läufer c8?",
+     "success": "**Dh4+ Kg2 Dh3#** – der Läufer c8 deckt die Dame, Turm g1 und Bauer f2 sperren die Felder hinter dem König."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Rätsel mit Hakenmatt oder Schwalbenschwanz. Zähl zuerst, welche Felder die eigenen Figuren blockieren!",
+     "themes": [
+      "hookMate",
+      "dovetailMate"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Schau immer, welche Felder die **eigenen Figuren** dem König wegnehmen. **Haken**: Bauer deckt Springer, Springer deckt Turm. **Schwalbenschwanz**: Dame schräg neben dem König, gedeckt – die zwei Felder dahinter sind zugestellt."
+    }
+   ]
+  },
+  {
+   "id": "mates-forcing",
+   "unit": "mates-in-2",
+   "title": "Erst Schach, dann Matt",
+   "subtitle": "Erzwingende Züge zuerst prüfen – so rechnest du sicher.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Mattsuche wie die Profis: Prüf **zuerst jedes Schach**, dann jeden Schlagzug, dann jede Drohung. Ein Schach lässt dem Gegner kaum Antworten – so rechnest du sicher 2–3 Züge weit.\nHier hat Weiß drei Schachgebote (gelb). Eins davon setzt in 2 matt.",
+     "fen": "r5k1/4qrp1/pnp3Qp/1pnp1B1P/5P2/1Pb5/PBPP4/3K2NR w - - 0 22",
+     "arrows": [
+      [
+       "g6",
+       "h7",
+       "y"
+      ],
+      [
+       "g6",
+       "g7",
+       "y"
+      ],
+      [
+       "g6",
+       "f7",
+       "y"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Jetzt du: Welches der drei Schachs ist es? Spiel es – und setz danach matt!",
+     "fen": "r5k1/4qrp1/pnp3Qp/1pnp1B1P/5P2/1Pb5/PBPP4/3K2NR w - - 0 22",
+     "moves": [
+      "g6h7",
+      "g8f8",
+      "h7h8"
+     ],
+     "hint": "Welches Schach lässt dem König nur ein einziges Feld?",
+     "success": "**Dh7+ Kf8 Dh8#**. Nach Dxg7+ oder Dxf7+ könnte Schwarz deine Dame dagegen einfach schlagen."
+    },
+    {
+     "type": "quiz",
+     "text": "Jeder Läuferzug gibt hier Schach – die Dame c1 schießt durch (**Abzugsschach**). Welcher Läuferzug setzt in 2 matt?",
+     "fen": "2k2b1r/pp2pb1p/1q3pp1/4n3/7r/1P6/P1B2PPP/RNQ2RK1 w - - 0 18",
+     "options": [
+      "Lf5+",
+      "Lxg6+",
+      "Le4+",
+      "Ld3+"
+     ],
+     "answer": 0,
+     "explain": "**Lf5+** ist **Doppelschach**: Läufer und Dame greifen an, nur ein Königszug hilft – dann Dc8#. Bei den anderen Abzügen zieht Schwarz einfach auf der c-Linie dazwischen."
+    },
+    {
+     "type": "line",
+     "text": "Gleiche Idee, neues Brett: Jeder Springerzug ist Schach. Nur einer setzt in 2 matt – finde ihn!",
+     "fen": "2Q2N1k/5qp1/5p1p/p3pP1P/1p6/8/5rPK/8 w - - 4 40",
+     "moves": [
+      "f8g6",
+      "h8h7",
+      "c8h8"
+     ],
+     "hint": "Such das **Doppelschach**: Springer und Dame greifen gleichzeitig an.",
+     "success": "**Sg6+! Kh7 Dh8#** – gegen das Doppelschach half nur ein Königszug. Der Springer g6 deckt h8, der Bauer h5 deckt den Springer."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz und hast zwei Schachgebote. Eins davon setzt in 2 matt – rechne beide durch!",
+     "fen": "2k4r/2q3p1/pp2p3/2p1n3/4Q3/P1P5/1P3PN1/R4RK1 b - - 0 23",
+     "moves": [
+      "e5f3",
+      "e4f3",
+      "c7h2"
+     ],
+     "hint": "Dein Springer e5 versperrt deiner Dame die Diagonale nach h2.",
+     "success": "**Sf3+! Dxf3 Dh2#** – das Springerschach räumt mit Tempo die Diagonale c7–h2. Die Dame muss schlagen, danach ist h2 frei."
+    },
+    {
+     "type": "line",
+     "text": "Prüf jedes Schach – auch das, bei dem du einen Turm hergibst. Matt in 2!",
+     "fen": "6rk/5R2/2Q1pp1p/p7/1r6/6RP/5qPK/8 w - - 1 40",
+     "moves": [
+      "g3g8",
+      "h8g8",
+      "c6e8"
+     ],
+     "hint": "Der Turm g8 bewacht die Grundreihe. Was passiert, wenn der König ihn schlagen muss?",
+     "success": "**Txg8+! Kxg8 De8#** – der König wird auf g8 gelockt. Die Dame deckt dort den Turm f7, der Turm sperrt die 7. Reihe."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Matt-in-2-Rätsel. Geh vor jedem Zug alle Schachgebote durch!",
+     "themes": [
+      "mateIn2"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Such Matt in dieser Reihenfolge: **Schach – Schlagen – Drohung**. Nimm jedes Schach ernst, auch Opfer. Und such nach **Doppelschach**: Dagegen hilft nur ein Königszug."
+    }
+   ]
+  },
+  {
+   "id": "mates-queen-sac",
+   "unit": "mates-in-2",
+   "title": "Das Damenopfer",
+   "subtitle": "Die stärkste Figur hergeben – für das Matt.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein Damenopfer lohnt sich, wenn danach **Matt** folgt – dann zählt kein Material mehr.\nTrick 1, die **Ablenkung**: Hier hält nur der Turm d8 (rot) die Grundreihe. Lock ihn mit einem Opfer weg, dann kommt dein Turm c8 durch.",
+     "fen": "2Rr2k1/p4ppp/2Q5/3q4/8/4P2P/3r1PP1/5RK1 w - - 4 21",
+     "marks": {
+      "d8": "r"
+     },
+     "arrows": [
+      [
+       "c8",
+       "d8",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Finde das Damenopfer, das den Turm d8 weglockt. Matt in 2!",
+     "fen": "2Rr2k1/p4ppp/2Q5/3q4/8/4P2P/3r1PP1/5RK1 w - - 4 21",
+     "moves": [
+      "c6e8",
+      "d8e8",
+      "c8e8"
+     ],
+     "hint": "Wo taucht deine Dame mit Schach auf, sodass nur der Turm d8 sie schlagen kann?",
+     "success": "**De8+! Txe8 Txe8#** – der Turm musste schlagen und gab seinen Posten auf. Die schwarze Dame d5 erreicht e8 nicht."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der Bauer g2 schützt den weißen König. Lenk ihn mit einem Damenopfer ab – Matt in 2!",
+     "fen": "r1b2rk1/p3nppp/2p5/2bpPq2/8/3P1N2/PPP1N1PP/R1B1QK1R b - - 1 13",
+     "moves": [
+      "f5f3",
+      "g2f3",
+      "c8h3"
+     ],
+     "hint": "Opfere mit Schach auf einem Feld, das der Bauer g2 deckt.",
+     "success": "**Dxf3+! gxf3 Lh3#** – ohne den Bauern g2 steht der König nackt da: Läufer h3 gibt Schach, Läufer c5 hält g1 und f2."
+    },
+    {
+     "type": "line",
+     "text": "Trick 2, die **Hinlenkung**: Lock den König auf ein Feld, auf dem er mattgesetzt wird. Matt in 2!",
+     "fen": "r2q2rk/p3bp1n/2pp3Q/3R4/2p1P3/2N2P1P/PPP2P2/2K3R1 w - - 5 18",
+     "moves": [
+      "h6h7",
+      "h8h7",
+      "d5h5"
+     ],
+     "hint": "Welches Opfer zwingt den König nach h7? Dann fehlt nur noch ein Turm auf der h-Linie.",
+     "success": "**Dxh7+! Kxh7 Th5#** – der König musste nach h7. Turm h5 gibt Schach, Turm g1 sperrt die g-Linie, und g8 ist zugestellt."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß hat drei Schachgebote, alle mit der Dame. Welches setzt in 2 matt?",
+     "fen": "6rk/pR1R2p1/5pQp/6r1/8/7P/q4PP1/6K1 w - - 6 34",
+     "options": [
+      "Dxh6+",
+      "Dh7+",
+      "Dxg7+"
+     ],
+     "answer": 0,
+     "explain": "**Dxh6+! gxh6 Th7#**: Der Bauer g7 schlägt und räumt die 7. Reihe – jetzt deckt der Turm b7 den Turm h7. Nach Dh7+ Kxh7 oder Dxg7+ Txg7 ist die Dame einfach weg."
+    },
+    {
+     "type": "line",
+     "text": "Trick 3, die **Linienöffnung**: Schlägt ein Bauer dein Opfer, gibt er eine Linie frei. Matt in 2!",
+     "fen": "1nr2b1k/2q2p2/4pNp1/3pP3/3P3P/2p3R1/1P2QPP1/6K1 w - - 0 28",
+     "moves": [
+      "e2h5",
+      "g6h5",
+      "g3g8"
+     ],
+     "hint": "Der Bauer g6 versperrt deinem Turm die g-Linie. Wie lockst du ihn mit Schach weg?",
+     "success": "**Dh5+!! gxh5 Tg8#** – die g-Linie ist offen, der Springer f6 deckt g8: ein Arabisches Matt. Nach Kg7 oder Lh6 setzt die Dame selbst matt."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der Bauer b2 schützt den weißen König auf a1. Öffne die b-Linie für deinen Turm – Matt in 2!",
+     "fen": "1r3rk1/2p1qp2/n3p2Q/p3P3/7P/P1n2N1R/1P1R1NP1/K7 b - - 2 24",
+     "moves": [
+      "e7a3",
+      "b2a3",
+      "b8b1"
+     ],
+     "hint": "Mit welchem Opfer zwingst du den Bauern b2 zum Schlagen?",
+     "success": "**Dxa3+! bxa3 Tb1#** – die b-Linie ist offen. Der Springer c3 deckt b1 und nimmt dem König das Feld a2."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Opfer-Rätsel. Frag dich bei jedem Opfer: Was passiert, nachdem der Gegner geschlagen hat?",
+     "themes": [
+      "sacrifice"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Ein Damenopfer ist richtig, wenn du **jede Antwort** des Gegners kennst und danach Matt folgt. Frag dich: Welcher Verteidiger muss weg (**Ablenkung**), wohin soll der König (**Hinlenkung**), welche Linie soll aufgehen (**Linienöffnung**)?"
+    }
+   ]
+  },
+  {
+   "id": "mates-quiet",
+   "unit": "mates-in-2",
+   "title": "Der stille Mattzug",
+   "subtitle": "Kein Schach – aber das Matt ist nicht mehr aufzuhalten.",
+   "minutes": 8,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein **stiller Zug** gibt kein Schach – aber er droht etwas, das der Gegner nicht mehr abwehren kann.\nHier: **Dh6!** droht Dg7#. Der Läufer f6 deckt g7, und Schwarz hat nichts, um das Feld noch zu schützen.",
+     "fen": "r5k1/p4p1p/5Bp1/8/8/8/3Q1PPP/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "d2",
+       "h6",
+       "g"
+      ],
+      [
+       "h6",
+       "g7",
+       "r"
+      ]
+     ],
+     "marks": {
+      "f6": "b"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Du hast **kein einziges Schach** – und trotzdem Matt in 2. Finde den Zug ohne Schach, gegen den es keine Abwehr gibt!",
+     "fen": "6k1/p4p2/1p2pBpp/1b1pP3/3P3Q/3q1P2/6PK/8 w - - 5 40",
+     "moves": [
+      "h4h6",
+      "g6g5",
+      "h6g7"
+     ],
+     "hint": "Wo würde deine Dame mit Hilfe des Läufers f6 mattsetzen? Bring sie in Stellung.",
+     "success": "**Dxh6!** droht Dg7# und Dh8#. Beides kann Schwarz nicht verhindern – nach g5 folgt **Dg7#**."
+    },
+    {
+     "type": "quiz",
+     "text": "Kein Schach führt zum Matt. Welche Frage hilft dir jetzt am meisten weiter?",
+     "options": [
+      "Was würde ich ziehen, wenn ich zweimal dürfte?",
+      "Welche Figur kann ich sofort schlagen?",
+      "Wie tausche ich die Damen ab?"
+     ],
+     "answer": 0,
+     "explain": "Die **Doppelzug-Frage**: Stell dir vor, du dürftest zweimal ziehen. Der erste der beiden Züge ist oft dein stiller Zug – dann prüf, ob der Gegner die Drohung noch abwehren kann."
+    },
+    {
+     "type": "line",
+     "text": "Weiß hat nur König und Bauern – und setzt trotzdem in 2 matt. Schach gibt es keins. Welcher stille Zug droht Unaufhaltsames?",
+     "fen": "1k6/1P6/1K2n3/P3p3/8/8/8/8 w - - 2 62",
+     "moves": [
+      "a5a6",
+      "e6c7",
+      "a6a7"
+     ],
+     "hint": "Der Bauer b7 bewacht schon a8 und c8. Welcher Bauer kann im nächsten Zug Schach geben?",
+     "success": "**a6!** – und **a7#** ist nicht mehr zu verhindern, selbst nach Sc7. Der Bauer b7 nimmt dem König a8 und c8, dein König deckt a7 und c7."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Matt in 3 – und der erste Zug ist ein stiller **Königszug**! Auch der König kann beim Mattnetz helfen.",
+     "fen": "8/2R5/8/2pB1pp1/2P2k2/7P/2r3P1/7K b - - 3 37",
+     "moves": [
+      "f4g3",
+      "c7e7",
+      "c2c1",
+      "e7e1",
+      "c1e1"
+     ],
+     "hint": "Welche Felder neben dem weißen König kann dein König bewachen?",
+     "success": "**Kg3!** nimmt dem weißen König g2 und h2 und droht Tc1#. Nach **Te7 Tc1+ Te1 Txe1#** ist es vorbei."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz und hast kein einziges Schach. Finde den stillen Turmzug – Matt in 3!",
+     "fen": "1R6/1P4p1/6k1/4p2p/1r2p2K/4P1P1/5PP1/8 b - - 1 37",
+     "moves": [
+      "b4b1",
+      "g3g4",
+      "b1h1",
+      "h4g3",
+      "h5h4"
+     ],
+     "hint": "Der weiße König steht am Rand. Von wo aus kann dein Turm auf der h-Linie zuschlagen?",
+     "success": "**Tb1!** droht Th1#. Nach **g4 Th1+ Kg3** setzt der Bauer mit **h4#** matt – deine Bauern e4 und e5 sperren f3 und f4."
+    },
+    {
+     "type": "line",
+     "text": "Profi-Aufgabe: Matt in 3, und der Schlüsselzug ist ein stiller Turmzug. Deine Dame h4 braucht Verstärkung!",
+     "fen": "r3r1k1/pp2qpp1/2p1bn2/3p2N1/6PQ/P3R3/1P3P1P/5K1R w - - 0 22",
+     "moves": [
+      "e3h3",
+      "g8f8",
+      "h4h8",
+      "f6g8",
+      "g5h7"
+     ],
+     "hint": "Wie bekommt deine Dame auf der h-Linie Unterstützung?",
+     "success": "**Th3!** droht Dh8#. Nach **Kf8 Dh8+ Sg8 Sh7#** steht der König erstickt zwischen seinen eigenen Figuren."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 3 echte Matt-Rätsel in 2 oder 3 Zügen. Prüf zuerst die Schachs – und wenn keins passt, stell die Doppelzug-Frage!",
+     "themes": [
+      "mateIn2",
+      "mateIn3"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Führt kein Schach zum Matt, such einen **stillen Zug** mit unaufhaltsamer Drohung. Frag dich: Was würde ich spielen, wenn ich zweimal ziehen dürfte? Dann prüf jede Verteidigung des Gegners."
+    }
+   ]
+  }
+ ]
+}

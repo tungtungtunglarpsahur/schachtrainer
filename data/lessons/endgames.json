@@ -96,7 +96,7 @@
           "text": "Jetzt gegen die Engine: Dein König steht aktiv, der schwarze ist weit weg. Hol dir die Bauern am Damenflügel und mach eine Dame!",
           "fen": "6k1/pp4pp/8/2K5/8/8/PP4PP/8 w - - 0 1",
           "goal": "promote",
-          "maxMoves": 28
+          "maxMoves": 34
         },
         {
           "type": "drill",
@@ -471,6 +471,326 @@
         {
           "type": "info",
           "text": "**Merke:** Opposition = Könige gegenüber, ein Feld dazwischen. Wer **nicht** am Zug ist, hat sie – der andere muss ausweichen. Ob Angriff oder Verteidigung: Nimm die Opposition, wann immer du kannst!"
+        }
+      ]
+    },
+    {
+      "id": "end-key-squares",
+      "unit": "end-pawns",
+      "title": "Schlüsselfelder",
+      "subtitle": "Erreicht dein König dieses Feld, ist der Sieg sicher.",
+      "minutes": 6,
+      "steps": [
+        {
+          "type": "info",
+          "text": "Jeder Bauer hat **Schlüsselfelder** (grün). Erreicht dein König eins davon, gewinnst du – **egal, wer am Zug ist**.\nSteht der Bauer auf der 2. bis 4. Reihe, sind es die drei Felder **zwei Reihen vor** ihm. Hier steht der König schon auf d6: gewonnen!",
+          "fen": "4k3/8/3K4/8/4P3/8/8/8 w - - 0 1",
+          "marks": {
+            "d6": "g",
+            "e6": "g",
+            "f6": "g"
+          }
+        },
+        {
+          "type": "quiz",
+          "text": "Welche Felder sind die Schlüsselfelder für den Bauern auf c3?",
+          "fen": "4k3/8/8/8/8/2P5/8/4K3 w - - 0 1",
+          "options": [
+            "b4, c4 und d4",
+            "b5, c5 und d5",
+            "b6, c6 und d6"
+          ],
+          "answer": 1,
+          "explain": "Zwei Reihen vor dem Bauern: **b5, c5 und d5**. Steht dein König dort, kann ihn kein Verteidiger mehr aufhalten."
+        },
+        {
+          "type": "move",
+          "text": "Dein Bauer steht auf e2 – seine Schlüsselfelder sind d4, e4 und f4. Erreiche eins davon, bevor Schwarz es verhindert!",
+          "fen": "8/8/4k3/8/8/2K5/4P3/8 w - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "c3d4"
+          ],
+          "marks": {
+            "d4": "g",
+            "e4": "g",
+            "f4": "g"
+          },
+          "hint": "Nur eins der drei grünen Felder erreichst du mit einem Zug.",
+          "success": "Kd4! Du stehst auf einem Schlüsselfeld – jetzt gewinnst du, egal was Schwarz macht."
+        },
+        {
+          "type": "move",
+          "text": "Gleiche Stellung, aber jetzt ist **Schwarz** am Zug – und du spielst Schwarz. Halte den weißen König von allen Schlüsselfeldern fern!",
+          "fen": "8/8/4k3/8/8/2K5/4P3/8 b - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "e6e5"
+          ],
+          "marks": {
+            "d4": "g",
+            "e4": "g",
+            "f4": "g"
+          },
+          "hint": "Von welchem Feld aus bewacht dein König d4, e4 und f4 gleichzeitig?",
+          "success": "Ke5! Dein König bewacht alle drei Schlüsselfelder. Weiß kommt nicht durch – Remis."
+        },
+        {
+          "type": "move",
+          "text": "Jetzt steht dein Bauer auf d4. Finde selbst das Schlüsselfeld, das du sofort erreichst!",
+          "fen": "8/8/2k5/4K3/3P4/8/8/8 w - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "e5e6"
+          ],
+          "hint": "Zwei Reihen vor dem Bauern liegen c6, d6 und e6. Welches davon ist frei und erreichbar?",
+          "success": "Ke6! Ein Schlüsselfeld – jetzt ist der Bauer nicht mehr aufzuhalten."
+        },
+        {
+          "type": "quiz",
+          "text": "Steht der Bauer schon auf der 5. Reihe, ändert sich etwas. Welche Felder sind jetzt Schlüsselfelder für e5?",
+          "fen": "4k3/8/8/4P3/8/8/8/4K3 w - - 0 1",
+          "options": [
+            "Nur d7, e7 und f7",
+            "d6, e6, f6 und d7, e7, f7",
+            "Nur e6 und e7"
+          ],
+          "answer": 1,
+          "explain": "Ab der 5. Reihe gibt es **sechs** Schlüsselfelder: die drei Felder eine **und** zwei Reihen vor dem Bauern."
+        },
+        {
+          "type": "play",
+          "text": "Jetzt gegen die Engine: Finde das Schlüsselfeld für deinen e-Bauern, erobere es – und mach eine Dame!",
+          "fen": "8/8/5k2/8/6K1/8/4P3/8 w - - 0 1",
+          "goal": "promote",
+          "maxMoves": 28
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Bauernendspiel-Rätsel. Wohin muss dein König?",
+          "themes": [
+            "pawnEndgame"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Schlüsselfelder sind die drei Felder zwei Reihen vor dem Bauern (ab der 5. Reihe sogar sechs). Erreicht dein König eins davon, ist der Bauer nicht zu stoppen. Als Verteidiger bewachst du sie mit deinem König. Ausnahme: der Randbauer."
+        }
+      ]
+    },
+    {
+      "id": "end-breakthrough",
+      "unit": "end-pawns",
+      "title": "Der Bauerndurchbruch",
+      "subtitle": "Opfere Bauern – und einer kommt durch.",
+      "minutes": 7,
+      "steps": [
+        {
+          "type": "info",
+          "text": "Drei gegen drei – und Weiß am Zug gewinnt mit einem **Durchbruch**: b6!\nNimmt Schwarz mit dem c-Bauern, folgt a6!, nimmt er mit dem a-Bauern, folgt c6! Ein weißer Bauer kommt immer durch. Die Könige sind zu weit weg, um noch einzugreifen.",
+          "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
+          "arrows": [
+            [
+              "b5",
+              "b6",
+              "g"
+            ]
+          ]
+        },
+        {
+          "type": "line",
+          "text": "Jetzt du: Brich durch! Achte darauf, wie Schwarz schlägt, und antworte richtig.",
+          "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
+          "moves": [
+            "b5b6",
+            "c7b6",
+            "a5a6",
+            "b7a6",
+            "c5c6"
+          ],
+          "hint": "Erst b6! Danach opferst du noch einen Bauern – so, dass dein letzter Bauer freie Bahn hat.",
+          "success": "Durchgebrochen! Der c-Bauer ist nicht mehr aufzuhalten. Zwei Opfer – eine neue Dame."
+        },
+        {
+          "type": "quiz",
+          "text": "Diesmal schlägt Schwarz nach b6 mit dem a-Bauern: axb6. Wie geht’s weiter?",
+          "fen": "6k1/1pp5/1p6/P1P5/8/8/8/6K1 w - - 0 2",
+          "options": [
+            "c6",
+            "axb6",
+            "cxb6"
+          ],
+          "answer": 0,
+          "explain": "**c6!** bxc6 a6 – und der a-Bauer läuft durch. Nach axb6? oder cxb6? schlägt Schwarz einfach zurück, und alles ist dicht."
+        },
+        {
+          "type": "line",
+          "text": "Zwei gegen zwei am Königsflügel, der schwarze König ist weit weg. Schaff dir einen Freibauern!",
+          "fen": "8/6pp/8/5Pp1/k6P/8/3K4/8 w - - 0 51",
+          "moves": [
+            "h4g5",
+            "a4b5",
+            "f5f6",
+            "g7f6",
+            "g5f6"
+          ],
+          "hint": "Erst schlagen – dann opfert sich ein Bauer, damit der andere freie Bahn bekommt.",
+          "success": "Genau! Nach f6! gxf6 gxf6 läuft dein f-Bauer zur Dame. Der schwarze h-Bauer ist viel zu langsam."
+        },
+        {
+          "type": "line",
+          "text": "Jetzt bist du Schwarz. Sprenge die weiße Bauernkette und schaff dir einen Freibauern!",
+          "fen": "8/8/8/5pkp/3K4/5PP1/8/8 b - - 2 56",
+          "moves": [
+            "f5f4",
+            "d4e5",
+            "f4g3"
+          ],
+          "hint": "Stoß einen deiner Bauern vor – mitten in die weiße Kette hinein.",
+          "success": "Stark! f4 hat die Kette gesprengt. Dein g-Bauer läuft, und der weiße König kommt zu spät."
+        },
+        {
+          "type": "line",
+          "text": "Etwas schwerer: Zwei gegen zwei, der schwarze König steht weit weg. Finde den Durchbruch!",
+          "fen": "8/8/6pp/p7/Pk2KP1P/8/8/8 w - - 4 41",
+          "moves": [
+            "h4h5",
+            "g6h5",
+            "f4f5"
+          ],
+          "hint": "Opfere einen Bauern, damit der andere freie Bahn bekommt.",
+          "success": "Perfekt! Nach h5 gxh5 f5 hat dein f-Bauer freie Bahn – die schwarzen h-Bauern kommen zu spät."
+        },
+        {
+          "type": "quiz",
+          "text": "Was ist die wichtigste Bedingung für einen Bauerndurchbruch?",
+          "options": [
+            "Der gegnerische König ist weit weg",
+            "Du hast mehr Bauern als der Gegner",
+            "Deine Bauern stehen auf der 4. Reihe"
+          ],
+          "answer": 0,
+          "explain": "Der neue Freibauer muss schneller sein als der gegnerische König. Steht der König nah dran, frisst er den Bauern nach dem Opfer einfach weg."
+        },
+        {
+          "type": "play",
+          "text": "Gleiches Muster, anderer Flügel: Brich gegen die Engine durch und mach eine Dame!",
+          "fen": "1k6/5ppp/8/5PPP/8/8/8/1K6 w - - 0 1",
+          "goal": "promote",
+          "maxMoves": 14
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Rätsel rund um Bauern, die durchbrechen wollen.",
+          "themes": [
+            "pawnEndgame",
+            "advancedPawn"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Stehen sich Bauern gegenüber, kann ein **Opfer** den Weg freimachen – oft opfert sich zuerst der mittlere Bauer. Prüf vorher, ob der gegnerische König den neuen Freibauern noch einholt."
+        }
+      ]
+    },
+    {
+      "id": "end-outside-passer",
+      "unit": "end-pawns",
+      "title": "Der entfernte Freibauer",
+      "subtitle": "Ein Bauer am Rand lockt den König weg.",
+      "minutes": 6,
+      "steps": [
+        {
+          "type": "info",
+          "text": "Ein **Freibauer** hat keinen gegnerischen Bauern mehr vor sich – nicht auf seiner Linie und nicht daneben. Steht er weit weg von den anderen Bauern, heißt er **entfernter Freibauer**.\nHier hat Weiß so einen: den a-Bauern. Läuft er los, muss der schwarze König hinterher – und der weiße König frisst derweil am Königsflügel.",
+          "fen": "8/5pp1/4k2p/8/P3K1PP/8/8/8 w - - 0 1",
+          "arrows": [
+            [
+              "a4",
+              "a8",
+              "g"
+            ]
+          ],
+          "marks": {
+            "f7": "y",
+            "g7": "y",
+            "h6": "y"
+          }
+        },
+        {
+          "type": "quiz",
+          "text": "Warum ist der a-Bauer hier so stark?",
+          "fen": "8/5pp1/4k2p/8/P3K1PP/8/8/8 w - - 0 1",
+          "options": [
+            "Er wird gleich Dame, egal was Schwarz tut",
+            "Er lockt den schwarzen König vom Königsflügel weg",
+            "Er beschützt den weißen König"
+          ],
+          "answer": 1,
+          "explain": "Der entfernte Freibauer ist ein **Lockvogel**: Der schwarze König muss ihn stoppen – und kommt dann zu spät zurück, um seine eigenen Bauern zu retten."
+        },
+        {
+          "type": "line",
+          "text": "Wettrennen! Der schwarze König frisst am Königsflügel – aber dein b-Bauer ist weit weg von ihm. Lauf los!",
+          "fen": "8/8/3p4/8/1P5p/2K3kP/8/8 w - - 1 49",
+          "moves": [
+            "b4b5",
+            "g3h3",
+            "b5b6",
+            "h3g2",
+            "b6b7",
+            "h4h3",
+            "b7b8q"
+          ],
+          "hint": "Zähl mit: Wer ist zuerst auf der letzten Reihe – dein b-Bauer oder der schwarze h-Bauer?",
+          "success": "Dame! Dein entfernter Freibauer war schneller – der schwarze König war am anderen Flügel beschäftigt."
+        },
+        {
+          "type": "quiz",
+          "text": "Welcher Freibauer ist im Bauernendspiel meist am stärksten?",
+          "options": [
+            "Einer in der Mitte, nah am eigenen König",
+            "Einer am Rand, weit weg von den anderen Bauern",
+            "Das spielt keine Rolle"
+          ],
+          "answer": 1,
+          "explain": "Je weiter er von den übrigen Bauern weg ist, desto weiter muss der gegnerische König laufen – und desto mehr Zeit hat dein König auf der anderen Seite."
+        },
+        {
+          "type": "line",
+          "text": "Auch hier entscheidet der Freibauer am Rand. Lauf los – und gewinne dabei sogar ein Tempo!",
+          "fen": "8/6p1/K1k1p2p/4p3/1P6/7P/8/8 w - - 1 45",
+          "moves": [
+            "b4b5",
+            "c6d5",
+            "b5b6",
+            "e5e4",
+            "b6b7"
+          ],
+          "hint": "Dein Bauer kann mit Schach vorrücken. Danach heißt es nur noch: laufen, laufen, laufen.",
+          "success": "Perfekt! Nichts hält den b-Bauern mehr auf, und die schwarzen e-Bauern kommen zu spät."
+        },
+        {
+          "type": "play",
+          "text": "Jetzt du gegen die Engine: Nutze den a-Bauern als Lockvogel, räum mit dem König ab – und mach eine Dame, egal mit welchem Bauern!",
+          "fen": "8/5pp1/4k2p/8/P3K1PP/8/8/8 w - - 0 1",
+          "goal": "promote",
+          "maxMoves": 28
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Rätsel mit Freibauern. Wer ist schneller?",
+          "themes": [
+            "pawnEndgame",
+            "advancedPawn"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Ein **entfernter Freibauer** ist im Bauernendspiel Gold wert. Er lockt den gegnerischen König weg – und dein König räumt auf der anderen Seite ab."
         }
       ]
     }

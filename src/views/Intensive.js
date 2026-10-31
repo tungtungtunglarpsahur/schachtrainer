@@ -114,6 +114,7 @@ function Overview({ s, content }) {
       <a class="card int-tool" href="#/vision"><${PieceIcon} p="wR" size=${30} /><span><b>Sehtraining</b><small class="muted">Aufwärmen: 1–2 Runden vor jeder Einheit</small></span><${Icon} name="next" /></a>
       <a class="card int-tool" href="#/puzzles/rush"><${PieceIcon} p="wQ" size=${30} /><span><b>Rätsel-Rush</b><small class="muted">3 Minuten Vollgas für den Taktik-Blick</small></span><${Icon} name="next" /></a>
       <a class="card int-tool" href="#/puzzles/mine"><${PieceIcon} p="bK" size=${30} /><span><b>Deine Partie-Fehler</b><small class="muted">Aus deinen Partien – bis sie sitzen</small></span><${Icon} name="next" /></a>
+      <a class="card int-tool" href="#/notes"><${PieceIcon} p="wK" size=${30} /><span><b>Merkzettel</b><small class="muted">Alle Merkregeln – vor dem Turnier durchlesen</small></span><${Icon} name="next" /></a>
     </div>
     <button class="btn ghost" onClick=${() => setConfirm(true)}><${Icon} name="x" /> Plan beenden</button>
     ${confirm &&

@@ -20,6 +20,7 @@ import { OnlineHub, JoinView, InvitePopup } from './views/Online.js';
 import { OnlineGame } from './views/OnlineGame.js';
 import { VisionHub, VisionDrill } from './views/Vision.js';
 import { Intensive } from './views/Intensive.js';
+import { Notes } from './views/Notes.js';
 import { goalMinutes } from './lib/intensive.js';
 import { useNet } from './lib/online.js';
 import { isIOS, isStandalone } from './lib/device.js';
@@ -32,6 +33,7 @@ const NAV = [
   { href: '#/online', icon: 'globe', label: 'Online' },
   { href: '#/intensive', icon: 'bolt', label: 'Intensiv-Plan' },
   { href: '#/vision', icon: 'eye', label: 'Sehtraining' },
+  { href: '#/notes', icon: 'pen', label: 'Merkzettel' },
   { href: '#/progress', icon: 'chart', label: 'Fortschritt' },
   { href: '#/openings', icon: 'book', label: 'Eröffnungen' },
   { href: '#/analysis', icon: 'scope', label: 'Analyse' },
@@ -39,7 +41,7 @@ const NAV = [
 ];
 // Unten auf dem Handy: Start, Rätsel, Spielen, Online + „Mehr“.
 const TABS = [NAV[0], NAV[2], NAV[3], NAV[4]];
-const MORE = [NAV[1], NAV[5], NAV[6], NAV[7], NAV[8], NAV[9], NAV[10]];
+const MORE = [NAV[1], NAV[5], NAV[6], NAV[7], NAV[8], NAV[9], NAV[10], NAV[11]];
 
 
 const parseHash = () => {
@@ -311,6 +313,9 @@ function App() {
       break;
     case 'intensive':
       view = html`<${Intensive} />`;
+      break;
+    case 'notes':
+      view = html`<${Notes} />`;
       break;
     case 'online':
       view =

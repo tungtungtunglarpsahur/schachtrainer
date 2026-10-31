@@ -7,56 +7,18 @@ import { Icon, Ring, Bar, PieceIcon, Spinner } from '../ui/kit.js';
 import { dueMistakes } from '../lib/mistakes.js';
 import { useNet } from '../lib/online.js';
 import { intensiveActive, goalMinutes, planDay, dayBlock } from '../lib/intensive.js';
-import { VISION } from './Vision.js';
+import { taskInfo } from '../lib/plan-info.js';
 
 // Aus der Einstiegs-Umfrage: „Wo hakt es?“ → passende Trainings.
 const FOCUS = {
-  blunders: { href: '#/puzzles/theme-hang', title: 'Nichts mehr einstellen', sub: 'Hängende Figuren sehen – bei dir und beim Gegner', art: 'defense', icon: 'wR' },
-  tactics: { href: '#/puzzles/theme-fork', title: 'Taktik-Blick', sub: 'Gabeln, Fesselungen, Abzüge', art: 'tactic', icon: 'wN' },
-  strategy: { href: '#/learn', title: 'Pläne finden', sub: 'Strategie im Lernpfad', art: 'mix', icon: 'wB' },
-  openings: { href: '#/openings', title: 'Dein Repertoire', sub: 'Eröffnungen verstehen statt auswendig lernen', art: 'open', icon: 'wB' },
-  endgames: { href: '#/puzzles/theme-end', title: 'Endspiele gewinnen', sub: 'Technik, die Punkte bringt', art: 'end', icon: 'wK' },
-  mates: { href: '#/puzzles/theme-m2', title: 'Mattsetzen', sub: 'Matt in 2 – Muster einschleifen', art: 'mate', icon: 'wQ' },
-  time: { href: '#/puzzles/rush', title: 'Schneller rechnen', sub: 'Rätsel-Rush gegen die Uhr', art: 'rush', icon: 'wQ' },
+  blunders: { href: '#/puzzles/theme-hang', lesson: 'strategy-blundercheck', title: 'Nichts mehr einstellen', sub: 'Hängende Figuren sehen – bei dir und beim Gegner', icon: 'wR' },
+  tactics: { href: '#/puzzles/theme-fork', lesson: 'tactics-fork', title: 'Taktik-Blick', sub: 'Gabeln, Fesselungen, Abzüge', icon: 'wN' },
+  strategy: { href: '#/learn', lesson: 'strategy-worst-piece', title: 'Pläne finden', sub: 'Strategie im Lernpfad', icon: 'wB' },
+  openings: { href: '#/openings', lesson: 'strategy-develop', title: 'Dein Repertoire', sub: 'Eröffnungen verstehen statt auswendig lernen', icon: 'wB' },
+  endgames: { href: '#/puzzles/theme-end', lesson: 'end-king-active', title: 'Endspiele gewinnen', sub: 'Technik, die Punkte bringt', icon: 'wK' },
+  mates: { href: '#/puzzles/theme-m2', lesson: 'mates-backrank', title: 'Mattsetzen', sub: 'Mattbilder erkennen und ausführen', icon: 'wQ' },
+  time: { href: '#/puzzles/rush', title: 'Schneller rechnen', sub: 'Rätsel-Rush gegen die Uhr', icon: 'wQ' },
 };
-
-function taskInfo(task, content) {
-  switch (task.kind) {
-    case 'lesson': {
-      const l = content.lessonById[task.id];
-      const u = l && content.unitById[l.unit];
-      return { title: l?.title || 'Lektion', sub: u ? `${TRACKS[u.track]?.name} · ${u.title}` : '', href: `#/lesson/${task.id}`, icon: u?.icon || 'wP', min: l?.minutes || 4, tag: 'Lektion' };
-    }
-    case 'review':
-      return { title: `${task.count} Fehler wiederholen`, sub: 'Rätsel, die du zuletzt verpasst hast', href: '#/puzzles/review', icon: 'wR', min: Math.ceil(task.count * 0.8), tag: 'Wiederholung' };
-    case 'puzzles':
-      return {
-        title: `${task.count} Rätsel lösen`,
-        sub: task.themes ? [...new Set(task.themes.map(themeName))].slice(0, 3).join(' · ') : 'Auf deinem Niveau',
-        href: `#/puzzles/train${task.themes ? `?themes=${task.themes.join(',')}` : ''}`,
-        icon: 'wN',
-        min: task.count,
-        tag: 'Taktik',
-      };
-    case 'opening': {
-      const [id, i] = task.key.split('#');
-      const o = content.openingById[id];
-      return { title: o ? o.name : 'Eröffnung', sub: o?.lines[i]?.name || '', href: `#/opening/${id}?line=${i}`, icon: 'wB', min: 4, tag: 'Eröffnung' };
-    }
-    case 'play':
-      return task.count > 1
-        ? { title: `${task.count} Partien mit Coach`, sub: `Gegner um ${task.elo} Elo – danach Fehler ansehen`, href: `#/play?elo=${task.elo}`, icon: 'bK', min: 12 * task.count, tag: 'Spielen' }
-        : { title: 'Probepartie mit Coach', sub: `Gegner um ${task.elo} Elo`, href: `#/play?elo=${task.elo}`, icon: 'bK', min: 10, tag: 'Spielen' };
-    case 'vision': {
-      const v = VISION[task.mode] || VISION.hanging;
-      return { title: `Sehtraining: ${v.title}`, sub: 'Eine Runde zum Aufwärmen', href: `#/vision/${task.mode}`, icon: v.icon, min: 2, tag: 'Brettblick' };
-    }
-    case 'rush':
-      return { title: 'Rätsel-Rush', sub: '3 Minuten, 3 Leben – Taktik unter Zeitdruck', href: '#/puzzles/rush', icon: 'wQ', min: 4, tag: 'Tempo' };
-    default:
-      return { title: '', sub: '', href: '#/', icon: 'wP', min: 0, tag: '' };
-  }
-}
 
 // Hinweis auf Neuerungen – einmal wegklicken, dann bis zur nächsten Version weg.
 const NEWS = '2.4';
@@ -122,7 +84,15 @@ export function Home() {
   const path = buildPath(content, s.profile);
   const upcoming = nextLessons(path, s, 4);
   const mineDue = dueMistakes(s).length;
-  const focus = (s.profile.survey?.weaknesses || []).map((w) => FOCUS[w]).filter(Boolean).slice(0, 3);
+  // Fokus aus der Umfrage: zuerst die passende Lektion (solange offen), danach die Rätsel zum Thema.
+  const focus = (s.profile.survey?.weaknesses || [])
+    .map((w) => FOCUS[w])
+    .filter(Boolean)
+    .slice(0, 3)
+    .map((f) => {
+      const l = f.lesson && content.lessonById[f.lesson];
+      return l && !s.lessons[l.id]?.done ? { ...f, href: `#/lesson/${l.id}`, sub: `Lektion: ${l.title}` } : f;
+    });
   const hour = new Date().getHours();
   const hi = hour < 11 ? 'Guten Morgen' : hour < 18 ? 'Hi' : 'Guten Abend';
   const allDone = done === items.length && items.length > 0;

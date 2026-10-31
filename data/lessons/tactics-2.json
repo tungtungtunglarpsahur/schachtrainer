@@ -1,0 +1,505 @@
+{
+ "units": [
+  {
+   "id": "tactics-combos",
+   "track": "tactics",
+   "level": 3,
+   "title": "Kombinationen",
+   "description": "Mehrere Ideen in einem Zug: Verteidiger ausschalten, Linien räumen, Figuren einsperren, Bauern durchbrechen.",
+   "icon": "wQ"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "tactics-remove-defender",
+   "unit": "tactics-combos",
+   "title": "Den Verteidiger beseitigen",
+   "subtitle": "Schalte den Wächter aus – dann fällt, was er bewacht.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Jede Figur, die etwas deckt, ist ein **Wächter**. Hier bewacht nur der Springer f6 den Läufer d5 (blau).\n**Lxf6!** schaltet den Wächter aus: Nach gxf6 schlägt Txd5. Rettet Schwarz lieber den Läufer, bist du einen Springer vorn.",
+     "fen": "r5k1/ppp2ppp/5n2/3b2B1/7N/8/PPP2PPP/3R2K1 w - - 0 1",
+     "arrows": [
+      [
+       "g5",
+       "f6",
+       "g"
+      ],
+      [
+       "f6",
+       "d5",
+       "b"
+      ],
+      [
+       "d1",
+       "d5",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du! Dein Turm greift den Läufer e5 an. Wer bewacht ihn? **Beseitige den Wächter.**",
+     "fen": "5rk1/ppp2ppp/2n5/1B2b3/8/7P/PPP1RPP1/2B3K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b5c6"
+     ],
+     "hint": "Nur eine schwarze Figur deckt e5. Kannst du sie schlagen?",
+     "success": "Lxc6! Nach bxc6 holt Txe5 den Läufer. Rettet Schwarz stattdessen den Läufer, hast du den Springer gratis."
+    },
+    {
+     "type": "quiz",
+     "text": "Fast dieselbe Stellung – aber jetzt steht ein Bauer auf e6. Gewinnt Lxf6 hier den Läufer d5?",
+     "fen": "r5k1/pp3ppp/4pn2/3b2B1/7N/8/PPP2PPP/3R2K1 w - - 0 1",
+     "options": [
+      "Ja – nach gxf6 schlägt Txd5",
+      "Nein – d5 hat noch einen zweiten Wächter",
+      "Nein – nach Lxf6 verlierst du eine Figur"
+     ],
+     "answer": 1,
+     "explain": "Der Bauer e6 deckt d5 ebenfalls. Nach Lxf6 gxf6 Txd5? exd5 ist dein Turm weg. **Zähl die Wächter:** Die Figur fällt erst, wenn du den **letzten** ausschaltest."
+    },
+    {
+     "type": "line",
+     "text": "Aus einer echten Partie: Dein Turm e1 greift den Turm e6 an. Sein einziger Wächter ist die Dame d5. Du kannst sie nicht gratis schlagen – aber **abtauschen**!",
+     "fen": "r5k1/pp4pp/2p1rn2/3q4/3Q4/7P/PP3PP1/2R1R1K1 w - - 0 27",
+     "moves": [
+      "d4d5",
+      "f6d5",
+      "e1e6"
+     ],
+     "hint": "Wer deckt e6? Biete genau dieser Figur den Tausch an.",
+     "success": "Dxd5! Nach Sxd5 fehlt der Wächter: Txe6 gewinnt den Turm. Abtauschen ist oft der sauberste Weg, einen Wächter loszuwerden."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt spielst du Schwarz. Dein Turm e8 greift den Läufer e4 an, doch der Springer c3 deckt ihn. Schlagen kannst du den Wächter nicht – aber **vertreiben**!",
+     "fen": "1nb1r2k/p1pp1ppp/8/1p6/4B3/2N5/PPP2PPP/5RK1 b - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b5b4"
+     ],
+     "hint": "Welcher Bauernzug greift den Springer c3 an?",
+     "success": "b4! Zieht der Springer weg, fällt e4. Bleibt er stehen, schlägt bxc3. So oder so gewinnst du eine Figur."
+    },
+    {
+     "type": "line",
+     "text": "Echte Partie: Schwarz hat mit h6 deinen Springer g5 angegriffen. Bevor du ihn rettest: Schau, was der Läufer e6 alles bewacht!",
+     "fen": "r2q1rk1/p4pp1/2pbb2p/2pp2N1/6n1/2PP2P1/PP3P1P/RNBQR1K1 w - - 0 13",
+     "moves": [
+      "g5e6",
+      "f7e6",
+      "d1g4"
+     ],
+     "hint": "Deine Dame d1 greift den Springer g4 an. Wer deckt ihn?",
+     "success": "Sxe6! Der Wächter ist weg und dein Springer gerettet. Nach fxe6 holt Dxg4 den Springer g4."
+    },
+    {
+     "type": "line",
+     "text": "Matt in 2! Dein Springer g5 zielt schon auf h7. Doch der Springer f6 bewacht das Feld, und deine Dame c2 kommt noch nicht hin.",
+     "fen": "r2q1rk1/pbp1bpp1/1p2pn1p/6N1/1Pn1N2P/P3P3/1BQP1PP1/R3K2R w KQ - 0 13",
+     "moves": [
+      "e4f6",
+      "e7f6",
+      "c2h7"
+     ],
+     "hint": "Welcher Schlagzug gibt Schach – und macht nebenbei die Diagonale deiner Dame frei?",
+     "success": "Sxf6+ Lxf6 Dh7#! Ein Zug, zwei Ideen: Wächter geschlagen **und** die Diagonale für die Dame geräumt. Das ist eine **Kombination**."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz – Matt in 2! Das Feld d1 hat zwei Wächter: den Turm b1 und den Springer c3. Ein mutiger Zug schaltet beide aus.",
+     "fen": "2kr3r/p4Q1p/2p1p3/4P3/1qb5/2N2R2/P4PPP/1R4K1 b - - 2 20",
+     "moves": [
+      "b4b1",
+      "c3b1",
+      "d8d1"
+     ],
+     "hint": "Schlag einen Wächter mit Schach – und schau, welche Figur zurückschlagen muss.",
+     "success": "Dxb1+! Nach Sxb1 hat der Springer d1 verlassen: Td1#. Ein Damenopfer gegen zwei Wächter!"
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel: Such in jeder Stellung den Wächter – und schalte ihn aus.",
+     "themes": [
+      "capturingDefender"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Frag bei jeder gedeckten Figur: **Wer ist ihr Wächter?** Schlag ihn, tausch ihn ab oder vertreib ihn – aber zähl vorher, ob er der letzte ist. Dann fällt, was er bewacht hat."
+    }
+   ]
+  },
+  {
+   "id": "tactics-clearance",
+   "unit": "tactics-combos",
+   "title": "Räumung & Verstellung",
+   "subtitle": "Mach deinen Figuren Platz – und schneide gegnerische Verbindungen ab.",
+   "minutes": 8,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Räumung:** Eine eigene Figur steht im Weg. Hier versperrt der Springer e4 deiner Dame die Diagonale nach h7 (rot).\n**Sf6+!** macht sie frei – mit Schach, also ohne Zeitverlust. Was Schwarz auch tut: Dh7#.",
+     "fen": "r1bq1rk1/1p2bpp1/p3p2p/4n3/3PN3/8/PPQ2PPP/1BR2RK1 w - - 0 17",
+     "arrows": [
+      [
+       "e4",
+       "f6",
+       "g"
+      ],
+      [
+       "c2",
+       "h7",
+       "r"
+      ]
+     ],
+     "marks": {
+      "e4": "y"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Jetzt du – Matt in 2! Dame und Turm zielen auf h7, doch eine deiner Figuren steht im Weg. Räum sie mit Tempo weg!",
+     "fen": "2r2rk1/p4pp1/1p5R/3qn3/3PN3/3QP2P/6P1/5RK1 w - - 0 29",
+     "moves": [
+      "e4f6",
+      "g7f6",
+      "d3h7"
+     ],
+     "hint": "Welcher Springerzug gibt Schach?",
+     "success": "Sf6+! Die Diagonale ist frei – nach gxf6 folgt Dh7#, gedeckt vom Turm h6."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz – Matt in 2! Deine Dame e5 will zum weißen König. Welche **eigene** Figur steht ihr im Weg?",
+     "fen": "r5k1/1pp4p/3p2p1/p2Pqn2/2P5/PP6/2BQ2PP/6RK b - - 0 30",
+     "moves": [
+      "f5g3",
+      "h2g3",
+      "e5h5"
+     ],
+     "hint": "Ein Springerschach räumt die 5. Reihe – und öffnet nebenbei die h-Linie.",
+     "success": "Sg3+! Nach hxg3 sind f5 und die h-Linie frei: Dh5#. Die Räumung kam mit Schach – Weiß hatte keine Zeit."
+    },
+    {
+     "type": "quiz",
+     "text": "Deine Dame h1 will nach h7 – dort wäre es Matt. Doch dein Turm h6 steht im Weg. Welcher Turmzug räumt die Linie?",
+     "fen": "5rk1/p1p3b1/1p2p1PR/5pq1/2P5/5B2/PP6/1K5Q w - - 3 30",
+     "options": [
+      "Th8+ – über h7 hinaus, mit Schach",
+      "Th7 – ganz nah an den König",
+      "Th3 – zurück, damit die Dame vorbeikommt"
+     ],
+     "answer": 0,
+     "explain": "Der Turm kann nur auf der h-Linie ziehen. Auf h7 oder h3 steht er der Dame weiter im Weg – nur **Th8+** springt über h7 hinaus. Nach Lxh8 (erzwungen) folgt Dh7#."
+    },
+    {
+     "type": "line",
+     "text": "Gleiche Idee, neue Stellung – Matt in 2! Dein Turm h7 blockiert die h-Linie für deine Dame.",
+     "fen": "3q1rk1/1p3p1R/p7/3p2p1/1P1b4/P2B1PP1/3K1P2/2r4Q w - - 0 24",
+     "moves": [
+      "h7h8",
+      "d4h8",
+      "h1h7"
+     ],
+     "hint": "Der Turm muss mit Schach Platz machen. Wo ist er durch die Dame gedeckt?",
+     "success": "Th8+! Der Turm opfert sich. Nach Lxh8 ist die h-Linie frei: Dh7#, gedeckt vom Läufer d3. Ein **Räumungsopfer**."
+    },
+    {
+     "type": "info",
+     "text": "**Verstellung:** Stell eine Figur zwischen einen Wächter und das, was er deckt.\nHier deckt die weiße Dame d3 den Springer b5 (blau). **c4!** greift die Dame an **und** schneidet die Verbindung ab. Weicht die Dame aus, holt Dxb5 den Springer.",
+     "fen": "rn2k1nr/pp1q1pbp/4p1p1/1NppP1B1/3P3N/3Q4/PPP2PPP/R3K2R b KQkq - 1 10",
+     "arrows": [
+      [
+       "c5",
+       "c4",
+       "g"
+      ],
+      [
+       "d3",
+       "b5",
+       "b"
+      ],
+      [
+       "d7",
+       "b5",
+       "r"
+      ]
+     ],
+     "orientation": "b"
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Deine Dame c8 greift den Turm e6 an, doch die weiße Dame b3 deckt ihn. Schneide die Verbindung ab!",
+     "fen": "r1q1r1k1/p3b1pn/1p2R2p/2p5/8/1QN2N1P/PP3PP1/3R2K1 b - - 0 19",
+     "moves": [
+      "c5c4",
+      "b3c2",
+      "c8e6"
+     ],
+     "hint": "Ein Bauernzug kann sich auf die Diagonale b3–e6 stellen – und dabei die Dame angreifen.",
+     "success": "c4! Die Dame muss weichen, und e6 ist allein: Dxe6. Eine Verstellung mit Angriff – genau wie eben."
+    },
+    {
+     "type": "line",
+     "text": "Der Läufer c8 stoppt deinen Bauern c7. Sein einziger Wächter ist der Turm a8. Finde die Verstellung!",
+     "fen": "r1b5/1RP5/5pk1/3p4/pP1b4/3p4/R4PPP/6K1 w - - 1 31",
+     "moves": [
+      "b7b8",
+      "a8a7",
+      "b8c8"
+     ],
+     "hint": "Welches Feld liegt genau zwischen a8 und c8?",
+     "success": "Tb8! Dein Turm steht zwischen Turm und Läufer – Schwarz kann nicht beide halten. Und Txb8 scheitert an cxb8=D. Nach Ta7 holt Txc8 den Läufer."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Die weiße Dame h6 ist der einzige Wächter des Läufers f6. Schneide sie ab – mit Tempo!",
+     "fen": "2k1r1r1/1pp2p2/pb2pB1Q/6p1/1P1P4/q1P5/P4PPP/R1R3K1 b - - 8 23",
+     "moves": [
+      "g8g6",
+      "h6h5",
+      "g6f6"
+     ],
+     "hint": "Ein Turmzug kann sich zwischen Dame und Läufer stellen und dabei die Dame angreifen.",
+     "success": "Tg6! Die Dame muss weg, und f6 ist schutzlos: Txf6. Verstellung mit Angriff – die stärkste Form."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel: Räum deinen Figuren den Weg frei – oder stell dich zwischen die Verteidiger.",
+     "themes": [
+      "clearance",
+      "interference"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Steht dir eine eigene Figur im Weg, räum sie **mit Tempo** – mit Schach, Schlag oder Drohung. Decken sich zwei gegnerische Figuren, stell dich dazwischen: Eine **Verstellung** reißt die Verbindung ab."
+    }
+   ]
+  },
+  {
+   "id": "tactics-trapped",
+   "unit": "tactics-combos",
+   "title": "Gefangene Figuren",
+   "subtitle": "Nimm einer Figur alle Felder – dann ist sie verloren.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine Figur ohne sicheres Feld ist **gefangen**. Weiß hat gierig den Bauern a7 geschlagen.\nNach **b6!** sitzt der Läufer fest: b6 ist zu, b8 bewacht dein König. Als Nächstes holt ihn der König: Kb7 und Kxa7.",
+     "fen": "2kr4/Bpp2ppp/3b1n2/8/8/5N2/PPP2PPP/4R1K1 b - - 0 1",
+     "arrows": [
+      [
+       "b7",
+       "b6",
+       "g"
+      ],
+      [
+       "c8",
+       "b7",
+       "y"
+      ]
+     ],
+     "marks": {
+      "a7": "r",
+      "b8": "r"
+     },
+     "orientation": "b"
+    },
+    {
+     "type": "move",
+     "text": "Jetzt umgekehrt: Der schwarze Läufer hat a2 geschlagen. **Sperr ihn ein!**",
+     "fen": "r4rk1/ppp2ppp/5n2/8/8/4BN2/bPP2PPP/2KR3R w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b2b3"
+     ],
+     "hint": "Über welches Feld will der Läufer fliehen? b1 bewacht schon dein König.",
+     "success": "b3! Der Läufer hat kein Feld mehr – als Nächstes holt ihn Kb2. Dieses Bild kommt in echten Partien ständig vor."
+    },
+    {
+     "type": "move",
+     "text": "Echte Partie: Ein Springer am Rand hat wenig Felder. Dem Springer g5 fehlt nur noch ein Angreifer. **Fang ihn!**",
+     "fen": "6k1/5ppp/p3p3/1p4n1/3p4/P2P1P2/1PB2PK1/8 w - - 2 34",
+     "goal": "exact",
+     "solutions": [
+      "f3f4"
+     ],
+     "hint": "Welcher Bauernzug greift g5 an? Prüf vorher, wohin der Springer dann fliehen könnte.",
+     "success": "f4! e4 bewacht der Bauer d3, f3 und h3 dein König, die anderen Felder blockiert Schwarz selbst. Der Springer ist verloren."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Darf die Dame den Bauern b2 schlagen?",
+     "fen": "rnb1k2r/pp3ppp/1qp1pn2/3p4/3P4/P1NBP1P1/1PP2PP1/R2QK1NR b KQkq - 0 8",
+     "options": [
+      "Ja – ein gesunder Bauer mehr",
+      "Nein – nach Sa4 ist die Dame gefangen",
+      "Nein – nach Dxb2 setzt Weiß matt"
+     ],
+     "answer": 1,
+     "explain": "Nach Dxb2 sperrt **Sa4!** die Dame ein: Jedes Fluchtfeld ist bewacht. Sie kann sich nur noch auf a1 gegen einen Turm opfern. Bauern am Rand sind oft **vergiftet**.",
+     "orientation": "b"
+    },
+    {
+     "type": "line",
+     "text": "Schwarz hat trotzdem auf b2 geschlagen. Jetzt du: Sperr die Dame ein!",
+     "fen": "rnb1k2r/pp3ppp/2p1pn2/3p4/3P4/P1NBP1P1/1qP2PP1/R2QK1NR w KQkq - 0 9",
+     "moves": [
+      "c3a4",
+      "b2a1",
+      "d1a1"
+     ],
+     "hint": "Greif die Dame mit einem Springerzug an – und zähl dann ihre Fluchtfelder.",
+     "success": "Sa4! Die Dame ist gefangen und muss sich für den Turm opfern: Dxa1 Dxa1. Dame gegen Turm – ein riesiger Gewinn."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Die weiße Dame hat den Bauern g7 geschlagen – ein beliebter Fehler. Bestraf ihn!",
+     "fen": "r2qk2r/pp2bpQ1/4b2p/3p4/5B2/6P1/PP2PPBP/2R2RK1 b kq - 0 14",
+     "moves": [
+      "e7f6",
+      "g7h8",
+      "f6h8"
+     ],
+     "hint": "Greif die Dame an. Wohin kann sie dann noch? Denk an deinen Turm h8.",
+     "success": "Lf6! g8, h7 und h6 bewacht dein Turm – die Dame kann nur noch Dxh8+ spielen. Nach Lxh8 hast du Dame gegen Turm."
+    },
+    {
+     "type": "line",
+     "text": "Endspiel, du bist Schwarz. Der weiße Läufer f4 hat kaum Platz. Ein Bauernzug sperrt ihn ein!",
+     "fen": "4rk2/1R3pp1/4p2p/3pP3/5BP1/1P2P1K1/5P1P/4n3 b - - 4 37",
+     "moves": [
+      "g7g5",
+      "f4g5",
+      "h6g5"
+     ],
+     "hint": "Welche Felder hat der Läufer? Ein Bauer kann ihn angreifen und ihm dabei das letzte Feld nehmen.",
+     "success": "g5! e5 und e3 sind eigene Bauern, g3 sein König – der Läufer kann nirgends hin. Nach Lxg5 hxg5 hast du eine Figur für einen Bauern."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel: Such Figuren mit wenig Feldern – und nimm ihnen das letzte.",
+     "themes": [
+      "trappedPiece"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Figuren am Rand und tief im gegnerischen Lager haben wenig Felder. Bevor du einen Bauern frisst, prüf den Rückweg. Und siehst du eine eingeengte gegnerische Figur: Nimm ihr das letzte Feld – dann greif sie an."
+    }
+   ]
+  },
+  {
+   "id": "tactics-promotion",
+   "unit": "tactics-combos",
+   "title": "Durchbruch zur Umwandlung",
+   "subtitle": "Opfern, ablenken, räumen – Hauptsache, ein Bauer wird Dame.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Durchbruch:** Drei gegen drei, alles scheint blockiert. Doch **b6!** sprengt die Kette: Nach axb6 folgt c6!, nach cxb6 folgt a6!. Zwei Bauern opfern sich, der dritte wird Dame – die Könige sind zu weit weg.",
+     "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "b5",
+       "b6",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Jetzt du – als Schwarz und auf der anderen Seite! Brich mit deinen drei Bauern durch.",
+     "fen": "1k6/8/8/8/5ppp/8/5PPP/1K6 b - - 0 1",
+     "moves": [
+      "g4g3",
+      "h2g3",
+      "f4f3",
+      "g2f3",
+      "h4h3"
+     ],
+     "hint": "Wieder zuerst der **mittlere** Bauer. Und danach nie zurückschlagen – opfere den nächsten.",
+     "success": "g3, f3, h3! Zwei Bauern geopfert, der dritte ist nicht mehr zu stoppen: h2 und h1=D."
+    },
+    {
+     "type": "quiz",
+     "text": "Zurück zur weißen Stellung: Nach b6 hat Schwarz mit **cxb6** geschlagen. Wie geht es weiter?",
+     "fen": "6k1/pp6/1p6/P1P5/8/8/8/6K1 w - - 0 2",
+     "options": [
+      "a6! – der nächste Bauer opfert sich",
+      "axb6 – zurückschlagen",
+      "cxb6 – zurückschlagen"
+     ],
+     "answer": 0,
+     "explain": "**a6!** Nach bxa6 läuft der c-Bauer durch: c6, c7, c8=D. Schlägst du zurück, steht wieder alles fest – dann ist es nur noch Remis."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine! Sie verteidigt sich, so gut sie kann. Brich durch und wandle einen Bauern um.",
+     "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
+     "goal": "promote",
+     "maxMoves": 10
+    },
+    {
+     "type": "line",
+     "text": "Dein Bauer e7 will umwandeln, doch der Turm e8 blockiert das Feld. Lenk ihn ab – Matt in 2!",
+     "fen": "2k1rR1r/ppp1P3/8/2p1p1p1/8/2P3P1/PP6/2KR4 w - - 4 29",
+     "moves": [
+      "d1d8",
+      "e8d8",
+      "e7d8q"
+     ],
+     "hint": "Ein Turmopfer mit Schach zwingt den Turm e8 weg. Wo kann dein Bauer dann umwandeln?",
+     "success": "Td8+! Txd8 exd8=D#. Der Blockierer musste schlagen – und dein Bauer wandelt auf d8 mit Matt um."
+    },
+    {
+     "type": "line",
+     "text": "Dein eigener Turm f8 steht dem Bauern f7 im Weg. Räum das Umwandlungsfeld – mit Tempo!",
+     "fen": "5R2/p4P2/3k3r/b1nb4/P1P5/7P/6P1/7K w - - 0 41",
+     "moves": [
+      "f8d8",
+      "a5d8",
+      "f7f8q"
+     ],
+     "hint": "Ein Turmzug mit Schach macht f8 frei.",
+     "success": "Td8+! Nach Lxd8 wandelt f8=D mit Schach um. Räumung kennst du schon – hier räumst du das Umwandlungsfeld."
+    },
+    {
+     "type": "line",
+     "text": "Dein Bauer h7 kann auf g8 schlagen. Aber in welche Figur verwandelst du ihn? Die Dame ist hier nicht die beste Wahl!",
+     "fen": "6r1/3nk2P/4pq2/1p6/p2p4/P2P2P1/1P3Pb1/2R3K1 w - - 0 34",
+     "moves": [
+      "h7g8n",
+      "e7f7",
+      "g8f6"
+     ],
+     "hint": "Welche neue Figur gibt Schach **und** greift die Dame f6 an? (Ist „Automatisch zur Dame“ an, schalte es kurz aus.)",
+     "success": "hxg8=S+! Eine **Unterverwandlung** mit Gabel: König und Dame stehen im Springerschach. Nach Kf7 holt Sxf6 die Dame."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel rund um Freibauern: Schieb sie durch – mit allen Tricks.",
+     "themes": [
+      "promotion",
+      "advancedPawn"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Drei gegen drei? Der **mittlere** Bauer bricht zuerst durch, danach opferst du statt zurückzuschlagen. Und steht etwas im Weg: Lenk den Wächter ab, räum das Feld mit Schach – und denk auch an den Springer."
+    }
+   ]
+  }
+ ]
+}

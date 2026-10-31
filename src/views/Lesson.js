@@ -7,6 +7,7 @@ import { Board } from '../ui/Board.js';
 import { Icon, Md, Spinner, announce, confetti } from '../ui/kit.js';
 import { SequenceTask, GoalTask, StarsTask, PlayTask, QuizTask } from '../ui/Tasks.js';
 import { DrillTask } from '../ui/Drill.js';
+import { nextPlanStep } from '../lib/plan-info.js';
 import { play } from '../lib/sound.js';
 import { speak, stopSpeaking, ttsSupported } from '../lib/speech.js';
 
@@ -59,6 +60,7 @@ export function LessonView({ id }) {
   if (result) {
     const path = buildPath(content, s.profile);
     const nxt = nextLessons(path, s, 1)[0];
+    const step = nextPlanStep(content, s, `#/lesson/${id}`);
     return html`<div class="lesson-done">
       <div class="done-burst">${'★'.repeat(result.stars)}${'☆'.repeat(3 - result.stars)}</div>
       <h1>Lektion geschafft!</h1>
@@ -70,7 +72,12 @@ export function LessonView({ id }) {
       </div>
       <div class="btn-row center">
         <a class="btn ghost" href="#/">Zur Startseite</a>
-        ${nxt ? html`<a class="btn primary" href=${`#/lesson/${nxt.id}`}>Nächste Lektion: ${nxt.title} <${Icon} name="next" /></a>` : html`<a class="btn primary" href="#/puzzles/train">Rätsel lösen</a>`}
+        ${step ? html`<a class="btn primary" href=${step.href}>Weiter im Plan: ${step.title} <${Icon} name="next" /></a>` : null}
+        ${nxt && (!step || step.href !== `#/lesson/${nxt.id}`)
+          ? html`<a class=${`btn ${step ? 'secondary' : 'primary'}`} href=${`#/lesson/${nxt.id}`}>Nächste Lektion: ${nxt.title} <${Icon} name="next" /></a>`
+          : !step
+          ? html`<a class="btn primary" href="#/puzzles/train">Rätsel lösen</a>`
+          : null}
       </div>
     </div>`;
   }
@@ -116,7 +123,7 @@ export function LessonView({ id }) {
           <small class="tag">${unit?.title} · ${lesson.title}${TITLES[step.type] ? ' · ' + TITLES[step.type] : ''}</small>
           ${ttsSupported() && html`<button class="speak-btn" onClick=${() => speak(step.text, { force: true })} aria-label="Vorlesen" title="Vorlesen"><${Icon} name="sound" size=${17} /></button>`}
         </div>
-        <${Md} class="lesson-md" text=${step.text} />
+        <${Md} class=${`lesson-md ${step.type === 'info' && /^\*\*Merke/.test(step.text) ? 'merke' : ''}`} text=${step.text} />
         ${solved && step.success ? html`<${Md} class="explain good" text=${step.success} />` : null}
         ${step.type === 'quiz' && !step.fen ? body : null}
       </div>

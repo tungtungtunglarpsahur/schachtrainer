@@ -128,6 +128,7 @@
       "f3e4",
       "f4e4"
      ],
+     "orientation": "b",
      "hint": "Dein Springer g3 und dein König zielen beide auf e4.",
      "success": "2 gegen 1: Sxe4+ fxe4 Kxe4. Springer getauscht, ein Bauer mehr – dieses Bauernendspiel gewinnst du."
     },
@@ -301,7 +302,7 @@
      "solutions": [
       "e2b5"
      ],
-     "hint": "Welcher Läuferzug landet auf der Diagonale e8–d7 – und zwar auf einem gedeckten Feld?",
+     "hint": "Welcher Läuferzug landet auf der Diagonale a4–e8 – und zwar auf einem gedeckten Feld?",
      "success": "Lb5! Die Dame ist an den König gefesselt und kann nicht weg. Schlägt sie den Läufer, nimmt Sxb5 zurück: Dame gegen Läufer."
     },
     {
@@ -324,7 +325,7 @@
       "d7e6",
       "e1e6"
      ],
-     "hint": "Schau auf die Diagonale von c8 nach h3: Dame und König stehen hintereinander. Welche Figur kommt dorthin?",
+     "hint": "König c8 und Dame d7 stehen auf einer Diagonale. Nur der Bauer e6 trennt sie von deinem Läufer f5.",
      "success": "Lxe6! Die Dame ist gefesselt und muss den Läufer nehmen – dann schlägt Txe6 zurück. Dame gegen Läufer!"
     },
     {
@@ -403,7 +404,7 @@
       "a8g8"
      ],
      "hint": "Gib Schach auf der 8. Reihe. Was steht dort hinter dem König?",
-     "success": "Ta8+! Der König muss die Reihe verlassen – dann räumt Txg8 ab."
+     "success": "Ta8+! Nach Ke7 räumt Txg8 ab. Blocken mit Lc8 hätte nur zusätzlich den Läufer gekostet."
     },
     {
      "type": "move",
@@ -544,7 +545,7 @@
      "solutions": [
       "e2e4"
      ],
-     "hint": "Dame und Läufer d3 zielen gemeinsam auf h7. Von welchem Feld aus sieht die Dame h7 **und** a8?",
+     "hint": "Der Läufer d3 zielt schon auf h7. Von welchem Feld aus sieht deine Dame h7 **und** a8?",
      "success": "De4! Droht Dxh7# und Dxa8. Schwarz kann nicht beides verhindern – der Turm geht verloren."
     },
     {
@@ -568,6 +569,7 @@
       "a2a4",
       "b2e2"
      ],
+     "orientation": "b",
      "hint": "Der Läufer e2 ist ungedeckt, und die Dame a2 steht auf derselben Reihe.",
      "success": "Tb2! Die Dame muss weg, dann fällt der Läufer e2. Ein Doppelangriff braucht kein Schach – zwei echte Drohungen reichen."
     },
@@ -641,6 +643,7 @@
       "d3e4",
       "b7e4"
      ],
+     "orientation": "b",
      "hint": "Welcher Bauernzug öffnet die lange Diagonale von b7 nach h1?",
      "success": "d4+! Abzugsschach – Weiß muss mit Le4 blocken, und Lxe4 setzt matt."
     },
@@ -692,6 +695,466 @@
     {
      "type": "info",
      "text": "**Merke:** Steht eine eigene Figur zwischen deiner Dame, deinem Turm oder Läufer und einem wertvollen Ziel, hast du eine geladene Waffe. Zieh sie mit Drohung ab – am besten mit Schach."
+    }
+   ]
+  },
+  {
+   "id": "tactics-double-check",
+   "unit": "tactics-advanced",
+   "title": "Doppelschach",
+   "subtitle": "Zwei Schachs auf einmal – da hilft nur noch Weglaufen.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Doppelschach:** Zwei Figuren geben gleichzeitig Schach – der abziehende Springer **und** der Turm e1 dahinter.\nSchlagen oder Dazwischenziehen hilft nicht, ein Schach bleibt immer. Nur ein **Königszug** rettet.",
+     "fen": "rnb1kbnr/pppp1ppp/3N4/8/8/8/PPPP1PPP/RNB1RBK1 b - - 1 1",
+     "orientation": "w",
+     "arrows": [
+      [
+       "d6",
+       "e8",
+       "r"
+      ],
+      [
+       "e1",
+       "e8",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Welcher Zug ist für Schwarz hier erlaubt?",
+     "fen": "rnb1kbnr/pppp1ppp/3N4/8/8/8/PPPP1PPP/RNB1RBK1 b - - 1 1",
+     "orientation": "w",
+     "options": [
+      "cxd6 – den Springer schlagen",
+      "Le7 – das Turmschach blocken",
+      "Kd8 – mit dem König ausweichen"
+     ],
+     "answer": 2,
+     "explain": "Bei Doppelschach nützt nur ein Königszug. cxd6 ließe das Turmschach stehen, Le7 das Springerschach."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du: Setz mit einem **Doppelschach** matt!",
+     "fen": "rnbqkbnr/pppp1ppp/8/8/4N3/8/PPPP1PPP/RNBQRBK1 w kq - 0 1",
+     "goal": "mate",
+     "hint": "Jeder Springerzug gibt Abzugsschach durch den Turm e1. Welcher Springerzug gibt zusätzlich selbst Schach?",
+     "success": "Doppelschach und matt! Der König kann nicht weg – und gegen zwei Schachs helfen weder Schlagen noch Blocken."
+    },
+    {
+     "type": "line",
+     "text": "Endspiel: Mit einem Doppelschach treibst du den König ins Matt. Zwei Züge!",
+     "fen": "3R1N1k/1p4p1/p6p/7P/6r1/5r2/2K5/8 w - - 6 59",
+     "moves": [
+      "f8g6",
+      "h8h7",
+      "d8h8"
+     ],
+     "hint": "Dein Springer f8 steht dem Turm d8 im Weg. Wohin mit ihm, damit er selbst auch Schach gibt?",
+     "success": "Sg6+ ist Doppelschach – Kh7 ist erzwungen, dann Th8#."
+    },
+    {
+     "type": "line",
+     "text": "Noch ein Doppelschach-Matt: Dein Springer e8 versperrt dem Turm c8 die Grundreihe.",
+     "fen": "2R1N1k1/5p2/p3p1p1/P2pP1p1/2r3n1/7R/1r6/6K1 w - - 6 38",
+     "moves": [
+      "e8f6",
+      "g8g7",
+      "h3h7"
+     ],
+     "hint": "Zieh den Springer so ab, dass er selbst Schach gibt – und denk an deinen zweiten Turm.",
+     "success": "Sf6+ (Doppelschach) Kg7 Th7# – Springer und Türme arbeiten perfekt zusammen."
+    },
+    {
+     "type": "line",
+     "text": "Réti – Tartakower, Wien 1910: eine der berühmtesten Kombinationen. Du hast Weiß – sei mutig, ein Doppelschach entscheidet!",
+     "fen": "rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq - 0 9",
+     "moves": [
+      "d3d8",
+      "e8d8",
+      "d2g5",
+      "d8c7",
+      "g5d8"
+     ],
+     "hint": "Lock den König auf die d-Linie – dort lauert dein Turm d1 hinter dem Läufer d2.",
+     "success": "Dd8+!! Kxd8 Lg5++ – Doppelschach durch Läufer und Turm. Nach Kc7 setzt Ld8# matt. Schachgeschichte!"
+    },
+    {
+     "type": "line",
+     "text": "Das berühmte **erstickte Matt**: Doppelschach, Damenopfer – und der Springer setzt matt. Drei Züge!",
+     "fen": "1r3rk1/pb3Npp/1p6/2p2p2/4pq2/PQ6/1P3PPP/4RRK1 w - - 2 24",
+     "moves": [
+      "f7h6",
+      "g8h8",
+      "b3g8",
+      "f8g8",
+      "h6f7"
+     ],
+     "hint": "Starte mit einem Springerzug, der zusammen mit der Dame b3 Doppelschach gibt.",
+     "success": "Sh6+ Kh8 Dg8+!! Txg8 Sf7# – der König erstickt zwischen seinen eigenen Figuren."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Doppelschach-Rätsel. Such eigene Figuren, die auf der Linie zum König stehen – und selbst Schach geben können.",
+     "themes": [
+      "doubleCheck"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Gegen Doppelschach hilft nur ein Königszug. Kann eine Figur abziehen **und** selbst Schach geben, prüf das Doppelschach – oft folgt Matt."
+    }
+   ]
+  },
+  {
+   "id": "tactics-deflection",
+   "unit": "tactics-advanced",
+   "title": "Ablenkung & Überlastung",
+   "subtitle": "Wer zwei Dinge bewachen muss, bewacht am Ende keins.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Überlastung:** Eine Figur hat zwei Aufgaben – und kann nur eine erfüllen. Hier deckt der Turm c8 den Läufer c6 **und** die Grundreihe.\nDxc6! Nimmt der Turm zurück, folgt Te8#. Den Verteidiger so wegzulocken heißt **Ablenkung**.",
+     "fen": "2r3k1/p4ppp/1pb5/6q1/8/2N2Q2/PP3PPP/4R1K1 w - - 0 1",
+     "arrows": [
+      [
+       "c8",
+       "c6",
+       "b"
+      ],
+      [
+       "c8",
+       "e8",
+       "b"
+      ],
+      [
+       "e1",
+       "e8",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du: Der Turm d8 hat zwei Aufgaben. Überlaste ihn!",
+     "fen": "3r2k1/ppp2ppp/q7/3b4/8/5Q2/PPP2PPP/2B1R1K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "f3d5"
+     ],
+     "hint": "Welche Figur deckt d5 – und was muss sie außerdem bewachen?",
+     "success": "Dxd5! Nach Txd5 folgt Te8#. Also muss Schwarz den Läufer einfach hergeben."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß greift die Dame c7 und den Läufer e7 an. Welche schwarze Figur ist hier **überlastet**?",
+     "fen": "rn5r/2qkb1R1/bQp2n2/3p1p2/3P4/2N1P3/PP1B4/2K2R2 w - - 2 21",
+     "options": [
+      "Der König d7",
+      "Der Springer f6",
+      "Der Turm h8"
+     ],
+     "answer": 0,
+     "explain": "Nur der König deckt c7 **und** e7. Muss er auf einem der beiden Felder zurückschlagen, hängt das andere."
+    },
+    {
+     "type": "line",
+     "text": "Nutz die Überlastung aus! Zwei Züge.",
+     "fen": "rn5r/2qkb1R1/bQp2n2/3p1p2/3P4/2N1P3/PP1B4/2K2R2 w - - 2 21",
+     "moves": [
+      "g7e7",
+      "d7e7",
+      "b6c7"
+     ],
+     "hint": "Schlag zuerst dort, wo der König zurückschlagen muss.",
+     "success": "Txe7+! Kxe7 – und Dxc7+ holt die Dame. Der König kann nicht an zwei Orten zugleich sein."
+    },
+    {
+     "type": "line",
+     "text": "Dein Läufer d5 versperrt die d-Linie, und nur der König c8 deckt den Turm d7. Schlag zwei Fliegen mit einer Klappe!",
+     "fen": "2k1r3/pppr1Np1/7p/3B1p2/1b6/5KPb/PP3P1P/2RR4 w - - 4 22",
+     "moves": [
+      "d5b7",
+      "c8b7",
+      "d1d7"
+     ],
+     "hint": "Ein Läuferopfer mit Schach lenkt den König ab – und öffnet zugleich die d-Linie.",
+     "success": "Lxb7+! Nimmt der König, ist d7 ungedeckt: Txd7. Ablenkung plus Abzug – Läufer gegen Turm und Bauer."
+    },
+    {
+     "type": "line",
+     "text": "Endspiel: Dein Bauer c7 will zur Dame – nur der Läufer e6 bewacht c8. Lenk ihn ab!",
+     "fen": "6k1/1BP3pp/4b3/3p4/8/2P2P2/5KPP/2r5 w - - 2 33",
+     "moves": [
+      "b7d5",
+      "e6d5",
+      "c7c8q"
+     ],
+     "hint": "Dein Läufer kann einen Bauern schlagen und dabei e6 angreifen.",
+     "success": "Lxd5! Nimmt der Läufer zurück, ist c8 frei: c8=D+. Der Wächter wurde weggelockt."
+    },
+    {
+     "type": "line",
+     "text": "Der König c8 ist der einzige Verteidiger des Turms d8. Lenk ihn mit Schach ab – Matt in 2!",
+     "fen": "2kr4/pp4p1/7p/5n2/4Nr2/4R3/PP3P1P/1K1R4 w - - 2 25",
+     "moves": [
+      "e3c3",
+      "c8b8",
+      "d1d8"
+     ],
+     "hint": "Welcher Turmzug gibt auf der c-Linie Schach?",
+     "success": "Tc3+! Der König muss nach b8 – und Txd8# trifft die schutzlose Grundreihe."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Ablenkungs-Rätsel. Frag dich bei jedem Verteidiger: Was muss er alles bewachen?",
+     "themes": [
+      "deflection"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Hat eine Figur zwei Aufgaben, ist sie überlastet. Zwing sie, eine davon zu erledigen – mit Schlagen, Schach oder Opfer – und die andere bricht zusammen."
+    }
+   ]
+  },
+  {
+   "id": "tactics-attraction",
+   "unit": "tactics-advanced",
+   "title": "Hinlenkung",
+   "subtitle": "Lock die Figur genau dorthin, wo deine Falle wartet.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "**Hinlenkung:** Du zwingst eine gegnerische Figur auf ein Feld, auf dem sie verwundbar ist – meist mit einem Opfer.\nTxc7+! Schlägt der Turm zurück, steht er auf c7 – und Se8+ gabelt König und Turm.",
+     "fen": "8/1Rb3kp/3N2p1/5pn1/8/7P/P4PPK/2r5 w - - 1 42",
+     "arrows": [
+      [
+       "b7",
+       "c7",
+       "g"
+      ],
+      [
+       "c1",
+       "c7",
+       "y"
+      ],
+      [
+       "d6",
+       "e8",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Lock den schwarzen König auf ein schlechtes Feld – Matt in 3!",
+     "fen": "1k6/1P2b3/2p1b3/p3P1p1/r7/2p5/5B1P/1R4K1 w - - 1 37",
+     "moves": [
+      "f2a7",
+      "b8a7",
+      "b7b8q",
+      "a7a6",
+      "b8b7"
+     ],
+     "hint": "Ein Läuferopfer mit Schach – danach wandelt dein b-Bauer mit Tempo um.",
+     "success": "La7+! Kxa7 b8=D+ Ka6 Db7# – der König wurde genau dorthin gelockt, wo die neue Dame ihn erwischt."
+    },
+    {
+     "type": "line",
+     "text": "Matt in 2! Auf h8 steht der König noch sicher – lock ihn auf ein schlechteres Feld.",
+     "fen": "5r1k/4r1pp/3qBp2/pp1Pn3/2p4R/2P4P/4Q1P1/5RK1 w - - 0 29",
+     "moves": [
+      "h4h7",
+      "h8h7",
+      "e2h5"
+     ],
+     "hint": "Ein Turmopfer auf h7 zwingt den König nach vorn. Welche deiner Figuren bewacht dann g8?",
+     "success": "Txh7+! Kxh7 Dh5# – der Läufer e6 bewacht g8, der König sitzt in der Falle."
+    },
+    {
+     "type": "quiz",
+     "text": "Hinlenkung oder Ablenkung – was ist der Unterschied?",
+     "options": [
+      "Hinlenkung lockt **hin**, Ablenkung lockt **weg**",
+      "Hinlenkung klappt nur mit dem König",
+      "Es gibt keinen Unterschied"
+     ],
+     "answer": 0,
+     "explain": "Hinlenkung zwingt eine Figur **auf** ein schlechtes Feld, Ablenkung zieht einen Verteidiger **weg** von seiner Aufgabe. Oft steckt beides im selben Opfer."
+    },
+    {
+     "type": "line",
+     "text": "Die Grundreihe! Lock den König auf ein Feld, auf dem deine Dame mattsetzen kann.",
+     "fen": "r1b1Rrk1/ppp2ppp/8/6Q1/2P5/5BP1/1q3P1P/2R3K1 w - - 0 23",
+     "moves": [
+      "e8f8",
+      "g8f8",
+      "g5d8"
+     ],
+     "hint": "Schlag mit Schach auf f8 – wohin muss der König dann?",
+     "success": "Txf8+! Kxf8 Dd8# – der König wurde nach f8 gelockt, und die Dame kommt mit Matt."
+    },
+    {
+     "type": "line",
+     "text": "Die Damen stehen sich gegenüber. Tausch so, dass der schwarze Turm auf einem Gabelfeld landet!",
+     "fen": "6k1/5p1p/p1p3p1/1p6/1P1Qq1N1/P5PP/5PK1/4r3 w - - 1 34",
+     "moves": [
+      "d4e4",
+      "e1e4",
+      "g4f6",
+      "g8f8",
+      "f6e4"
+     ],
+     "hint": "Nach Dxe4 nimmt der Turm zurück. Welches Springerschach trifft dann e4?",
+     "success": "Dxe4! Txe4 Sf6+ – Gabel von König und Turm. Der Tausch hat den Turm genau dorthin gelockt."
+    },
+    {
+     "type": "line",
+     "text": "Ein Damenopfer, das sich lohnt: Lock den König auf ein Feld, auf dem dein Springer ihn zusammen mit seiner Dame gabelt!",
+     "fen": "7r/pp4k1/3q2p1/3p1bN1/3p4/1P1Br3/P1P5/1K1R3Q w - - 2 28",
+     "moves": [
+      "h1h8",
+      "g7h8",
+      "g5f7",
+      "h8g7",
+      "f7d6"
+     ],
+     "hint": "Schlag mit der Dame auf h8. Nimmt der König, welches Springerschach trifft auch d6?",
+     "success": "Dxh8+! Kxh8 Sf7+ und Sxd6 – die Dame ist zurück, der Turm bleibt dein Gewinn."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Hinlenkungs-Rätsel. Frag dich: Auf welchem Feld wäre der gegnerische König – oder seine Dame – wehrlos?",
+     "themes": [
+      "attraction"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Steht eine gegnerische Figur noch sicher, lock sie mit einem Opfer auf ein schlechteres Feld – dorthin, wo Matt, Gabel oder Spieß auf sie warten."
+    }
+   ]
+  },
+  {
+   "id": "tactics-intermezzo",
+   "unit": "tactics-advanced",
+   "title": "Der Zwischenzug",
+   "subtitle": "Erst der stärkere Zug – zurückschlagen kannst du danach.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Zwischenzug**: Statt automatisch zurückzuschlagen, schiebst du erst einen stärkeren Zug ein – meist ein Schach.\nSchwarz hat gerade deinen Turm d1 geschlagen. Statt sofort Txd1 erst Dxe8+! – und danach Txd1. Ein ganzer Turm mehr.",
+     "fen": "4r1k1/2p2p2/p2q3p/3P2p1/Q2P4/5pPP/1P1R1P1K/3r4 w - - 0 43",
+     "arrows": [
+      [
+       "a4",
+       "e8",
+       "g"
+      ],
+      [
+       "d2",
+       "d1",
+       "y"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Jetzt du, als Schwarz: Weiß hat gerade deinen Turm d8 geschlagen. Bevor du zurückschlägst – geht noch etwas Stärkeres?",
+     "fen": "3R1rk1/pp4pp/n1p2p2/4p3/Pq6/1P2NQ2/2P2PPP/4R1K1 b - - 0 20",
+     "moves": [
+      "b4e1",
+      "e3f1",
+      "f8d8"
+     ],
+     "orientation": "b",
+     "hint": "Such ein Schlagen mit Schach. Der Turm d8 läuft dir nicht weg.",
+     "success": "Dxe1+! Erst der Turm e1 mit Schach, nach Sf1 dann Txd8. Ein Turm mehr statt nur getauscht."
+    },
+    {
+     "type": "line",
+     "text": "Weiß hat gerade mit der Dame auf d5 geschlagen und bietet den Tausch an. Nach Dxd5 Sxd5 wäre alles ausgeglichen. Findest du etwas Besseres?",
+     "fen": "r3k2r/pp1q1ppp/5b2/3Q4/8/2N5/PPP2PPP/R3K2R b KQkq - 0 13",
+     "moves": [
+      "f6c3",
+      "b2c3",
+      "d7d5"
+     ],
+     "orientation": "b",
+     "hint": "Welche weiße Figur würde auf d5 zurückschlagen? Schlag sie zuerst – mit Schach.",
+     "success": "Lxc3+! bxc3 – und jetzt Dxd5. Niemand kann mehr zurückschlagen: Die weiße Dame ist weg."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz hat gerade mit der Dame auf e5 geschlagen. Was spielst du?",
+     "fen": "r3kb1r/1b3npp/pp3n2/4q3/P7/2N5/BP2QPPP/R2R2K1 w kq - 0 17",
+     "options": [
+      "Dxe5+ – Damentausch",
+      "Lxf7+ – erst ein Schach",
+      "Dd3 – die Dame ausweichen"
+     ],
+     "answer": 1,
+     "explain": "Lxf7+! beseitigt mit Schach den Springer f7, der die Dame e5 deckt. Nach Kxf7 nimmt Dxe5 eine ungedeckte Dame."
+    },
+    {
+     "type": "line",
+     "text": "Schwarz hat gerade deinen Läufer d5 geschlagen. Dxd5 Sxd5 wäre nur ein Tausch – und dein Läufer bliebe weg. Erst ein Zwischenzug!",
+     "fen": "r1b1rk2/pp2n1pp/8/2Qq2B1/8/2P3P1/PP3P1P/RN4K1 w - - 0 20",
+     "moves": [
+      "g5e7",
+      "e8e7",
+      "c5d5"
+     ],
+     "hint": "Der Springer e7 deckt die Dame d5. Kannst du ihn mit Schach beseitigen?",
+     "success": "Lxe7+! Txe7 – und Dxd5 schlägt eine ungedeckte Dame."
+    },
+    {
+     "type": "line",
+     "text": "Weiß hat mit Lxe5 einen Bauern geschlagen und greift deine Dame an. Bevor sie flieht – gibt es einen Zwischenzug?",
+     "fen": "r1b1k2r/pp2nppp/3qp3/2p1B3/3n4/2PP1N2/PP2BPPP/R2QK2R b KQkq - 0 12",
+     "moves": [
+      "d4f3",
+      "e2f3",
+      "d6e5"
+     ],
+     "orientation": "b",
+     "hint": "Welche weiße Figur deckt den Läufer e5? Kannst du sie mit Schach entfernen?",
+     "success": "Sxf3+! Lxf3 – und Dxe5+ schlägt den Läufer mit Schach. Die Dame musste gar nicht fliehen."
+    },
+    {
+     "type": "line",
+     "text": "Weiß hat gerade auf c6 geschlagen. Der Springer ist vom Turm c5 gedeckt – noch. Finde den Zwischenzug!",
+     "fen": "4b3/5pp1/p1N1k2p/PrRp1p2/3P1P1P/2K1P3/6P1/8 b - - 0 36",
+     "moves": [
+      "b5c5",
+      "d4c5",
+      "e8c6"
+     ],
+     "orientation": "b",
+     "hint": "Tausch zuerst die Türme – mit Schach. Wer deckt c6 danach noch?",
+     "success": "Txc5+! dxc5 – und Lxc6 holt den Springer, denn jetzt deckt ihn niemand mehr."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Zwischenzug-Rätsel. Bevor du zurückschlägst: Gibt es ein Schach oder eine Drohung, die mehr bringt?",
+     "themes": [
+      "intermezzo"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Schlag nicht automatisch zurück. Frag dich vorher: Habe ich ein Schach oder eine stärkere Drohung? Das Zurückschlagen läuft meist nicht weg."
     }
    ]
   }
