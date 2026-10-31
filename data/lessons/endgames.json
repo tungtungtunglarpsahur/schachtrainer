@@ -317,7 +317,7 @@
         },
         {
           "type": "info",
-          "text": "Die wichtigste Faustregel: Steht dein König auf der **6. Reihe vor seinem Bauern**, gewinnst du immer – egal, wer am Zug ist.\nEinzige Ausnahme: der **Randbauer** auf der a- oder h-Linie.",
+          "text": "Die wichtigste Faustregel: Steht dein König auf der **6. Reihe vor seinem Bauern**, gewinnst du – egal, wer am Zug ist.\nEinzige Ausnahme: der **Randbauer** auf der a- oder h-Linie.",
           "fen": "3k4/8/3K4/8/3P4/8/8/8 w - - 0 1",
           "marks": {
             "d6": "g"
@@ -339,7 +339,7 @@
             "Nein – mit dem Randbauern ist es Remis"
           ],
           "answer": 1,
-          "explain": "Beim **Randbauern** reicht dem Verteidiger die Ecke. Den König bekommst du dort nicht heraus – am Ende droht immer Patt."
+          "explain": "Beim **Randbauern** reicht dem Verteidiger die Ecke. Aus der Ecke bekommst du seinen König nicht heraus – Remis, oft sogar durch Patt."
         },
         {
           "type": "move",
@@ -363,7 +363,7 @@
         },
         {
           "type": "info",
-          "text": "**Merke:** Erst der König, dann der Bauer! Steht dein König auf der 6. Reihe vor seinem Bauern, ist der Sieg sicher. Ausnahme: Beim Randbauern hält der Verteidiger in der Ecke Remis."
+          "text": "**Merke:** Erst der König, dann der Bauer! Steht dein König auf der 6. Reihe vor seinem Bauern, gewinnst du – egal, wer am Zug ist. Ausnahme: Beim Randbauern hält der Verteidiger in der Ecke Remis."
         }
       ]
     },

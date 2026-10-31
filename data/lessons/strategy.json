@@ -549,7 +549,7 @@
      "fen": "rn2kb1r/pb1p1ppp/1ppP4/4q3/4N3/5B2/PP3PPP/R1BQK2R w KQkq - 2 14",
      "goal": "castle",
      "hint": "Verlässt der König die e-Linie, ist der Springer nicht mehr gefesselt.",
-     "success": "0-0! König in Sicherheit, Fesselung weg – und dein Turm steht auf f1. Jetzt ist es der schwarze König, der in der Mitte festsitzt."
+     "success": "0-0! König in Sicherheit, Fesselung weg – und dein Turm steht auf f1. Jetzt steht nur noch der schwarze König in der Mitte."
     },
     {
      "type": "quiz",

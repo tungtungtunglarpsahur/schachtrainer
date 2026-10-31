@@ -85,7 +85,7 @@
       "a1g1",
       "g4f2"
      ],
-     "hint": "Gib Schach auf g1. Wer muss schlagen – und welches Feld stellt er damit zu?",
+     "hint": "Welches Feld neben dem weißen König ist noch frei? Lock eine weiße Figur genau dorthin – mit Schach.",
      "success": "**Dg1+! Txg1 Sf2#** – der Turm musste schlagen und mauert jetzt seinen eigenen König ein."
     },
     {

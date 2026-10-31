@@ -594,6 +594,209 @@
      "text": "**Merke:** Such Felder im gegnerischen Lager, die **kein Bauer mehr angreifen kann** – das sind Vorposten. Stell einen Springer darauf, am besten gedeckt von einem Bauern. Und tausch die Figuren ab, die ihn von dort vertreiben könnten."
     }
    ]
+  },
+  {
+   "id": "strategy-bishops",
+   "unit": "strategy-advanced",
+   "title": "Guter und schlechter Läufer",
+   "subtitle": "Warum die Bauernfarbe über den Läufer entscheidet.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein Läufer ist **schlecht**, wenn die eigenen Bauern auf seiner Farbe festsitzen. Der schwarze Läufer d7 beißt auf c6, d5 und e6 – alles helle Felder.\nDer weiße Läufer d3 ist **gut**: Die weißen Zentrumsbauern stehen auf dunklen Feldern, seine Diagonale bis h7 ist frei.",
+     "fen": "r4rk1/pp1bnppp/2p1p3/3pP3/3P4/2PB1N2/PP3PPP/R4RK1 w - - 0 12",
+     "arrows": [
+      [
+       "d3",
+       "h7",
+       "g"
+      ]
+     ],
+     "marks": {
+      "d7": "r"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Welcher Läufer ist hier der **schlechte**?",
+     "fen": "8/3kbp2/p1p1p1p1/1p1pP2p/3P1P2/1PP1B1P1/P4K1P/8 w - - 0 1",
+     "options": [
+      "Der weiße Läufer e3",
+      "Der schwarze Läufer e7",
+      "Beide sind gleich gut"
+     ],
+     "answer": 0,
+     "explain": "Fast alle weißen Bauern stehen auf dunklen Feldern – der Farbe des Läufers e3. Er beißt sich an ihnen fest. Die schwarzen Bauern stehen alle auf Hell, der Läufer e7 hat die dunklen Felder für sich."
+    },
+    {
+     "type": "quiz",
+     "text": "Du hast nur noch einen **dunkelfeldrigen** Läufer. Auf welche Felder stellst du deine Bauern?",
+     "options": [
+      "Auf helle Felder",
+      "Auf dunkle Felder",
+      "Das ist egal"
+     ],
+     "answer": 0,
+     "explain": "Dann ergänzen sich beide: Die Bauern kontrollieren die hellen Felder, der Läufer die dunklen. Und er hat freie Bahn, statt hinter den eigenen Bauern festzustecken."
+    },
+    {
+     "type": "line",
+     "text": "Schwarz hat fast alle Bauern auf hellen Feldern – sein heller Läufer c8 ist schlecht und steht passiv. Ein Schach, und er ist weg!",
+     "fen": "2b5/p4p1p/1p2k1p1/3pP3/1P1K4/P6P/4B1P1/8 w - - 0 30",
+     "moves": [
+      "e2g4",
+      "e6e7",
+      "g4c8"
+     ],
+     "hint": "Welches Läuferschach trifft König und Läufer c8 auf einer Diagonale?",
+     "success": "Spieß! Lg4+ – der König muss weichen, und der Läufer c8 fällt. Ein passiver Läufer ist oft ein Opfer."
+    },
+    {
+     "type": "line",
+     "text": "Der schwarze Bauer e4 steht auf einem hellen Feld – der Farbe deines Läufers. Solche Bauern sind Zielscheiben. Schlag zu!",
+     "fen": "8/1b6/4p1Bp/1ppk2p1/4p3/2P1K3/1P3PPP/8 w - - 1 44",
+     "moves": [
+      "g6e4",
+      "d5c4",
+      "e4b7"
+     ],
+     "hint": "Schlag den Bauern mit Schach. Was steht danach auf derselben Diagonale?",
+     "success": "Lxe4+ und Lxb7: Bauer und Läufer gewonnen! Stell deine Bauern nie auf die Farbe des gegnerischen Läufers, wenn er sie angreifen kann."
+    },
+    {
+     "type": "quiz",
+     "text": "Wie wirst du einen schlechten Läufer am besten los?",
+     "options": [
+      "Gegen einen guten Läufer des Gegners tauschen",
+      "Noch mehr Bauern auf seine Farbe stellen",
+      "Ihn auf der Grundreihe stehen lassen"
+     ],
+     "answer": 0,
+     "explain": "Tausch ihn gegen eine aktive gegnerische Figur – oder führ ihn **vor** die eigene Bauernkette, wo er wieder Felder hat."
+    },
+    {
+     "type": "drill",
+     "text": "In Läuferendspielen entscheidet oft die Bauernfarbe. Jetzt echte Rätsel!",
+     "themes": [
+      "bishopEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Stell deine Bauern auf die **andere Farbe** als deinen Läufer – dann ist er gut. Bauern auf der Farbe des gegnerischen Läufers sind Zielscheiben. Und einen schlechten Läufer tauschst du ab oder bringst ihn vor die Bauernkette."
+    }
+   ]
+  },
+  {
+   "id": "strategy-pawn-weak",
+   "unit": "strategy-advanced",
+   "title": "Schwache Bauern",
+   "subtitle": "Isoliert, doppelt, rückständig – erkennen, angreifen, vermeiden.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Ein **isolierter Bauer** hat keine eigenen Bauern auf den Nachbarlinien. Kein Bauer kann ihn decken – Figuren müssen ihn bewachen.\nUnd das Feld vor ihm ist ein Traumfeld für den Gegner: Der Springer d4 blockiert den Bauern d5, und kein Bauer kann ihn vertreiben.",
+     "fen": "2r3k1/pp3ppp/4bn2/3p4/3N4/4PB2/PP3PPP/2R3K1 w - - 0 20",
+     "marks": {
+      "d5": "r",
+      "d4": "g"
+     },
+     "arrows": [
+      [
+       "f3",
+       "d5",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Welcher schwarze Bauer ist hier **isoliert**?",
+     "fen": "2r5/pp1k2pp/5p2/3p4/5P1n/1P6/PBr1RK1P/3R4 w - - 4 25",
+     "options": [
+      "d5",
+      "f6",
+      "b7"
+     ],
+     "answer": 0,
+     "explain": "Neben **d5** gibt es keinen schwarzen c- oder e-Bauern. f6 hat den Nachbarn g7, b7 den Nachbarn a7."
+    },
+    {
+     "type": "line",
+     "text": "Kein Bauer kann d5 decken. Schlag zu – mit Schach!",
+     "fen": "2r5/pp1k2pp/5p2/3p4/5P1n/1P6/PBr1RK1P/3R4 w - - 4 25",
+     "moves": [
+      "d1d5",
+      "d7c6",
+      "e2c2",
+      "c6d5",
+      "c2c8"
+     ],
+     "hint": "Nimm d5 mit dem Turm. Wenn der König angreift, schau, was auf der c-Linie steht.",
+     "success": "Der isolierte Bauer fällt! Nach Kc6 Txc2+ Kxd5 Txc8 verlierst du einen Turm, holst dir aber beide schwarzen – plus den Bauern."
+    },
+    {
+     "type": "quiz",
+     "text": "Welcher weiße Bauer ist **rückständig**?",
+     "fen": "3r1rk1/ppq2ppp/3pb3/2p1p3/2PnP3/2NPB3/PP1Q1PPP/3R1RK1 w - - 0 15",
+     "options": [
+      "d3",
+      "c4",
+      "f2"
+     ],
+     "answer": 0,
+     "explain": "**d3** ist hinter seinen Nachbarn c4 und e4 zurückgeblieben. Kein Bauer kann ihn decken, und vorwärts geht es nicht: d4 bewachen c5 und e5. Dort sitzt jetzt ein schwarzer Springer – unvertreibbar."
+    },
+    {
+     "type": "quiz",
+     "text": "Was ist das Problem von **Doppelbauern**?",
+     "options": [
+      "Sie können sich nicht gegenseitig decken",
+      "Sie dürfen nur noch ein Feld weit ziehen",
+      "Sie zählen zusammen nur als ein Bauer"
+     ],
+     "answer": 0,
+     "explain": "Der hintere Bauer steckt hinter dem vorderen fest, und keiner kann den anderen decken. Im Endspiel werden sie oft zur leichten Beute."
+    },
+    {
+     "type": "line",
+     "text": "Schwarz hat isolierte Doppelbauern auf der b-Linie. Im Bauernendspiel sind sie leichte Beute. Hol sie dir!",
+     "fen": "8/1pk2p2/6p1/1pP1P1Pp/2K4P/8/8/8 w - - 0 61",
+     "moves": [
+      "c4b5",
+      "c7d7",
+      "b5b6"
+     ],
+     "hint": "Dein König frisst – erst den vorderen b-Bauern, dann geht es zum hinteren.",
+     "success": "Kxb5! Der vordere Doppelbauer ist gefressen, und mit Kb6 greift dein König schon den hinteren an. Zusammen mit dem c-Bauern ist das ein klarer Gewinn."
+    },
+    {
+     "type": "quiz",
+     "text": "Gegen einen isolierten Bauern: Wo steht dein Springer am besten?",
+     "options": [
+      "Direkt vor dem Bauern",
+      "Direkt hinter dem Bauern",
+      "Am Rand, weit weg"
+     ],
+     "answer": 0,
+     "explain": "Vor dem Isolani **blockiert** der Springer den Bauern, und kein gegnerischer Bauer kann ihn je vertreiben. Von dort hilft er gleichzeitig beim Angriff."
+    },
+    {
+     "type": "drill",
+     "text": "Im Bauernendspiel entscheiden Bauernschwächen über Sieg oder Niederlage. Echte Rätsel!",
+     "themes": [
+      "pawnEndgame"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Isolierte, doppelte und rückständige Bauern kann kein Nachbar decken. Beim Gegner: **blockieren und angreifen** – das Feld vor dem Bauern ist ein starkes Feld für deine Figuren. Bei dir: Bauern nicht ohne Grund ziehen, damit keine Schwächen entstehen."
+    }
+   ]
   }
  ]
 }
