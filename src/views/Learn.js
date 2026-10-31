@@ -61,21 +61,27 @@ function UnitCard({ p, s, next }) {
   const { unit, lessons, known } = p;
   const done = lessons.filter((l) => s.lessons[l.id]?.done).length;
   const track = TRACKS[unit.track] || {};
-  return html`<section class=${`unit ${known ? 'known' : ''}`} style=${{ '--c': track.color }}>
+  const complete = lessons.length > 0 && done === lessons.length;
+  const mins = lessons.reduce((a, l) => a + (l.minutes || 0), 0);
+  return html`<section class=${`unit ${known ? 'known' : ''} ${complete ? 'complete' : ''}`} style=${{ '--c': track.color }}>
     <header class="unit-head">
-      <${PieceIcon} p=${unit.icon} size=${44} />
-      <div><small class="tag">${track.name}${known ? ' · wahrscheinlich bekannt' : ''}</small><h3>${unit.title}</h3><p class="muted">${unit.description}</p></div>
-      <span class="unit-count">${done}/${lessons.length}</span>
+      <span class="unit-ico"><${PieceIcon} p=${unit.icon} size=${34} /></span>
+      <div class="unit-title"><small class="tag">${track.name}${known ? ' · wahrscheinlich bekannt' : ''}</small><h3>${unit.title}</h3></div>
+      <span class=${`unit-count ${complete ? 'done' : ''}`}>${complete ? html`<${Icon} name="check" size=${14} />` : null}${done}/${lessons.length}</span>
     </header>
-    <div class="nodes">
+    <p class="unit-desc muted">${unit.description}</p>
+    <div class="unit-bar"><i style=${{ transform: `scaleX(${lessons.length ? done / lessons.length : 0})` }}></i><span>${lessons.length} Lektionen · ca. ${mins} Min</span></div>
+    <ol class="lesson-path">
       ${lessons.map((l, i) => {
         const st = s.lessons[l.id];
         const cur = next?.id === l.id;
-        return html`<a href=${`#/lesson/${l.id}`} class=${`node ${st?.done ? 'done' : ''} ${cur ? 'current' : ''}`} style=${{ '--off': `${Math.sin(i * 1.1) * 38}px` }}>
-          <span class="node-dot">${st?.done ? html`<${Icon} name="check" />` : i + 1}</span>
-          <span class="node-text"><b>${l.title}</b><small>${l.minutes} Min${st?.stars ? ' · ' + '★'.repeat(st.stars) + '☆'.repeat(3 - st.stars) : ''}</small></span>
-        </a>`;
+        return html`<li><a href=${`#/lesson/${l.id}`} class=${`lp-item ${st?.done ? 'done' : ''} ${cur ? 'current' : ''}`}>
+          <span class="lp-dot">${st?.done ? html`<${Icon} name="check" size=${16} />` : i + 1}</span>
+          <span class="lp-text"><b>${l.title}</b><small>${l.subtitle || ''}</small></span>
+          <span class="lp-meta">${st?.stars ? html`<span class="lp-stars">${'★'.repeat(st.stars)}${'☆'.repeat(3 - st.stars)}</span>` : html`<span>${l.minutes} Min</span>`}
+            ${cur ? html`<span class="lp-go">Start</span>` : html`<${Icon} name="next" size=${16} />`}</span>
+        </a></li>`;
       })}
-    </div>
+    </ol>
   </section>`;
 }

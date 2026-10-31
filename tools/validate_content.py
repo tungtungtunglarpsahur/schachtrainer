@@ -16,7 +16,22 @@ TRACKS = {"basics", "mates", "tactics", "strategy", "endgames", "openings"}
 PIECES = {"wK", "wQ", "wR", "wB", "wN", "wP", "bK", "bQ", "bR", "bB", "bN", "bP"}
 COLORS = {"g", "r", "b", "y"}
 GOALS_MOVE = {"exact", "check", "mate", "capture", "promote", "castle"}
-GOALS_PLAY = {"mate", "promote"}
+GOALS_PLAY = {"mate", "promote", "hold"}
+
+# Rätselthemen mit Anzahl – für `drill`-Schritte (echte Rätsel passend zum Thema).
+_THEME_COUNT: dict[str, int] = {}
+
+
+def theme_count():
+    if not _THEME_COUNT:
+        try:
+            data = json.loads((DATA / "puzzles.json").read_text(encoding="utf-8-sig"))
+            for p in data.get("puzzles", []):
+                for t in p[4].split():
+                    _THEME_COUNT[t] = _THEME_COUNT.get(t, 0) + 1
+        except Exception:  # noqa: BLE001
+            pass
+    return _THEME_COUNT
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -258,6 +273,19 @@ def check_step(where, step):
             err(where, "maxMoves fehlt")
         if b and b.is_game_over():
             err(where, "Stellung ist schon beendet")
+    elif t == "drill":
+        themes = step.get("themes") or []
+        counts = theme_count()
+        if not themes or not all(isinstance(x, str) for x in themes):
+            err(where, "drill braucht themes (Liste von Lichess-Themen)")
+        else:
+            for x in themes:
+                if counts and x not in counts:
+                    err(where, f"Thema {x!r} gibt es in puzzles.json nicht")
+            if counts and sum(counts.get(x, 0) for x in themes) < 25:
+                err(where, f"zu wenige Rätsel für {themes} (mind. 25)")
+        if not isinstance(step.get("count"), int) or not 2 <= step["count"] <= 6:
+            err(where, "drill count muss 2–6 sein")
     else:
         err(where, f"unbekannter Schritt-Typ {t!r}")
 

@@ -1,11 +1,13 @@
 // Startseite: Tagesplan, Fortschritt und Schnellstart-Kacheln.
 import { html } from '../../vendor/preact-htm.js';
-import { useStore, todayView, streakNow, rankFor, saveSoon, eloOf } from '../lib/store.js';
-import { useContent, TRACKS, THEME_GROUPS } from '../lib/content.js';
-import { todayPlan, taskProgress, buildPath, nextLessons, duePuzzles } from '../lib/progress.js';
+import { useStore, todayView, streakNow, rankFor, saveSoon, eloOf, update } from '../lib/store.js';
+import { useContent, TRACKS, THEME_GROUPS, themeName } from '../lib/content.js';
+import { todayPlan, taskProgress, buildPath, nextLessons } from '../lib/progress.js';
 import { Icon, Ring, Bar, PieceIcon, Spinner } from '../ui/kit.js';
 import { dueMistakes } from '../lib/mistakes.js';
 import { useNet } from '../lib/online.js';
+import { intensiveActive, goalMinutes, planDay, dayBlock } from '../lib/intensive.js';
+import { VISION } from './Vision.js';
 
 // Aus der Einstiegs-Umfrage: „Wo hakt es?“ → passende Trainings.
 const FOCUS = {
@@ -28,24 +30,47 @@ function taskInfo(task, content) {
     case 'review':
       return { title: `${task.count} Fehler wiederholen`, sub: 'Rätsel, die du zuletzt verpasst hast', href: '#/puzzles/review', icon: 'wR', min: Math.ceil(task.count * 0.8), tag: 'Wiederholung' };
     case 'puzzles':
-      return { title: `${task.count} Rätsel lösen`, sub: task.themes ? 'Passend zu deiner Lektion' : 'Auf deinem Niveau', href: `#/puzzles/train${task.themes ? `?themes=${task.themes.join(',')}` : ''}`, icon: 'wN', min: task.count, tag: 'Taktik' };
+      return {
+        title: `${task.count} Rätsel lösen`,
+        sub: task.themes ? [...new Set(task.themes.map(themeName))].slice(0, 3).join(' · ') : 'Auf deinem Niveau',
+        href: `#/puzzles/train${task.themes ? `?themes=${task.themes.join(',')}` : ''}`,
+        icon: 'wN',
+        min: task.count,
+        tag: 'Taktik',
+      };
     case 'opening': {
       const [id, i] = task.key.split('#');
       const o = content.openingById[id];
       return { title: o ? o.name : 'Eröffnung', sub: o?.lines[i]?.name || '', href: `#/opening/${id}?line=${i}`, icon: 'wB', min: 4, tag: 'Eröffnung' };
     }
     case 'play':
-      return { title: 'Probepartie mit Coach', sub: `Gegner um ${task.elo} Elo`, href: `#/play?elo=${task.elo}`, icon: 'bK', min: 10, tag: 'Spielen' };
+      return task.count > 1
+        ? { title: `${task.count} Partien mit Coach`, sub: `Gegner um ${task.elo} Elo – danach Fehler ansehen`, href: `#/play?elo=${task.elo}`, icon: 'bK', min: 12 * task.count, tag: 'Spielen' }
+        : { title: 'Probepartie mit Coach', sub: `Gegner um ${task.elo} Elo`, href: `#/play?elo=${task.elo}`, icon: 'bK', min: 10, tag: 'Spielen' };
+    case 'vision': {
+      const v = VISION[task.mode] || VISION.hanging;
+      return { title: `Sehtraining: ${v.title}`, sub: 'Eine Runde zum Aufwärmen', href: `#/vision/${task.mode}`, icon: v.icon, min: 2, tag: 'Brettblick' };
+    }
+    case 'rush':
+      return { title: 'Rätsel-Rush', sub: '3 Minuten, 3 Leben – Taktik unter Zeitdruck', href: '#/puzzles/rush', icon: 'wQ', min: 4, tag: 'Tempo' };
     default:
       return { title: '', sub: '', href: '#/', icon: 'wP', min: 0, tag: '' };
   }
 }
 
-const TILES = [
-  { href: '#/online', title: 'Online spielen', sub: 'Gegen echte Menschen – mit Elo und Rang', art: 'attack', icon: 'wQ' },
-  { href: '#/play', title: 'Partie spielen', sub: 'Gegen einen Bot – der Coach hilft dir', art: 'play', icon: 'bK' },
-  { href: '#/puzzles/train', title: 'Rätsel lösen', sub: 'Immer passend zu deinem Niveau', art: 'tactic', icon: 'wN' },
-  { href: '#/openings', title: 'Eröffnungen', sub: 'Gute erste Züge lernen', art: 'open', icon: 'wB' },
+// Hinweis auf Neuerungen – einmal wegklicken, dann bis zur nächsten Version weg.
+const NEWS = '2.4';
+
+// Schnellstart: kompakt, alles mit einem Tipp erreichbar.
+const QUICK = [
+  { href: '#/puzzles/train', title: 'Rätsel', sub: 'Passend zu deinem Rating', icon: 'wN' },
+  { href: '#/puzzles/rush', title: 'Rätsel-Rush', sub: '3 Minuten Vollgas', icon: 'wQ' },
+  { href: '#/vision', title: 'Sehtraining', sub: 'Brettblick in 60 s', icon: 'wR' },
+  { href: '#/learn', title: 'Lernpfad', sub: 'Lektionen Schritt für Schritt', icon: 'wP' },
+  { href: '#/play', title: 'Partie mit Coach', sub: 'Gegen Bots von 400–3000', icon: 'bK' },
+  { href: '#/online', title: 'Online spielen', sub: 'Echte Gegner, echte Elo', icon: 'wK' },
+  { href: '#/openings', title: 'Eröffnungen', sub: 'Gute erste Züge', icon: 'wB' },
+  { href: '#/puzzles/mine', title: 'Partie-Fehler', sub: 'Aus deinen Partien', icon: 'bQ' },
 ];
 
 const DAY = 864e5;
@@ -69,6 +94,14 @@ export function GameTile({ href, title, sub, art, badge, icon }) {
   </a>`;
 }
 
+export function QuickTile({ href, title, sub, icon, badge, hot }) {
+  return html`<a href=${href} class=${`quick ${hot ? 'hot' : ''}`}>
+    <span class="quick-ico"><${PieceIcon} p=${icon} size=${30} /></span>
+    <span class="quick-text"><b>${title}</b><small>${sub}</small></span>
+    ${badge ? html`<span class="quick-badge">${badge}</span>` : null}
+  </a>`;
+}
+
 export function Home() {
   const s = useStore();
   const n = useNet();
@@ -78,7 +111,9 @@ export function Home() {
   const plan = todayPlan(content, s);
   if (plan !== before) saveSoon();
   const d = todayView();
-  const goalPct = d.seconds / (s.profile.minutes * 60);
+  const intensive = intensiveActive(s);
+  const goalMin = goalMinutes(s);
+  const goalPct = d.seconds / (goalMin * 60);
   const streak = streakNow(s);
   const rank = rankFor(eloOf(s));
   const items = plan.tasks.map((t) => ({ t, info: taskInfo(t, content), p: taskProgress(t, s, plan) }));
@@ -86,34 +121,53 @@ export function Home() {
   const done = items.filter((x) => x.p >= 1).length;
   const path = buildPath(content, s.profile);
   const upcoming = nextLessons(path, s, 4);
-  const due = duePuzzles(s).length;
   const mineDue = dueMistakes(s).length;
   const focus = (s.profile.survey?.weaknesses || []).map((w) => FOCUS[w]).filter(Boolean).slice(0, 3);
   const hour = new Date().getHours();
   const hi = hour < 11 ? 'Guten Morgen' : hour < 18 ? 'Hi' : 'Guten Abend';
+  const allDone = done === items.length && items.length > 0;
+  const day = intensive ? planDay(s.intensive) : -1;
+  const block = intensive ? dayBlock(s.intensive.days, day) : null;
+  const totalMin = items.reduce((a, x) => a + (x.info.min || 0), 0);
 
   return html`<div class="page home">
-    <section class="hero-card">
+    <section class=${`hero-card home-hero ${intensive ? 'is-intensive' : ''}`}>
       <div class="hero-left">
-        <p class="eyebrow">${hi}${s.profile.name ? `, ${s.profile.name}` : ''} 👋</p>
-        <h1>${done === items.length && items.length ? 'Tagesziel geschafft!' : 'Dein Training für heute'}</h1>
-        <p class="muted">${items.length} kurze Aufgabe${items.length === 1 ? '' : 'n'} · ca. ${s.profile.minutes} Minuten · ${done}/${items.length} erledigt</p>
+        ${intensive
+          ? html`<a class="eyebrow int-eyebrow" href="#/intensive"><${Icon} name="bolt" size=${15} /> Intensiv-Plan · Tag ${day + 1} von ${s.intensive.days}</a>`
+          : html`<p class="eyebrow">${hi}${s.profile.name ? `, ${s.profile.name}` : ''} 👋</p>`}
+        <h1>${allDone ? 'Tagesziel geschafft!' : intensive ? block.title : 'Dein Training für heute'}</h1>
+        <p class="muted hero-sub">${intensive && !allDone ? block.goal : `${items.length} Aufgabe${items.length === 1 ? '' : 'n'} · ca. ${Math.max(goalMin, totalMin)} Min · ${done}/${items.length} erledigt`}</p>
+        ${intensive &&
+        html`<div class="int-strip" aria-label="Tage im Plan">
+          ${Array.from({ length: s.intensive.days }, (_, i) => html`<i class=${i < day ? 'past' : i === day ? 'now' : ''}></i>`)}
+        </div>`}
         ${nextItem
-          ? html`<a class="btn primary xl" href=${nextItem.info.href}><${Icon} name="play" /> ${done ? 'Weiter' : 'Jetzt starten'}: ${nextItem.info.title}</a>`
-          : html`<a class="btn primary xl" href="#/puzzles/train"><${Icon} name="bolt" /> Bonus-Runde: Rätsel</a>`}
-        ${!done && nextItem ? html`<p class="home-help">Tippe auf den Knopf – wir führen dich Schritt für Schritt durch dein Training.</p>` : null}
+          ? html`<a class="btn primary xl hero-go" href=${nextItem.info.href}><${Icon} name="play" /> <span>${done ? 'Weiter' : 'Jetzt starten'}: ${nextItem.info.title}</span></a>`
+          : html`<a class="btn primary xl hero-go" href="#/puzzles/train"><${Icon} name="bolt" /> <span>Bonus-Runde: Rätsel</span></a>`}
       </div>
       <div class="hero-right">
-        <${Ring} value=${goalPct} size=${132} stroke=${12}>
-          <b>${Math.floor(d.seconds / 60)}</b><small>von ${s.profile.minutes} Min</small>
+        <${Ring} value=${goalPct} size=${118} stroke=${11}>
+          <b>${Math.floor(d.seconds / 60)}</b><small>von ${goalMin} Min</small>
         <//>
         <div class="hero-stats">
-          <div class=${`hs ${streak ? 'fire' : ''}`}><${Icon} name="flame" /><b>${streak}</b><small>Tage</small></div>
+          <div class=${`hs ${streak ? 'fire' : ''}`}><${Icon} name="flame" /><b>${streak}</b><small>${streak === 1 ? 'Tag' : 'Tage'}</small></div>
           <div class="hs"><${Icon} name="star" /><b>${d.xp}</b><small>XP heute</small></div>
         </div>
       </div>
     </section>
 
+    ${s.settings.newsSeen !== NEWS && s.xp > 0 &&
+    html`<section class="card news-card">
+      <button class="news-x" aria-label="Ausblenden" onClick=${() => update((st) => { st.settings.newsSeen = NEWS; })}><${Icon} name="x" size=${16} /></button>
+      <small class="tag">Neu in Learning King</small>
+      <b>Lernpfad mit Mattbildern, Taktik, Strategie und Endspielen – plus Intensiv-Plan und Sehtraining.</b>
+      <div class="btn-row">
+        <a class="btn secondary sm" href="#/learn"><${Icon} name="path" size=${16} /> Lernpfad</a>
+        <a class="btn ghost sm" href="#/intensive"><${Icon} name="bolt" size=${16} /> Intensiv-Plan</a>
+        <a class="btn ghost sm" href="#/vision"><${Icon} name="eye" size=${16} /> Sehtraining</a>
+      </div>
+    </section>`}
     ${n.game &&
     html`<a class="banner resume" href=${`#/online/game/${n.game.id}`}><${Icon} name="play" /> <span><b>Online-Partie gegen ${n.game.vs}</b> läuft – tippen zum Weiterspielen.</span></a>`}
     ${!s.profile.placementDone &&
@@ -122,10 +176,10 @@ export function Home() {
     html`<a class="banner resume" href="#/puzzles/mine"><${Icon} name="repeat" /> <span><b>${mineDue} Stellung${mineDue === 1 ? '' : 'en'} aus deinen Partien</b> ${mineDue === 1 ? 'wartet' : 'warten'} auf Revanche – finde diesmal den besten Zug.</span></a>`}
 
     <section>
-      <div class="section-head"><h2>Dein Plan für heute</h2><a href="#/settings" class="link">Plan ändern</a></div>
+      <div class="section-head"><h2>${intensive ? 'Heute im Intensiv-Plan' : 'Dein Plan für heute'}</h2><a href=${intensive ? '#/intensive' : '#/settings'} class="link">${intensive ? 'Alle Tage' : 'Plan ändern'}</a></div>
       <div class="task-list">
         ${items.map(
-          ({ info, p }, i) => html`<a href=${info.href} class=${`task ${p >= 1 ? 'done' : ''}`}>
+          ({ info, p }, i) => html`<a href=${info.href} class=${`task ${p >= 1 ? 'done' : ''} ${nextItem && info === nextItem.info ? 'next' : ''}`}>
             <span class="task-num">${i + 1}</span>
             <span class="task-ico"><${PieceIcon} p=${info.icon} size=${34} /></span>
             <span class="task-body"><small class="tag">${info.tag} · ${info.min} Min</small><b>${info.title}</b><small>${info.sub}</small>
@@ -136,15 +190,23 @@ export function Home() {
       </div>
     </section>
 
+    ${!intensive &&
+    s.profile.level >= 1 &&
+    html`<a class="card int-promo" href="#/intensive">
+      <span class="int-promo-ico"><${Icon} name="bolt" size=${22} /></span>
+      <span class="int-promo-text"><b>Turnier in ein paar Tagen?</b><small>Der Intensiv-Plan holt in 3, 5 oder 7 Tagen das Maximum raus – jeden Tag ein Schwerpunkt.</small></span>
+      <span class="btn secondary">Plan erstellen</span>
+    </a>`}
+
     ${focus.length > 0 &&
     html`<section>
       <div class="section-head"><h2>Dein Fokus</h2><span class="muted small">aus deiner Umfrage</span></div>
-      <div class="tiles">${focus.map((t) => html`<${GameTile} ...${t} />`)}</div>
+      <div class="quick-grid">${focus.map((t) => html`<${QuickTile} href=${t.href} title=${t.title} sub=${t.sub} icon=${t.icon} hot />`)}</div>
     </section>`}
 
     <section>
-      <div class="section-head"><h2>Mehr trainieren</h2></div>
-      <div class="tiles">${TILES.map((t) => html`<${GameTile} ...${t} />`)}</div>
+      <div class="section-head"><h2>Schnell trainieren</h2></div>
+      <div class="quick-grid">${QUICK.map((t) => html`<${QuickTile} ...${t} badge=${t.href === '#/puzzles/mine' && mineDue ? String(mineDue) : t.href === '#/online' && n.invites.length ? String(n.invites.length) : null} />`)}</div>
     </section>
 
     <section class="two-col">
@@ -153,7 +215,7 @@ export function Home() {
         ${upcoming.length
           ? upcoming.map((l) => {
               const u = content.unitById[l.unit];
-              return html`<a class="row-link" href=${`#/lesson/${l.id}`}><${PieceIcon} p=${u?.icon || 'wP'} size=${28} /><span><b>${l.title}</b><small>${u?.title}</small></span><${Icon} name="next" /></a>`;
+              return html`<a class="row-link" href=${`#/lesson/${l.id}`}><${PieceIcon} p=${u?.icon || 'wP'} size=${28} /><span><b>${l.title}</b><small>${u?.title} · ${l.minutes} Min</small></span><${Icon} name="next" /></a>`;
             })
           : html`<p class="muted">Du hast alle Lektionen durch. Respekt! 🏆</p>`}
       </div>

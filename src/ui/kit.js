@@ -130,7 +130,7 @@ export function Ring({ value, size = 64, stroke = 7, children, color = 'var(--ac
   const c = 2 * Math.PI * r;
   const v = useGrow(Math.max(0, Math.min(1, value || 0)));
   return html`<div class="ring" style=${{ width: size + 'px', height: size + 'px' }}>
-    <svg width=${size} height=${size}>
+    <svg width=${size} height=${size} viewBox=${`0 0 ${size} ${size}`}>
       <circle cx=${size / 2} cy=${size / 2} r=${r} stroke="var(--line)" stroke-width=${stroke} fill="none" />
       <circle cx=${size / 2} cy=${size / 2} r=${r} stroke=${color} stroke-width=${stroke} fill="none" stroke-linecap="round"
         stroke-dasharray=${c} stroke-dashoffset=${c * (1 - v)} transform=${`rotate(-90 ${size / 2} ${size / 2})`} />

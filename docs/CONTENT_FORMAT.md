@@ -117,8 +117,19 @@ Ein alternativer Zug, der sofort mattsetzt, wird ebenfalls akzeptiert.
 { "type": "play", "text": "Setz mit Dame und König matt.", "fen": "...", "goal": "mate",
   "maxMoves": 15 }
 ```
-`goal`: `"mate"` (Lernender muss mattsetzen) oder `"promote"` (Lernender muss einen
-Bauern umwandeln). Die Engine verteidigt bestmöglich. `maxMoves` = Züge des Lernenden.
+`goal`: `"mate"` (Lernender muss mattsetzen), `"promote"` (Lernender muss einen
+Bauern umwandeln) oder `"hold"` (Lernender verteidigt: nach `maxMoves` eigenen Zügen darf die
+Stellung laut Engine nicht verloren sein und er darf nicht mattgesetzt werden – für Remis-Techniken
+wie Philidor). Die Engine spielt bestmöglich. `maxMoves` = Züge des Lernenden.
+
+**7. `drill`** – Echte Rätsel aus `puzzles.json` zum Thema der Lektion, passend zum
+Rätsel-Rating des Lernenden (etwas leichter, weil gerade gelernt).
+```json
+{ "type": "drill", "text": "Jetzt im Ernstfall: 3 echte Gabel-Rätsel auf deinem Niveau.",
+  "themes": ["fork"], "count": 3 }
+```
+`themes` = Lichess-Themenschlüssel (mind. eines muss passen, zusammen mind. 25 Rätsel in der
+Datenbank), `count` = 2–6. Ideal als vorletzter Schritt jeder Lektion.
 
 ---
 

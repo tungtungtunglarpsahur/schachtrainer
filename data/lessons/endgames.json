@@ -1,0 +1,478 @@
+{
+  "units": [
+    {
+      "id": "end-king",
+      "track": "endgames",
+      "level": 1,
+      "title": "Der König im Endspiel",
+      "description": "Im Endspiel wird der König zum Kämpfer – und jeder Bauer will Dame werden.",
+      "icon": "wK"
+    },
+    {
+      "id": "end-pawns",
+      "track": "endgames",
+      "level": 2,
+      "title": "Bauernendspiele",
+      "description": "Opposition, Schlüsselfelder, Durchbruch: das Einmaleins jedes Endspiels.",
+      "icon": "wP"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "end-king-active",
+      "unit": "end-king",
+      "title": "Der König wird aktiv",
+      "subtitle": "Im Endspiel gehört der König in die Mitte.",
+      "minutes": 5,
+      "steps": [
+        {
+          "type": "info",
+          "text": "Im Mittelspiel versteckt sich der König. Sind die Damen vom Brett, wird er zum **Kämpfer**.\nHier sind die Bauern gleich verteilt – trotzdem steht Weiß klar besser: Sein König steht im **Zentrum** und ist schnell bei den Bauern (gelb). Der schwarze König schläft noch in der Ecke.",
+          "fen": "6k1/pp4pp/8/8/3K4/8/PP4PP/8 w - - 0 1",
+          "arrows": [
+            [
+              "d4",
+              "c5",
+              "g"
+            ]
+          ],
+          "marks": {
+            "a7": "y",
+            "b7": "y",
+            "g8": "r"
+          }
+        },
+        {
+          "type": "line",
+          "text": "Dein König steht schon mitten im Geschehen. Friss die schwarzen Bauern am Damenflügel – einen nach dem anderen!",
+          "fen": "8/8/1pK5/p4k1p/P6P/8/8/8 w - - 3 40",
+          "moves": [
+            "c6b6",
+            "f5e6",
+            "b6a5"
+          ],
+          "hint": "Welcher schwarze Bauer steht direkt neben deinem König und ist ungedeckt?",
+          "success": "Zwei Bauern gefressen! Jetzt läuft dein a-Bauer zur Dame. Ein passiver König hätte das nie geschafft."
+        },
+        {
+          "type": "quiz",
+          "text": "Wo steht der König im Endspiel meistens am besten?",
+          "options": [
+            "In der Ecke, gut versteckt",
+            "Im Zentrum, nah am Geschehen",
+            "Am Rand, weit weg vom Gegner"
+          ],
+          "answer": 1,
+          "explain": "Mit wenig Material droht kaum noch Matt. Vom **Zentrum** aus erreicht der König schnell beide Flügel – zum Angreifen und zum Verteidigen."
+        },
+        {
+          "type": "line",
+          "text": "Jetzt bist du Schwarz. Beide Könige haben den gegnerischen Bauern im Visier. Wer zuerst zuschlägt, gewinnt!",
+          "fen": "8/8/6K1/7p/5k1P/8/8/8 b - - 1 51",
+          "moves": [
+            "f4g4",
+            "g6f6",
+            "g4h4"
+          ],
+          "hint": "Finde einen Königszug, der deinen Bauern deckt und gleichzeitig den weißen angreift.",
+          "success": "Stark! Kg4 deckt h5 und greift h4 an. Der weiße König kommt nicht mehr ran – der Bauer fällt."
+        },
+        {
+          "type": "line",
+          "text": "Dein König ist näher dran. Gewinne den schwarzen Bauern und bring deinen eigenen zur Dame. Achtung beim letzten Zug!",
+          "fen": "8/5K1p/7P/6k1/8/8/8/8 w - - 1 45",
+          "moves": [
+            "f7g7",
+            "g5f5",
+            "g7h7",
+            "f5f6",
+            "h7g8"
+          ],
+          "hint": "Ein Königszug deckt h6 und greift h7 an. Und später: Steh deinem Bauern nicht im Weg!",
+          "success": "Sauber! Mit Kg8 machst du dem Bauern den Weg frei. Nach Kh8? Kf7 wäre dein König in der Ecke eingesperrt – nur Remis."
+        },
+        {
+          "type": "play",
+          "text": "Jetzt gegen die Engine: Dein König steht aktiv, der schwarze ist weit weg. Hol dir die Bauern am Damenflügel und mach eine Dame!",
+          "fen": "6k1/pp4pp/8/2K5/8/8/PP4PP/8 w - - 0 1",
+          "goal": "promote",
+          "maxMoves": 28
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Bauernendspiel-Rätsel. Schau zuerst, was dein König tun kann!",
+          "themes": [
+            "pawnEndgame"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Sind die Damen vom Brett, ist der König eine **starke Figur**. Bring ihn früh ins Zentrum – von dort frisst er gegnerische Bauern und begleitet deine eigenen zur Dame."
+        }
+      ]
+    },
+    {
+      "id": "end-square",
+      "unit": "end-king",
+      "title": "Die Quadratregel",
+      "subtitle": "Holt der König den Bauern noch ein? Ein Blick genügt.",
+      "minutes": 5,
+      "steps": [
+        {
+          "type": "info",
+          "text": "Holt der König den Bauern noch ein? Zähl nicht – nimm die **Quadratregel**: Vom Bauern bis zur Umwandlungsreihe entsteht ein Quadrat (blau).\nKann der König **mit seinem Zug** ins Quadrat treten, holt er den Bauern ein. Sonst läuft der Bauer durch.",
+          "fen": "8/8/8/7k/2P5/8/8/7K w - - 0 1",
+          "marks": {
+            "c4": "b",
+            "c5": "b",
+            "c6": "b",
+            "c7": "b",
+            "c8": "b",
+            "d4": "b",
+            "d5": "b",
+            "d6": "b",
+            "d7": "b",
+            "d8": "b",
+            "e4": "b",
+            "e5": "b",
+            "e6": "b",
+            "e7": "b",
+            "e8": "b",
+            "f4": "b",
+            "f5": "b",
+            "f6": "b",
+            "f7": "b",
+            "f8": "b",
+            "g4": "b",
+            "g5": "b",
+            "g6": "b",
+            "g7": "b",
+            "g8": "b"
+          },
+          "arrows": [
+            [
+              "c4",
+              "c8",
+              "g"
+            ]
+          ]
+        },
+        {
+          "type": "move",
+          "text": "Du bist Schwarz und am Zug. Tritt ins Quadrat und stopp den Bauern!",
+          "fen": "8/8/8/7k/2P5/8/8/7K b - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "h5g4",
+            "h5g5",
+            "h5g6"
+          ],
+          "marks": {
+            "c4": "b",
+            "c5": "b",
+            "c6": "b",
+            "c7": "b",
+            "c8": "b",
+            "d4": "b",
+            "d5": "b",
+            "d6": "b",
+            "d7": "b",
+            "d8": "b",
+            "e4": "b",
+            "e5": "b",
+            "e6": "b",
+            "e7": "b",
+            "e8": "b",
+            "f4": "b",
+            "f5": "b",
+            "f6": "b",
+            "f7": "b",
+            "f8": "b",
+            "g4": "b",
+            "g5": "b",
+            "g6": "b",
+            "g7": "b",
+            "g8": "b"
+          },
+          "hint": "Das Quadrat reicht bis zur g-Linie. Welche Felder davon erreicht dein König?",
+          "success": "Drin! Jetzt holt dein König den Bauern ein – egal, wie schnell er läuft."
+        },
+        {
+          "type": "move",
+          "text": "Gleiche Stellung, aber jetzt ist **Weiß** am Zug – und du spielst Weiß. Gewinne!",
+          "fen": "8/8/8/7k/2P5/8/8/7K w - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "c4c5"
+          ],
+          "hint": "Mit jedem Bauernzug schrumpft das Quadrat. Bleibt der König dann draußen?",
+          "success": "Genau! Nach c5 reicht das Quadrat nur noch bis zur f-Linie. Der König kommt nicht mehr hinein – der Bauer wird Dame."
+        },
+        {
+          "type": "quiz",
+          "text": "Schwarz ist am Zug. Holt der König den Bauern ein?",
+          "fen": "8/8/7k/8/1P6/8/8/7K b - - 0 1",
+          "options": [
+            "Ja, er holt ihn ein",
+            "Nein, der Bauer läuft durch"
+          ],
+          "answer": 1,
+          "explain": "Das Quadrat reicht von b4 bis f8. Mit einem Zug kommt der König nur bis zur g-Linie – zu spät. Der Bauer wird Dame."
+        },
+        {
+          "type": "quiz",
+          "text": "Schwarz ist am Zug. Der Bauer steht noch auf a2. Holt der König ihn ein?",
+          "fen": "7K/8/8/8/7k/8/P7/8 b - - 0 1",
+          "options": [
+            "Ja, mit Kg4 steht er im Quadrat",
+            "Nein – der Doppelschritt ist zu schnell"
+          ],
+          "answer": 1,
+          "explain": "Vorsicht, **Doppelschritt**! a2–a4 spart einen Zug. Zeichne das Quadrat darum ab a3: Es reicht nur bis zur f-Linie – g4 liegt draußen."
+        },
+        {
+          "type": "line",
+          "text": "Ein Klassiker von Réti (1921): Dein König ist meilenweit vom h-Bauern weg. Doch er läuft **schräg** – und verfolgt dabei zwei Ziele zugleich. Rette das Remis!",
+          "fen": "7K/8/k1P5/7p/8/8/8/8 w - - 0 1",
+          "moves": [
+            "h8g7",
+            "h5h4",
+            "g7f6",
+            "a6b6",
+            "f6e5",
+            "h4h3",
+            "e5d6",
+            "h3h2",
+            "c6c7",
+            "h2h1q",
+            "c7c8q"
+          ],
+          "hint": "Lauf schräg Richtung Mitte: So kommst du dem h-Bauern näher und bleibst nah an deinem c-Bauern.",
+          "success": "Unglaublich, oder? Remis! Dein König hat den h-Bauern verfolgt und gleichzeitig den c-Bauern zur Dame begleitet."
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Rätsel rund um laufende Bauern. Wer ist schneller – Bauer oder König?",
+          "themes": [
+            "advancedPawn",
+            "promotion"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Kann der König mit seinem Zug ins Quadrat des Bauern treten, holt er ihn ein. Steht der Bauer noch auf seiner Startreihe, zeichne das Quadrat eine Reihe weiter vorn – wegen des Doppelschritts."
+        }
+      ]
+    },
+    {
+      "id": "end-kp",
+      "unit": "end-king",
+      "title": "König und Bauer gewinnen",
+      "subtitle": "Der König geht vor, der Bauer folgt.",
+      "minutes": 6,
+      "steps": [
+        {
+          "type": "info",
+          "text": "König und Bauer gegen König: Läuft der Bauer allein los, stellt sich der gegnerische König einfach davor – Remis.\nDarum gilt: **Der König geht vor, der Bauer folgt.** Hier steht der weiße König weit vor seinem Bauern und bahnt ihm den Weg. Das gewinnt.",
+          "fen": "8/3k4/8/3K4/8/3P4/8/8 w - - 0 1",
+          "arrows": [
+            [
+              "d5",
+              "c6",
+              "g"
+            ],
+            [
+              "d5",
+              "e6",
+              "g"
+            ]
+          ],
+          "marks": {
+            "d3": "g"
+          }
+        },
+        {
+          "type": "move",
+          "text": "König oder Bauer? Nur **ein** Zug gewinnt hier. Finde ihn!",
+          "fen": "8/8/4k3/8/8/3KP3/8/8 w - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "d3e4"
+          ],
+          "hint": "Wer soll vorangehen – der König oder der Bauer?",
+          "success": "Richtig, Ke4! Der König steht vor dem Bauern und drängt den schwarzen König zurück. Nach e4? hätte Schwarz mit Ke5 den Weg versperrt."
+        },
+        {
+          "type": "quiz",
+          "text": "Warum ist der König vor dem Bauern so stark?",
+          "options": [
+            "Er deckt den Bauern von vorn",
+            "Er erobert die Felder, über die der Bauer muss",
+            "Er ist dort vor Schachs sicher"
+          ],
+          "answer": 1,
+          "explain": "Der König erobert die Felder vor dem Bauern. So kann sich der gegnerische König nicht mehr davorstellen – und der Bauer läuft durch."
+        },
+        {
+          "type": "info",
+          "text": "Die wichtigste Faustregel: Steht dein König auf der **6. Reihe vor seinem Bauern**, gewinnst du immer – egal, wer am Zug ist.\nEinzige Ausnahme: der **Randbauer** auf der a- oder h-Linie.",
+          "fen": "3k4/8/3K4/8/3P4/8/8/8 w - - 0 1",
+          "marks": {
+            "d6": "g"
+          }
+        },
+        {
+          "type": "play",
+          "text": "Zeig’s der Engine: Bring den Bauern zur Dame! Vorsicht vor der **Pattfalle** – lass dem schwarzen König immer einen Zug.",
+          "fen": "3k4/8/3K4/8/3P4/8/8/8 w - - 0 1",
+          "goal": "promote",
+          "maxMoves": 14
+        },
+        {
+          "type": "quiz",
+          "text": "Und hier? Dein König steht auf der 6. Reihe vor dem Bauern. Gewinnst du?",
+          "fen": "7k/8/7K/7P/8/8/8/8 w - - 0 1",
+          "options": [
+            "Ja – die Regel gilt immer",
+            "Nein – mit dem Randbauern ist es Remis"
+          ],
+          "answer": 1,
+          "explain": "Beim **Randbauern** reicht dem Verteidiger die Ecke. Den König bekommst du dort nicht heraus – am Ende droht immer Patt."
+        },
+        {
+          "type": "move",
+          "text": "Jetzt bist du Schwarz und musst gegen den h-Bauern Remis halten. Nur **ein** Zug rettet dich!",
+          "fen": "8/8/3k4/5K1P/8/8/8/8 b - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "d6e7"
+          ],
+          "hint": "Gegen den Randbauern rettet dich die Ecke. Welcher Weg führt am schnellsten Richtung h8?",
+          "success": "Genau! Über f8 kommt dein König rechtzeitig in die Ecke. Von dort vertreibt ihn niemand mehr – Remis."
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Rätsel rund um Bauern, die Dame werden wollen.",
+          "themes": [
+            "pawnEndgame",
+            "promotion"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Erst der König, dann der Bauer! Steht dein König auf der 6. Reihe vor seinem Bauern, ist der Sieg sicher. Ausnahme: Beim Randbauern hält der Verteidiger in der Ecke Remis."
+        }
+      ]
+    },
+    {
+      "id": "end-opposition",
+      "unit": "end-pawns",
+      "title": "Die Opposition",
+      "subtitle": "Wer muss ausweichen? Das entscheidet oft die ganze Partie.",
+      "minutes": 7,
+      "steps": [
+        {
+          "type": "info",
+          "text": "**Opposition:** Die Könige stehen sich gegenüber – mit genau **einem Feld** dazwischen. Wer dann **nicht** am Zug ist, hat die Opposition.\nHier muss Schwarz ziehen und ausweichen: Geht er nach d7, kommt Weiß nach f6 – und umgekehrt. Weiß gewinnt.",
+          "fen": "8/4k3/8/4K3/4P3/8/8/8 b - - 0 1",
+          "arrows": [
+            [
+              "e7",
+              "d7",
+              "r"
+            ],
+            [
+              "e5",
+              "f6",
+              "g"
+            ]
+          ],
+          "marks": {
+            "e6": "y"
+          }
+        },
+        {
+          "type": "quiz",
+          "text": "Gleiche Stellung, aber jetzt ist **Weiß** am Zug. Wer hat die Opposition?",
+          "fen": "8/4k3/8/4K3/4P3/8/8/8 w - - 0 1",
+          "options": [
+            "Weiß",
+            "Schwarz",
+            "Keiner von beiden"
+          ],
+          "answer": 1,
+          "explain": "Weiß muss ziehen – also hat **Schwarz** die Opposition. Auf Kd5 folgt Kd7, auf Kf5 Kf7: Der weiße König kommt nicht durch. Remis!"
+        },
+        {
+          "type": "move",
+          "text": "Du bist Schwarz. Der weiße König will nach d6 oder f6. Nimm die Opposition – nur ein Zug hält Remis!",
+          "fen": "8/3k4/8/4K3/4P3/8/8/8 b - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "d7e7"
+          ],
+          "hint": "Stell deinen König dem weißen direkt gegenüber – mit einem Feld dazwischen.",
+          "success": "Ke7! Jetzt muss Weiß ziehen. Weicht sein König zur Seite aus, gehst du einfach mit – er kommt nie durch."
+        },
+        {
+          "type": "move",
+          "text": "Jetzt bist du Weiß. Auch der Angreifer braucht die Opposition. Finde den einzigen Gewinnzug!",
+          "fen": "8/8/8/4k3/8/3K4/4P3/8 w - - 0 1",
+          "goal": "exact",
+          "solutions": [
+            "d3e3"
+          ],
+          "hint": "Stell deinen König vor den Bauern – dem schwarzen König direkt gegenüber.",
+          "success": "Ke3! Jetzt ist Schwarz am Zug und muss ausweichen. Dein König rückt vor, der Bauer folgt."
+        },
+        {
+          "type": "line",
+          "text": "Opposition klappt auch mit mehr Bauern. Du bist Schwarz: Zwing den weißen König, dir den Weg freizumachen!",
+          "fen": "8/8/8/1p6/pP2k3/P7/3K4/8 b - - 4 57",
+          "moves": [
+            "e4d4",
+            "d2c2",
+            "d4c4"
+          ],
+          "hint": "Stell deinen König dem weißen direkt gegenüber. Weicht er aus, geh an ihm vorbei.",
+          "success": "Stark! Nach Kd4 musste Weiß ausweichen, und dein König ist durch. Als Nächstes fällt a3 – dann läuft dein a-Bauer."
+        },
+        {
+          "type": "line",
+          "text": "Profi-Trick: Schwarz spiegelt deine Königszüge. Mit einem **Tempozug** drehst du die Opposition um. Finde den Plan!",
+          "fen": "8/4k3/6p1/4P2p/4K2P/8/8/8 w - - 5 66",
+          "moves": [
+            "e4d5",
+            "e7d7",
+            "e5e6"
+          ],
+          "hint": "Erst Kd5. Nimmt Schwarz mit Kd7 die Opposition, hilft dir ein Bauernzug mit Schach.",
+          "success": "Klasse! e6+ kostet Schwarz das Tempo: Sein König muss weichen, und jetzt kommt dein König oder dein Bauer durch."
+        },
+        {
+          "type": "play",
+          "text": "Jetzt gegen die Engine: Du bist Schwarz – halte 10 Züge lang Remis! Bleib vor dem Bauern, nimm die Opposition. Und musst du zurück: gerade nach hinten.",
+          "fen": "8/8/4k3/8/3KP3/8/8/8 b - - 0 1",
+          "goal": "hold",
+          "maxMoves": 10
+        },
+        {
+          "type": "drill",
+          "text": "Jetzt im Ernstfall: 3 echte Bauernendspiel-Rätsel. Wer hat die Opposition – und wer muss ausweichen?",
+          "themes": [
+            "pawnEndgame",
+            "zugzwang"
+          ],
+          "count": 3
+        },
+        {
+          "type": "info",
+          "text": "**Merke:** Opposition = Könige gegenüber, ein Feld dazwischen. Wer **nicht** am Zug ist, hat sie – der andere muss ausweichen. Ob Angriff oder Verteidigung: Nimm die Opposition, wann immer du kannst!"
+        }
+      ]
+    }
+  ]
+}

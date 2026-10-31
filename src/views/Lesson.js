@@ -6,10 +6,11 @@ import { recordLesson, checkAchievements, buildPath, nextLessons } from '../lib/
 import { Board } from '../ui/Board.js';
 import { Icon, Md, Spinner, announce, confetti } from '../ui/kit.js';
 import { SequenceTask, GoalTask, StarsTask, PlayTask, QuizTask } from '../ui/Tasks.js';
+import { DrillTask } from '../ui/Drill.js';
 import { play } from '../lib/sound.js';
 import { speak, stopSpeaking, ttsSupported } from '../lib/speech.js';
 
-const TITLES = { stars: 'Bewegung', move: 'Dein Zug', line: 'Zugfolge', quiz: 'Frage', play: 'Ausspielen', info: '' };
+const TITLES = { stars: 'Bewegung', move: 'Dein Zug', line: 'Zugfolge', quiz: 'Frage', play: 'Ausspielen', drill: 'Echte Rätsel', info: '' };
 
 export function LessonView({ id }) {
   const s = useStore();
@@ -94,6 +95,9 @@ export function LessonView({ id }) {
       break;
     case 'play':
       body = html`<${PlayTask} key=${key} step=${step} onDone=${done} onMistake=${mistake} />`;
+      break;
+    case 'drill':
+      body = html`<${DrillTask} key=${key} step=${step} onDone=${done} onMistake=${mistake} />`;
       break;
     default:
       body = null;

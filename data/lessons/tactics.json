@@ -1,0 +1,699 @@
+{
+ "units": [
+  {
+   "id": "tactics-basics",
+   "track": "tactics",
+   "level": 1,
+   "title": "Taktik-Grundlagen",
+   "description": "Hängende Figuren, Gabel, Fesselung, Spieß – die Waffen, die die meisten Partien entscheiden.",
+   "icon": "wN"
+  },
+  {
+   "id": "tactics-advanced",
+   "track": "tactics",
+   "level": 2,
+   "title": "Versteckte Waffen",
+   "description": "Abzug, Doppelschach, Ablenkung, Hinlenkung und Zwischenzug – Tricks, die man erst auf den zweiten Blick sieht.",
+   "icon": "wB"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "tactics-hanging",
+   "unit": "tactics-basics",
+   "title": "Angreifer und Verteidiger zählen",
+   "subtitle": "Wann ist eine Figur wirklich frei? Erst zählen, dann schlagen.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Gedeckt heißt nicht sicher. **Zähl nach:** Wie viele deiner Figuren greifen an – und wie viele decken?\nHier greifen Sc3 und Lb3 den Springer d5 an (rot), nur Sf6 deckt ihn (blau). **2 gegen 1!** Nach Sxd5 Sxd5 Lxd5 schlägst du als Letzter – ein Springer mehr.",
+     "fen": "6k1/ppp2ppp/5n2/3n4/8/1BN5/PPP2PPP/6K1 w - - 0 1",
+     "arrows": [
+      [
+       "c3",
+       "d5",
+       "r"
+      ],
+      [
+       "b3",
+       "d5",
+       "r"
+      ],
+      [
+       "f6",
+       "d5",
+       "b"
+      ]
+     ],
+     "marks": {
+      "d5": "y"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Zwei schwarze Figuren werden angegriffen. Zähl Angreifer und Verteidiger: Welche kannst du **gewinnen**?",
+     "fen": "6k1/1p3pbp/6p1/p3n3/1b6/3N1N2/PP2BPPP/6K1 w - - 0 1",
+     "options": [
+      "Den Springer e5",
+      "Den Läufer b4",
+      "Keine – beide sind gedeckt"
+     ],
+     "answer": 0,
+     "explain": "e5: Sd3 und Sf3 greifen an, nur Lg7 deckt – **2 gegen 1**, der Springer fällt. b4: Sd3 gegen den Bauern a5, 1 gegen 1 – das wäre nur ein Tausch."
+    },
+    {
+     "type": "move",
+     "text": "Dame und Springer greifen d5 an, nur Sf6 deckt: 2 gegen 1. Aber Vorsicht – mit **welcher** Figur schlägst du zuerst?",
+     "fen": "r4rk1/ppp1qppp/5n2/3n4/8/2N5/PPP2PPP/R1BQ1RK1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "c3d5"
+     ],
+     "hint": "Spiel Dxd5 im Kopf durch: Was passiert nach Sxd5 Sxd5? Welche deiner Figuren ist billiger?",
+     "success": "Richtig! Sxd5 Sxd5 Dxd5 – ein Springer mehr. Mit Dxd5? zuerst wäre nach Sxd5 Sxd5 deine Dame weg. **Schlag immer mit der billigsten Figur zuerst.**"
+    },
+    {
+     "type": "quiz",
+     "text": "Der Springer d5 wird vom Turm a5 gedeckt. Wie oft greifst **du** ihn an?",
+     "fen": "5rk1/ppp2ppp/8/r2n4/8/6B1/PPPR1PPP/3R2K1 w - - 0 1",
+     "options": [
+      "Einmal",
+      "Zweimal",
+      "Dreimal"
+     ],
+     "answer": 1,
+     "explain": "Td2 greift direkt an, Td1 steht dahinter und schlägt nach. Figuren hintereinander auf einer Linie – eine **Batterie** – zählen alle mit."
+    },
+    {
+     "type": "move",
+     "text": "Dank der Batterie steht es 2 gegen 1. Hol dir den Springer!",
+     "fen": "5rk1/ppp2ppp/8/r2n4/8/6B1/PPPR1PPP/3R2K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d2d5"
+     ],
+     "hint": "Nur der vordere Turm kann direkt schlagen – der hintere wartet auf seinen Einsatz.",
+     "success": "Genau! Nimmt Schwarz mit Txd5 zurück, schlägt Td1 erneut. Schwarz lässt es deshalb lieber – der Springer ist trotzdem weg."
+    },
+    {
+     "type": "move",
+     "text": "Der Springer f6 ist vom Bauern g7 gedeckt – scheinbar. Schau genau hin: Darf g7 überhaupt schlagen?",
+     "fen": "r4rk1/pp3ppp/5n2/8/8/8/PBP2P1P/2KR2R1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "b2f6"
+     ],
+     "hint": "Was steht auf der g-Linie hinter dem Bauern g7?",
+     "success": "Stark! g7 ist an den König **gefesselt** (Tg1) und darf nicht zurückschlagen. Ein gefesselter Verteidiger zählt nicht – der Springer hing."
+    },
+    {
+     "type": "line",
+     "text": "Aus einer echten Partie: Schwarz gibt mit Le5 Schach. Zähl die Angreifer auf e5 – auch dein **König** zählt mit!",
+     "fen": "5r1k/R1Q2B2/4q3/2n1b2p/2P2K2/7P/P5P1/8 w - - 5 36",
+     "moves": [
+      "c7e5",
+      "e6e5",
+      "f4e5"
+     ],
+     "hint": "Wer greift e5 an? Die Dame c7 … und wer noch?",
+     "success": "Dxe5+ Dxe5+ Kxe5: Damen getauscht, ein Läufer mehr. Der König ist ein vollwertiger Angreifer – solange das Feld nicht bewacht ist."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt bist du Schwarz. Der weiße Springer e4 ist vom Bauern f3 gedeckt. Zähl nach – und hol dir den Vorteil!",
+     "fen": "8/8/8/6p1/4Nk1p/5Pn1/5KP1/8 b - - 11 64",
+     "moves": [
+      "g3e4",
+      "f3e4",
+      "f4e4"
+     ],
+     "hint": "Dein Springer g3 und dein König zielen beide auf e4.",
+     "success": "2 gegen 1: Sxe4+ fxe4 Kxe4. Springer getauscht, ein Bauer mehr – dieses Bauernendspiel gewinnst du."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel: Finde heraus, was **wirklich** frei ist – und schlag richtig zu.",
+     "themes": [
+      "hangingPiece"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Erst zählen, dann schlagen. Mehr Angreifer als Verteidiger – dann fällt die Figur. Batterien zählen mit, gefesselte Verteidiger nicht. Und schlag immer zuerst mit der billigsten Figur."
+    }
+   ]
+  },
+  {
+   "id": "tactics-fork",
+   "unit": "tactics-basics",
+   "title": "Die Gabel",
+   "subtitle": "Ein Zug, zwei Ziele – nur eins kann sich retten.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine **Gabel** greift mit einem Zug zwei Figuren an. Der Springer ist der Gabel-Meister: Sc7+ trifft König **und** Turm a8. Schwarz muss den König retten – dann frisst dein Springer den Turm.",
+     "fen": "r3kbnr/pp3ppp/2n5/1N2p3/4P3/8/PPP2PPP/R1B1KB1R w KQkq - 0 8",
+     "arrows": [
+      [
+       "b5",
+       "c7",
+       "g"
+      ]
+     ],
+     "marks": {
+      "e8": "r",
+      "a8": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du: Finde die Springergabel, die König **und** Dame angreift!",
+     "fen": "r4rk1/pp3ppp/1bq5/3N4/8/8/PPP2PPP/R2Q1RK1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d5e7"
+     ],
+     "hint": "Von welchem Feld aus trifft dein Springer g8 und c6 gleichzeitig?",
+     "success": "Se7+! Nach dem Königszug schlägt der Springer die Dame. Eine Gabel mit Schach – eine **Königsgabel** – ist fast immer tödlich."
+    },
+    {
+     "type": "move",
+     "text": "Auch Bauern gabeln gern! Greif mit einem Zug **beide** Springer an.",
+     "fen": "r4rk1/pp3ppp/2n1n3/8/3P4/2P5/PP3PPP/2BRR1K1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "d4d5"
+     ],
+     "hint": "Ein Bauer schlägt schräg nach vorn. Welches Feld liegt genau zwischen c6 und e6?",
+     "success": "d5! Der Bauer greift beide Springer an, nur einer kann fliehen. Bauerngabeln sind besonders fies: Der Angreifer kostet fast nichts."
+    },
+    {
+     "type": "quiz",
+     "text": "Sc7+ würde König und Turm gabeln. Lohnt sich der Zug hier?",
+     "fen": "r2qkbnr/pp3ppp/2n5/1N2p3/4P3/8/PPP2PPP/R1BQKB1R w KQkq - 0 1",
+     "options": [
+      "Ja, Sc7+ gewinnt den Turm",
+      "Nein, die Dame schlägt auf c7",
+      "Nein, Sc7+ ist gar kein Schach"
+     ],
+     "answer": 1,
+     "explain": "Ein Gabelfeld muss **sicher** sein. Hier bewacht die Dame d8 das Feld c7 – nach Sc7+ Dxc7 ist dein Springer einfach weg."
+    },
+    {
+     "type": "line",
+     "text": "Aus einer echten Partie: Dein Springer d5 kann eine Königsgabel aufziehen. Wo steht die schwarze Dame?",
+     "fen": "r3q1k1/1p3p1p/p2b2p1/3N4/3N4/P2Q1P1b/1P5P/R6K w - - 1 26",
+     "moves": [
+      "d5f6",
+      "g8h8",
+      "f6e8"
+     ],
+     "hint": "Die Dame steht auf e8. Welches Springerfeld trifft g8 und e8 zugleich?",
+     "success": "Sf6+ und Sxe8 – Schach plus Damenangriff. So gewinnt man Partien!"
+    },
+    {
+     "type": "line",
+     "text": "Endspiel: Eine **Bauerngabel mit Schach** gewinnt hier eine Figur. Finde sie!",
+     "fen": "8/5p2/3npkp1/7p/3PPN2/3K3P/6P1/8 w - - 4 41",
+     "moves": [
+      "e4e5",
+      "f6e7",
+      "e5d6"
+     ],
+     "hint": "Welcher Bauernzug greift den König f6 und den Springer d6 gleichzeitig an?",
+     "success": "e5+! Der König muss weg, dann schlägt exd6+. Bauer gegen Springer – ein starker Tausch."
+    },
+    {
+     "type": "line",
+     "text": "Die Dame gabelt auch – am liebsten mit Schach. Finde den Doppelangriff auf König und Turm!",
+     "fen": "2r5/1p2p1bk/p2q2p1/3n4/3P4/1Q6/PP3PPP/R1B3K1 w - - 0 20",
+     "moves": [
+      "b3h3",
+      "h7g8",
+      "h3c8"
+     ],
+     "hint": "Such ein Schach, nach dem deine Dame zugleich den Turm c8 sieht.",
+     "success": "Dh3+ und Dxc8+ – eine **Damengabel**. Die Dame zieht in alle Richtungen, darum gabelt sie so oft."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Gabel-Rätsel auf deinem Niveau. Tipp: Prüf zuerst alle Schachs – oft steckt die Gabel darin.",
+     "themes": [
+      "fork"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Such Felder, von denen eine Figur zwei Ziele trifft – am besten den König plus eine ungedeckte Figur. Prüf vorher, ob das Gabelfeld sicher ist."
+    }
+   ]
+  },
+  {
+   "id": "tactics-pin",
+   "unit": "tactics-basics",
+   "title": "Die Fesselung",
+   "subtitle": "Nagel eine Figur fest – dann greif sie an.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Eine **Fesselung** nagelt eine Figur fest, weil hinter ihr etwas Wertvolleres steht.\n**Absolut:** Lb5 fesselt Sc6 an den König – der Springer darf gar nicht ziehen.\n**Relativ:** Lg5 fesselt Sf6 an die Dame – ziehen darf er, aber dann ist die Dame weg.",
+     "fen": "r2qk2r/ppp2ppp/2npbn2/1Bb1p1B1/4P3/2NP1N2/PPP2PPP/R2QK2R w KQkq - 0 7",
+     "arrows": [
+      [
+       "b5",
+       "e8",
+       "r"
+      ],
+      [
+       "g5",
+       "d8",
+       "y"
+      ]
+     ],
+     "marks": {
+      "c6": "r",
+      "f6": "y"
+     }
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz ist am Zug. Darf er den Springer f6 ziehen?",
+     "fen": "r2qk2r/ppp2ppp/2npbn2/1Bb1p1B1/4P3/2NP1N2/PPP2PPP/R2QK2R b KQkq - 0 7",
+     "orientation": "w",
+     "options": [
+      "Nein, das ist verboten",
+      "Ja, aber dann schlägt Lxd8 die Dame",
+      "Ja, ganz ohne Folgen"
+     ],
+     "answer": 1,
+     "explain": "Sf6 ist nur an die Dame gefesselt (**relativ**): Ziehen ist erlaubt, kostet aber die Dame. Sc6 dagegen darf nicht ziehen – dahinter steht der König (**absolut**)."
+    },
+    {
+     "type": "move",
+     "text": "Die schwarze Dame steht auf derselben Diagonale wie ihr König. Fessle sie!",
+     "fen": "r3kbnr/pp1q1ppp/4p3/3p4/3P4/2N5/PPP1BPPP/R2Q1RK1 w kq - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e2b5"
+     ],
+     "hint": "Welcher Läuferzug landet auf der Diagonale e8–d7 – und zwar auf einem gedeckten Feld?",
+     "success": "Lb5! Die Dame ist an den König gefesselt und kann nicht weg. Schlägt sie den Läufer, nimmt Sxb5 zurück: Dame gegen Läufer."
+    },
+    {
+     "type": "move",
+     "text": "Der Springer e5 ist an den König gefesselt. Nutz das aus: Greif ihn mit einem **Bauern** an!",
+     "fen": "r1b1kb1r/ppp2ppp/3p4/4n3/2B5/2N5/PPP2PPP/R1B1R1K1 w kq - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "f2f4"
+     ],
+     "hint": "Eine gefesselte Figur kann nicht fliehen. Welcher Bauer kann e5 angreifen?",
+     "success": "f4! Der Springer kann nicht weg – fxe5 gewinnt eine Figur. **Gefesselte Figuren angreifen**, am besten mit Bauern!"
+    },
+    {
+     "type": "line",
+     "text": "Aus einer echten Partie: Die schwarze Dame d7 und der König c8 stehen auf einer Diagonale. Fessle – und gewinn die Dame!",
+     "fen": "2kr1b1r/pppq2pp/2n1pn2/3p1B1b/3P4/2N2N1P/PPP2PP1/R1BQR1K1 w - - 3 11",
+     "moves": [
+      "f5e6",
+      "d7e6",
+      "e1e6"
+     ],
+     "hint": "Schau auf die Diagonale von c8 nach h3: Dame und König stehen hintereinander. Welche Figur kommt dorthin?",
+     "success": "Lxe6! Die Dame ist gefesselt und muss den Läufer nehmen – dann schlägt Txe6 zurück. Dame gegen Läufer!"
+    },
+    {
+     "type": "line",
+     "text": "Endspiel: Die schwarze Dame h2 und der König h8 stehen auf derselben Linie. Ein Turmzug fesselt die Dame!",
+     "fen": "r6k/2p3r1/3p1Qp1/3Pp3/p3P3/PpPK2N1/1P5q/5R2 w - - 15 33",
+     "moves": [
+      "f1h1",
+      "h2h1",
+      "g3h1"
+     ],
+     "hint": "Bring deinen Turm auf die h-Linie – auf ein Feld, das gedeckt ist.",
+     "success": "Th1! Die gefesselte Dame muss den Turm nehmen, Sxh1 schlägt zurück – Dame gegen Turm."
+    },
+    {
+     "type": "line",
+     "text": "Dein Turm h5 fesselt den Bauern g5 an den schwarzen König. Der Bauer deckt f4 also nur scheinbar – schlag zu!",
+     "fen": "8/4b3/pp2r3/2pk2pR/P2p1p2/1P1P4/2P1NK2/8 w - - 0 45",
+     "moves": [
+      "e2f4",
+      "d5d6",
+      "f4e6"
+     ],
+     "hint": "Ein Springerschach auf f4 trifft auch den Turm e6.",
+     "success": "Sxf4+! gxf4 ist verboten, der Bauer ist gefesselt. Nach dem Königszug fällt der Turm e6."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Fesselungs-Rätsel: Such Figuren, die vor etwas Wertvollem stehen.",
+     "themes": [
+      "pin"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Steht etwas Wertvolles hinter einer Figur, fessle sie. Eine gefesselte Figur ist ein Ziel: Greif sie an, am liebsten mit einem Bauern – sie kann nicht weglaufen."
+    }
+   ]
+  },
+  {
+   "id": "tactics-skewer",
+   "unit": "tactics-basics",
+   "title": "Der Spieß",
+   "subtitle": "Die große Figur muss weg – die kleine dahinter fällt.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Spieß** ist eine umgedrehte Fesselung: Die wertvollere Figur steht **vorn**.\nTd1+ greift den König an. Er muss die d-Linie verlassen – und dahinter fällt der Turm d8.",
+     "fen": "3r4/5p2/6p1/3k3p/8/6P1/5P1P/R5K1 w - - 0 1",
+     "arrows": [
+      [
+       "a1",
+       "d1",
+       "g"
+      ],
+      [
+       "d1",
+       "d8",
+       "r"
+      ]
+     ],
+     "marks": {
+      "d5": "r",
+      "d8": "r"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Jetzt du: Spieß den König auf der Grundreihe auf – und hol dir, was dahinter steht!",
+     "fen": "5kr1/R4p2/2p1b3/7R/4PK1P/5P2/8/5r2 w - - 7 38",
+     "moves": [
+      "a7a8",
+      "f8e7",
+      "a8g8"
+     ],
+     "hint": "Gib Schach auf der 8. Reihe. Was steht dort hinter dem König?",
+     "success": "Ta8+! Der König muss die Reihe verlassen – dann räumt Txg8 ab."
+    },
+    {
+     "type": "move",
+     "text": "König und Dame stehen auf einer Diagonale – der König vorn. Spieß sie auf!",
+     "fen": "r3qbnr/pp1k1ppp/4p3/3p4/3P4/2N5/PPPQ1PPP/R3KB1R w KQ - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "f1b5"
+     ],
+     "hint": "Welcher Läuferzug gibt auf der Diagonale a4–e8 Schach?",
+     "success": "Lb5+! Der König muss zur Seite, dann schlägt Lxe8 die Dame. Läufer gegen Dame – ein Traumtausch."
+    },
+    {
+     "type": "quiz",
+     "text": "Fesselung oder Spieß – was ist der Unterschied?",
+     "options": [
+      "Beim Spieß steht die wertvollere Figur vorn",
+      "Beim Spieß greift immer ein Springer an",
+      "Es gibt keinen Unterschied"
+     ],
+     "answer": 0,
+     "explain": "Bei der Fesselung steht das Wertvolle **hinten** – die vordere Figur klebt fest. Beim Spieß steht es **vorn**, muss weichen und gibt die hintere Figur preis."
+    },
+    {
+     "type": "line",
+     "text": "Damenendspiel: Mit dem richtigen Schach ist die schwarze Dame weg. Wie stehen König und Dame zueinander?",
+     "fen": "6Q1/8/p2k1p2/1p2p3/1q4p1/8/5P2/5K2 w - - 2 58",
+     "moves": [
+      "g8f8",
+      "d6d5",
+      "f8b4"
+     ],
+     "hint": "König d6 und Dame b4 stehen auf einer Diagonale. Von wo kann deine Dame auf dieser Diagonale Schach geben?",
+     "success": "Df8+! Der König muss von der Diagonale – dann Dxb4. Spieße entscheiden viele Damenendspiele."
+    },
+    {
+     "type": "line",
+     "text": "Läuferendspiel: Schlag einen Bauern – mit Schach! Was steht danach hinter dem König?",
+     "fen": "8/1b6/4p1Bp/1ppk2p1/4p3/2P1K3/1P3PPP/8 w - - 1 44",
+     "moves": [
+      "g6e4",
+      "d5d6",
+      "e4b7"
+     ],
+     "hint": "Such einen Schlagzug mit Schach. Auf der Diagonale hinter dem König wartet Beute.",
+     "success": "Lxe4+! Kxe4 geht nicht, dein König deckt. Nach dem Königszug fällt der Läufer b7."
+    },
+    {
+     "type": "line",
+     "text": "**Röntgen:** Eine Figur wirkt **durch** eine gegnerische hindurch. Deine Dame c3 sieht durch die schwarze Dame bis c8. Nutz das!",
+     "fen": "1Rb3k1/2q2r1p/6p1/8/8/2Q3P1/P4P1P/6K1 w - - 5 31",
+     "moves": [
+      "b8c8",
+      "c7c8",
+      "c3c8"
+     ],
+     "hint": "Schlag auf c8. Nimmt die schwarze Dame zurück, ist die c-Linie für deine Dame frei.",
+     "success": "Txc8+ Dxc8 Dxc8+! Der Läufer war nur scheinbar gedeckt – deine Dame hat ihn die ganze Zeit durchleuchtet."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel mit Spieß und Röntgen. Achte auf Figuren, die hintereinander auf einer Linie stehen!",
+     "themes": [
+      "skewer",
+      "xRayAttack"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Stehen zwei gegnerische Figuren auf einer Linie, die wertvollere vorn: Such den Spieß – am besten mit Schach. Und zähl beim Tauschen auch Figuren mit, die durch andere hindurchwirken."
+    }
+   ]
+  },
+  {
+   "id": "tactics-double-attack",
+   "unit": "tactics-basics",
+   "title": "Doppelangriff",
+   "subtitle": "Zwei Drohungen auf einmal – eine geht immer durch.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die Dame ist die beste Doppelangreiferin – sie zieht in acht Richtungen. Ihre Lieblingsziele: der **König** und **ungedeckte Figuren**.\nDd5+ gibt Schach und greift den Turm a8 an. Schwarz rettet den König – und der Turm fällt.",
+     "fen": "r5k1/p3q1pp/1p6/2p5/8/8/PPP2PPP/3Q1RK1 w - - 0 1",
+     "arrows": [
+      [
+       "d1",
+       "d5",
+       "g"
+      ]
+     ],
+     "marks": {
+      "g8": "r",
+      "a8": "r"
+     }
+    },
+    {
+     "type": "line",
+     "text": "Jetzt du: Ein Damenschach – und gleichzeitig hängt eine schwarze Figur. Finde den Doppelangriff!",
+     "fen": "8/2pbn1kp/3p4/3P2Pp/1q2PQ2/2NB4/2PK4/8 w - - 1 34",
+     "moves": [
+      "f4f6",
+      "g7g8",
+      "f6e7"
+     ],
+     "hint": "Welche schwarze Figur ist nicht gedeckt? Such ein Schach, das sie mit angreift.",
+     "success": "Df6+ und Dxe7! Schach plus lose Figur – Schwarz kann nur eines retten."
+    },
+    {
+     "type": "quiz",
+     "text": "Welche Ziele eignen sich am besten für einen Doppelangriff?",
+     "options": [
+      "Der König und ungedeckte Figuren",
+      "Gut gedeckte Bauern",
+      "Möglichst weit entfernte Figuren"
+     ],
+     "answer": 0,
+     "explain": "Auf ein Schach muss der Gegner sofort reagieren, und eine ungedeckte Figur hat keinen Schutz. Merksatz: **Lose Figuren fallen!**"
+    },
+    {
+     "type": "line",
+     "text": "Auch Türme können zwei Dinge auf einmal: Schach geben – und dabei eine lose Figur angreifen!",
+     "fen": "6k1/5p2/8/7R/5pn1/2P1b3/1P4K1/8 w - - 1 46",
+     "moves": [
+      "h5g5",
+      "g8f8",
+      "g5g4"
+     ],
+     "hint": "Der Springer g4 ist ungedeckt. Von welchem Feld aus gibt dein Turm Schach und trifft g4?",
+     "success": "Tg5+! Der König muss weg, dann Txg4. Turm-Doppelangriffe tauchen im Endspiel ständig auf."
+    },
+    {
+     "type": "move",
+     "text": "Doppelangriff mit **Drohung**: Finde einen Damenzug, der Matt droht **und** den ungedeckten Turm a8 angreift!",
+     "fen": "r4bk1/p2n1ppp/1p6/2q1p3/8/2NB4/PPP1QPPP/5RK1 w - - 0 1",
+     "goal": "exact",
+     "solutions": [
+      "e2e4"
+     ],
+     "hint": "Dame und Läufer d3 zielen gemeinsam auf h7. Von welchem Feld aus sieht die Dame h7 **und** a8?",
+     "success": "De4! Droht Dxh7# und Dxa8. Schwarz kann nicht beides verhindern – der Turm geht verloren."
+    },
+    {
+     "type": "line",
+     "text": "Aus einer echten Partie: Welches Damenschach trifft auch eine ungedeckte schwarze Figur?",
+     "fen": "6k1/1b1r3p/pq1b1pp1/3p2B1/3P4/1P2Q3/P4PPP/2R3K1 w - - 0 28",
+     "moves": [
+      "e3e8",
+      "d6f8",
+      "e8d7"
+     ],
+     "hint": "Der Turm d7 hat keinen Beschützer. Such ein Schach, nach dem die Dame d7 angreift.",
+     "success": "De8+! Schwarz blockt mit Lf8 – und Dxd7 räumt den Turm ab."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt bist du Schwarz. Ein ruhiger Turmzug greift die Dame **und** eine lose Figur an. Welcher?",
+     "fen": "8/4kpp1/1p2pb2/pPr5/1r2pP2/7P/Q3B1PK/3R4 b - - 3 41",
+     "moves": [
+      "b4b2",
+      "a2a4",
+      "b2e2"
+     ],
+     "hint": "Der Läufer e2 ist ungedeckt, und die Dame a2 steht auf derselben Reihe.",
+     "success": "Tb2! Die Dame muss weg, dann fällt der Läufer e2. Ein Doppelangriff braucht kein Schach – zwei echte Drohungen reichen."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel: Such Schachs und Drohungen, die nebenbei eine lose Figur treffen.",
+     "themes": [
+      "fork",
+      "hangingPiece"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Lose Figuren fallen! Such Züge, die zwei Dinge zugleich bedrohen – Schach, Matt oder eine ungedeckte Figur. Gegen zwei Drohungen gibt es meist keine Verteidigung."
+    }
+   ]
+  },
+  {
+   "id": "tactics-discovered",
+   "unit": "tactics-advanced",
+   "title": "Der Abzugsangriff",
+   "subtitle": "Eine Figur zieht weg – und die dahinter schlägt zu.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Beim **Abzug** zieht eine Figur weg und öffnet die Linie einer anderen. Steht dahinter der König, heißt das **Abzugsschach**.\nHier: Lxb7+! Der Turm e1 gibt Schach, der Läufer schlägt die Dame – Schwarz kann nur das Schach abwehren.",
+     "fen": "r3kbn1/pqpp1ppp/8/8/4B3/5N2/PPP2PPP/3QR1K1 w - - 0 1",
+     "arrows": [
+      [
+       "e4",
+       "b7",
+       "g"
+      ],
+      [
+       "e1",
+       "e8",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Eine berühmte Eröffnungsfalle: Nach Sf6?? steht nur noch dein Springer e5 zwischen deiner Dame e2 und dem schwarzen König. Zieh ihn ab – und triff dabei die Dame!",
+     "fen": "rnbqkb1r/pppp1ppp/5n2/4N3/8/8/PPPPQPPP/RNB1KB1R w KQkq - 2 5",
+     "goal": "exact",
+     "solutions": [
+      "e5c6"
+     ],
+     "hint": "Jeder Springerzug gibt Abzugsschach. Welcher greift zusätzlich die Dame d8 an?",
+     "success": "Sc6+! Abzugsschach durch die Dame e2 – und der Springer greift die Dame d8 an. Nach der Schachabwehr folgt Sxd8."
+    },
+    {
+     "type": "quiz",
+     "text": "Warum ist ein Abzugsschach so gefährlich?",
+     "options": [
+      "Die abziehende Figur kann ungestört zuschlagen",
+      "Danach darf man zweimal hintereinander ziehen",
+      "Der König darf danach nicht mehr ziehen"
+     ],
+     "answer": 0,
+     "explain": "Der Gegner muss zuerst das Schach abwehren. Die abziehende Figur kann deshalb fast ungestört schlagen oder angreifen – sogar die Dame."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt bist du Schwarz. Dein Läufer b7 zielt auf den weißen König – nur ein eigener Bauer steht im Weg. Zieh ihn ab!",
+     "fen": "7k/pb5p/1p3Pp1/3p4/1P6/P2Bb1P1/1BP4P/7K b - - 0 28",
+     "moves": [
+      "d5d4",
+      "d3e4",
+      "b7e4"
+     ],
+     "hint": "Welcher Bauernzug öffnet die lange Diagonale von b7 nach h1?",
+     "success": "d4+! Abzugsschach – Weiß muss mit Le4 blocken, und Lxe4 setzt matt."
+    },
+    {
+     "type": "line",
+     "text": "Dein Läufer d5 steht zwischen deiner Dame d4 und der schwarzen Dame d6. Zieh ihn mit Wucht ab!",
+     "fen": "6k1/p4p1p/1p1q2p1/2nB2P1/3Q4/6P1/PP3P2/6K1 w - - 4 29",
+     "moves": [
+      "d5f7",
+      "g8f7",
+      "d4d6"
+     ],
+     "hint": "Ein Läuferzug mit Schach – danach ist die d-Linie frei.",
+     "success": "Lxf7+! Der König muss sich um das Schach kümmern, dann schlägt Dxd6 die Dame. Abzug plus Schach – doppelt stark."
+    },
+    {
+     "type": "line",
+     "text": "Dein Springer c4 versperrt deiner Dame d3 den Weg zur schwarzen Dame a6. Zieh ihn ab – mit Schach!",
+     "fen": "r3k2r/p3bpp1/qp2pn1p/2pn4/2NP1B2/P1PQP3/1P3PPP/R4RK1 w kq - 2 15",
+     "moves": [
+      "c4d6",
+      "e7d6",
+      "d3a6"
+     ],
+     "hint": "Welcher Springerzug gibt Schach? Danach ist die Diagonale d3–a6 offen.",
+     "success": "Sd6+! Schwarz muss das Schach beantworten – und Dxa6 holt die Dame."
+    },
+    {
+     "type": "line",
+     "text": "Abzugsschach als Mattangriff: Dein Springer h7 steht zwischen Turm h5 und König h8. Wohin mit ihm?",
+     "fen": "3r3k/p5rN/2p5/1pp1qPpR/6Pb/1P1P4/P1P5/6RK w - - 0 30",
+     "moves": [
+      "h7f6",
+      "g7h7",
+      "h5h7"
+     ],
+     "hint": "Nach dem Abzug sollte der Springer Felder rund um den König bewachen – zum Beispiel g8.",
+     "success": "Sf6+! Schwarz kann nur mit Th7 blocken, dann Txh7#. Der Springer f6 nimmt dem König das Feld g8."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Rätsel mit Abzug und Abzugsschach. Frag dich: Welche meiner Figuren steht einer anderen im Weg?",
+     "themes": [
+      "discoveredAttack",
+      "discoveredCheck"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Steht eine eigene Figur zwischen deiner Dame, deinem Turm oder Läufer und einem wertvollen Ziel, hast du eine geladene Waffe. Zieh sie mit Drohung ab – am besten mit Schach."
+    }
+   ]
+  }
+ ]
+}

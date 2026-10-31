@@ -5,11 +5,36 @@ import { engine } from '../lib/engine.js';
 import { classify, explain, accuracyOf, CLASSES } from '../lib/coach.js';
 import { Chess, sanDe, whiteScore, scoreCp, winPct, formatScore } from '../lib/chess-util.js';
 import { Board, squaresIn } from '../ui/Board.js';
-import { Coach, EvalBar, Icon, Bar } from '../ui/kit.js';
+import { Coach, EvalBar, Icon, Bar, PieceIcon } from '../ui/kit.js';
 import { recordMistake } from '../lib/mistakes.js';
+import { useContent } from '../lib/content.js';
+
+// Aus den eigenen Fehlern der Partie die passende Lektion vorschlagen – vom Spiel direkt ins Training.
+const ADVICE = {
+  material: { text: (n) => `Du hast ${n === 1 ? 'einmal' : `${n}-mal`} Material eingestellt.`, lessons: ['strategy-blundercheck', 'tactics-hanging', 'strategy-threats'], themes: 'hangingPiece' },
+  allowed: { text: (n) => `Du hast ${n === 1 ? 'ein Matt' : `${n} Matts`} zugelassen.`, lessons: ['strategy-threats', 'mates-backrank', 'strategy-blundercheck'], themes: 'mateIn1,mateIn2' },
+  missed: { text: (n) => `Du hast ${n === 1 ? 'ein Matt' : `${n} Matts`} übersehen.`, lessons: ['mates-scan', 'mates-forcing', 'strategy-cct'], themes: 'mateIn1,mateIn2' },
+};
+function adviceFor(moments, analysis, content, s) {
+  if (!moments.length || !content) return null;
+  const n = { material: 0, allowed: 0, missed: 0 };
+  for (const { i } of moments) {
+    const before = analysis[i - 1]?.lines?.[0]?.score;
+    const after = analysis[i]?.lines?.[0]?.score;
+    if (before?.mate > 0) n.missed++;
+    else if (after?.mate > 0) n.allowed++;
+    else n.material++;
+  }
+  const key = Object.keys(n).sort((a, b) => n[b] - n[a])[0];
+  const a = ADVICE[key];
+  const lessons = a.lessons.map((id) => content.lessonById[id]).filter(Boolean);
+  const lesson = lessons.find((l) => !s.lessons[l.id]?.done) || null;
+  return { text: a.text(n[key]), lesson, themes: a.themes };
+}
 
 export function GameReview({ id }) {
   const s = useStore();
+  const content = useContent();
   const game = s.games.find((g) => g.id === id);
   const [positions, setPositions] = useState(null);
   const [analysis, setAnalysis] = useState([]);
@@ -148,6 +173,18 @@ export function GameReview({ id }) {
         </div>
         ${c && cur > 0 && html`<${Coach} text=${`**${sanDe(p.move.san)}: ${c.label} ${c.sym}** – ${ex?.text || ''}`} tone=${c.tone} />`}
         ${a?.lines?.[0] && html`<p class="muted small">Engine: ${formatScore(score)} · Bester Zug danach: ${a.bestmove || '–'}</p>`}
+        ${done && (() => {
+          const adv = adviceFor(keyMoments, analysis, content, s);
+          if (!adv) return null;
+          return html`<div class="card advice-card">
+            <small class="tag">Dein Trainingstipp</small>
+            <p><b>${adv.text}</b> ${adv.lesson ? 'Diese Lektion hilft genau dagegen:' : 'Übe genau das mit passenden Rätseln:'}</p>
+            ${adv.lesson
+              ? html`<a class="row-link" href=${`#/lesson/${adv.lesson.id}`}><${PieceIcon} p=${content.unitById[adv.lesson.unit]?.icon || 'wP'} size=${28} /><span><b>${adv.lesson.title}</b><small>${adv.lesson.minutes} Min · ${adv.lesson.subtitle || ''}</small></span><${Icon} name="next" /></a>`
+              : null}
+            <div class="btn-row"><a class="btn ghost" href=${`#/puzzles/train?themes=${adv.themes}`}><${Icon} name="puzzle" /> Passende Rätsel</a><a class="btn ghost" href="#/puzzles/mine"><${Icon} name="repeat" /> Fehler aus Partien</a></div>
+          </div>`;
+        })()}
         ${keyMoments.length > 0 && html`<div class="card">
           <h3>Schlüsselmomente</h3>
           ${keyMoments.map(({ x, i }) => html`<button class="row-link" onClick=${() => setCur(i)}><span class=${`cc c-${x.tone}`}>${x.sym}</span><span><b>${Math.ceil(i / 2)}. ${sanDe(positions[i].move.san)}</b><small>${x.label}</small></span></button>`)}

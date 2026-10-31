@@ -75,10 +75,14 @@ export function Board({
   flash = null, // { sq, kind: 'good'|'bad', key }
   badges = null, // { [sq]: { sym, tone } } – Zug-Symbole wie ?? oder ★ auf dem Feld
   drawMode = false, // true: Ziehen malt Pfeile statt Figuren zu bewegen (für Touch)
+  onTap = null, // (sq) => … – Tippen auf ein Feld statt Ziehen (z. B. Sehtraining)
+  hideCoords = false,
+  snapBack = false, // gezogene Figur springt nach dem Zug zurück (Stellung bleibt, z. B. „Alle Schachgebote“)
   className = '',
 }) {
   const s = useStore();
-  const { boardTheme, coords, autoQueen, animation } = s.settings;
+  const { boardTheme, autoQueen, animation } = s.settings;
+  const coords = s.settings.coords && !hideCoords;
   const effects = animation === false ? 'off' : s.settings.effects || 'full';
   const pieces = useMemo(() => parseFen(fen), [fen]);
   const chess = useMemo(() => (dests ? null : safeChess(fen)), [fen, dests]);
@@ -238,6 +242,11 @@ export function Board({
     if (dragRef.current || rightStart.current || hold.current) return; // zweiter Finger während eines Zuges: ignorieren
     const sq = squareAt(e);
     if (!sq) return;
+    if (onTap && e.button === 0) {
+      e.preventDefault();
+      onTap(sq);
+      return;
+    }
     if (e.button === 2 || (e.button === 0 && drawMode)) {
       e.preventDefault();
       startArrow(e, sq);
@@ -348,7 +357,7 @@ export function Board({
     if (!d || d.pid !== e.pointerId) return;
     const to = squareAt(e, d.rect);
     const moves = d.moved && to && to !== d.sq && destsFor(d.sq).includes(to);
-    endDrag(!moves);
+    endDrag(snapBack || !moves);
     if (moves) doMove(d.sq, to);
     else if (d.moved && to !== d.sq) setSel(null);
   };
@@ -396,7 +405,8 @@ export function Board({
 
   return html`<div
     ref=${ref}
-    class=${`board theme-${boardTheme} ${animation ? '' : 'no-anim'} ${movable ? 'interactive' : ''} ${dragSq ? 'grabbing' : ''} ${shake ? 'fx-shake' : ''} fx-${effects} ${className}`}
+    data-fen=${fen}
+    class=${`board theme-${boardTheme} ${animation ? '' : 'no-anim'} ${movable || onTap ? 'interactive' : ''} ${dragSq ? 'grabbing' : ''} ${shake ? 'fx-shake' : ''} fx-${effects} ${className}`}
     onPointerDown=${onPointerDown}
     onPointerMove=${onPointerMove}
     onPointerUp=${onPointerUp}

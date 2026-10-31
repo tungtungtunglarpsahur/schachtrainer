@@ -1,0 +1,324 @@
+{
+ "units": [
+  {
+   "id": "strategy-thinking",
+   "track": "strategy",
+   "level": 1,
+   "title": "Denken wie ein Profi",
+   "description": "Blunder-Check und Kandidatenzüge: So stellst du nichts mehr ein – und findest die starken Züge.",
+   "icon": "wK"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "strategy-blundercheck",
+   "unit": "strategy-thinking",
+   "title": "Der Blunder-Check",
+   "subtitle": "Zwei Fragen vor jedem Zug – und du stellst kaum noch etwas ein.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die meisten Partien bis 1500 entscheidet kein genialer Plan, sondern ein **eingestellter** Stein. Darum machen Profis vor **jedem** Zug den **Blunder-Check**:\n1. **Was will der Gegner** mit seinem letzten Zug?\n2. **Ist nach meinem Zug noch alles gedeckt?**\nHier hat Schwarz gerade mit Schach auf f3 geschlagen.",
+     "fen": "4rrk1/pp1q1ppp/5b2/8/3NQ3/PB1P1n2/1P3PPP/RN2R1K1 w - - 1 20",
+     "arrows": [
+      [
+       "f3",
+       "g1",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Frage 1 ist klar: Schach – der Springer f3 muss weg. Jetzt Frage 2: Welcher Schlagzug verliert **sofort**?",
+     "fen": "4rrk1/pp1q1ppp/5b2/8/3NQ3/PB1P1n2/1P3PPP/RN2R1K1 w - - 1 20",
+     "options": [
+      "Dxf3",
+      "Sxf3",
+      "gxf3"
+     ],
+     "answer": 0,
+     "explain": "Nach **Dxf3??** ist die e-Linie offen: **Txe1#**. Deine Dame hat den Turm e8 abgeschirmt! Mit **Sxf3** bleibt sie als Sperre stehen."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt du! Der Läufer f6 wird von Dame und Springer angegriffen. Schlag ihn – aber erst Frage 2: Welche Aufgabe hat dein Springer e4?",
+     "fen": "2kr3r/pp2qp1p/2p2b1Q/3b4/4N3/8/PPP2PPP/R1B1R1K1 w - - 0 15",
+     "goal": "exact",
+     "solutions": [
+      "h6f6"
+     ],
+     "hint": "Schau auf die e-Linie: Was steht hinter dem Springer e4?",
+     "success": "Richtig! Nach Sxf6?? käme Dxe1# – der Springer sperrt die e-Linie. Mit der Dame zu schlagen gewinnt sauber einen Läufer."
+    },
+    {
+     "type": "move",
+     "text": "Weiß hat deinen Springer auf c6 geschlagen und greift jetzt deine Dame an. Nimm zurück – aber womit? Mach den Blunder-Check für jeden Schlagzug!",
+     "fen": "2krr3/pp1q1ppp/2Bbbn2/1Np5/P2p1P2/1PPQP1PP/4N3/R1B1K2R b KQ - 0 16",
+     "goal": "exact",
+     "solutions": [
+      "b7c6"
+     ],
+     "hint": "Wohin kann der Springer b5 springen, wenn deine Dame auf c6 steht?",
+     "success": "Genau! Nach Dxc6?? folgt Sxa7+ – Gabel gegen König und Dame. Der Bauer schlägt gefahrlos zurück."
+    },
+    {
+     "type": "move",
+     "text": "Schach durch den Springer e4! Dein König hat mehrere Felder. Blunder-Check: Auf welchem Feld droht danach **keine** Springergabel?",
+     "fen": "1r2kb1r/p3pppp/B1p5/3q4/Pp1Pn3/1P2P3/3K1PPP/R2Q2NR w k - 1 13",
+     "goal": "exact",
+     "solutions": [
+      "d2e1"
+     ],
+     "hint": "Prüf jedes Feld: Kann der Springer danach auf c3 oder f2 mit Gabel zuschlagen?",
+     "success": "Stark! Auf Ke2? folgt Sc3+ (Gabel gegen König und Dame), auf Kc1 oder Kc2? Sxf2 gegen Dame und Turm. Ke1 deckt f2."
+    },
+    {
+     "type": "move",
+     "text": "Schach durch den Läufer h7! Dein König kann nach f8 oder h8. Blunder-Check: Was kann Weiß nach deinem Zug tun?",
+     "fen": "4r1k1/p1p2ppB/1p1n3p/4N1q1/3P4/1PP3Pb/P1Q2P2/4R1K1 b - - 2 26",
+     "goal": "exact",
+     "solutions": [
+      "g8f8"
+     ],
+     "hint": "Auf h8 steht dein König auf einem Feld, das der Springer e5 erreichen kann.",
+     "success": "Richtig! Nach Kh8?? folgt Sxf7+ Sxf7 Txe8# – Matt. Auf f8 ist dein König sicher."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt drehen wir den Spieß um: In diesen echten Partien hat jemand den Blunder-Check vergessen. Finde, was er eingestellt hat!",
+     "themes": [
+      "hangingPiece"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Vor jedem Zug zwei Fragen: **Was will der Gegner?** und **Ist nach meinem Zug alles gedeckt?** Achte besonders auf Figuren, die eine Linie sperren oder etwas decken – und auf Gabelfelder für König und Dame."
+    }
+   ]
+  },
+  {
+   "id": "strategy-threats",
+   "unit": "strategy-thinking",
+   "title": "Was droht der Gegner?",
+   "subtitle": "Erkenne die Drohung – und wähle die beste Abwehr.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Hier will Weiß gerade rochieren. Stopp! Erst die wichtigste Frage: **Was will der Gegner?**\nSchau nach jedem gegnerischen Zug:\n• Was greift die gezogene Figur an?\n• Welche Linie ist frei geworden?\n• Droht Schach, eine Gabel oder sogar Matt?",
+     "fen": "1r1r2k1/p4pbp/6p1/8/5Nn1/2P1P1P1/P4P1P/R1B1K2R w KQ - 0 17"
+    },
+    {
+     "type": "quiz",
+     "text": "Was droht Schwarz?",
+     "fen": "1r1r2k1/p4pbp/6p1/8/5Nn1/2P1P1P1/P4P1P/R1B1K2R w KQ - 0 17",
+     "options": [
+      "Lxc3+ mit Gabel gegen König und Turm",
+      "Sxe3 – der Bauer e3 hängt",
+      "Td1+ mit Matt auf der Grundreihe"
+     ],
+     "answer": 0,
+     "explain": "Der Läufer g7 zielt über die lange Diagonale auf c3. Nach **Lxc3+** hängt der Turm a1. Sxe3 verliert den Springer (fxe3), und auf Td1+ schlägt einfach der König.",
+     "arrows": [
+      [
+       "g7",
+       "c3",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Verhindere die Gabel! Nur ein Zug hält alles zusammen.",
+     "fen": "1r1r2k1/p4pbp/6p1/8/5Nn1/2P1P1P1/P4P1P/R1B1K2R w KQ - 0 17",
+     "goal": "exact",
+     "solutions": [
+      "f4e2"
+     ],
+     "hint": "Der Bauer c3 braucht einen Beschützer. Welche Figur kommt rechtzeitig hin?",
+     "success": "Genau! Se2 deckt c3 – die Gabel ist vom Tisch. Die Rochade hätte nichts genützt: Nach Lxc3 hängt der Turm a1 trotzdem."
+    },
+    {
+     "type": "quiz",
+     "text": "Der Bauer b4 greift deinen Springer an. Der Springer ist vom Bauern b2 gedeckt – reicht das?",
+     "fen": "6k1/5ppp/8/8/1p6/2N5/1P3PPP/6K1 w - - 0 1",
+     "options": [
+      "Ja, gedeckt ist gedeckt",
+      "Nein – der Springer muss weg",
+      "Egal, beide sind gleich viel wert"
+     ],
+     "answer": 1,
+     "explain": "Nach bxc3 bxc3 hast du einen Springer (3) gegen einen Bauern (1) getauscht. Greift eine **billigere** Figur an, hilft Decken nicht – dann muss deine Figur weg.",
+     "arrows": [
+      [
+       "b4",
+       "c3",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Weiß greift mit Lg5 deine Dame an. Aber Vorsicht: Das ist nicht die einzige Drohung! Wohin mit der Dame?",
+     "fen": "r3kbnr/pp3ppp/4pq2/1bppN1BQ/3P4/2P5/PP3PPP/RN2K2R b KQkq - 3 9",
+     "goal": "exact",
+     "solutions": [
+      "f6f5"
+     ],
+     "hint": "Auch f7 wird angegriffen – von der Dame h5 und dem Springer e5. Welches Feld rettet die Dame und deckt f7?",
+     "success": "Stark! Df5 rettet die Dame und deckt f7 weiter. Der Gegenangriff g6? scheitert an Lxf6 gxh5 Lxh8."
+    },
+    {
+     "type": "move",
+     "text": "Schach durch die Dame b4! Du kannst auf mehrere Arten dazwischenziehen. Welcher Block ist der stärkste?",
+     "fen": "r4rk1/pp3pbp/3pbnp1/8/NqPpP3/3BB3/PPQ2PPP/R3K2R w KQ - 2 14",
+     "goal": "exact",
+     "solutions": [
+      "e3d2"
+     ],
+     "hint": "Der beste Block greift die Dame gleichzeitig an. Hat sie danach noch ein sicheres Feld?",
+     "success": "Super! Ld2 blockt **und** greift die Dame an – und sie hat kein sicheres Feld mehr. Schwarz verliert die Dame für einen Läufer."
+    },
+    {
+     "type": "line",
+     "text": "Schach durch den Springer f6! Wohin mit dem König? Die beste Abwehr ist hier gleichzeitig ein Angriff.",
+     "fen": "rnb3k1/p1p2p2/1p1p1N1p/3Pr3/4p3/2P1P3/P1P2PPP/2KR1B1R b - - 0 14",
+     "moves": [
+      "g8g7",
+      "f6e4",
+      "e5e4"
+     ],
+     "hint": "Welches Königsfeld greift den Springer an? Und wohin kann er dann noch flüchten?",
+     "success": "Genau! Kg7 greift den Springer an, und alle Fluchtfelder sind bewacht. Aus der Drohung gegen dich wird Materialgewinn."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Rätsel: Erst fragen „Was droht?“ – dann die beste Antwort finden.",
+     "themes": [
+      "defensiveMove",
+      "hangingPiece"
+     ],
+     "count": 3
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Nach jedem gegnerischen Zug: Was greift er an, welche Linie ist frei, droht Schach oder eine Gabel? Dann die **beste** Abwehr wählen – Angreifer schlagen, wegziehen, decken oder dazwischenziehen. Am besten mit Gegenangriff."
+    }
+   ]
+  },
+  {
+   "id": "strategy-cct",
+   "unit": "strategy-thinking",
+   "title": "Schach, Schlagen, Drohung",
+   "subtitle": "So findest du die stärksten Züge – in der richtigen Reihenfolge.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Profis suchen Kandidatenzüge in fester Reihenfolge:\n1. **Schach**\n2. **Schlagen**\n3. **Drohung**\nErzwingende Züge zuerst – auf sie muss der Gegner reagieren. Hier hat Weiß genau zwei Schachgebote (blau).",
+     "fen": "r4rk1/1b3pp1/p1q2n1p/1p3N2/1P1p2P1/3P3P/1PP1N3/R2Q1RK1 w - - 2 21",
+     "arrows": [
+      [
+       "f5",
+       "e7",
+       "b"
+      ],
+      [
+       "f5",
+       "h6",
+       "b"
+      ]
+     ]
+    },
+    {
+     "type": "line",
+     "text": "Welches der beiden Schachs gewinnt? Spiel es!",
+     "fen": "r4rk1/1b3pp1/p1q2n1p/1p3N2/1P1p2P1/3P3P/1PP1N3/R2Q1RK1 w - - 2 21",
+     "moves": [
+      "f5e7",
+      "g8h7",
+      "e7c6"
+     ],
+     "hint": "Schau, was der Springer von e7 aus außer dem König noch angreift.",
+     "success": "Gabel! Se7+ greift König und Dame an – die Dame ist weg. Wer die Schachs systematisch prüft, übersieht so etwas nicht."
+    },
+    {
+     "type": "line",
+     "text": "Die Dame c6 greift deinen Turm d5 an, und der Turm b4 steht ungedeckt. Dxb4? Dxd5 wäre nur ein Tausch. Prüf erst die Schachgebote!",
+     "fen": "6k1/1p3p2/p1q3pp/3R4/1r6/8/3Q1PP1/6K1 w - - 0 32",
+     "moves": [
+      "d5d8",
+      "g8h7",
+      "d2b4"
+     ],
+     "hint": "Ein Schach bringt deinen Turm aus der Gefahr – mit Tempo.",
+     "success": "Perfekt! Td8+ rettet den Turm mit Schach, danach schnappst du dir den Turm b4. So ein **Zwischenschach** gewinnt einen ganzen Turm."
+    },
+    {
+     "type": "quiz",
+     "text": "In welcher Reihenfolge prüfst du deine Kandidatenzüge?",
+     "options": [
+      "Schach – Schlagen – Drohung",
+      "Drohung – Schlagen – Schach",
+      "Entwickeln – Rochieren – Angreifen"
+     ],
+     "answer": 0,
+     "explain": "Erzwingende Züge zuerst: Auf ein Schach muss der Gegner reagieren, auf einen Schlagzug meistens auch. So rechnest du weniger und findest Taktiken schneller."
+    },
+    {
+     "type": "line",
+     "text": "Hier gibt es kein Schach. Also: alle Schlagzüge prüfen! Eine Schlagfolge gewinnt Material.",
+     "fen": "r5k1/pp4pp/2p1rn2/3q4/3Q4/7P/PP3PP1/2R1R1K1 w - - 0 27",
+     "moves": [
+      "d4d5",
+      "f6d5",
+      "e1e6"
+     ],
+     "hint": "Wer deckt den Turm e6? Tausch diesen Verteidiger ab.",
+     "success": "Stark! Nach dem Damentausch ist der Turm e6 ungedeckt – Txe6 gewinnt ihn."
+    },
+    {
+     "type": "line",
+     "text": "Das einzige Schach (Dxg7+?) kostet die Dame, gute Schlagzüge gibt es nicht. Dann such eine **Drohung**: Ein ruhiger Zug fängt hier die schwarze Dame.",
+     "fen": "2r2rk1/p4ppp/b2p1q2/n2PpP2/1p2P1Q1/1P4P1/P4PK1/R1B1R3 w - - 1 26",
+     "moves": [
+      "c1g5",
+      "f6g5",
+      "g4g5"
+     ],
+     "hint": "Greif die Dame an – und prüf, ob sie danach noch ein sicheres Feld hat.",
+     "success": "Gefangen! Nach Lg5 hat die Dame kein sicheres Feld mehr – alle Fluchtfelder sind bewacht. Eine ruhige Drohung, die eine Dame gewinnt."
+    },
+    {
+     "type": "line",
+     "text": "Jetzt alles zusammen: Schach, Schlagen, Drohung – finde den besten Zug für Schwarz!",
+     "fen": "1r4k1/p1p2ppp/1n2p1q1/6Q1/3PN1b1/1BP3P1/P4P2/R1B1K2R b KQ - 0 18",
+     "moves": [
+      "g6e4",
+      "c1e3",
+      "e4h1"
+     ],
+     "hint": "Ein Schlagzug mit Schach – und danach steht noch etwas Wertvolles auf einer Linie der Dame.",
+     "success": "Klasse! Dxe4+ schlägt mit Schach, und nach Le3 holt Dxh1+ auch noch den Turm."
+    },
+    {
+     "type": "drill",
+     "text": "Echte Rätsel – geh jedes Mal die Liste durch: Schach, Schlagen, Drohung.",
+     "themes": [
+      "fork",
+      "skewer",
+      "discoveredAttack"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Kandidatenzüge immer in dieser Reihenfolge prüfen: **Schach – Schlagen – Drohung**. Und zwar für dich **und** für deinen Gegner – das ist dein Blunder-Check."
+    }
+   ]
+  }
+ ]
+}

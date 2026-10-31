@@ -1,6 +1,7 @@
 // Lernfortschritt: Ratings, Wiederholung (Spaced Repetition), Erfolge, Tagesplan.
 import { addXp, dayKey, today, todayView } from './store.js';
 import { SKILL_THEMES, UNIT_THEMES } from './content.js';
+import { intensiveActive, planDay, dayBlock, pickDayLessons } from './intensive.js';
 
 const DAY = 864e5;
 /** Leitner-Intervalle: Box 0 = gleich nochmal, dann 1, 3, 7, 16, 35 Tage. */
@@ -159,6 +160,10 @@ export const ACHIEVEMENTS = [
   { id: 'rush-10', name: 'Blitzmerker', desc: '10 Punkte im Rätsel-Rush', icon: 'wN', test: (s) => s.puzzle.rushBest >= 10 },
   { id: 'rush-25', name: 'Turbo-Hirn', desc: '25 Punkte im Rätsel-Rush', icon: 'wQ', test: (s) => s.puzzle.rushBest >= 25 },
   { id: 'opening-5', name: 'Theoretiker', desc: '5 Eröffnungslinien sicher', icon: 'wB', test: (s) => Object.values(s.openings.lines).filter((l) => l.box >= 2).length >= 5 },
+  { id: 'lessons-50', name: 'Lernmaschine', desc: '50 Lektionen abgeschlossen', icon: 'wQ', test: (s) => lessonsDone(s) >= 50 },
+  { id: 'vision-15', name: 'Scharfer Blick', desc: '15 Punkte in einer Sehtraining-Runde', icon: 'wR', test: (s) => Math.max(0, ...Object.values(s.vision?.best || {})) >= 15 },
+  { id: 'vision-hanging-10', name: 'Nichts hängt mehr', desc: '10 Stellungen bei „Was hängt?“', icon: 'wN', test: (s) => (s.vision?.best?.hanging || 0) >= 10 },
+  { id: 'intensive-done', name: 'Turnierbereit', desc: 'Einen Intensiv-Plan bis zum Ende durchgezogen', icon: 'wK', test: (s) => !!s.intensive?.done },
 ];
 
 /** Prüft Erfolge, schaltet neue frei und gibt sie zurück. */
@@ -189,6 +194,28 @@ export function buildPath(content, profile) {
   }));
 }
 
+/**
+ * Für den Tagesplan: abwechselnd aus den Bereichen (Matt, Taktik, Strategie, Endspiel …) – gemischtes
+ * Üben bleibt besser hängen als drei Lektionen desselben Themas hintereinander.
+ */
+export function mixedLessons(path, s, n = 1) {
+  const streams = new Map();
+  for (const pass of [false, true])
+    for (const p of path) {
+      if (p.known !== pass) continue;
+      const t = p.unit.track;
+      if (!streams.has(t)) streams.set(t, []);
+      for (const l of p.lessons) if (!s.lessons[l.id]?.done) streams.get(t).push(l);
+    }
+  const lists = [...streams.values()].filter((x) => x.length);
+  const out = [];
+  for (let k = 0; out.length < n && lists.some((x) => x.length); k++) {
+    const list = lists[k % lists.length];
+    if (list.length) out.push(list.shift());
+  }
+  return out;
+}
+
 export function nextLessons(path, s, n = 1) {
   const out = [];
   for (const pass of [false, true])
@@ -202,18 +229,18 @@ export function nextLessons(path, s, n = 1) {
   return out;
 }
 
-function nextOpeningKey(content, s) {
-  const due = dueOpeningLines(s);
-  if (due.length) return due[0];
+function nextOpeningKeys(content, s, n = 1) {
+  const out = [...dueOpeningLines(s)].slice(0, n);
   const lvl = s.profile.level;
   const ops = content.openings.filter((o) => o.level <= Math.max(1, lvl)).sort((a, b) => a.level - b.level);
   for (const o of ops)
-    for (let i = 0; i < o.lines.length; i++) {
+    for (let i = 0; i < o.lines.length && out.length < n; i++) {
       const k = lineKey(o.id, i);
-      if (!s.openings.lines[k]) return k;
+      if (!s.openings.lines[k] && !out.includes(k)) out.push(k);
     }
-  return null;
+  return out;
 }
+const nextOpeningKey = (content, s) => nextOpeningKeys(content, s, 1)[0] || null;
 
 /** Absolute Anfänger bekommen Rätsel erst, wenn sie Schach & Matt kennen. */
 export function canDoPuzzles(s, content) {
@@ -221,23 +248,33 @@ export function canDoPuzzles(s, content) {
   return Object.keys(s.lessons).some((id) => ['basics-check', 'mates-first'].includes(content?.lessonById[id]?.unit));
 }
 
+/** Version der Plan-Logik: ändert sie sich, wird der heutige Plan neu erstellt (z. B. wenn neue Lektionen dazukommen). */
+const PLAN_V = 2;
+
 /** Erstellt (einmal pro Tag) den Plan passend zu Zeit, Niveau und Zielen. */
 export function todayPlan(content, s) {
   const key = dayKey();
-  if (s.plan?.date === key && s.plan.minutes === s.profile.minutes) return s.plan;
-  const M = s.profile.minutes;
+  const intensive = intensiveActive(s);
+  const dayIdx = intensive ? planDay(s.intensive) : -1;
+  const M = intensive ? s.intensive.minutes : s.profile.minutes;
+  const mode = intensive ? 'intensive' : null;
+  if (s.plan?.date === key && s.plan.v === PLAN_V && s.plan.n === content.lessons.length && s.plan.minutes === M && (s.plan.mode || null) === mode && (!intensive || s.plan.day === dayIdx)) return s.plan;
+  if (intensive) {
+    s.plan = intensivePlan(content, s, key, M, dayIdx);
+    return s.plan;
+  }
   const goals = new Set(s.profile.goals);
   const path = buildPath(content, s.profile);
   const tasks = [];
   const due = duePuzzles(s).length;
   if (due) tasks.push({ kind: 'review', count: Math.min(due, Math.max(3, Math.round(M * 0.2))) });
   const nL = M <= 10 ? 1 : M <= 20 ? 2 : M <= 30 ? 3 : M <= 45 ? 4 : 5;
-  const lessons = nextLessons(path, s, nL);
+  const lessons = mixedLessons(path, s, nL);
   for (const l of lessons) tasks.push({ kind: 'lesson', id: l.id });
   if (canDoPuzzles(s, content)) {
-    const unit = lessons[0] ? content.lessonById[lessons[0].id]?.unit : null;
+    const unitThemes = [...new Set(lessons.flatMap((l) => UNIT_THEMES[content.lessonById[l.id]?.unit] || []))].slice(0, 4);
     const weak = themeStats(s).filter((t) => t.rate < 0.55).slice(0, 3).map((t) => t.theme);
-    const themes = (unit && UNIT_THEMES[unit]) || (weak.length ? weak : null);
+    const themes = unitThemes.length ? unitThemes : weak.length ? weak : null;
     tasks.push({ kind: 'puzzles', count: Math.max(3, Math.round(M * 0.4)), themes });
   }
   if (goals.has('openings') && s.profile.level >= 1 && content.openings.length) {
@@ -245,8 +282,25 @@ export function todayPlan(content, s) {
     if (k) tasks.push({ kind: 'opening', key: k });
   }
   if (goals.has('play') && s.profile.level >= 1 && M >= 20) tasks.push({ kind: 'play', elo: s.play.rating });
-  s.plan = { date: key, minutes: M, tasks };
+  s.plan = { v: PLAN_V, n: content.lessons.length, date: key, minutes: M, tasks };
   return s.plan;
+}
+
+/** Tagesplan im Intensiv-Modus: Schwerpunkt des Tages, dichter und mit Partien. */
+function intensivePlan(content, s, key, M, idx) {
+  const b = dayBlock(s.intensive.days, idx);
+  const tasks = [];
+  const due = duePuzzles(s).length;
+  if (due) tasks.push({ kind: 'review', count: Math.min(due, M >= 60 ? 10 : 6) });
+  const nL = b.final ? 0 : M <= 30 ? 1 : M <= 45 ? 2 : M <= 60 ? 3 : 4;
+  for (const l of pickDayLessons(content, s, b.lessons, nL)) tasks.push({ kind: 'lesson', id: l.id });
+  if (b.vision) tasks.push({ kind: 'vision', mode: b.vision });
+  if (canDoPuzzles(s, content)) tasks.push({ kind: 'puzzles', count: Math.max(8, Math.round(M * (b.final ? 0.25 : 0.35))), themes: b.themes });
+  if (b.openings && s.profile.level >= 1 && content.openings.length) for (const k of nextOpeningKeys(content, s, b.openings)) tasks.push({ kind: 'opening', key: k });
+  if (b.rush && canDoPuzzles(s, content)) tasks.push({ kind: 'rush' });
+  const games = b.games || (M >= 45 ? 1 : 0);
+  if (games && s.profile.level >= 1) tasks.push({ kind: 'play', elo: s.play.rating, count: games });
+  return { v: PLAN_V, n: content.lessons.length, date: key, minutes: M, mode: 'intensive', day: idx, tasks };
 }
 
 /** Fortschritt einer Planaufgabe 0..1 – aus den heutigen Zählern berechnet. */
@@ -255,7 +309,12 @@ export function taskProgress(task, s, plan) {
   if (task.kind === 'lesson') return d.lessons.includes(task.id) ? 1 : 0;
   if (task.kind === 'review') return Math.min(1, d.reviews / task.count);
   if (task.kind === 'puzzles') return Math.min(1, d.puzzles / (task.count + (plan.tasks.find((t) => t.kind === 'review')?.count || 0)));
-  if (task.kind === 'opening') return Math.min(1, d.openings / 1);
-  if (task.kind === 'play') return Math.min(1, d.games / 1);
+  if (task.kind === 'opening') {
+    const i = plan.tasks.filter((t) => t.kind === 'opening').indexOf(task);
+    return d.openings > Math.max(0, i) ? 1 : 0;
+  }
+  if (task.kind === 'play') return Math.min(1, d.games / (task.count || 1));
+  if (task.kind === 'vision') return Math.min(1, (d.vision || 0) / 1);
+  if (task.kind === 'rush') return Math.min(1, (d.rush || 0) / 1);
   return 0;
 }

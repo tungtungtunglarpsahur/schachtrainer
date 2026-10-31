@@ -1,7 +1,8 @@
 // Lädt Lektionen, Eröffnungen und Rätsel aus data/ und indiziert sie.
 import { useEffect, useState } from '../../vendor/preact-htm.js';
 
-const TRACK_FILES = ['basics', 'mates', 'tactics', 'strategy', 'endgames'];
+// Mehrere Dateien je Bereich möglich (z. B. Grundlagen + Fortgeschrittene); Reihenfolge = Lernreihenfolge.
+const TRACK_FILES = ['basics', 'mates', 'mates-2', 'tactics', 'tactics-2', 'strategy', 'strategy-2', 'endgames', 'endgames-2'];
 
 export const TRACKS = {
   basics: { name: 'Grundlagen', color: '#a9bdd3' },

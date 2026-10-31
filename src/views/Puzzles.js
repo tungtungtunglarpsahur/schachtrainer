@@ -1,11 +1,11 @@
 // Rätsel: Hub, Training (mit Rating), Themen, Wiederholung, Rush und Einstufungstest.
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
-import { update, useStore } from '../lib/store.js';
+import { update, useStore, today } from '../lib/store.js';
 import { usePuzzles, pickPuzzle, THEME_GROUPS, themeName, SKILL_THEMES } from '../lib/content.js';
 import { recordPuzzle, duePuzzles, checkAchievements, themeStats } from '../lib/progress.js';
 import { SequenceTask } from '../ui/Tasks.js';
 import { Icon, Spinner, announce, confetti, Bar } from '../ui/kit.js';
-import { GameTile } from './Home.js';
+import { QuickTile } from './Home.js';
 import { play } from '../lib/sound.js';
 import { colorName } from '../lib/chess-util.js';
 import { MyMistakes } from './Mistakes.js';
@@ -17,16 +17,31 @@ export function PuzzleHub() {
   const weak = themeStats(s).slice(0, 4);
   const mineDue = dueMistakes(s).length;
   const mineOpen = openMistakes(s).length;
-  return html`<div class="page">
+  // Erfolgsquote je Themengruppe (falls schon genug gespielt)
+  const groupRate = (g) => {
+    if (!g.themes) return null;
+    let n = 0;
+    let w = 0;
+    for (const t of g.themes) {
+      const x = s.puzzle.themes[t];
+      if (x) {
+        n += x[0];
+        w += x[1];
+      }
+    }
+    return n >= 4 ? Math.round((w / n) * 100) : null;
+  };
+  return html`<div class="page puzzle-hub">
     <div class="page-head">
       <div><h1>Rätsel</h1><p class="muted">Rating <b>${s.puzzle.rating}</b> · ${s.puzzle.solved} gelöst · Rush-Rekord ${s.puzzle.rushBest}</p></div>
       <a class="btn primary" href="#/puzzles/train"><${Icon} name="play" /> Training starten</a>
     </div>
-    <div class="tiles">
-      <${GameTile} href="#/puzzles/train" title="Training" sub="Endlos, passt sich deinem Rating an" art="tactic" badge="HOT" icon="wN" />
-      <${GameTile} href="#/puzzles/rush" title="Rätsel-Rush" sub="3 Minuten, 3 Leben, immer schwerer" art="rush" badge="LIVE" icon="wQ" />
-      <${GameTile} href="#/puzzles/mine" title="Deine Partie-Fehler" sub=${mineOpen ? `${mineDue} fällig · ${mineOpen} gesammelt` : 'Aus deinen Partien – automatisch'} art="play" badge=${mineDue ? String(mineDue) : 'NEU'} icon="bK" />
-      <${GameTile} href="#/puzzles/review" title="Rätsel wiederholen" sub=${due ? `${due} fällig – Spaced Repetition` : 'Gerade nichts fällig'} art="defense" badge=${due ? String(due) : null} icon="wR" />
+    <div class="quick-grid">
+      <${QuickTile} href="#/puzzles/train" title="Training" sub="Endlos, passt sich an" icon="wN" hot />
+      <${QuickTile} href="#/puzzles/rush" title="Rätsel-Rush" sub="3 Min, 3 Leben" icon="wQ" />
+      <${QuickTile} href="#/puzzles/mine" title="Partie-Fehler" sub=${mineOpen ? `${mineDue} fällig · ${mineOpen} gesammelt` : 'Aus deinen Partien'} icon="bK" badge=${mineDue ? String(mineDue) : null} />
+      <${QuickTile} href="#/puzzles/review" title="Wiederholen" sub=${due ? `${due} fällig` : 'Gerade nichts fällig'} icon="wR" badge=${due ? String(due) : null} />
+      <${QuickTile} href="#/vision" title="Sehtraining" sub="Brettblick in 60 s" icon="wB" />
     </div>
     ${weak.length > 0 &&
     html`<section class="card">
@@ -36,9 +51,15 @@ export function PuzzleHub() {
       </div>
     </section>`}
     <section>
-      <div class="section-head"><h2>Nach Thema</h2></div>
-      <div class="tiles small">
-        ${THEME_GROUPS.map((g) => html`<a href=${`#/puzzles/theme-${g.id}`} class=${`tile small art-${g.art}`}><span class="tile-text"><b>${g.name}</b><small>${g.desc}</small></span></a>`)}
+      <div class="section-head"><h2>Nach Thema</h2><span class="muted small">${THEME_GROUPS.length} Themen</span></div>
+      <div class="theme-grid">
+        ${THEME_GROUPS.map((g) => {
+          const r = groupRate(g);
+          return html`<a href=${`#/puzzles/theme-${g.id}`} class=${`theme-card art-${g.art}`}>
+            <span class="tc-text"><b>${g.name}</b><small>${g.desc}</small></span>
+            ${r !== null ? html`<span class=${`tc-rate ${r < 50 ? 'low' : r < 75 ? 'mid' : 'high'}`}>${r} %</span>` : html`<${Icon} name="next" size=${16} />`}
+          </a>`;
+        })}
       </div>
     </section>
   </div>`;
@@ -207,6 +228,8 @@ function Rush({ db }) {
     update((st) => {
       st.puzzle.rushHistory.push([Date.now(), sc]);
       if (sc > st.puzzle.rushBest) st.puzzle.rushBest = sc;
+      const d = today(st);
+      d.rush = (d.rush || 0) + 1;
       fresh = checkAchievements(st);
     });
     announce(fresh);

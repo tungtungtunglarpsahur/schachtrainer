@@ -270,6 +270,7 @@ export function Settings() {
       <div class="field"><span>Ziele</span>
         <div class="seg wrap">${GOALS.map((g) => html`<button class=${s.profile.goals.includes(g.id) ? 'on' : ''} onClick=${() => toggleGoal(g.id)}>${g.name}</button>`)}</div>
       </div>
+      <a class="st-int" href="#/intensive"><${Icon} name="bolt" /><span><b>${s.intensive ? 'Intensiv-Plan läuft' : 'Intensiv-Plan'}</b><small>${s.intensive ? `${s.intensive.days} Tage · ${s.intensive.minutes} Min pro Tag – ansehen oder beenden` : 'Bald ein Turnier? 3, 5 oder 7 Tage gezielt trainieren'}</small></span><${Icon} name="next" /></a>
       <span class="st-label">Neu einstufen und Hilfe<small>Dein Fortschritt bleibt dabei erhalten.</small></span>
       <div class="st-actions" style=${{ marginTop: 0 }}>
         <button class="btn secondary" onClick=${() => (location.hash = '#/play?test=1')}><${Icon} name="play" /> Testspiel wiederholen</button>

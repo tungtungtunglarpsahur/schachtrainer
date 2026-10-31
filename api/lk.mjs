@@ -188,22 +188,53 @@ async function createGame(a, b, { tc, rated, colorFor = 'r', cid = null }) {
 }
 
 // ---------- Bot-Gegner für die Matchsuche ----------
-// Ist nach BOT_AFTER Sekunden kein Mensch da, spielt man gegen einen Bot mit einem echt wirkenden
-// Namen. Jeder Name hat eine feste „Heim-Elo“ und einen Spielstil – so passt alles zusammen.
-const BOT_AFTER = Number(process.env.LK_BOT_AFTER) || 45;
+// Ist nach 10–20 Sekunden (zufällig je Suche) kein Mensch da, spielt man gegen einen Bot mit einem
+// echt wirkenden Namen. Jeder Name hat eine feste „Heim-Elo“ und einen Spielstil – so passt alles zusammen.
+const BOT_AFTER_ENV = Number(process.env.LK_BOT_AFTER) || 0;
+const botAfter = () => BOT_AFTER_ENV || Math.round(10 + Math.random() * 10);
+/** Suchfenster für Menschen: wächst schnell, weil nach spätestens 20 s ein Bot kommt. */
+const matchWindow = (waited) => (waited > 25 ? 5000 : Math.round(150 + waited * 35));
 const BOT_NAMES = [
-  'bxn_abi', '_608_', 'six08', 'SinisterMax666', 'sinister_maxing', 'sigma_lukas', 'rizzler_ben', 'gigachad_tim',
-  'kevin2011', 'LeonKing07', 'mia_plays', 'emily_x3', 'noobmaster_09', 'xX_Turm_Xx', 'BauerBernd', 'Springer_Sven',
-  'ohne_plan_88', 'pferdefan_lea', 'NoScopeBishop', 'elo_hunter', 'zugzwang_jo', 'gambit_gabriel', 'finn_ff', 'jonas_h',
-  'ali_k13', 'mert_gg', 'deniz_07', 'yusuf_xd', 'luca_lol', 'paul_pwnz', 'anna_banana', 'tim_tam_tom',
-  'captain_check', 'mattmeister', 'rochade_ralf', 'en_passant_ed', 'damenopfer', 'blunder_king', 'tilted_tobi', 'schachmatt_sam',
-  'kingslayer_k', 'dragon_dan', 'sizilianer', 'caro_kann_carl', 'MrMoves', 'checkmate_chris', 'ghost_rook', 'lowkey_gm',
-  'no_cap_chess', 'sus_springer', 'bruh_moment77', 'toxic_tobi', 'lilly_xo', 'hannah_b', 'jannik_2010', 'maxi_mx',
-  'niklas_99', 'ben_10', 'moritz_ftw', 'lea_lol', 'sophie_ch', 'ayo_karim', 'omar_mvp', 'emir_x',
-  'elias_sz', 'noah_k', 'louis_v', 'vincent_08', 'timo_tt', 'lukas_gg', 'felix_fx', 'jan_ole',
-  'Sk8erBoi_09', 'pizza_pawn', 'kebab_king', 'doener_dame', 'bratwurst_b', 'goofy_gambit', 'amogus_rook', 'ohio_bishop',
-  'skibidi_knight', 'mewing_magnus', 'aura_farmer', 'npc_nils', 'main_char_mo', 'side_quest_sid', 'cooked_cris', 'fanum_tax_fin',
-  'brainrot_bo', 'sheesh_sven', 'yeet_yannik', 'delulu_dani', 'w_rizz_will', 'l_plus_ratio', 'grinding_greg', 'xd_xaver',
+  'getownedlol', 'sinistermaxin666', 'sinistermax666', 'bxnabi', 'bxn_abi', '_608_', 'six08', '608vibes', 'ezclap',
+  'ggezlol', 'skillissue', 'skillissue99', 'cryaboutit', 'touchgrass', 'gotouchgrass', 'wompwomp', 'wompwomp67',
+  'unluckybro', 'malding', 'maldingmax', 'cookedfr', 'imsocooked', 'nocapfr', 'frfrnocap', 'deadassbro',
+  'bruhmoment', 'bruhhh', 'sheeesh', 'yeetusdeletus', 'lowkeygoated', 'highkeytrash', 'uaregoated', 'ratiodlol',
+  'lplusratio', 'wrizzwill', 'rizzlerben', 'sigmalukas', 'sigmagrindset', 'gigachadtim', 'aurafarmer', 'aurafarming',
+  'npcnils', 'maincharacter', 'sidequestsid', 'fanumtax', 'brainrotbo', 'delulu', 'skibidiknight', 'skibidirizz',
+  'ohiorook', 'ohiobishop', 'mewingmax', 'sixseven67', 'sixsevenking', '67kid', 'tungtungsahur', 'tralalero',
+  'bombardiro', 'patapim', 'lirililarila', 'cappuccinoninja', 'chimpanzini', 'enpassantgod', 'holyhell',
+  'googleenpassant', 'bongcloudking', 'bongcloudmain', 'hangingqueen', 'freequeen', 'queenblunder', 'blunderking',
+  'blundermachine', 'hangmyqueen', 'sacthequeen', 'sacrificelord', 'gambitgoblin', 'londonmain', 'londonsystem',
+  'carokannenjoyer', 'sizilianer', 'sicilianmain', 'kingsgambit', 'fianchettoking', 'fianchettofan', 'zugzwangzach',
+  'pawnstorm', 'pawnstorm2010', 'pawnpusher', 'knightrider', 'horsey', 'horseyenjoyer', 'thehorseyguy',
+  'bishoplover', 'longcastle', 'shortcastle', 'stalematelord', 'pattpeter', 'remisrudi', 'elohell', 'elofarmer',
+  'elohunter', 'ratingfarmer', '800elogod', 'queentrader', 'mateinone', 'mateinfun', 'smotheredking', 'scholarsmate',
+  'schaefermatt', 'fourmovemate', 'forkmaster', 'gabelgott', 'fesselfred', 'spiessbuerger', 'turmtom',
+  'laeuferlukas', 'springerjunge', 'bauernopfer', 'damentausch', 'mattin2', 'checkcheckmate', 'rochaderalf',
+  'enpassanted', 'damenopfer', 'tiltedtobi', 'schachmattsam', 'kingslayerk', 'dragondan', 'caroklaus', 'mrmoves',
+  'checkmatechris', 'ghostrook', 'lowkeygm', 'nocapchess', 'susspringer', 'bruhmoment77', 'toxictobi',
+  'captaincheck', 'mattmeister', 'xxturmxx', 'bauerbernd', 'springersven', 'ohneplan88', 'pferdefanlea',
+  'noscopebishop', 'lukas2009', 'leon2010', 'finn07', 'jonas14', 'paulgg', 'timmy2011', 'maxi2008', 'emilxd',
+  'noahhh', 'eliasz', 'benni09', 'felixxx', 'moritz08', 'niklas2010', 'jannik11', 'lucagg', 'ali2009', 'mert07',
+  'yusuf2010', 'emre2008', 'can09', 'deniz2011', 'kaan07', 'mehmet10', 'omar2009', 'karim08', 'ahmedxd', 'aylin2010',
+  'leonie09', 'mia2011', 'emmaxo', 'hannah08', 'lilly2010', 'lenaxd', 'sophie11', 'marie2009', 'leagg', 'anna2008',
+  'sarah10', 'julia09', 'nele2011', 'julexo', 'ella2010', 'zoe07', 'kevin2011', 'leonking07', 'miaplays', 'emilyx3',
+  'noobmaster09', 'finnff', 'jonash', 'alik13', 'mertgg', 'deniz07', 'yusufxd', 'lucalol', 'paulpwnz', 'annabanana',
+  'timtamtom', 'lillyxo', 'hannahb', 'jannik2010', 'maximx', 'niklas99', 'ben10', 'moritzftw', 'lealol', 'sophiech',
+  'ayokarim', 'omarmvp', 'emirx', 'eliassz', 'noahk', 'louisv', 'vincent08', 'timott', 'lukasgg', 'felixfx',
+  'janole', 'xxsniperxx', 'darkknight666', 'shadowhunter', 'nightfury', 'toxicgamer', 'proplayer2010', 'noobslayer',
+  'dragonslayer', 'voidwalker', 'silentassassin', 'sweatlord', 'tryhardtim', 'ragequitter', 'alttabber', 'afkking',
+  'brbmom', 'basementking', 'gamingchair', 'rgbking', 'kebabking', 'doenerdame', 'doenerboss', 'pommesking',
+  'currywurst', 'bratwurstbob', 'pizzapawn', 'nudelnaldo', 'schnitzelsam', 'nutellanoob', 'gummibaer',
+  'kartoffelkopf', 'toastbrot', 'apfelschorle', 'eistee', 'maultasche', 'brezelbub', 'spaetzlespieler', 'schachopa',
+  'papajens', 'klaus1965', 'wernerschach', 'petrak', 'bernd1971', 'schachfreund', 'derspringer', 'chessfan2012',
+  'tom1987', 'julian_k', 'checkmatemachine', 'wallahkrise', 'digga2009', 'diggaaa', 'brudermoment', 'alterschwede',
+  'ehrenmann', 'ehrenlos', 'lostking', 'sadboy07', 'tiltproof', 'quickscoper', 'ragequit', 'campingking',
+  'goofygambit', 'amogusrook', 'sk8erboi09', 'goofyahh', 'grindinggreg', 'xdxaver', 'sheeshsven', 'yeetyannik',
+  'cookedcris', 'npcenergy', 'rizzmaster', 'chessrizz', 'checkmyrizz', 'gyrorook', 'loserbracket', 'letmecook',
+  'justwin', 'ihatelosing', 'pleasebenice', 'idkchess', 'newtochess', 'learningchess', 'chessisfun', 'justvibing',
+  'vibecheck', 'vibingknight', 'sleepyking', 'lazybishop', 'angrypawn', 'happyrook', 'crazyqueen', 'chillknight',
+  'madbishop',
 ];
 const hash32 = (str) => {
   let h = 2166136261;
@@ -592,7 +623,7 @@ async function tryMatch(me, q) {
   if (!(await cmd('SET', `lock:${q.pool}`, id, 'NX', 'PX', 3000))) return null;
   try {
     const waited = (Date.now() - q.since) / 1000;
-    const win = waited > 45 ? 5000 : 150 + waited * 25;
+    const win = matchWindow(waited);
     const list = await cmd('ZRANGEBYSCORE', `q:${q.pool}`, q.r - win, q.r + win, 'WITHSCORES');
     const cands = [];
     for (let i = 0; i < list.length; i += 2) if (list[i] !== id) cands.push({ id: list[i], d: Math.abs(Number(list[i + 1]) - q.r) });
@@ -609,7 +640,7 @@ async function tryMatch(me, q) {
     }
     // Lange gewartet und kein Mensch da? Dann ein Gegner aus dem Bot-Pool (unter derselben Sperre,
     // damit nicht gleichzeitig noch ein Mensch zugeteilt wird).
-    if (waited >= BOT_AFTER && (await getJSON(`m:${id}`))) {
+    if (waited >= (q.ba || botAfter()) && (await getJSON(`m:${id}`))) {
       await multi([['ZREM', `q:${q.pool}`, id], ['DEL', `m:${id}`]]);
       const [m, inc] = POOLS[q.pool];
       return await createBotGame(me, { tc: { m, inc } });
@@ -625,7 +656,7 @@ A['queue.join'] = async ({ me, body }) => {
   if (!POOLS[pool]) fail('Unbekannte Bedenkzeit.');
   const g = await activeGame(me.id);
   if (g) return { matched: g.id };
-  const q = { pool, r: Math.round(num(me.user.r, 800)), since: Date.now() };
+  const q = { pool, r: Math.round(num(me.user.r, 800)), since: Date.now(), ba: botAfter() };
   await multi([['SET', `m:${me.id}`, JSON.stringify(q), 'EX', 8], ['ZADD', `q:${pool}`, q.r, me.id], ['SET', `on:${me.id}`, '1', 'EX', 75]]);
   const m = await tryMatch(me, q);
   return m ? { matched: m.id } : { waiting: true, since: q.since };
@@ -638,7 +669,8 @@ A['queue.poll'] = async ({ me }) => {
   await multi([['SET', `m:${me.id}`, JSON.stringify(q), 'EX', 8], ['ZADD', `q:${q.pool}`, q.r, me.id]]);
   const m = await tryMatch(me, q);
   const waited = (Date.now() - q.since) / 1000;
-  return m ? { matched: m.id } : { waiting: true, since: q.since, range: waited > 45 ? null : Math.round(150 + waited * 25) };
+  const win = matchWindow(waited);
+  return m ? { matched: m.id } : { waiting: true, since: q.since, range: win >= 5000 ? null : win };
 };
 A['queue.leave'] = async ({ me }) => {
   const q = await getJSON(`m:${me.id}`);

@@ -1,0 +1,666 @@
+{
+ "units": [
+  {
+   "id": "mates-first",
+   "track": "mates",
+   "level": 1,
+   "title": "Erste Mattbilder",
+   "description": "Die Matts, die in Anfängerpartien am häufigsten vorkommen – erkennen, ausführen, verhindern.",
+   "icon": "wQ"
+  },
+  {
+   "id": "mates-basic",
+   "track": "mates",
+   "level": 1,
+   "title": "Grundmatts sicher setzen",
+   "description": "Mit Dame oder Turm gegen den nackten König: schnell, sicher und ohne Patt.",
+   "icon": "wK"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "mates-backrank",
+   "unit": "mates-first",
+   "title": "Das Grundreihenmatt",
+   "subtitle": "Eingesperrt hinter den eigenen Bauern.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Das **Grundreihenmatt**: Der König steht auf seiner Grundreihe, die eigenen Bauern davor sperren ihn ein (gelb). Ein Turm oder die Dame gibt auf der Grundreihe Schach – und es gibt keinen Ausweg.\nEines der häufigsten Matts überhaupt!",
+     "fen": "3R2k1/pp3ppp/2p5/8/8/1P6/P4PPP/6K1 b - - 0 1",
+     "arrows": [
+      [
+       "d8",
+       "g8",
+       "r"
+      ]
+     ],
+     "marks": {
+      "f7": "y",
+      "g7": "y",
+      "h7": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Schwarz greift mit dem Turm an – und vergisst dabei seine eigene Grundreihe. Setz matt!",
+     "fen": "6k1/pp3ppp/2p5/8/8/1P6/P1r2PPP/3R2K1 w - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "d1d8"
+     ],
+     "hint": "Welche Reihe kann der schwarze König nicht verlassen?",
+     "success": "**Td8#**! Die drei Bauern auf f7, g7 und h7 versperren dem König jede Flucht."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt bist du Schwarz. Auch der weiße König hat kein Luftloch – und du bist am Zug. Setz matt!",
+     "fen": "6k1/1R3ppp/p7/1pq5/8/P7/1P3PPP/6K1 b - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "c5c1"
+     ],
+     "hint": "Nicht nur Türme können das: Deine Dame erreicht die 1. Reihe.",
+     "success": "**Dc1#**! Auch die Dame setzt auf der Grundreihe matt. Weiß kann nichts dazwischenstellen."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß am Zug. Was passiert nach **Td8+**?",
+     "fen": "2r3k1/5ppp/p7/1p6/8/P7/1P3PPP/3R2K1 w - - 0 1",
+     "options": [
+      "Matt!",
+      "Schwarz schlägt mit Txd8",
+      "Der König flieht nach f8"
+     ],
+     "answer": 1,
+     "explain": "Der **Turm c8 bewacht die Grundreihe**. Nach Td8+ Txd8 ist dein Turm einfach weg. Und f8 liegt auch auf der 8. Reihe – dorthin darf der König nicht."
+    },
+    {
+     "type": "line",
+     "text": "Zähl auf d8: Zwei weiße Türme zielen dorthin (einer durch den Turm d7 hindurch), nur einer verteidigt. Schlag auf d8 – und setz danach matt!",
+     "fen": "2Rr2k1/3r1ppp/p7/1p6/1P6/P2R4/5P1P/6K1 w - - 0 36",
+     "moves": [
+      "c8d8",
+      "d7d8",
+      "d3d8"
+     ],
+     "hint": "Nimm zuerst den Turm auf d8. Wer muss zurückschlagen – und was wird dadurch frei?",
+     "success": "Nach Txd8+ musste der Turm d7 zurückschlagen und hat die d-Linie geöffnet. Dein zweiter Turm setzt matt."
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Der Turm f5 deckt die weiße Grundreihe. Lock ihn weg – auch wenn es die Dame kostet!",
+     "fen": "r4rk1/p5pp/1p6/5R1Q/2q1P3/8/P5PP/5R1K b - - 0 25",
+     "moves": [
+      "c4f1",
+      "f5f1",
+      "f8f1"
+     ],
+     "hint": "Schlag mit der Dame dort, wo sich alles kreuzt: auf f1.",
+     "success": "**Dxf1+! Txf1 Txf1#** – die Dame war nur der Köder. Sobald der Turm f5 zurückschlägt, ist die f-Linie offen."
+    },
+    {
+     "type": "quiz",
+     "text": "Du bist Weiß und am Zug. Schwarz droht **Td1#**. Welcher Zug rettet dich?",
+     "fen": "3r2k1/pQ3pp1/7p/8/8/1P6/P4PPP/6K1 w - - 0 1",
+     "options": [
+      "h3",
+      "Dxa7",
+      "a4"
+     ],
+     "answer": 0,
+     "explain": "**h3** schafft ein **Luftloch**: Nach Td1+ geht der König einfach nach h2. Nach Dxa7?? oder a4?? folgt sofort Td1#."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt im Ernstfall: 4 echte Rätsel zum Grundreihenmatt. Schau zuerst, ob der König ein Luftloch hat!",
+     "themes": [
+      "backRankMate"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Steht ein König hinter drei unbewegten Bauern, prüf sofort, ob ein Turm oder die Dame die Grundreihe erreicht. Und gönn deinem eigenen König rechtzeitig ein **Luftloch** (h3 bzw. h6)."
+    }
+   ]
+  },
+  {
+   "id": "mates-queen-kiss",
+   "unit": "mates-first",
+   "title": "Der Kuss der Dame",
+   "subtitle": "Dame vorn, Helfer dahinter.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Der **Kuss der Dame**: Die Dame stellt sich direkt neben den König und gibt Schach. Schlagen kann er sie nicht, weil ein Helfer sie deckt – hier der Läufer d3 (blau). Fliehen kann er auch nicht.\nDas Rezept: **Dame vorn, Helfer dahinter**.",
+     "fen": "r1b2rk1/pp3ppQ/2n1p3/8/3P4/3B4/PP3PPP/R4RK1 b - - 0 1",
+     "arrows": [
+      [
+       "d3",
+       "h7",
+       "b"
+      ]
+     ],
+     "marks": {
+      "g8": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Dame und Läufer stehen hintereinander auf derselben Diagonale – eine **Batterie**. Setz matt!",
+     "fen": "r1bq1rk1/pp3pp1/4pb2/6p1/3P4/3Q1N2/PP3PPP/RB2R1K1 w - - 0 16",
+     "goal": "mate",
+     "solutions": [
+      "d3h7"
+     ],
+     "hint": "Die Dame darf bis direkt vor den König. Wer steht hinter ihr?",
+     "success": "**Dh7#** – der Läufer b1 deckt die Dame durch die frei gewordene Diagonale."
+    },
+    {
+     "type": "move",
+     "text": "Diesmal hilft ein **Springer**. Setz matt!",
+     "fen": "r4r1k/1b3ppp/pq2pNn1/1p6/7Q/1B6/PPP3PP/R4R1K w - - 4 20",
+     "goal": "mate",
+     "solutions": [
+      "h4h7"
+     ],
+     "hint": "Welche Felder neben dem König bewacht dein Springer f6?",
+     "success": "**Dxh7#** – der Springer f6 deckt die Dame und dazu das Fluchtfeld g8."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz. Dame und Läufer zielen gemeinsam über die lange Diagonale auf **g2**. Setz matt!",
+     "fen": "r3kb1r/1bp2ppp/pnq1p3/1p2N1B1/3P4/1BN5/PP3PPP/2RQ1RK1 b kq - 13 15",
+     "goal": "mate",
+     "solutions": [
+      "c6g2"
+     ],
+     "hint": "Die Diagonale a8–h1: Wer steht vorn, wer dahinter?",
+     "success": "**Dxg2#** – der Läufer b7 deckt die Dame. Dass der Springer e5 deine Dame angriff, spielt keine Rolle mehr."
+    },
+    {
+     "type": "quiz",
+     "text": "Weiß spielt **Dxh7+**. Ist das Matt?",
+     "fen": "r1bqrnk1/pp3ppp/2p5/7Q/3P4/2PB4/PP2NPPP/R4RK1 w - - 0 1",
+     "options": [
+      "Ja – Matt!",
+      "Nein – der Springer f8 schlägt",
+      "Nein – der König schlägt"
+     ],
+     "answer": 1,
+     "explain": "Der Läufer d3 deckt die Dame, aber der **Springer f8 bewacht h7**. Zähl vor dem Kuss immer die Verteidiger!"
+    },
+    {
+     "type": "line",
+     "text": "Du bist Schwarz. Schlag zuerst mit Schach die weiße Dame – danach küsst deine Dame den König.",
+     "fen": "4Nn2/ppb4k/2p2rpq/3p3Q/3P4/2P5/P1B3R1/6RK b - - 1 39",
+     "moves": [
+      "h6h5",
+      "g2h2",
+      "h5h2"
+     ],
+     "hint": "Schlag die weiße Dame. Was kann Weiß dann noch dazwischenstellen?",
+     "success": "**Dxh5+ Th2 Dxh2#** – der Läufer c7 deckt h2 über die Diagonale c7–h2."
+    },
+    {
+     "type": "line",
+     "text": "Dame und Läufer zielen auf h7 – doch dein eigener Springer e4 steht im Weg. Räum die Diagonale **mit Schach**!",
+     "fen": "r1bq1rk1/1p2bpp1/p3p2p/4n3/3PN3/8/PPQ2PPP/1BR2RK1 w - - 0 17",
+     "moves": [
+      "e4f6",
+      "g7f6",
+      "c2h7"
+     ],
+     "hint": "Der Springer muss weg – und zwar so, dass Schwarz keine Zeit für Verteidigung hat.",
+     "success": "**Sf6+** öffnet die Diagonale mit Schach, dann **Dh7#**. Der geopferte Springer spielt keine Rolle."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt echte Matt-Rätsel. Denk an den Kuss: Welches Feld direkt am König erreicht deine Dame – mit Deckung?",
+     "themes": [
+      "mateIn1",
+      "mateIn2"
+     ],
+     "count": 4
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Ein Feld direkt am gegnerischen König, das deine Dame erreicht und eine zweite Figur deckt, ist ein Mattkandidat. Typisch: **h7/g7** (bzw. h2/g2) mit Läufer oder Springer als Helfer."
+    }
+   ]
+  },
+  {
+   "id": "mates-ladder",
+   "unit": "mates-first",
+   "title": "Die Treppe",
+   "subtitle": "Zwei schwere Figuren schieben den König Stufe für Stufe an den Rand.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die **Treppe**: Ein Turm sperrt eine Reihe ab (gelb), der andere gibt eine Reihe weiter Schach (grün). Der König muss zurückweichen – dann tauschen die Türme die Rollen. Stufe für Stufe geht es an den Rand, bis zum Matt.",
+     "fen": "8/8/3k4/R7/8/8/8/1R4K1 w - - 0 1",
+     "arrows": [
+      [
+       "a5",
+       "h5",
+       "y"
+      ],
+      [
+       "b1",
+       "b6",
+       "g"
+      ]
+     ]
+    },
+    {
+     "type": "move",
+     "text": "Die Treppe klappt auch seitwärts: Der Turm g1 sperrt die g-Linie. Setz matt!",
+     "fen": "8/8/8/7k/8/2K5/R7/6R1 w - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "a2h2"
+     ],
+     "hint": "Der König klebt am h-Rand. Welcher Turm kann ihm auf der h-Linie Schach geben?",
+     "success": "**Th2#** – die g-Linie ist gesperrt, auf der h-Linie steht er im Schach. Keine Stufe mehr übrig!"
+    },
+    {
+     "type": "quiz",
+     "text": "Welcher Zug drängt den König eine Reihe weiter an den Rand?",
+     "fen": "8/8/3k4/R7/8/8/8/1R4K1 w - - 0 1",
+     "options": [
+      "Tb6+",
+      "Ta6+",
+      "Td1+"
+     ],
+     "answer": 0,
+     "explain": "**Tb6+**: Die 5. Reihe bleibt gesperrt, auf der 6. steht der König im Schach – er muss auf die 7. Reihe. Nach Ta6+ wäre die 5. Reihe wieder frei."
+    },
+    {
+     "type": "quiz",
+     "text": "Der König greift deinen Turm b5 an. Welcher Zug hält die Treppe am Laufen?",
+     "fen": "8/8/2k5/1R6/R7/8/8/6K1 w - - 0 1",
+     "options": [
+      "Th5",
+      "Tb6+",
+      "Ta6+"
+     ],
+     "answer": 0,
+     "explain": "**Th5**: Der Turm flieht ans andere Ende der 5. Reihe – die Sperre bleibt, und der König kommt nicht mehr heran. Nach Tb6+ oder Ta6+ schlägt Schwarz einen Turm."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz. Mit Dame und Turm geht die Treppe noch schneller. Setz matt!",
+     "fen": "7q/4k3/8/K7/8/8/8/1r6 b - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "h8a8"
+     ],
+     "hint": "Der Turm b1 sperrt die b-Linie. Wer gibt auf der a-Linie Schach?",
+     "success": "Matt! Der Turm sperrt, die Dame gibt Schach – die Treppe mit Dame und Turm."
+    },
+    {
+     "type": "line",
+     "text": "Ein Turm sperrt die 7. Reihe, der andere wartet auf seinen Einsatz – die Treppe in einer echten Partie. Setz in 2 Zügen matt!",
+     "fen": "3kr3/2R4p/R1n5/5p2/4bB2/3r2P1/7P/4K3 w - - 11 39",
+     "moves": [
+      "a6a8",
+      "c6b8",
+      "a8b8"
+     ],
+     "hint": "Wo kann der Turm a6 auf der 8. Reihe Schach geben?",
+     "success": "**Ta8+ Sb8 Txb8#** – der Springer konnte das Matt nur um einen Zug verzögern. Der Läufer f4 deckt c7."
+    },
+    {
+     "type": "line",
+     "text": "Die Treppe seitwärts, in einer echten Partie: Der König steht schon am h-Rand. Setz in 2 Zügen matt!",
+     "fen": "8/R6p/4p3/4p1R1/P3P2k/1p3P2/r1r5/1K6 w - - 0 37",
+     "moves": [
+      "g5g4",
+      "h4h5",
+      "a7h7"
+     ],
+     "hint": "Ein Schach auf der 4. Reihe sperrt gleichzeitig die g-Linie.",
+     "success": "**Tg4+** sperrt die g-Linie, **Txh7#** setzt auf der h-Linie matt – eine Treppe seitwärts. Der Bauer f3 deckt den Turm g4."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine: Setz mit zwei Türmen matt – Stufe für Stufe!",
+     "fen": "8/8/8/4k3/8/8/1R6/R5K1 w - - 0 1",
+     "goal": "mate",
+     "maxMoves": 16
+    },
+    {
+     "type": "play",
+     "text": "Du bist Schwarz: Treib den weißen König mit Dame und Turm an den Rand und setz matt!",
+     "fen": "r2qk3/8/8/8/4K3/8/8/8 b - - 0 1",
+     "goal": "mate",
+     "maxMoves": 14
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Einer sperrt, einer gibt Schach – abwechselnd, Reihe für Reihe. Kommt der König einem Turm zu nahe, zieh ihn ans andere Ende derselben Reihe und mach dann weiter."
+    }
+   ]
+  },
+  {
+   "id": "mates-kq",
+   "unit": "mates-basic",
+   "title": "Matt mit Dame und König",
+   "subtitle": "Einsperren, König holen, mattsetzen – und nie patt.",
+   "minutes": 7,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Dame und König gegen den nackten König gewinnen immer – mit der richtigen Technik. Das Ziel: der König am Rand, die Dame direkt davor, **gedeckt vom eigenen König** (blau). Oder die Dame gibt am Rand aus der Ferne Schach, während dein König die Fluchtfelder bewacht.",
+     "fen": "3k4/3Q4/3K4/8/8/8/8/8 b - - 0 1",
+     "arrows": [
+      [
+       "d6",
+       "d7",
+       "b"
+      ]
+     ],
+     "marks": {
+      "d8": "r"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Setz matt! Hier gibt es sogar mehrere Wege.",
+     "fen": "3k4/7Q/3K4/8/8/8/8/8 w - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "h7d7"
+     ],
+     "hint": "Dein König d6 bewacht c7, d7 und e7. Wo kann die Dame Schach geben, ohne dass der König entkommt?",
+     "success": "Matt! Dd7# (gedeckt vom König) oder Dg8#/Dh8# am Rand – beide Mattbilder solltest du kennen."
+    },
+    {
+     "type": "quiz",
+     "text": "Zuerst sperrst du den König ein. Welcher Zug baut ihm den kleinsten **Kasten**?",
+     "fen": "8/8/8/3k4/8/8/8/Q6K w - - 0 1",
+     "options": [
+      "Dc3",
+      "Dd4+",
+      "Da8+"
+     ],
+     "answer": 0,
+     "explain": "**Dc3** steht einen **Springerzug** vom König entfernt: Er kann sie nicht angreifen und sitzt rechts oben fest. Dd4+?? verliert die Dame (Kxd4), Da8+ verjagt ihn nur."
+    },
+    {
+     "type": "quiz",
+     "text": "Vorsicht, **Patt**! Welcher Damenzug macht die Partie hier zum Remis?",
+     "fen": "7k/5K2/8/6Q1/8/8/8/8 w - - 0 1",
+     "options": [
+      "Dg6",
+      "De7",
+      "Dd5"
+     ],
+     "answer": 0,
+     "explain": "Nach **Dg6??** hat Schwarz keinen Zug mehr, steht aber nicht im Schach – **Patt**, nur Remis! Nach De7 oder Dd5 bleibt ihm Kh7."
+    },
+    {
+     "type": "move",
+     "text": "Gleiche Stellung, jetzt bist du dran: Setz matt – ohne Patt!",
+     "fen": "7k/5K2/8/6Q1/8/8/8/8 w - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "g5g7"
+     ],
+     "hint": "Es muss ein Schach sein. Dein König f7 deckt schon g7 und g8.",
+     "success": "Matt statt Patt! Der entscheidende Unterschied: Der König steht **im Schach**."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz: Der weiße König sitzt in der Ecke fest. Setz matt!",
+     "fen": "8/8/8/8/1q6/8/2k5/K7 b - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "b4b2"
+     ],
+     "hint": "Deine Dame darf direkt neben den König – dein König c2 deckt sie.",
+     "success": "Matt! Gleich mehrere Züge klappen hier – Hauptsache Schach, und der König hat kein Feld mehr."
+    },
+    {
+     "type": "info",
+     "text": "Der Plan in drei Schritten:\n1. Die Dame sperrt den König im **Springerabstand** ein und folgt ihm, bis er am Rand steht.\n2. Dann **hält die Dame still**, und dein König kommt heran.\n3. Erst jetzt setzt du matt.\nUnd vor jedem Damenzug: Hat der König noch einen Zug?"
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine: Setz mit Dame und König matt!",
+     "fen": "8/8/8/4k3/8/8/8/3QK3 w - - 0 1",
+     "goal": "mate",
+     "maxMoves": 18
+    },
+    {
+     "type": "play",
+     "text": "Du bist Schwarz: Treib den weißen König an den Rand und setz matt – ohne Patt!",
+     "fen": "5q2/8/8/8/3K4/8/6k1/8 b - - 0 1",
+     "goal": "mate",
+     "maxMoves": 20
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Dame im Springerabstand, eigener König hinterher, erst dann Matt. Hat der König keinen Zug mehr und steht nicht im Schach, ist es **Patt** – also vor jedem Damenzug kurz zählen!"
+    }
+   ]
+  },
+  {
+   "id": "mates-kr",
+   "unit": "mates-basic",
+   "title": "Matt mit Turm und König",
+   "subtitle": "Kasten bauen, Opposition nutzen, am Rand mattsetzen.",
+   "minutes": 8,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Mit Turm und König setzt du am Rand matt: Die Könige stehen sich direkt gegenüber (**Opposition**), dein König bewacht die drei Felder davor (gelb), und der Turm gibt auf der Randreihe Schach.",
+     "fen": "R3k3/8/4K3/8/8/8/8/8 b - - 0 1",
+     "arrows": [
+      [
+       "a8",
+       "e8",
+       "r"
+      ]
+     ],
+     "marks": {
+      "d7": "y",
+      "e7": "y",
+      "f7": "y"
+     }
+    },
+    {
+     "type": "move",
+     "text": "Die Könige stehen in Opposition. Setz matt!",
+     "fen": "3k4/8/3K4/8/8/8/8/7R w - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "h1h8"
+     ],
+     "hint": "Dein König bewacht c7, d7 und e7. Wo gibt der Turm am Rand Schach?",
+     "success": "**Th8#** – Opposition plus Turmschach am Rand."
+    },
+    {
+     "type": "quiz",
+     "text": "Und hier – ist **Th8+** Matt?",
+     "fen": "3k4/8/2K5/8/8/8/8/7R w - - 0 1",
+     "options": [
+      "Ja, Matt!",
+      "Nein – der König flieht nach e7",
+      "Nein – der König schlägt den Turm"
+     ],
+     "answer": 1,
+     "explain": "Ohne **Opposition** bewacht dein König nicht alle Felder vor dem Rand: e7 ist frei. Erst wenn sich die Könige direkt gegenüberstehen, ist das Turmschach tödlich."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz – diesmal klebt der weiße König am Rand der a-Linie. Setz matt!",
+     "fen": "6r1/8/8/K1k5/8/8/8/8 b - - 0 1",
+     "goal": "mate",
+     "solutions": [
+      "g8a8"
+     ],
+     "hint": "Dein König c5 steht dem weißen König gegenüber. Auf welcher Linie gibt der Turm Schach?",
+     "success": "**Ta8#** – Opposition und Turmschach, nur um 90 Grad gedreht."
+    },
+    {
+     "type": "quiz",
+     "text": "Schwarz weicht der Opposition aus. Welcher Zug gewinnt am schnellsten?",
+     "fen": "2k5/R7/3K4/8/8/8/8/8 w - - 0 1",
+     "options": [
+      "Th7",
+      "Ta8+",
+      "Tb7"
+     ],
+     "answer": 0,
+     "explain": "Ein **Wartezug**: Der Turm bleibt auf der 7. Reihe, und Schwarz muss ziehen. Geht er nach d8, folgt Th8#. Ta8+? Kb7 lässt ihn vom Rand, Tb7?? verliert den Turm."
+    },
+    {
+     "type": "play",
+     "text": "Jetzt gegen die Engine: Der König steht schon am Rand. Hol deinen König und setz matt!",
+     "fen": "6k1/8/R7/8/4K3/8/8/8 w - - 0 1",
+     "goal": "mate",
+     "maxMoves": 18
+    },
+    {
+     "type": "info",
+     "text": "Aus der Mitte gehst du so vor:\n1. Der Turm sperrt den König in einen **Kasten** (gelb).\n2. Dein König kommt heran.\n3. Schach gibst du nur in der Opposition. Sonst: Kasten verkleinern oder ein **Wartezug** – den Turm immer weit weg vom gegnerischen König.",
+     "fen": "8/8/5k2/8/8/2K5/8/4R3 w - - 0 1",
+     "arrows": [
+      [
+       "e1",
+       "e8",
+       "y"
+      ]
+     ]
+    },
+    {
+     "type": "play",
+     "text": "Die Meisterprüfung: Setz aus dieser Stellung mit Turm und König matt. Lass dir Zeit – du hast genug Züge.",
+     "fen": "8/8/5k2/8/8/2K5/8/4R3 w - - 0 1",
+     "goal": "mate",
+     "maxMoves": 34
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Turm sperrt, König kommt, Schach nur bei Opposition. Weicht der gegnerische König aus, hilft ein **Wartezug** mit dem Turm – immer mit Abstand zum König."
+    }
+   ]
+  },
+  {
+   "id": "mates-scan",
+   "unit": "mates-basic",
+   "title": "Matt in 1 sicher finden",
+   "subtitle": "Alle Schachgebote prüfen – und keins übersehen.",
+   "minutes": 6,
+   "steps": [
+    {
+     "type": "info",
+     "text": "Die **Matt-Checkliste**: Such zuerst **alle** Schachgebote. Prüf dann bei jedem: Kann der König fliehen? Kann jemand den Angreifer schlagen? Kann etwas dazwischen? Hier: Nach Dxh7+ und Df7+ schlägt der König einfach. Nur **Dxe8#** ist Matt.",
+     "fen": "4r1k1/p1q3pp/np2p3/2pp3Q/8/2P1P1b1/PP1N2PP/R5K1 w - - 0 20",
+     "arrows": [
+      [
+       "h5",
+       "e8",
+       "g"
+      ],
+      [
+       "h5",
+       "h7",
+       "r"
+      ],
+      [
+       "h5",
+       "f7",
+       "r"
+      ]
+     ]
+    },
+    {
+     "type": "quiz",
+     "text": "Schritt 1 der Checkliste: Wie viele Schachgebote hat Weiß hier? Zähl wirklich alle!",
+     "fen": "4rrk1/p1p1bp1p/1p1q4/3PpQ2/2P5/3B4/PP3PPP/4R1K1 w - - 0 19",
+     "options": [
+      "3",
+      "4",
+      "5"
+     ],
+     "answer": 2,
+     "explain": "**Fünf**: Dxh7, Dxf7, Dg6, Dg5 und Dg4 geben alle Schach. Wer nur die naheliegenden sucht, übersieht oft genau das Matt."
+    },
+    {
+     "type": "move",
+     "text": "Jetzt Schritt 2: Prüf alle fünf Schachgebote. Welches ist Matt?",
+     "fen": "4rrk1/p1p1bp1p/1p1q4/3PpQ2/2P5/3B4/PP3PPP/4R1K1 w - - 0 19",
+     "goal": "mate",
+     "solutions": [
+      "f5h7"
+     ],
+     "hint": "Welche weiße Figur steht auf derselben Diagonale wie die Dame – nur weiter hinten?",
+     "success": "**Dxh7#** – der Läufer d3 deckt die Dame. Gegen alle anderen Schachs hat Schwarz eine Antwort."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz. Auch hier gibt es fünf Schachgebote – aber nur eins ist Matt. Geh die Checkliste durch!",
+     "fen": "4k2r/1b3ppp/p3B3/1p2p1PQ/8/b1q1B3/P1P2P1P/1K1R2R1 b k - 2 19",
+     "goal": "mate",
+     "solutions": [
+      "c3b2"
+     ],
+     "hint": "Welches Feld direkt am weißen König deckt eine zweite schwarze Figur?",
+     "success": "**Db2#** – der Läufer a3 deckt die Dame. Ein Kuss der Dame, gefunden mit der Checkliste!"
+    },
+    {
+     "type": "quiz",
+     "text": "**Dxh7+** sieht nach Matt aus – die Dame ist vom Springer g5 gedeckt. Warum klappt es trotzdem nicht?",
+     "fen": "5n1k/1p3Q1p/p3p1p1/6N1/2p1P3/7P/Pq4PK/8 w - - 2 28",
+     "options": [
+      "Der König flieht nach g8",
+      "Der Springer f8 schlägt die Dame",
+      "Ein Bauer zieht dazwischen"
+     ],
+     "answer": 1,
+     "explain": "Der **Springer f8 bewacht h7**: Nach Dxh7+ Sxh7 ist die Dame weg. Kann jemand den Angreifer schlagen? – genau diese Frage der Checkliste rettet dich."
+    },
+    {
+     "type": "move",
+     "text": "Gleiche Stellung: Welches Schachgebot ist hier wirklich Matt?",
+     "fen": "5n1k/1p3Q1p/p3p1p1/6N1/2p1P3/7P/Pq4PK/8 w - - 2 28",
+     "goal": "mate",
+     "solutions": [
+      "f7f8"
+     ],
+     "hint": "Schlag den Verteidiger – und zwar mit Schach.",
+     "success": "**Dxf8#** – der einzige Verteidiger ist weg, und dem König bleibt kein Feld."
+    },
+    {
+     "type": "move",
+     "text": "Du bist Schwarz. Nicht nur die Dame kann mattsetzen – finde das Matt!",
+     "fen": "6rk/1p1q3p/p4p2/2Pp1p2/1P1PnP2/4N3/P6P/2BQ2RK b - - 0 32",
+     "goal": "mate",
+     "solutions": [
+      "e4f2"
+     ],
+     "hint": "Der weiße König hat kaum Platz: g1 ist besetzt, g2 bewacht dein Turm g8.",
+     "success": "**Sf2#** – der Turm g8 bewacht g2, der eigene Turm g1 sperrt den König ein. Niemand kann den Springer schlagen."
+    },
+    {
+     "type": "drill",
+     "text": "Jetzt 5 echte Matt-in-1-Rätsel. Geh jedes Mal die Checkliste durch: erst alle Schachs, dann prüfen!",
+     "themes": [
+      "mateIn1"
+     ],
+     "count": 5
+    },
+    {
+     "type": "info",
+     "text": "**Merke:** Geh vor jedem Zug alle Schachgebote durch – auch die, die eine Figur kosten. Matt ist es nur, wenn der König weder fliehen noch den Angreifer schlagen noch etwas dazwischenstellen kann."
+    }
+   ]
+  }
+ ]
+}

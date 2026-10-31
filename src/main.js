@@ -18,6 +18,9 @@ import { Settings } from './views/Settings.js';
 import { InstallGuide } from './views/Install.js';
 import { OnlineHub, JoinView, InvitePopup } from './views/Online.js';
 import { OnlineGame } from './views/OnlineGame.js';
+import { VisionHub, VisionDrill } from './views/Vision.js';
+import { Intensive } from './views/Intensive.js';
+import { goalMinutes } from './lib/intensive.js';
 import { useNet } from './lib/online.js';
 import { isIOS, isStandalone } from './lib/device.js';
 
@@ -27,6 +30,8 @@ const NAV = [
   { href: '#/puzzles', icon: 'puzzle', label: 'Rätsel' },
   { href: '#/play', icon: 'play', label: 'Spielen' },
   { href: '#/online', icon: 'globe', label: 'Online' },
+  { href: '#/intensive', icon: 'bolt', label: 'Intensiv-Plan' },
+  { href: '#/vision', icon: 'eye', label: 'Sehtraining' },
   { href: '#/progress', icon: 'chart', label: 'Fortschritt' },
   { href: '#/openings', icon: 'book', label: 'Eröffnungen' },
   { href: '#/analysis', icon: 'scope', label: 'Analyse' },
@@ -34,7 +39,7 @@ const NAV = [
 ];
 // Unten auf dem Handy: Start, Rätsel, Spielen, Online + „Mehr“.
 const TABS = [NAV[0], NAV[2], NAV[3], NAV[4]];
-const MORE = [NAV[1], NAV[5], NAV[6], NAV[7], NAV[8]];
+const MORE = [NAV[1], NAV[5], NAV[6], NAV[7], NAV[8], NAV[9], NAV[10]];
 
 
 const parseHash = () => {
@@ -77,7 +82,7 @@ function useRoute() {
   return r;
 }
 
-const TRAINING = new Set(['lesson', 'puzzles', 'play', 'review', 'opening', 'analysis', 'openings', 'online']);
+const TRAINING = new Set(['lesson', 'puzzles', 'play', 'review', 'opening', 'analysis', 'openings', 'online', 'vision']);
 
 // Aktive Lernzeit zählen: nur sichtbar, nur bei Interaktion in der letzten Minute.
 let lastInput = Date.now();
@@ -171,7 +176,8 @@ function useBarFade(enabled, routeKey, pinned, bar) {
 
 function TopBar({ s }) {
   const d = todayView();
-  const goal = s.profile.minutes * 60;
+  const goalMin = goalMinutes(s);
+  const goal = goalMin * 60;
   const streak = streakNow(s);
   const rank = rankFor(eloOf(s));
   return html`<header class="topbar">
@@ -183,8 +189,8 @@ function TopBar({ s }) {
         <span class=${`piece-icon piece ${rank.icon}`}></span><span class="hide-sm">${rank.name}</span>
       </a>
       <a href="#/" class="chip goal" title="Tagesziel">
-        <${Ring} value=${d.seconds / goal} size=${24} stroke=${3.5}><span></span><//>
-        <span>${Math.floor(d.seconds / 60)}/${s.profile.minutes} Min</span>
+        <${Ring} value=${d.seconds / goal} size=${24} stroke=${3.5}><span class="goal-min">${Math.floor(d.seconds / 60)}</span><//>
+        <span>${Math.floor(d.seconds / 60)}/${goalMin} Min</span>
       </a>
     </div>
   </header>`;
@@ -299,6 +305,12 @@ function App() {
       break;
     case 'settings':
       view = html`<${Settings} />`;
+      break;
+    case 'vision':
+      view = b ? html`<${VisionDrill} key=${b} mode=${b} />` : html`<${VisionHub} />`;
+      break;
+    case 'intensive':
+      view = html`<${Intensive} />`;
       break;
     case 'online':
       view =

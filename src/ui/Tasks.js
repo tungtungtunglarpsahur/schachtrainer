@@ -2,7 +2,7 @@
 import { html, useEffect, useRef, useState } from '../../vendor/preact-htm.js';
 import { Board } from './Board.js';
 import { Icon, Md } from './kit.js';
-import { fenFromMap, parseUci, safeChess, toUci, FILES } from '../lib/chess-util.js';
+import { fenFromMap, parseUci, safeChess, toUci, FILES, scoreCp } from '../lib/chess-util.js';
 import { engine } from '../lib/engine.js';
 import { play, playMove } from '../lib/sound.js';
 
@@ -286,6 +286,20 @@ export function PlayTask({ step, onDone, onMistake }) {
     setMsg('');
   };
 
+  const hold = step.goal === 'hold';
+  const win = (text) => {
+    setStatus('done');
+    setMsg(text);
+    play('win');
+    onDone?.(true);
+  };
+  const lose = (text) => {
+    setStatus('failed');
+    setMsg(text);
+    play('bad');
+    onMistake?.();
+  };
+
   const onMove = async ({ from, to, promotion }) => {
     if (status !== 'play') return;
     const c = safeChess(fen);
@@ -301,30 +315,29 @@ export function PlayTask({ step, onDone, onMistake }) {
     setFen(c.fen());
     setLast([m.from, m.to]);
     if ((step.goal === 'mate' && c.isCheckmate()) || (step.goal === 'promote' && m.promotion)) {
-      setStatus('done');
-      setMsg(step.goal === 'mate' ? `Schachmatt in ${n} Zügen!` : 'Umgewandelt!');
-      play('win');
-      onDone?.(true);
+      win(step.goal === 'mate' ? `Schachmatt in ${n} Zügen!` : 'Umgewandelt!');
       return;
     }
     if (c.isGameOver()) {
-      setStatus('failed');
-      setMsg(c.isStalemate() ? 'Patt! Der König hat kein Feld mehr, steht aber nicht im Schach. Das ist nur Remis.' : 'Remis – das Ziel ist verfehlt.');
-      play('bad');
-      onMistake?.();
+      if (hold) win(c.isCheckmate() ? 'Sogar gewonnen – stark!' : 'Remis! Du hast die Stellung gehalten.');
+      else lose(c.isStalemate() ? 'Patt! Der König hat kein Feld mehr, steht aber nicht im Schach. Das ist nur Remis.' : 'Remis – das Ziel ist verfehlt.');
       return;
     }
-    if (n >= step.maxMoves) {
-      setStatus('failed');
-      setMsg(`Zu viele Züge (${step.maxMoves}). Versuch es mit einem klareren Plan.`);
-      play('bad');
-      onMistake?.();
+    if (n >= step.maxMoves && !hold) {
+      lose(`Zu viele Züge (${step.maxMoves}). Versuch es mit einem klareren Plan.`);
       return;
     }
     setStatus('thinking');
     const t0 = Date.now();
     const r = await engine.analyze(c.fen(), { depth: 14, movetime: 500 });
     if (!alive.current || !r?.bestmove) return;
+    // Remis halten: Steht die Engine (am Zug) klar auf Gewinn, ist die Stellung verloren.
+    const cp = r.lines?.[0]?.score ? scoreCp(r.lines[0].score) : 0;
+    if (hold && n >= step.maxMoves) {
+      if (cp < 200) win(`Gehalten! ${n} Züge sauber verteidigt – die Stellung ist Remis.`);
+      else lose('Fast – aber jetzt steht die Engine auf Gewinn. Schau dir die Technik nochmal an.');
+      return;
+    }
     await wait(Math.max(0, 900 + Math.random() * 600 - (Date.now() - t0))); // kurz „überlegen“ wie ein Mensch
     if (!alive.current) return;
     const reply = c.move(parseUci(r.bestmove));
@@ -332,9 +345,12 @@ export function PlayTask({ step, onDone, onMistake }) {
     setFen(c.fen());
     setLast([reply.from, reply.to]);
     if (c.isGameOver()) {
-      setStatus('failed');
-      setMsg('Die Partie ist vorbei, ohne dass du dein Ziel erreicht hast.');
-      onMistake?.();
+      if (hold && !c.isCheckmate()) win('Remis! Du hast die Stellung gehalten.');
+      else lose(hold ? 'Matt – diesmal hat die Engine gewonnen. Nochmal!' : 'Die Partie ist vorbei, ohne dass du dein Ziel erreicht hast.');
+      return;
+    }
+    if (hold && cp >= 500) {
+      lose('Jetzt gewinnt die Engine. Halte dich an die Technik aus der Lektion und versuch es nochmal.');
       return;
     }
     setStatus('play');
@@ -343,7 +359,7 @@ export function PlayTask({ step, onDone, onMistake }) {
   return html`<div class="task-wrap">
     <${Board} fen=${fen} orientation=${learner} movable=${status === 'play' ? learner : null} onMove=${onMove} lastMove=${last} />
     <div class="task-controls">
-      <div class="stars-meta"><span>Züge: <b>${count}</b> / ${step.maxMoves}</span>${status === 'thinking' ? html`<span>Engine denkt …</span>` : null}</div>
+      <div class="stars-meta"><span>${hold ? 'Gehalten' : 'Züge'}: <b>${count}</b> / ${step.maxMoves}</span>${status === 'thinking' ? html`<span>Engine denkt …</span>` : null}</div>
       ${msg && html`<div class=${`feedback ${status === 'done' ? 'good' : 'bad'}`}>${msg}</div>`}
       ${status === 'failed' && html`<button class="btn secondary" onClick=${reset}><${Icon} name="repeat" /> Nochmal versuchen</button>`}
     </div>

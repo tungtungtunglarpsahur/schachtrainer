@@ -57,6 +57,8 @@ export function defaults() {
     play: { rating: 800, history: [] },
     achievements: {},
     plan: null,
+    intensive: null, // { start, days, minutes, startPuzzle, startPlay, startSolved }
+    vision: { best: {}, rounds: 0 },
   };
 }
 
